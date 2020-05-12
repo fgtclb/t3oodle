@@ -58,3 +58,14 @@ After ``ddev start`` you just need to perform this script locally:
 ```
 
 Then you can access https://t3oodle.ddev.site/
+
+
+### Documentation
+
+To render the provided documentation locally, use the following docker-compose command:
+
+```
+docker-compose -f .ddev/docker-compose.docs.yaml up docs
+```
+
+Generated docs are available under: ``Documentation-GENERATED-temp/Result/project/0.0.0/Index.html``

@@ -20,7 +20,7 @@
     <f:render partial="FormErrors" />
 
     <f:form action="update" name="poll" object="{poll}" >
-    <f:render partial="Poll/FormFields" arguments="{poll:poll}" />
+    <f:render partial="Poll/FormFields" arguments="{poll:poll,contentObject:contentObject}" />
     <f:form.submit value="Save" />
     </f:form>
   </f:section>

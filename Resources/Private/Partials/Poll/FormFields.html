@@ -15,4 +15,58 @@
 	<f:translate key="tx_t3oodle_domain_model_poll.author" />
 </label><br />
 	<f:form.textfield property="author" /><br />
+<label for="authorUser">
+	<f:translate key="tx_t3oodle_domain_model_poll.author_user" />
+</label><br />
+	<f:form.textfield property="authorUser" /><br />
+
+<label>
+	Optionen
+</label>
+<ul>
+<f:for each="{poll.options}" as="option" key="key">
+	<li>
+		<f:form.hidden property="options.{key}.markToDelete" value="{option.markToDelete}"></f:form.hidden>
+		<f:form.textfield property="options.{key}.name" value="{option.name}"></f:form.textfield>
+		<button type="button" onclick="remove(this)">Remove</button>
+<!--		{option.name}-->
+	</li>
+</f:for>
+	<li id="baum-{contentObject.uid}">
+		<label>Neu</label>
+		<f:form.textfield name="newOptions[]" value=""></f:form.textfield>
+		<button type="button" onclick="baum()">Neu</button>
+	</li>
+</ul>
+
+
+<script>
+	function remove(node) {
+		var input = node.parentNode.querySelector('input[type="hidden"]');
+		input.value = '1';
+		node.parentNode.style.display = 'none';
+	}
+
+
+	function baum() {
+		var random = Math.random().toString(36).substring(7);
+
+		var elem = document.querySelector('#baum-{contentObject.uid}');
+		console.log(elem);
+		var clone = elem.cloneNode(true);
+		elem.id += '-' + random;
+
+		var input = clone.querySelector('input');
+		// input.name = input.name.replace(/zzz/, '')
+		input.value = '';
+
+		console.log(input);
+
+		elem.parentNode.appendChild(clone);
+		elem.querySelector('button').remove();
+	}
+
+
+</script>
+
 </html>

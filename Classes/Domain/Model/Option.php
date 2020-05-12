@@ -1,6 +1,7 @@
 <?php
 namespace T3\T3oodle\Domain\Model;
 
+use T3\T3oodle\Domain\Traits\MarkToDeleteTrait;
 
 /***
  *
@@ -17,6 +18,7 @@ namespace T3\T3oodle\Domain\Model;
  */
 class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
+    use MarkToDeleteTrait;
 
     /**
      * name
@@ -42,11 +44,11 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $votes = null;
 
     /**
-     * poll
+     * parent
      * 
      * @var \T3\T3oodle\Domain\Model\Poll
      */
-    protected $poll = null;
+    protected $parent = null;
 
     /**
      * Returns the name
@@ -131,6 +133,7 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function addVote(\T3\T3oodle\Domain\Model\Vote $vote)
     {
+        $vote->setParent($this);
         $this->votes->attach($vote);
     }
 
@@ -167,23 +170,23 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the poll
+     * Returns the parent
      * 
-     * @return \T3\T3oodle\Domain\Model\Poll $poll
+     * @return \T3\T3oodle\Domain\Model\Poll parent
      */
-    public function getPoll()
+    public function getParent()
     {
-        return $this->poll;
+        return $this->parent;
     }
 
     /**
-     * Sets the poll
+     * Sets the parent
      * 
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @param \T3\T3oodle\Domain\Model\Poll $parent
      * @return void
      */
-    public function setPoll(\T3\T3oodle\Domain\Model\Poll $poll)
+    public function setParent(\T3\T3oodle\Domain\Model\Poll $parent)
     {
-        $this->poll = $poll;
+        $this->parent = $parent;
     }
 }

@@ -26,11 +26,11 @@ class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $value = '';
 
     /**
-     * option
+     * parent
      * 
      * @var \T3\T3oodle\Domain\Model\Option
      */
-    protected $option = null;
+    protected $parent = null;
 
     /**
      * Returns the value
@@ -54,23 +54,23 @@ class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the option
+     * Returns the parent
      * 
-     * @return \T3\T3oodle\Domain\Model\Option $option
+     * @return \T3\T3oodle\Domain\Model\Option parent
      */
-    public function getOption()
+    public function getParent()
     {
-        return $this->option;
+        return $this->parent;
     }
 
     /**
-     * Sets the option
+     * Sets the parent
      * 
-     * @param \T3\T3oodle\Domain\Model\Option $option
+     * @param \T3\T3oodle\Domain\Model\Option $parent
      * @return void
      */
-    public function setOption(\T3\T3oodle\Domain\Model\Option $option)
+    public function setParent(\T3\T3oodle\Domain\Model\Option $parent)
     {
-        $this->option = $option;
+        $this->parent = $parent;
     }
 }

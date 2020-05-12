@@ -172,6 +172,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function addOption(\T3\T3oodle\Domain\Model\Option $option)
     {
+        $option->setParent($this);
         $this->options->attach($option);
     }
 

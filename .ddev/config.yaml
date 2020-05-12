@@ -1,0 +1,18 @@
+name: t3oodle
+type: php
+docroot: ~
+no_project_mount: true
+php_version: "7.2"
+webserver_type: apache-fpm
+router_http_port: "80"
+router_https_port: "443"
+xdebug_enabled: false
+additional_hostnames: []
+additional_fqdns: []
+provider: default
+use_dns_when_possible: true
+omit_containers:
+    - dba
+hooks:
+    post-start:
+        - exec: "touch typo3conf/ENABLE_INSTALL_TOOL"

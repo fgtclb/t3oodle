@@ -1,25 +1,23 @@
 {
     "name": "t3/t3oodle",
     "type": "typo3-cms-extension",
-    "description": "",
-    "keywords": ["TYPO3", "extension", "poll", "votings"],
-    "homepage": "http://v.ieweg.de/",
-    "license": "GPL-2.0+",
-    "authors": [
-        {
-            "name": "Armin Vieweg",
-            "role": "Developer",
-            "email": "armin@v.ieweg.de",
-            "homepage": "https://v.ieweg.de/"
-        }
-    ],
+    "description": "Test",
+    "authors": [],
     "require": {
-        "php": ">=7.2",
-        "typo3/cms-core": "^9.5 || ^10.4"
+        "typo3/cms-core": "^9.5"
     },
     "autoload": {
         "psr-4": {
-            "T3\\T3oodle\\": "Classes"
+            "T3\\t3oodle\\": "Classes"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "T3\\t3oodle\\Tests\\": "Tests"
+        }
+    },
+    "replace": {
+        "t3/t3oodle": "self.version",
+        "typo3-ter/t3oodle": "self.version"
     }
 }

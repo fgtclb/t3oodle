@@ -1,0 +1,14 @@
+
+config.tx_extbase {
+  persistence {
+    classes {
+
+      T3\T3oodle\Domain\Model\Vote {
+        mapping {
+          
+        }
+      }
+
+    }
+  }
+}

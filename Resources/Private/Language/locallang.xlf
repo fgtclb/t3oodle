@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-05-12T14:56:13Z" product-name="t3oodle">
+		<header/>
+		<body>
+			<trans-unit id="tx_t3oodle_domain_model_poll">
+				<source>Poll</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.slug">
+				<source>Slug</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.visibility">
+				<source>Visibility</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.author">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.options">
+				<source>Options</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_option">
+				<source>Option</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_option.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_option.selected">
+				<source>Selected</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_option.votes">
+				<source>Votes</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_option.poll">
+				<source>Poll</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_vote">
+				<source>Vote</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_vote.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_vote.tx_t3oodle_option">
+				<source>Option</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

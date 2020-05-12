@@ -58,6 +58,13 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $options = null;
 
     /**
+     * authorUser
+     * 
+     * @var string
+     */
+    protected $authorUser = '';
+
+    /**
      * Returns the title
      * 
      * @return string $title
@@ -206,5 +213,26 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $options)
     {
         $this->options = $options;
+    }
+
+    /**
+     * Returns the authorUser
+     * 
+     * @return string $authorUser
+     */
+    public function getAuthorUser()
+    {
+        return $this->authorUser;
+    }
+
+    /**
+     * Sets the authorUser
+     * 
+     * @param string $authorUser
+     * @return void
+     */
+    public function setAuthorUser($authorUser)
+    {
+        $this->authorUser = $authorUser;
     }
 }

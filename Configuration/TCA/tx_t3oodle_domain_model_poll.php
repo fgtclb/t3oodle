@@ -1,4 +1,16 @@
 <?php
+
+use T3\T3oodle\Domain\Enumeration\Visbility;
+use T3\T3oodle\Utility\TcaGeneratorUtility;
+
+$ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
+    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:'
+);
+
+$llCore = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
+    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:'
+);
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll',
@@ -16,14 +28,14 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'title,slug,author',
+        'searchFields' => 'title,slug,author,author_user',
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_poll.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, slug, visibility, author, options',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, slug, visibility, author, author_user, options',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, slug, visibility, author, options, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, slug, visibility, author, author_user, options, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -140,9 +152,8 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => [
-                    ['-- Label --', 0],
-                ],
+                'items' => TcaGeneratorUtility::getItemListForEnumeration(Visbility::class),
+                'default' => Visbility::PUBLIC,
                 'size' => 1,
                 'maxitems' => 1,
                 'eval' => 'required'
@@ -155,6 +166,19 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim'
+            ],
+        ],
+        'author_user' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.author_user',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'fe_users',
+                'maxitems' => 1,
+                'items' => [
+                    ['', 0]
+                ],
             ],
         ],
         'options' => [

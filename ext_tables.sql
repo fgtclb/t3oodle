@@ -5,8 +5,9 @@ CREATE TABLE tx_t3oodle_domain_model_poll (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	slug varchar(255) DEFAULT '' NOT NULL,
-	visibility int(11) DEFAULT '0' NOT NULL,
+	visibility varchar(255) DEFAULT 'public' NOT NULL,
 	author varchar(255) DEFAULT '' NOT NULL,
+	author_user varchar(255) DEFAULT '' NOT NULL,
 	options int(11) unsigned DEFAULT '0' NOT NULL,
 
 );
@@ -21,7 +22,7 @@ CREATE TABLE tx_t3oodle_domain_model_option (
 	name varchar(255) DEFAULT '' NOT NULL,
 	selected smallint(5) unsigned DEFAULT '0' NOT NULL,
 	votes int(11) unsigned DEFAULT '0' NOT NULL,
-	poll int(11) unsigned DEFAULT '0',
+	parent int(11) unsigned DEFAULT '0',
 
 );
 
@@ -33,7 +34,7 @@ CREATE TABLE tx_t3oodle_domain_model_vote (
 	tx_option int(11) unsigned DEFAULT '0' NOT NULL,
 
 	value varchar(255) DEFAULT '' NOT NULL,
-	tx_t3oodle_option int(11) unsigned DEFAULT '0',
+	parent int(11) unsigned DEFAULT '0',
 
 );
 

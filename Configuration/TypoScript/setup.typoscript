@@ -9,7 +9,7 @@ plugin.tx_t3oodle_main {
         layoutRootPaths.1 = {$plugin.tx_t3oodle_main.view.layoutRootPath}
     }
     persistence {
-        storagePid = {$plugin.tx_t3oodle_main.persistence.storagePid}
+        #storagePid = {$plugin.tx_t3oodle_main.persistence.storagePid}
         #recursive = 1
     }
     features {

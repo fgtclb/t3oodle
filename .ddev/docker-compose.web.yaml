@@ -15,9 +15,11 @@ services:
             - TYPO3_INSTALL_SITE_NAME=EXT:t3oodle Dev Environment
             - TYPO3_INSTALL_SITE_SETUP_TYPE=site
             - TYPO3_INSTALL_WEB_SERVER_CONFIG=apache
-
         volumes:
             - type: bind
               source: ../
               target: /var/www/t3oodle
               consistency: cached
+            - html-data:/var/www/html
+volumes:
+  html-data:

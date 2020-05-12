@@ -51,10 +51,10 @@ Provides polls for Frontend Users in TYPO3 CMS.
 
 ### .ddev Environment
 
-After ``ddev start`` you just need to perform this script locally:
+After **the first** ``ddev start`` you just need to perform this script locally:
 
 ```
-./.ddev/web-build/initial-setup.sh
+ddev init
 ```
 
 Then you can access https://t3oodle.ddev.site/
@@ -62,10 +62,16 @@ Then you can access https://t3oodle.ddev.site/
 
 ### Documentation
 
-To render the provided documentation locally, use the following docker-compose command:
+To render the provided documentation locally, use the following command:
 
 ```
-docker-compose -f .ddev/docker-compose.docs.yaml up docs
+ddev docs
 ```
 
 Generated docs are available under: ``Documentation-GENERATED-temp/Result/project/0.0.0/Index.html``
+
+To open the docs in browser (locally), you can use:
+
+```
+ddev view-docs
+```

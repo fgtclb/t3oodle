@@ -51,27 +51,16 @@ Provides polls for Frontend Users in TYPO3 CMS.
 
 ### .ddev Environment
 
-After **the first** ``ddev start`` you just need to perform this script locally:
+See https://github.com/a-r-m-i-n/ddev-for-typo3-extensions
+
+#### First start
 
 ```
-ddev init
+ddev install-all
 ```
 
-Then you can access https://t3oodle.ddev.site/
-
-
-### Documentation
-
-To render the provided documentation locally, use the following command:
-
+#### Reset Environment
 ```
-ddev docs
-```
-
-Generated docs are available under: ``Documentation-GENERATED-temp/Result/project/0.0.0/Index.html``
-
-To open the docs in browser (locally), you can use:
-
-```
-ddev view-docs
+ddev rm -O -R
+docker volume rm t3oodle-v8-data t3oodle-v9-data t3oodle-v10-data
 ```

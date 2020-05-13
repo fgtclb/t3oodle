@@ -2,14 +2,16 @@ version: "3.6"
 services:
     web:
         environment:
+            - EXTENSION_KEY=t3oodle
+            - PACKAGE_NAME=t3/t3oodle
+
             - TYPO3_INSTALL_DB_DRIVER=mysqli
-            - TYPO3_INSTALL_DB_USER=db
-            - TYPO3_INSTALL_DB_PASSWORD=db
+            - TYPO3_INSTALL_DB_USER=root
+            - TYPO3_INSTALL_DB_PASSWORD=root
             - TYPO3_INSTALL_DB_HOST=db
             - TYPO3_INSTALL_DB_PORT=3306
             - TYPO3_INSTALL_DB_UNIX_SOCKET=
-            - TYPO3_INSTALL_DB_USE_EXISTING=1
-            - TYPO3_INSTALL_DB_DBNAME=db
+            - TYPO3_INSTALL_DB_USE_EXISTING=0
             - TYPO3_INSTALL_ADMIN_USER=admin
             - TYPO3_INSTALL_ADMIN_PASSWORD=password
             - TYPO3_INSTALL_SITE_NAME=EXT:t3oodle Dev Environment
@@ -20,6 +22,13 @@ services:
               source: ../
               target: /var/www/t3oodle
               consistency: cached
-            - html-data:/var/www/html
+            - v8-data:/var/www/html/v8
+            - v9-data:/var/www/html/v9
+            - v10-data:/var/www/html/v10
 volumes:
-  html-data:
+    v8-data:
+        name: "${DDEV_SITENAME}-v8-data"
+    v9-data:
+        name: "${DDEV_SITENAME}-v9-data"
+    v10-data:
+        name: "${DDEV_SITENAME}-v10-data"

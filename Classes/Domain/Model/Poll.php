@@ -35,12 +35,18 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $slug = '';
 
     /**
-     * visibility
+     * type
      * 
-     * @var int
-     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
+     * @var \T3\T3oodle\Domain\Enumeration\PollType
      */
-    protected $visibility = 0;
+    protected $type = \T3\T3oodle\Domain\Enumeration\PollType::SIMPLE;
+
+    /**
+     * visibility
+     *
+     * @var \T3\T3oodle\Domain\Enumeration\Visbility
+     */
+    protected $visibility = \T3\T3oodle\Domain\Enumeration\Visbility::PUBLIC;
 
     /**
      * author
@@ -106,9 +112,22 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->slug = $slug;
     }
 
+    public function getType(): ?\T3\T3oodle\Domain\Enumeration\PollType
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param \T3\T3oodle\Domain\Enumeration\PollType $type
+     */
+    public function setType(\T3\T3oodle\Domain\Enumeration\PollType $type): void
+    {
+        $this->type = $type;
+    }
+
     /**
      * Returns the visibility
-     * 
+     *
      * @return int $visibility
      */
     public function getVisibility()
@@ -118,7 +137,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Sets the visibility
-     * 
+     *
      * @param int $visibility
      * @return void
      */
@@ -129,7 +148,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Returns the author
-     * 
+     *
      * @return string $author
      */
     public function getAuthor()
@@ -139,7 +158,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Sets the author
-     * 
+     *
      * @param string $author
      * @return void
      */
@@ -163,7 +182,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Do not modify this method!
      * It will be rewritten on each save in the extension builder
      * You may modify the constructor of this class instead
-     * 
+     *
      * @return void
      */
     protected function initStorageObjects()
@@ -173,7 +192,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Adds a Option
-     * 
+     *
      * @param \T3\T3oodle\Domain\Model\Option $option
      * @return void
      */
@@ -185,7 +204,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Removes a Option
-     * 
+     *
      * @param \T3\T3oodle\Domain\Model\Option $optionToRemove The Option to be removed
      * @return void
      */
@@ -196,7 +215,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Returns the options
-     * 
+     *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Option> $options
      */
     public function getOptions()
@@ -206,7 +225,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Sets the options
-     * 
+     *
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Option> $options
      * @return void
      */
@@ -217,7 +236,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Returns the authorUser
-     * 
+     *
      * @return string $authorUser
      */
     public function getAuthorUser()
@@ -227,7 +246,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Sets the authorUser
-     * 
+     *
      * @param string $authorUser
      * @return void
      */

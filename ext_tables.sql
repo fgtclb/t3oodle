@@ -5,6 +5,7 @@ CREATE TABLE tx_t3oodle_domain_model_poll (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	slug varchar(255) DEFAULT '' NOT NULL,
+	type varchar(255) DEFAULT 'simple' NOT NULL,
 	visibility varchar(255) DEFAULT 'public' NOT NULL,
 	author varchar(255) DEFAULT '' NOT NULL,
 	author_user varchar(255) DEFAULT '' NOT NULL,

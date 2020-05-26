@@ -2,6 +2,7 @@
 namespace T3\T3oodle\Controller;
 
 use T3\T3oodle\Utility\CookieUtility;
+use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
@@ -140,7 +141,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
-                $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
+                $this->currentUserIdent = UserIdentUtility::generateNewUserIdent();
             }
             $vote->setParticipantIdent($this->currentUserIdent);
             CookieUtility::set('userIdent', $this->currentUserIdent);
@@ -331,14 +332,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     private function initializeCurrentUserOrUserIdent(): void
     {
-        $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
-        $userAspect = $context->getAspect('frontend.user');
-        if ($userAspect->isLoggedIn()) {
-            $this->currentUserIdent = $userAspect->get('id');
-            $this->currentUser = $this->userRepository->findByUid($this->currentUserIdent);
-        } else {
-            $this->currentUserIdent = CookieUtility::get('userIdent') ?? '';
-        }
+        $this->currentUserIdent = UserIdentUtility::getCurrentUserIdent();
+        $this->currentUser = $this->userRepository->findByUid($this->currentUserIdent);
 
         $this->settings['_currentUser'] = $this->currentUser;
         $this->settings['_currentUserIdent'] = $this->currentUserIdent;

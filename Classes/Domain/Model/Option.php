@@ -2,6 +2,7 @@
 namespace T3\T3oodle\Domain\Model;
 
 use T3\T3oodle\Domain\Traits\MarkToDeleteTrait;
+use T3\T3oodle\Utility\UserIdentUtility;
 
 /***
  *
@@ -136,19 +137,16 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         $total = 0;
         foreach ($this->getParent()->getVotes() as $vote) {
-            foreach ($vote->getOptionValues() as $optionValue) {
-                if ($optionValue->getOption() === $this) {
-                    if ($optionValue->getValue() === '1') {
-                        $total++;
+            if ($vote->getParticipantIdent() !== UserIdentUtility::getCurrentUserIdent()) {
+                foreach ($vote->getOptionValues() as $optionValue) {
+                    if ($optionValue->getOption() === $this) {
+                        if ($optionValue->getValue() === '1') {
+                            $total++;
+                        }
                     }
                 }
             }
         }
-
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($total, 'is full');
         return $total >= $this->getParent()->getSettingMaxVotesPerOption();
-
-
-
     }
 }

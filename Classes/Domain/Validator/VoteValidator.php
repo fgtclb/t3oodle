@@ -59,7 +59,6 @@ class VoteValidator extends AbstractValidator
         // Max votes per option
         if ($value->getParent() && $value->getParent()->getSettingMaxVotesPerOption() > 0) {
             foreach ($value->getOptionValues() as $optionValue) {
-                // TODO Das hier klappt nicht richtig, wenn man updated, denkt er die eigene stimme käme on top
                 if ($optionValue->getValue() !== '0' && $optionValue->getOption()->isFull()) {
                     $isValid = false;
                     $this->result->forProperty('optionValues')->addError(

@@ -16,6 +16,7 @@ tx_t3oodle.dynamicOptionInputs = function(newOptionFields) {
   if (allOptionsFilled) {
     tx_t3oodle.globals.newOptionIndex++
     var clone = lastItem.parentNode.cloneNode(true);
+    clone.querySelector('input[name*="__identity"]').remove();
     var cloneInputs = clone.querySelectorAll('input');
     for (var i = 0; i < cloneInputs.length; i++) {
       var cloneInput = cloneInputs[i];
@@ -40,7 +41,7 @@ tx_t3oodle.dynamicOptionInputs = function(newOptionFields) {
 };
 
 tx_t3oodle.removeOption = function(node) {
-  var input = node.parentNode.querySelector('input[type="hidden"]');
+  var input = node.parentNode.querySelector('input[name*="markToDelete"]');
   if (input) {
     input.value = '1';
   } else {

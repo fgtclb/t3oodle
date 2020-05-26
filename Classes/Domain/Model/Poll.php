@@ -1,6 +1,7 @@
 <?php
 namespace T3\T3oodle\Domain\Model;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***
  *
@@ -12,246 +13,378 @@ namespace T3\T3oodle\Domain\Model;
  *  (c) 2020 
  *
  ***/
+
 /**
  * Poll
  */
 class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
-     * title
-     * 
      * @var string
-     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $title = '';
 
     /**
-     * slug
-     * 
      * @var string
-     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
+     */
+    protected $description = '';
+
+    /**
+     * @var string
+     */
+    protected $link = '';
+
+    /**
+     * @var string
      */
     protected $slug = '';
 
     /**
-     * type
-     * 
-     * @var \T3\T3oodle\Domain\Enumeration\PollType
+     * @var string
      */
     protected $type = \T3\T3oodle\Domain\Enumeration\PollType::SIMPLE;
 
     /**
-     * visibility
-     *
-     * @var \T3\T3oodle\Domain\Enumeration\Visbility
+     * @var string
      */
-    protected $visibility = \T3\T3oodle\Domain\Enumeration\Visbility::PUBLIC;
+    protected $visibility = \T3\T3oodle\Domain\Enumeration\Visbility::LISTED;
 
     /**
      * author
      * 
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     */
+    protected $author;
+
+    /**
      * @var string
      */
-    protected $author = '';
+    protected $authorName = '';
+
+    /**
+     * @var string
+     */
+    protected $authorMail = '';
+
+    /**
+     * @var string
+     */
+    protected $authorIdent = '';
 
     /**
      * options
-     * 
+     *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Option>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
-    protected $options = null;
+    protected $options;
 
     /**
-     * authorUser
-     * 
-     * @var string
+     * @var bool
      */
-    protected $authorUser = '';
+    protected $settingTristateCheckbox = false;
 
     /**
-     * Returns the title
-     * 
-     * @return string $title
+     * @var int
      */
-    public function getTitle()
+    protected $settingMaxVotesPerOption = 0;
+
+    /**
+     * @var bool
+     */
+    protected $settingOneOptionOnly = false;
+
+    /**
+     * @var bool
+     */
+    protected $settingAnonymousVoting = false;
+
+    /**
+     * @var \DateTime|null
+     */
+    protected $settingVotingExpiresDate;
+    /**
+     * @var \DateTime|null
+     */
+    protected $settingVotingExpiresTime;
+
+    /**
+     * @var bool
+     */
+    protected $isPublished = false;
+
+    /**
+     * @var bool
+     */
+    protected $isFinished = false;
+
+    /**
+     * votes
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Vote>
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
+     */
+    protected $votes;
+
+
+    public function __construct()
+    {
+        $this->options = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->votes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
+
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * Sets the title
-     * 
-     * @param string $title
-     * @return void
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * Returns the slug
-     * 
-     * @return string $slug
-     */
-    public function getSlug()
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getLink(): string
+    {
+        return $this->link;
+    }
+
+    public function setLink(string $link): void
+    {
+        $this->link = $link;
+    }
+
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
-    /**
-     * Sets the slug
-     * 
-     * @param string $slug
-     * @return void
-     */
-    public function setSlug($slug)
+    public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
-    public function getType(): ?\T3\T3oodle\Domain\Enumeration\PollType
+    public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param \T3\T3oodle\Domain\Enumeration\PollType $type
-     */
-    public function setType(\T3\T3oodle\Domain\Enumeration\PollType $type): void
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-    /**
-     * Returns the visibility
-     *
-     * @return int $visibility
-     */
-    public function getVisibility()
+    public function getVisibility(): string
     {
         return $this->visibility;
     }
 
-    /**
-     * Sets the visibility
-     *
-     * @param int $visibility
-     * @return void
-     */
-    public function setVisibility($visibility)
+    public function setVisibility(string $visibility): void
     {
         $this->visibility = $visibility;
     }
 
-    /**
-     * Returns the author
-     *
-     * @return string $author
-     */
-    public function getAuthor()
+    public function getAuthor(): ?\TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     {
         return $this->author;
     }
 
-    /**
-     * Sets the author
-     *
-     * @param string $author
-     * @return void
-     */
-    public function setAuthor($author)
+    public function setAuthor(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $author)
     {
         $this->author = $author;
     }
 
-    /**
-     * __construct
-     */
-    public function __construct()
+    public function getAuthorName(): string
     {
-
-        //Do not remove the next line: It would break the functionality
-        $this->initStorageObjects();
+        return $this->authorName;
     }
 
-    /**
-     * Initializes all ObjectStorage properties
-     * Do not modify this method!
-     * It will be rewritten on each save in the extension builder
-     * You may modify the constructor of this class instead
-     *
-     * @return void
-     */
-    protected function initStorageObjects()
+    public function setAuthorName(string $authorName): void
     {
-        $this->options = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->authorName = $authorName;
     }
 
-    /**
-     * Adds a Option
-     *
-     * @param \T3\T3oodle\Domain\Model\Option $option
-     * @return void
-     */
-    public function addOption(\T3\T3oodle\Domain\Model\Option $option)
+    public function getAuthorMail(): string
+    {
+        return $this->authorMail;
+    }
+
+    public function setAuthorMail(string $authorMail): void
+    {
+        $this->authorMail = $authorMail;
+    }
+
+    public function getAuthorIdent(): string
+    {
+        return $this->authorIdent;
+    }
+
+    public function setAuthorIdent(string $authorIdent): void
+    {
+        $this->authorIdent = $authorIdent;
+    }
+
+    public function addOption(\T3\T3oodle\Domain\Model\Option $option): void
     {
         $option->setParent($this);
         $this->options->attach($option);
     }
 
-    /**
-     * Removes a Option
-     *
-     * @param \T3\T3oodle\Domain\Model\Option $optionToRemove The Option to be removed
-     * @return void
-     */
-    public function removeOption(\T3\T3oodle\Domain\Model\Option $optionToRemove)
+    public function removeOption(\T3\T3oodle\Domain\Model\Option $optionToRemove): void
     {
         $this->options->detach($optionToRemove);
     }
 
     /**
-     * Returns the options
-     *
+     * @param bool $skipMarkedToDeleted When true, only options are returned, which are not marked to get deleted
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Option> $options
      */
-    public function getOptions()
+    public function getOptions($skipMarkedToDeleted = false): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
+        if ($skipMarkedToDeleted) {
+            $options = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Persistence\ObjectStorage::class);
+            foreach ($this->options as $option) {
+                if (!$option->isMarkToDelete()) {
+                    $options->attach($option);
+                }
+            }
+            return $options;
+        }
         return $this->options;
     }
 
-    /**
-     * Sets the options
-     *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Option> $options
-     * @return void
-     */
-    public function setOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $options)
+    public function setOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $options): void
     {
         $this->options = $options;
     }
 
-    /**
-     * Returns the authorUser
-     *
-     * @return string $authorUser
-     */
-    public function getAuthorUser()
+    public function isSettingTristateCheckbox(): bool
     {
-        return $this->authorUser;
+        return $this->settingTristateCheckbox;
+    }
+
+    public function setSettingTristateCheckbox(bool $settingTristateCheckbox): void
+    {
+        $this->settingTristateCheckbox = $settingTristateCheckbox;
+    }
+
+    public function getSettingMaxVotesPerOption(): int
+    {
+        return $this->settingMaxVotesPerOption;
+    }
+
+    public function setSettingMaxVotesPerOption(int $settingMaxVotesPerOption): void
+    {
+        $this->settingMaxVotesPerOption = $settingMaxVotesPerOption;
+    }
+
+    public function isSettingOneOptionOnly(): bool
+    {
+        return $this->settingOneOptionOnly;
+    }
+
+    public function setSettingOneOptionOnly(bool $settingOneOptionOnly): void
+    {
+        $this->settingOneOptionOnly = $settingOneOptionOnly;
+    }
+
+    public function isSettingAnonymousVoting(): bool
+    {
+        return $this->settingAnonymousVoting;
+    }
+
+    public function setSettingAnonymousVoting(bool $settingAnonymousVoting): void
+    {
+        $this->settingAnonymousVoting = $settingAnonymousVoting;
+    }
+
+    public function getSettingVotingExpiresDate(): ?\DateTime
+    {
+        return $this->settingVotingExpiresDate;
+    }
+
+    public function setSettingVotingExpiresDate(?\DateTime $settingVotingExpiresDate): void
+    {
+        $this->settingVotingExpiresDate = $settingVotingExpiresDate;
+    }
+
+    public function getSettingVotingExpiresTime(): ?\DateTime
+    {
+        return $this->settingVotingExpiresTime;
+    }
+
+
+
+
+    public function setSettingVotingExpiresTime(?\DateTime $settingVotingExpiresTime): void
+    {
+        $this->settingVotingExpiresTime = $settingVotingExpiresTime;
     }
 
     /**
-     * Sets the authorUser
+     * Combines date and time field
      *
-     * @param string $authorUser
+     * @return \DateTime|null
+     */
+    public function getSettingVotingExpiresAt(): ?\DateTime
+    {
+        if ($this->getSettingVotingExpiresDate() && $this->getSettingVotingExpiresTime()) {
+            return $this->getSettingVotingExpiresDate()->modify($this->getSettingVotingExpiresTime()->format('H:i:s'));
+        }
+        return null;
+    }
+
+    public function addVote(\T3\T3oodle\Domain\Model\Vote $vote): void
+    {
+        $vote->setParent($this);
+        $this->votes->attach($vote);
+    }
+
+    public function removeVote(\T3\T3oodle\Domain\Model\Vote $voteToRemove): void
+    {
+        $this->votes->detach($voteToRemove);
+    }
+
+    public function getVotes(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->votes;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Vote> $votes
      * @return void
      */
-    public function setAuthorUser($authorUser)
+    public function setVotes(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $votes): void
     {
-        $this->authorUser = $authorUser;
+        $this->votes = $votes;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): void
+    {
+        $this->isPublished = $isPublished;
+    }
+
+    public function isFinished(): bool
+    {
+        return $this->isFinished;
+    }
+
+    public function setIsFinished(bool $isFinished): void
+    {
+        $this->isFinished = $isFinished;
     }
 }

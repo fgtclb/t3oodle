@@ -3,50 +3,83 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2020-05-12T15:43:10Z" product-name="t3oodle">
 		<header/>
 		<body>
-			<trans-unit id="tx_t3oodle_domain_model_poll">
+			<trans-unit id="poll">
 				<source>Poll</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_poll.title">
+			<trans-unit id="poll.title">
 				<source>Title</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_poll.slug">
+			<trans-unit id="poll.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="poll.link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="poll.slug">
 				<source>Slug</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_poll.visibility">
+			<trans-unit id="poll.visibility">
 				<source>Visibility</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_poll.author">
+			<trans-unit id="poll.author">
 				<source>Author</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_poll.author_user">
-				<source>Author User</source>
+			<trans-unit id="poll.author_name">
+				<source>Author Name</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_poll.options">
+			<trans-unit id="poll.author_mail">
+				<source>Author Mail</source>
+			</trans-unit>
+			<trans-unit id="poll.type">
+				<source>Options type</source>
+			</trans-unit>
+			<trans-unit id="poll.type.simple">
+				<source>Simple poll</source>
+			</trans-unit>
+			<trans-unit id="poll.type.appointment">
+				<source>Find an appointment</source>
+			</trans-unit>
+			<trans-unit id="poll.options">
 				<source>Options</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_option">
-				<source>Option</source>
+
+			<trans-unit id="poll.visibility.listed">
+				<source>Show in lists</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_option.name">
-				<source>Name</source>
+			<trans-unit id="poll.visibility.notListed">
+				<source>Hide in lists</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_option.selected">
-				<source>Selected</source>
+
+
+			<trans-unit id="poll.settingTristateCheckbox.title">
+				<source>Yes, No, Maybe</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_option.votes">
-				<source>Votes</source>
+			<trans-unit id="poll.settingTristateCheckbox.description">
+				<source>When this option is enabled, participants can choose between three options, instead of two (yes/no).</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_option.parent">
-				<source>Parent</source>
+			<trans-unit id="poll.settingOneOptionOnly.title">
+				<source>One option only</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_vote">
-				<source>Vote</source>
+			<trans-unit id="poll.settingOneOptionOnly.description">
+				<source>Each participant can only select one option. But one option can get selected by multiple participants.</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_vote.value">
-				<source>Value</source>
+			<trans-unit id="poll.settingAnonymousVoting.title">
+				<source>Hidden Voting</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_vote.parent">
-				<source>Parent</source>
+			<trans-unit id="poll.settingAnonymousVoting.description">
+				<source>Participants and selected options are not visible. Only the author (you) see the results.</source>
+			</trans-unit>
+			<trans-unit id="poll.settingMaxVotesPerOption.title">
+				<source>Limit amount of votes per option</source>
+			</trans-unit>
+			<trans-unit id="poll.settingMaxVotesPerOption.description">
+				<source>First comes, first serves. When the configured limit is reached, the option get disabled in further votings.</source>
+			</trans-unit>
+			<trans-unit id="poll.settingVotingExpiresAt.title">
+				<source>Expiration date</source>
+			</trans-unit>
+			<trans-unit id="poll.settingVotingExpiresAt.description">
+				<source>Allows votings only until the given date and time.</source>
 			</trans-unit>
 		</body>
 	</file>

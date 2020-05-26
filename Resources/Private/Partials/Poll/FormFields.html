@@ -1,72 +1,227 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
-<label for="title">
-	<f:translate key="tx_t3oodle_domain_model_poll.title" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="title" /><br />
-<label for="slug">
-	<f:translate key="tx_t3oodle_domain_model_poll.slug" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="slug" /><br />
-<label for="visibility">
-	<f:translate key="tx_t3oodle_domain_model_poll.visibility" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="visibility" /><br />
-<label for="author">
-	<f:translate key="tx_t3oodle_domain_model_poll.author" />
-</label><br />
-	<f:form.textfield property="author" /><br />
-<label for="authorUser">
-	<f:translate key="tx_t3oodle_domain_model_poll.author_user" />
-</label><br />
-	<f:form.textfield property="authorUser" /><br />
 
-<label>
-	Optionen
-</label>
-<ul>
-<f:for each="{poll.options}" as="option" key="key">
-	<li>
-		<f:form.hidden property="options.{key}.markToDelete" value="{option.markToDelete}"></f:form.hidden>
-		<f:form.textfield property="options.{key}.name" value="{option.name}"></f:form.textfield>
-		<button type="button" onclick="remove(this)">Remove</button>
-<!--		{option.name}-->
-	</li>
-</f:for>
-	<li id="baum-{contentObject.uid}">
-		<label>Neu</label>
-		<f:form.textfield name="newOptions[]" value=""></f:form.textfield>
-		<button type="button" onclick="baum()">Neu</button>
-	</li>
-</ul>
+<f:section name="default">
+	<div class="card mb-4">
+		<div class="card-header">
+			<strong>General</strong>
+		</div>
+		<div class="card-body">
 
+			<div class="row">
+				<div class="col-sm-7 col-md-8 col-lg-9">
+					<div class="form-group">
+						<label for="t3oodle-poll-title"><f:translate key="poll.title" /><span class="required">*</span></label>
+						<f:form.textfield id="t3oodle-poll-title" class="form-control" property="title" />
+					</div>
 
-<script>
-	function remove(node) {
-		var input = node.parentNode.querySelector('input[type="hidden"]');
-		input.value = '1';
-		node.parentNode.style.display = 'none';
-	}
+					<div class="form-group">
+						<label for="t3oodle-poll-description"><f:translate key="poll.description" /></label>
+						<f:form.textarea id="t3oodle-poll-description" class="form-control" property="description" />
+					</div>
 
+					<div class="form-group">
+						<label for="t3oodle-poll-link"><f:translate key="poll.link" /></label>
+						<f:form.textfield id="t3oodle-poll-link" class="form-control" property="link" placeholder="https://domain.com" />
+					</div>
+				</div>
+				<div class="col-sm-5 col-md-4 col-lg-3">
+					<div class="form-group">
+						<label><f:translate key="poll.visibility" /><span class="required">*</span></label>
+						<div class="form-check">
+							<f:form.radio property="visibility" value="listed" class="form-check-input" id="t3oodle-poll-visibility-listed" />
+							<label class="form-check-label" for="t3oodle-poll-visibility-listed">
+								<f:translate key="poll.visibility.listed" />
+							</label>
+						</div>
+						<div class="form-check">
+							<f:form.radio property="visibility" value="not_listed" class="form-check-input" id="t3oodle-poll-visibility-not-listed" />
+							<label class="form-check-label" for="t3oodle-poll-visibility-not-listed">
+								<f:translate key="poll.visibility.notListed" />
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
 
-	function baum() {
-		var random = Math.random().toString(36).substring(7);
-
-		var elem = document.querySelector('#baum-{contentObject.uid}');
-		console.log(elem);
-		var clone = elem.cloneNode(true);
-		elem.id += '-' + random;
-
-		var input = clone.querySelector('input');
-		// input.name = input.name.replace(/zzz/, '')
-		input.value = '';
-
-		console.log(input);
-
-		elem.parentNode.appendChild(clone);
-		elem.querySelector('button').remove();
-	}
+			<f:comment>
+<!--			<div class="form-group">-->
+<!--				<label for="t3oodle-poll-slug"><f:translate key="poll.slug" /><span class="required">*</span></label>-->
+<!--				<f:form.textfield id="t3oodle-poll-slug" class="form-control" property="slug" />-->
+<!--			</div>-->
+			</f:comment>
 
 
-</script>
+		</div>
+	</div>
+
+	<div class="card mb-4">
+		<div class="card-header">
+			<strong>Author</strong>
+		</div>
+		<div class="card-body">
+			<f:if condition="{poll.author}">
+				<f:then>
+					<!-- Frontend user logged in -->
+					<f:debug inline="1" title="Author">{poll.author}</f:debug>
+				</f:then>
+				<f:else>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="t3oodle-poll-author-name"><f:translate key="poll.author_name" /><span class="required">*</span></label>
+								<f:form.textfield id="t3oodle-poll-author-name" class="form-control" property="authorName" />
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="t3oodle-poll-author-mail"><f:translate key="poll.author_mail" /><span class="required">*</span></label>
+								<f:form.textfield id="t3oodle-poll-author-mail" class="form-control" property="authorMail" />
+							</div>
+						</div>
+					</div>
+				</f:else>
+			</f:if>
+		</div>
+	</div>
+
+	<div class="card mb-4">
+		<div class="card-header">
+			<strong>Optionen</strong>
+
+			<div class="form-check form-check-inline">
+				<f:form.radio property="type" value="simple" class="form-check-input" id="t3oodle-poll-type-simple" disabled="{poll.uid}" />
+				<label class="form-check-label" for="t3oodle-poll-type-simple">
+					<f:translate key="poll.type.simple" />
+				</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<f:form.radio property="type" value="appointment" class="form-check-input" id="t3oodle-poll-type-appointment" disabled="{poll.uid}" />
+				<label class="form-check-label" for="t3oodle-poll-type-appointment">
+					<f:translate key="poll.type.appointment" />
+				</label>
+			</div>
+
+		</div>
+		<div class="card-body">
+			<ol class="t3oodle-poll-options">
+				<f:variable name="lastIndex">2</f:variable>
+				<f:if condition="{poll.options -> f:count()}">
+					<f:then>
+						<!-- used in edit action -->
+						<f:for each="{poll.options}" as="option" key="key" iteration="iterator">
+							<li class="t3oodle-poll-option" style="{f:if(condition:'{option.markToDelete}', then:'display: none;')}">
+								<f:form.textfield class="t3oodle-new-poll-option form-control" property="options.{key}.name" value="{option.name}" placeholder="Option hinzufügen"></f:form.textfield>
+								<f:form.hidden property="options.{key}.markToDelete" value="{option.markToDelete}"></f:form.hidden>
+								<f:render section="removeButton" />
+							</li>
+							<f:variable name="lastIndex">{iterator.cycle}</f:variable>
+						</f:for>
+					</f:then>
+					<f:else>
+						<!-- used in new action -->
+						<f:if condition="{newOptions -> f:count()} > 0">
+							<f:then>
+								<f:for each="{newOptions}" as="option" key="key" iteration="iterator">
+									<li>
+										<f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][{iterator.index}][name]" value="{option.name}"></f:form.textfield>
+									</li>
+									<f:variable name="lastIndex">{iterator.cycle}</f:variable>
+								</f:for>
+							</f:then>
+							<f:else>
+								<li>
+									<f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][0][name]" value="" placeholder="Option hinzufügen"></f:form.textfield>
+									<f:render section="removeButton" />
+								</li>
+								<li>
+									<f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][1][name]" value="" placeholder="Option hinzufügen"></f:form.textfield>
+									<f:render section="removeButton" />
+								</li>
+							</f:else>
+						</f:if>
+					</f:else>
+				</f:if>
+			</ol>
+			<input type="hidden" name="t3oodleLastOptionIndex" id="t3oodleLastOptionIndex" value="{lastIndex}">
+		</div>
+	</div>
+
+	<div class="card mb-4">
+		<div class="card-header">
+			<strong>Einstellungen</strong>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-check mb-3">
+						<f:form.checkbox property="settingTristateCheckbox" value="1" checked="{poll.settingTristateCheckbox} == 1" class="form-check-input mr-3" id="t3oodle-poll-settingTristateCheckbox" />
+						<label class="form-check-label" for="t3oodle-poll-settingTristateCheckbox">
+							<strong><f:translate key="poll.settingTristateCheckbox.title" /></strong><br>
+							<f:translate key="poll.settingTristateCheckbox.description" />
+						</label>
+					</div>
+
+					<div class="form-check mb-3">
+						<f:form.checkbox property="settingOneOptionOnly" value="1" checked="{poll.settingOneOptionOnly} == 1" class="form-check-input mr-3" id="t3oodle-poll-settingOneOptionOnly" />
+						<label class="form-check-label" for="t3oodle-poll-settingOneOptionOnly">
+							<strong><f:translate key="poll.settingOneOptionOnly.title" /></strong><br>
+							<f:translate key="poll.settingOneOptionOnly.description" />
+						</label>
+					</div>
+
+					<div class="form-check mb-3">
+						<f:form.checkbox property="settingAnonymousVoting" value="1" checked="{poll.settingAnonymousVoting} == 1" class="form-check-input mr-3" id="t3oodle-poll-settingAnonymousVoting" />
+						<label class="form-check-label" for="t3oodle-poll-settingAnonymousVoting">
+							<strong><f:translate key="poll.settingAnonymousVoting.title" /></strong><br>
+							<f:translate key="poll.settingAnonymousVoting.description" />
+						</label>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-check mb-3">
+						<f:form.checkbox name="enableSettingMaxVotesPerOption" value="1" checked="{poll.settingMaxVotesPerOption} > 0" class="form-check-input mr-3" id="t3oodle-poll-enableSettingMaxVotesPerOption" />
+						<label class="form-check-label" for="t3oodle-poll-enableSettingMaxVotesPerOption">
+							<strong><f:translate key="poll.settingMaxVotesPerOption.title" /></strong><br>
+							<f:translate key="poll.settingMaxVotesPerOption.description" /><br>
+							<f:if condition="{poll.settingMaxVotesPerOption} > 0">
+								<f:then><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{minn:'0'}" /></f:then>
+								<f:else><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" readonly="readonly" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{minn:'0'}" /></f:else>
+							</f:if>
+
+						</label>
+					</div>
+
+					<div class="form-check mb-3">
+						<f:form.checkbox name="enableSettingVotingExpiresAt" value="1" checked="{poll.settingVotingExpiresAt}" class="form-check-input mr-3" id="t3oodle-poll-enableSettingVotingExpiresAt" />
+						<label class="form-check-label" for="t3oodle-poll-enableSettingVotingExpiresAt">
+							<strong><f:translate key="poll.settingVotingExpiresAt.title" /></strong><br>
+							<f:translate key="poll.settingVotingExpiresAt.description" /><br>
+
+							<f:if condition="{poll.settingVotingExpiresAt}">
+								<f:then>
+									<f:form.textfield type="date" id="t3oodle-poll-settingVotingExpiresDate" class="form-control input-date mt-2" property="settingVotingExpiresDate" value="{poll.settingVotingExpiresDate -> f:format.date(format:'Y-m-d')}" data="{bind-disable:'#t3oodle-poll-enableSettingVotingExpiresAt'}" />
+									<f:form.textfield type="time" id="t3oodle-poll-settingVotingExpiresTime" class="form-control input-time mt-2" property="settingVotingExpiresTime" value="{poll.settingVotingExpiresTime -> f:format.date(format:'H:i')}" data="{bind-disable:'#t3oodle-poll-enableSettingVotingExpiresAt'}" />
+								</f:then>
+								<f:else>
+									<f:form.textfield type="date" id="t3oodle-poll-settingVotingExpiresDate" class="form-control input-date mt-2" readonly="readonly" property="settingVotingExpiresDate" value="{poll.settingVotingExpiresDate -> f:format.date(format:'Y-m-d')}" data="{bind-disable:'#t3oodle-poll-enableSettingVotingExpiresAt'}" />
+									<f:form.textfield type="time" id="t3oodle-poll-settingVotingExpiresTime" class="form-control input-time mt-2" property="settingVotingExpiresTime" value="{poll.settingVotingExpiresTime -> f:format.date(format:'H:i')}" data="{bind-disable:'#t3oodle-poll-enableSettingVotingExpiresAt'}" />
+								</f:else>
+							</f:if>
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</f:section>
+
+<f:section name="removeButton">
+	<button class="t3oodle-poll-option-remove border-0 bg-white text-danger font-weight-bold"
+			type="button"
+			onclick="tx_t3oodle.removeOption(this)"
+			title="Remove this option"
+			tabindex="99">x</button>
+</f:section>
 
 </html>

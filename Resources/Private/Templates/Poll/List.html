@@ -1,4 +1,7 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+	  xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
+	  data-namespace-typo3-fluid="true">
+
 	<f:layout name="Default" />
 
 	This Template is responsible for creating a table of domain objects.
@@ -35,8 +38,16 @@
 					<td><f:link.action action="show" arguments="{poll : poll}"> {poll.visibility}</f:link.action></td>
 					<td><f:link.action action="show" arguments="{poll : poll}"> {poll.author}</f:link.action></td>
 					<td><f:link.action action="show" arguments="{poll : poll}"> {poll.authorUser}</f:link.action></td>
-					<td><f:link.action action="edit" arguments="{poll : poll}">Edit</f:link.action></td>
-					<td><f:link.action action="delete" arguments="{poll : poll}">Delete</f:link.action></td>
+					<td>
+						<f:if condition="{poll -> t3oodle:permission(action:'edit')}">
+							<f:link.action action="edit" arguments="{poll : poll}">Edit</f:link.action>
+						</f:if>
+					</td>
+					<td>
+						<f:if condition="{poll -> t3oodle:permission(action:'delete')}">
+							<f:link.action action="delete" arguments="{poll : poll}" class="t3oodle-poll-delete">Delete</f:link.action>
+						</f:if>
+					</td>
 				</tr>
 			</f:for>
 		</table>

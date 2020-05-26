@@ -17,59 +17,111 @@ namespace T3\T3oodle\Domain\Model;
  */
 class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
+    /**
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     */
+    protected $participant;
 
     /**
-     * value
-     * 
      * @var string
      */
-    protected $value = '';
+    protected $participantName = '';
 
     /**
-     * parent
-     * 
-     * @var \T3\T3oodle\Domain\Model\Option
+     * @var string
+     */
+    protected $participantMail = '';
+
+    /**
+     * @var string
+     */
+    protected $participantIdent = '';
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\OptionValue>
+     */
+    protected $optionValues;
+
+    /**
+     * @var \T3\T3oodle\Domain\Model\Poll
      */
     protected $parent = null;
 
-    /**
-     * Returns the value
-     * 
-     * @return string $value
-     */
-    public function getValue()
+
+    public function __construct()
     {
-        return $this->value;
+        $this->optionValues = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
+
+    public function getParticipant(): ?\TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+    {
+        return $this->participant;
+    }
+
+    public function setParticipant(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $participant): void
+    {
+        $this->participant = $participant;
+    }
+
+    public function getParticipantName(): string
+    {
+        return $this->participantName;
+    }
+
+    public function setParticipantName(string $participantName): void
+    {
+        $this->participantName = $participantName;
+    }
+
+    public function getParticipantMail(): string
+    {
+        return $this->participantMail;
+    }
+
+    public function setParticipantMail(string $participantMail): void
+    {
+        $this->participantMail = $participantMail;
+    }
+
+    public function getParticipantIdent(): string
+    {
+        return $this->participantIdent;
+    }
+
+    public function setParticipantIdent(string $participantIdent): void
+    {
+        $this->participantIdent = $participantIdent;
     }
 
     /**
-     * Sets the value
-     * 
-     * @param string $value
-     * @return void
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage|OptionValue[]
      */
-    public function setValue($value)
+    public function getOptionValues(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
-        $this->value = $value;
+        return $this->optionValues;
     }
 
-    /**
-     * Returns the parent
-     * 
-     * @return \T3\T3oodle\Domain\Model\Option parent
-     */
-    public function getParent()
+    public function setOptionValues(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $optionValues): void
+    {
+        $this->optionValues = $optionValues;
+    }
+
+    public function addOptionValue(OptionValue $optionValue): void
+    {
+        $this->optionValues->attach($optionValue);
+    }
+
+    public function removeOptionValue(OptionValue $optionValue): void
+    {
+        $this->optionValues->detach($optionValue);
+    }
+
+    public function getParent(): ?Poll
     {
         return $this->parent;
     }
 
-    /**
-     * Sets the parent
-     * 
-     * @param \T3\T3oodle\Domain\Model\Option $parent
-     * @return void
-     */
-    public function setParent(\T3\T3oodle\Domain\Model\Option $parent)
+    public function setParent(\T3\T3oodle\Domain\Model\Poll $parent): void
     {
         $this->parent = $parent;
     }

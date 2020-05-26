@@ -8,16 +8,10 @@
     },
     "autoload": {
         "psr-4": {
-            "T3\\t3oodle\\": "Classes"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "T3\\t3oodle\\Tests\\": "Tests"
+            "T3\\T3oodle\\": "Classes"
         }
     },
     "replace": {
-        "t3/t3oodle": "self.version",
         "typo3-ter/t3oodle": "self.version"
     }
 }

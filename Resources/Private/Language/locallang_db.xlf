@@ -9,6 +9,12 @@
 			<trans-unit id="tx_t3oodle_domain_model_poll.title">
 				<source>Title</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.link">
+				<source>Link</source>
+			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.slug">
 				<source>Slug</source>
 			</trans-unit>
@@ -18,12 +24,37 @@
 			<trans-unit id="tx_t3oodle_domain_model_poll.author">
 				<source>Author</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_poll.author_user">
-				<source>Author User</source>
+			<trans-unit id="tx_t3oodle_domain_model_poll.author_name">
+				<source>Author Name</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.author_mail">
+				<source>Author Mail</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.author_ident">
+				<source>Author Ident</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.options">
 				<source>Options</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_tristate_checkbox">
+				<source>Yes, no, maybe</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_max_votes_per_option">
+				<source>Max amount of votes per option</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_one_option_only">
+				<source>Each participant can only select one option</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_anonymous_voting">
+				<source>Enable anonymous voting</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_voting_expires_at">
+				<source>Expire possibility to vote at</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.is_published">
+				<source>Is published</source>
+			</trans-unit>
+
 			<trans-unit id="tx_t3oodle_domain_model_option">
 				<source>Option</source>
 			</trans-unit>
@@ -41,6 +72,19 @@
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_vote">
 				<source>Vote</source>
+			</trans-unit>
+
+			<trans-unit id="tx_t3oodle_domain_model_vote.participant">
+				<source>Participant</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_vote.participant_name">
+				<source>Participant Name</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_vote.participant_mail">
+				<source>Participant Mail</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_vote.participant_ident">
+				<source>Participant Ident</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_vote.value">
 				<source>Value</source>

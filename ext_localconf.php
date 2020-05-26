@@ -9,13 +9,11 @@ call_user_func(
             'T3.T3oodle',
             'Main',
             [
-                'Poll' => 'list, show, new, create, edit, update, delete',
-                'Vote' => 'new, create, edit, update'
+                'Poll' => 'list, show, vote, new, create, edit, update, publish, delete, deleteVote',
             ],
             // non-cacheable actions
             [
-                'Poll' => 'create, update, delete',
-                'Vote' => 'create, update'
+                'Poll' => 'show, vote, create, update, publish, delete, deleteVote',
             ]
         );
 

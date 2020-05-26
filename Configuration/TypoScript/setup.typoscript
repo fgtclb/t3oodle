@@ -1,4 +1,3 @@
-
 plugin.tx_t3oodle_main {
     view {
         templateRootPaths.0 = EXT:{extension.shortExtensionKey}/Resources/Private/Templates/
@@ -12,48 +11,126 @@ plugin.tx_t3oodle_main {
         #storagePid = {$plugin.tx_t3oodle_main.persistence.storagePid}
         #recursive = 1
     }
-    features {
-        #skipDefaultArguments = 1
-        # if set to 1, the enable fields are ignored in BE context
-        ignoreAllEnableFieldsInBe = 0
-        # Should be on by default, but can be disabled if all action in the plugin are uncached
-        requireCHashArgumentForActionArguments = 1
-    }
-    mvc {
-        #callDefaultActionIfActionCantBeResolved = 1
-    }
 }
 
-# these classes are only used in auto-generated templates
+page.includeJS.t3oodle = EXT:t3oodle/Resources/Public/JavaScript/t3oodle.js
+
 plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
     textarea.f3-form-error {
-        background-color:#FF9F9F;
-        border: 1px #FF0000 solid;
+        background-color:#FFCECC;
+        border: 1px var(--danger) solid;
     }
-
     input.f3-form-error {
-        background-color:#FF9F9F;
-        border: 1px #FF0000 solid;
+        background-color:#FFCECC;
+        border: 1px var(--danger) solid;
     }
-
-    .tx-t3oodle table {
-        border-collapse:separate;
-        border-spacing:10px;
-    }
-
-    .tx-t3oodle table th {
-        font-weight:bold;
-    }
-
-    .tx-t3oodle table td {
-        vertical-align:top;
-    }
-
     .typo3-messages .message-error {
-        color:red;
+        color: var(--danger);
+    }
+    .typo3-messages .message-ok {
+        color: var(--success);
     }
 
-    .typo3-messages .message-ok {
-        color:green;
+    .t3oodle-new-poll-option {
+        display: inline-block;
+        width: calc(100% - 5rem);
+        min-width: 10rem;
+        margin-right: .5rem;
+    }
+    .t3oodle-poll-options {
+        list-style: none;
+        padding-left: 2.4rem;
+        counter-reset: t3oodle-poll-options-counter;
+    }
+    .t3oodle-poll-options li {
+        counter-increment: t3oodle-poll-options-counter;
+        margin-bottom: .5rem;
+    }
+    .t3oodle-poll-options li::before {
+        content: counter(t3oodle-poll-options-counter) ". ";
+        position: absolute;
+        width: 2rem;
+        margin-left: -2.4rem;
+        color: var(--blue);
+        font-weight: bold;
+        text-align: right;
+        padding: .375rem 0;
+    }
+    .t3oodle-poll-options li:last-child button.t3oodle-poll-option-remove {
+        display: none;
+    }
+
+    .tx-t3oodle input.input-date, .tx-t3oodle input.input-time {
+        display:inline-block;
+        width: auto;
+    }
+
+    .tx-t3oodle .form-check {
+        padding-left: 2rem;
+    }
+    .tx-t3oodle input[type=checkbox].form-check-input {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-left: -2rem;
+    }
+    .tx-t3oodle span.required {
+        color: var(--danger);
+    }
+
+    .tx-t3oodle .voting table thead tr:first-child th {
+        font-weight: normal;
+    }
+    .tx-t3oodle .voting table th {
+        word-break: break-word;
+    }
+    .tx-t3oodle .voting table th,
+    .tx-t3oodle .voting table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .tx-t3oodle .voting table th.odd,
+    .tx-t3oodle .voting table td.odd {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .tx-t3oodle .voting table tr > th:first-child,
+    .tx-t3oodle .voting table tr > td:first-child
+     {
+        text-align: left;
+        min-width: 12rem;
+    }
+
+    .t3oodle-checkbox-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .tx-t3oodle .t3oodle-voting-image {
+        width: 1.75rem;
+        height: 1.75rem;
+        border: 2px solid rgba(0, 0, 0, 0.25);
+        border-radius: 0.5rem;
+
+        -webkit-transition: border-color 0.25s;
+        transition: border-color 0.25s;
+        padding: 2px;
+    }
+
+    .tx-t3oodle .t3oodle-voting-image:hover {
+        border-color: rgba(0, 0, 0, 0.4);
+        -webkit-transition: border-color 0.25s;
+        transition: border-color 0.25s;
+    }
+
+    .tx-t3oodle .t3oodle-voting-image:focus {
+        outline: none;
+        border-color: rgba(0, 0, 0, 0.6);
+        -webkit-transition: border-color 0.25s;
+        transition: border-color 0.25s;
+    }
+
+    .tx-t3oodle .t3oodle-voting-image path {
+        fill: #f00;
     }
 )

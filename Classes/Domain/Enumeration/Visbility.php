@@ -5,9 +5,8 @@ use TYPO3\CMS\Core\Type\Enumeration;
 
 final class Visbility extends Enumeration
 {
-    const __default = self::PUBLIC;
+    const __default = self::LISTED;
 
-    const PUBLIC = 'public';
-    const SECRET = 'secret';
-    const PRIVATE = 'private';
+    const LISTED = 'listed';
+    const NOT_LISTED = 'not_listed';
 }

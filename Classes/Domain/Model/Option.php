@@ -35,13 +35,6 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $selected = false;
 
-    /**
-     * votes
-     * 
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Vote>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
-     */
-    protected $votes = null;
 
     /**
      * parent
@@ -103,73 +96,6 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * __construct
-     */
-    public function __construct()
-    {
-
-        //Do not remove the next line: It would break the functionality
-        $this->initStorageObjects();
-    }
-
-    /**
-     * Initializes all ObjectStorage properties
-     * Do not modify this method!
-     * It will be rewritten on each save in the extension builder
-     * You may modify the constructor of this class instead
-     * 
-     * @return void
-     */
-    protected function initStorageObjects()
-    {
-        $this->votes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-    }
-
-    /**
-     * Adds a Vote
-     * 
-     * @param \T3\T3oodle\Domain\Model\Vote $vote
-     * @return void
-     */
-    public function addVote(\T3\T3oodle\Domain\Model\Vote $vote)
-    {
-        $vote->setParent($this);
-        $this->votes->attach($vote);
-    }
-
-    /**
-     * Removes a Vote
-     * 
-     * @param \T3\T3oodle\Domain\Model\Vote $voteToRemove The Vote to be removed
-     * @return void
-     */
-    public function removeVote(\T3\T3oodle\Domain\Model\Vote $voteToRemove)
-    {
-        $this->votes->detach($voteToRemove);
-    }
-
-    /**
-     * Returns the votes
-     * 
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Vote> $votes
-     */
-    public function getVotes()
-    {
-        return $this->votes;
-    }
-
-    /**
-     * Sets the votes
-     * 
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Vote> $votes
-     * @return void
-     */
-    public function setVotes(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $votes)
-    {
-        $this->votes = $votes;
-    }
-
-    /**
      * Returns the parent
      * 
      * @return \T3\T3oodle\Domain\Model\Poll parent
@@ -188,5 +114,41 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setParent(\T3\T3oodle\Domain\Model\Poll $parent)
     {
         $this->parent = $parent;
+    }
+
+    public function getCheckboxStates(): array
+    {
+        $states = [
+            0 => 'no',
+            1 => 'yes'
+        ];
+        if ($this->parent && $this->parent->isSettingTristateCheckbox()) {
+            $states[2] = 'maybe';
+        }
+        return $states;
+    }
+
+    public function isFull(): bool
+    {
+        if (!$this->getParent()->getSettingMaxVotesPerOption()) {
+            return false;
+        }
+
+        $total = 0;
+        foreach ($this->getParent()->getVotes() as $vote) {
+            foreach ($vote->getOptionValues() as $optionValue) {
+                if ($optionValue->getOption() === $this) {
+                    if ($optionValue->getValue() === '1') {
+                        $total++;
+                    }
+                }
+            }
+        }
+
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($total, 'is full');
+        return $total >= $this->getParent()->getSettingMaxVotesPerOption();
+
+
+
     }
 }

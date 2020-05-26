@@ -63,6 +63,11 @@ class PollPermission
         return $this->isVotingAllowed($vote->getParent()) && $this->userIsAuthor($vote->getParent());
     }
 
+    public function isSeeVotesDuringVotingAllowed(Poll $poll): bool
+    {
+        return !$poll->isSettingAnonymousVoting() || $this->userIsAuthor($poll);
+    }
+
     private function userIsAuthor(Poll $poll): bool
     {
         return $poll->getAuthorIdent() === $this->currentUserIdent || $this->userIsAdmin();

@@ -41,27 +41,47 @@
 					</tr>
 				</thead>
 				<tbody>
-					<f:for each="{poll.votes}" as="pollVote">
-						<f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
-							<tr class="vote">
-								<td>
-									<f:if condition="{pollVote -> t3oodle:permission(action:'VoteDeletion')}">
-										<f:link.action action="deleteVote" arguments="{vote:pollVote}"
-												class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
-												title="Remove this vote" data="{confirm:'Are you sure you want to remove this vote?'}"
-										>x</f:link.action>
-									</f:if>
 
-									{pollVote.participantName} - {pollVote.participantMail}
-								</td>
-								<f:for each="{pollVote.optionValues}" as="optionValue" iteration="iterator" key="key">
-									<td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-										{optionValue.value}
+					<f:if condition="{poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">
+						<f:then>
+							<f:if condition="{poll.settingAnonymousVoting}">
+								<tr>
+									<td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
+										<span class="text-danger font-weight-bolder small">Die Abstimmung ist anonym.</span>
+										<span class="small">Als Autor der Umfrage siehst Du die Ergebnisse dennoch.</span>
 									</td>
-								</f:for>
+								</tr>
+							</f:if>
+							<f:for each="{poll.votes}" as="pollVote">
+								<f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
+									<tr class="vote">
+										<td>
+											<f:if condition="{pollVote -> t3oodle:permission(action:'VoteDeletion')}">
+												<f:link.action action="deleteVote" arguments="{vote:pollVote}"
+														class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
+														title="Remove this vote" data="{confirm:'Are you sure you want to remove this vote?'}"
+												>x</f:link.action>
+											</f:if>
+											{pollVote.participantName} - {pollVote.participantMail}
+										</td>
+										<f:for each="{pollVote.optionValues}" as="optionValue" iteration="iterator" key="key">
+											<td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+												{optionValue.value}
+											</td>
+										</f:for>
+									</tr>
+								</f:if>
+							</f:for>
+						</f:then>
+						<f:else>
+							<tr>
+								<td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
+									<span class="text-danger font-weight-bolder small">Die Abstimmung ist anonym.</span>
+								</td>
 							</tr>
-						</f:if>
-					</f:for>
+						</f:else>
+					</f:if>
+
 					<f:if condition="{poll -> t3oodle:permission(action:'voting')}">
 						<f:then>
 							<tr class="vote yours">
@@ -80,14 +100,13 @@
 									<f:else>
 										<f:for each="{poll.options}" as="option" iteration="iterator" key="key">
 											<td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-												<f:variable name="baum">{newOptionValues.{option.uid}}</f:variable>
-
+												<f:variable name="newOptionValue">{newOptionValues.{option.uid}}</f:variable>
 												<f:if condition="{option.full}">
 													<f:then>
 														Full
 													</f:then>
 													<f:else>
-														<f:render partial="Poll/VotingBox" arguments="{option:option, key:key, value:baum}" />
+														<f:render partial="Poll/VotingBox" arguments="{option:option, key:key, value:newOptionValue}" />
 													</f:else>
 												</f:if>
 											</td>

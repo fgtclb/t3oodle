@@ -20,7 +20,7 @@ tx_t3oodle.dynamicOptionInputs = function(newOptionFields) {
     for (var i = 0; i < cloneInputs.length; i++) {
       var cloneInput = cloneInputs[i];
       var updatedInputName = cloneInput.name.replace(
-        /(.*\[options\]\[).*?(\]\[(name|markToDelete)\].*)/g,
+        /(.*\[options\]\[).*?(\]\[(name|markToDelete|__identity)\].*)/g,
         '$1' + tx_t3oodle.globals.newOptionIndex + '$2'
       );
       cloneInput.name = updatedInputName;

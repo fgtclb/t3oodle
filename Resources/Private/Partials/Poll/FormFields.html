@@ -110,6 +110,7 @@
 						<!-- used in edit action -->
 						<f:for each="{poll.options}" as="option" key="key" iteration="iterator">
 							<li class="t3oodle-poll-option" style="{f:if(condition:'{option.markToDelete}', then:'display: none;')}">
+								<f:form.hidden property="options.{key}.__identity" value="{option.uid}" />
 								<f:form.textfield class="t3oodle-new-poll-option form-control" property="options.{key}.name" value="{option.name}" placeholder="Option hinzufügen"></f:form.textfield>
 								<f:form.hidden property="options.{key}.markToDelete" value="{option.markToDelete}"></f:form.hidden>
 								<f:render section="removeButton" />

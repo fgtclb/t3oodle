@@ -11,6 +11,9 @@ plugin.tx_t3oodle_main {
         #storagePid = {$plugin.tx_t3oodle_main.persistence.storagePid}
         #recursive = 1
     }
+    settings {
+        dateTimeFormat = %d.%m.%Y %H:%I
+    }
 }
 
 page.includeJS.t3oodle = EXT:t3oodle/Resources/Public/JavaScript/t3oodle.js
@@ -68,7 +71,8 @@ plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
     .tx-t3oodle .form-check {
         padding-left: 2rem;
     }
-    .tx-t3oodle input[type=checkbox].form-check-input {
+    .tx-t3oodle input[type=radio].form-check-input.larger,
+    .tx-t3oodle input[type=checkbox].form-check-input.larger {
         width: 1.5rem;
         height: 1.5rem;
         margin-left: -2rem;
@@ -84,7 +88,9 @@ plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
         word-break: break-word;
     }
     .tx-t3oodle .voting table th,
-    .tx-t3oodle .voting table td {
+    .tx-t3oodle .voting table td,
+    .tx-t3oodle .finishing table th,
+    .tx-t3oodle .finishing table td {
         text-align: center;
         vertical-align: middle;
     }
@@ -95,7 +101,9 @@ plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
     }
 
     .tx-t3oodle .voting table tr > th:first-child,
-    .tx-t3oodle .voting table tr > td:first-child
+    .tx-t3oodle .voting table tr > td:first-child,
+    .tx-t3oodle .finishing table tr > th:first-child,
+    .tx-t3oodle .finishing table tr > td:first-child
      {
         text-align: left;
         min-width: 12rem;
@@ -132,5 +140,15 @@ plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
 
     .tx-t3oodle .t3oodle-voting-image path {
         fill: #f00;
+    }
+
+    .tx-t3oodle .is-final-option {
+        background: var(--yellow);
+        color: var(--orange);
+        font-weight: bold;
+    }
+    .tx-t3oodle .voting-status img {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 )

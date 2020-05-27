@@ -30,10 +30,10 @@ return [
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_poll.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, title, type, slug, visibility, is_published, author, author_name, author_mail, author_ident, options, fe_group, votes',
+        'showRecordFieldList' => 'hidden, title, type, slug, visibility, is_published, author, author_name, author_mail, author_ident, options, fe_group, votes, is_finished, finish_date, final_option',
     ],
     'types' => [
-        '1' => ['showitem' => 'title, description, link, type, slug, visibility, is_published, --palette--;;author, options, --palette--;Settings;settings, votes, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden, starttime, endtime, fe_group'],
+        '1' => ['showitem' => 'title, description, link, type, slug, visibility, is_published, is_finished, finish_date, final_option, --palette--;;author, options, --palette--;Settings;settings, votes, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden, starttime, endtime, fe_group'],
     ],
     'palettes' => [
         'author' => [
@@ -339,5 +339,40 @@ return [
                 'default' => 0
             ],
         ],
+        'is_finished' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.is_finished',
+            'config' => [
+                'type' => 'check',
+                'default' => 0
+            ],
+        ],
+        'finish_date' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.finish_date',
+            'config' => [
+                'type' => 'input',
+                'renderType' => 'inputDateTime',
+                'eval' => 'datetime,int',
+                'default' => 0,
+                'range' => [
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                ],
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true
+                ]
+            ],
+        ],
+        'final_option' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.final_option',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'tx_t3oodle_domain_model_option',
+                'minitems' => 1,
+                'maxitems' => 1,
+            ],
+        ]
     ],
 ];

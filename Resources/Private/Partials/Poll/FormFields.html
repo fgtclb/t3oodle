@@ -103,6 +103,11 @@
 
 		</div>
 		<div class="card-body">
+			<f:if condition="{poll.votes -> f:count()} > 0">
+				<div class="alert alert-warning">
+					Caution! Existing votes ({poll.votes -> f:count()}) will get removed, when updating options.
+				</div>
+			</f:if>
 			<ol class="t3oodle-poll-options">
 				<f:variable name="lastIndex">2</f:variable>
 				<f:if condition="{poll.options -> f:count()}">
@@ -155,7 +160,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-check mb-3">
-						<f:form.checkbox property="settingTristateCheckbox" value="1" checked="{poll.settingTristateCheckbox} == 1" class="form-check-input mr-3" id="t3oodle-poll-settingTristateCheckbox" />
+						<f:form.checkbox property="settingTristateCheckbox" value="1" checked="{poll.settingTristateCheckbox} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingTristateCheckbox" />
 						<label class="form-check-label" for="t3oodle-poll-settingTristateCheckbox">
 							<strong><f:translate key="poll.settingTristateCheckbox.title" /></strong><br>
 							<f:translate key="poll.settingTristateCheckbox.description" />
@@ -163,7 +168,7 @@
 					</div>
 
 					<div class="form-check mb-3">
-						<f:form.checkbox property="settingOneOptionOnly" value="1" checked="{poll.settingOneOptionOnly} == 1" class="form-check-input mr-3" id="t3oodle-poll-settingOneOptionOnly" />
+						<f:form.checkbox property="settingOneOptionOnly" value="1" checked="{poll.settingOneOptionOnly} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingOneOptionOnly" />
 						<label class="form-check-label" for="t3oodle-poll-settingOneOptionOnly">
 							<strong><f:translate key="poll.settingOneOptionOnly.title" /></strong><br>
 							<f:translate key="poll.settingOneOptionOnly.description" />
@@ -171,7 +176,7 @@
 					</div>
 
 					<div class="form-check mb-3">
-						<f:form.checkbox property="settingAnonymousVoting" value="1" checked="{poll.settingAnonymousVoting} == 1" class="form-check-input mr-3" id="t3oodle-poll-settingAnonymousVoting" />
+						<f:form.checkbox property="settingAnonymousVoting" value="1" checked="{poll.settingAnonymousVoting} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingAnonymousVoting" />
 						<label class="form-check-label" for="t3oodle-poll-settingAnonymousVoting">
 							<strong><f:translate key="poll.settingAnonymousVoting.title" /></strong><br>
 							<f:translate key="poll.settingAnonymousVoting.description" />
@@ -180,7 +185,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-check mb-3">
-						<f:form.checkbox name="enableSettingMaxVotesPerOption" value="1" checked="{poll.settingMaxVotesPerOption} > 0" class="form-check-input mr-3" id="t3oodle-poll-enableSettingMaxVotesPerOption" />
+						<f:form.checkbox name="enableSettingMaxVotesPerOption" value="1" checked="{poll.settingMaxVotesPerOption} > 0" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingMaxVotesPerOption" />
 						<label class="form-check-label" for="t3oodle-poll-enableSettingMaxVotesPerOption">
 							<strong><f:translate key="poll.settingMaxVotesPerOption.title" /></strong><br>
 							<f:translate key="poll.settingMaxVotesPerOption.description" /><br>
@@ -193,7 +198,7 @@
 					</div>
 
 					<div class="form-check mb-3">
-						<f:form.checkbox name="enableSettingVotingExpiresAt" value="1" checked="{poll.settingVotingExpiresAt}" class="form-check-input mr-3" id="t3oodle-poll-enableSettingVotingExpiresAt" />
+						<f:form.checkbox name="enableSettingVotingExpiresAt" value="1" checked="{poll.settingVotingExpiresAt}" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingVotingExpiresAt" />
 						<label class="form-check-label" for="t3oodle-poll-enableSettingVotingExpiresAt">
 							<strong><f:translate key="poll.settingVotingExpiresAt.title" /></strong><br>
 							<f:translate key="poll.settingVotingExpiresAt.description" /><br>

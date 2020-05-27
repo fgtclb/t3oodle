@@ -45,6 +45,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     protected $pollRepository;
 
     /**
+     * @var \T3\T3oodle\Domain\Repository\OptionRepository
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $optionRepository;
+
+    /**
      * @var \T3\T3oodle\Domain\Repository\VoteRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
@@ -107,21 +113,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
         $this->view->assign('vote', $vote);
 
-        $optionTotals = [];
-        foreach ($poll->getVotes() as $pollVote) {
-            foreach ($pollVote->getOptionValues() as $optionValue) {
-                if ($optionValue->getOption()) {
-                    if (!array_key_exists($optionValue->getOption()->getUid(), $optionTotals)) {
-                        $optionTotals[$optionValue->getOption()->getUid()] = 0;
-                    }
-                    if ($optionValue->getValue() === '1') {
-                        $optionTotals[$optionValue->getOption()->getUid()]++;
-                    }
-                }
-            }
-        }
-        $this->view->assign('optionTotals', $optionTotals);
-
         if ($this->request->getOriginalRequest()) {
             $newOptionValues = [];
             foreach ($this->request->getOriginalRequest()->getArgument('vote')['optionValues'] as $optionValue) {
@@ -166,6 +157,26 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->voteRepository->remove($vote);
         $this->addFlashMessage('Vote of "' . $name . '" successfully deleted.');
         $this->redirect('show', null, null, ['poll' => $vote->getParent()]);
+    }
+
+    /**
+     * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @param int $option uid to finish
+     * @return void
+     */
+    public function finishAction(\T3\T3oodle\Domain\Model\Poll $poll, int $option = 0)
+    {
+        if ($option > 0) {
+            // Persist
+            $option = $this->optionRepository->findByUid($option);
+            $poll->setFinalOption($option);
+            $poll->setFinishDate((new \DateTime())->setTimestamp($GLOBALS['SIM_EXEC_TIME']));
+            $poll->setIsFinished(true);
+            $this->pollRepository->update($poll);
+            $this->addFlashMessage('Poll has been finished!');
+            $this->redirect('show', null, null, ['poll' => $poll]);
+        }
+        $this->view->assign('poll', $poll);
     }
 
     /**
@@ -230,10 +241,22 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $this->pollPermission->isAllowed($poll, 'edit', true);
 
+        $voteCount = count($poll->getVotes());
+        $optionsModified = $poll->areOptionsModified();
+        if ($voteCount > 0 && $optionsModified) {
+            foreach ($poll->getVotes() as $vote) {
+                // TODO: notification for user?
+                $this->voteRepository->remove($vote);
+            }
+        }
+
         $this->removeMarkedPollOptions($poll);
         $this->pollRepository->update($poll);
 
-        $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See https://docs.typo3.org/typo3cms/extensions/extension_builder/User/Index.html', '', AbstractMessage::WARNING);
+        $this->addFlashMessage('The poll has been updated!');
+        if ($voteCount > 0 && $optionsModified) {
+            $this->addFlashMessage('Because poll options has been touched, ' . $voteCount . ' existing votes has been removed.', '', AbstractMessage::WARNING);
+        }
         $this->redirect('edit', null, null, ['poll' => $poll]);
     }
 
@@ -273,6 +296,15 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 $persistenceManager->remove($option);
             }
         }
+    }
+
+    private function initializeCurrentUserOrUserIdent(): void
+    {
+        $this->currentUserIdent = UserIdentUtility::getCurrentUserIdent();
+        $this->currentUser = $this->userRepository->findByUid($this->currentUserIdent);
+
+        $this->settings['_currentUser'] = $this->currentUser;
+        $this->settings['_currentUserIdent'] = $this->currentUserIdent;
     }
 
     private function processPollArgumentFromRequest(): void
@@ -328,15 +360,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             );
         }
 
-    }
-
-    private function initializeCurrentUserOrUserIdent(): void
-    {
-        $this->currentUserIdent = UserIdentUtility::getCurrentUserIdent();
-        $this->currentUser = $this->userRepository->findByUid($this->currentUserIdent);
-
-        $this->settings['_currentUser'] = $this->currentUser;
-        $this->settings['_currentUserIdent'] = $this->currentUserIdent;
     }
 
     private function disableGenericObjectValidator(string $argumentName, string $propertyName): void

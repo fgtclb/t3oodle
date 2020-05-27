@@ -27,7 +27,7 @@
 
       <f:render partial="Poll/FormFields" section="default" arguments="{poll:poll,contentObject:contentObject}" />
       <f:form.submit class="btn btn-primary" value="Save changes" />
-      <f:link.action action="list" class="btn btn-link">Zurück zur Übersicht</f:link.action>
+      <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link">Zurück zur Umfrage</f:link.action>
     </f:form>
   </f:section>
 </html>

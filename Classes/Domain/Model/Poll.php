@@ -119,6 +119,16 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $isFinished = false;
 
     /**
+     * @var \DateTime|null
+     */
+    protected $finishDate;
+
+    /**
+     * @var \T3\T3oodle\Domain\Model\Option
+     */
+    protected $finalOption;
+
+    /**
      * votes
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Vote>
@@ -386,5 +396,61 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setIsFinished(bool $isFinished): void
     {
         $this->isFinished = $isFinished;
+    }
+
+    public function getFinishDate(): ?\DateTime
+    {
+        return $this->finishDate;
+    }
+
+    public function setFinishDate(?\DateTime $finishDate): void
+    {
+        $this->finishDate = $finishDate;
+    }
+
+    public function getFinalOption(): ?Option
+    {
+        return $this->finalOption;
+    }
+
+    public function setFinalOption(Option $finalOption): void
+    {
+        $this->finalOption = $finalOption;
+    }
+
+    /**
+     * @return array key is uid of option, value the amount of votes
+     */
+    public function getOptionTotals(): array
+    {
+        $optionTotals = [];
+        foreach ($this->getVotes() as $vote) {
+            foreach ($vote->getOptionValues() as $optionValue) {
+                if ($optionValue->getOption()) {
+                    if (!array_key_exists($optionValue->getOption()->getUid(), $optionTotals)) {
+                        $optionTotals[$optionValue->getOption()->getUid()] = 0;
+                    }
+                    if ($optionValue->getValue() === '1') {
+                        $optionTotals[$optionValue->getOption()->getUid()]++;
+                    }
+                }
+            }
+        }
+        return $optionTotals;
+    }
+
+    public function areOptionsModified(): bool
+    {
+        $attributes = ['name', 'markToDelete', 'uid'];
+        foreach ($this->getOptions() as $option) {
+            $cleanProps = $option->_getCleanProperties();
+            $props = $option->_getProperties();
+            foreach ($attributes as $attribute) {
+                if ($cleanProps[$attribute] !== $props[$attribute]) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

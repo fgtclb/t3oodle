@@ -32,7 +32,7 @@ class PollPermission
 
     public function isEditAllowed(Poll $poll): bool
     {
-        return $this->userIsAuthor($poll);
+        return $this->userIsAuthor($poll) && !$poll->isFinished();
     }
 
     public function isDeleteAllowed(Poll $poll): bool

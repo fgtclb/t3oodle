@@ -1,0 +1,22 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+    <tr class="vote">
+        <td>
+            <f:if condition="!{hideRemoveLink} && {vote -> t3oodle:permission(action:'VoteDeletion')}">
+                <f:link.action action="deleteVote" arguments="{vote:vote}"
+                               class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
+                               title="Remove this vote" data="{confirm:'Are you sure you want to remove this vote?'}"
+                >x</f:link.action>
+            </f:if>
+            {vote.participantName} - {vote.participantMail}
+        </td>
+        <f:for each="{vote.optionValues}" as="optionValue" iteration="iterator" key="key">
+            <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">
+                <img src="{f:uri.resource(path:'Icons/status-{optionValue.value}.svg')}" width="32">
+            </td>
+        </f:for>
+    </tr>
+
+</html>

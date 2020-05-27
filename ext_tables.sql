@@ -16,6 +16,9 @@ CREATE TABLE tx_t3oodle_domain_model_poll (
 	options int(11) unsigned DEFAULT '0' NOT NULL,
     is_published smallint(5) unsigned DEFAULT '0' NOT NULL,
 	votes int(11) unsigned DEFAULT '0' NOT NULL,
+    is_finished smallint(5) unsigned DEFAULT '0' NOT NULL,
+	finish_date int(10) unsigned DEFAULT '0',
+	final_option int(11) unsigned DEFAULT '0',
 
 	setting_tristate_checkbox smallint(5) unsigned DEFAULT '0' NOT NULL,
 	setting_max_votes_per_option int(11) unsigned DEFAULT '0',

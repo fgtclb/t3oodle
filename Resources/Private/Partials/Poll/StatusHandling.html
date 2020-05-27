@@ -14,8 +14,8 @@
     <f:if condition="{poll -> t3oodle:permission(action:'finish')}">
         <div class="alert alert-success mb-4">
             <!-- TODO: hier fehlt noch gänzlich die actions -->
-          <a href="#" class="btn btn-dark float-right my-2">Finish voting</a>
-          <p class="my-3">The poll is published. Voting is enabled.</p>
+            <f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success float-right my-2">Finish voting</f:link.action>
+            <p class="my-3">The poll is published. Voting is enabled.</p>
         </div>
     </f:if>
 </html>

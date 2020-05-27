@@ -12,7 +12,7 @@ plugin.tx_t3oodle_main {
         #recursive = 1
     }
     settings {
-        dateTimeFormat = %d.%m.%Y %H:%I
+        dateTimeFormat = %d.%m.%Y %H:%M
     }
 }
 

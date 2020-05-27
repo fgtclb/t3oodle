@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace T3\T3oodle\Domain\Validator;
 
+use T3\T3oodle\Utility\DateTimeUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Error;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
@@ -89,8 +90,7 @@ class PollValidator extends AbstractValidator
         }
 
         if ($value->getSettingVotingExpiresDate()) {
-            $today = (new \DateTime())->setTimestamp($GLOBALS['SIM_EXEC_TIME'])->modify('midnight');
-            if ($value->getSettingVotingExpiresDate()->getTimestamp() < $today->getTimestamp()) {
+            if ($value->getSettingVotingExpiresDate()->getTimestamp() < DateTimeUtility::today()->getTimestamp()) {
                 $isValid = false;
                 $this->result->forProperty('settingVotingExpiresDate')->addError(
                     new Error('The expiration date must be located in the future.', 61)
@@ -105,8 +105,7 @@ class PollValidator extends AbstractValidator
             }
 
             if ($expiresAt = $value->getSettingVotingExpiresAt()) {
-                $now = (new \DateTime())->setTimestamp($GLOBALS['SIM_EXEC_TIME']);
-                if ($expiresAt->getTimestamp() < $now->getTimestamp()) {
+                if ($expiresAt->getTimestamp() < DateTimeUtility::now()->getTimestamp()) {
                     $isValid = false;
                     $this->result->forProperty('settingVotingExpiresTime')->addError(
                         new Error('The expiration date (including the time) must be located in the future.', 63)
@@ -114,7 +113,6 @@ class PollValidator extends AbstractValidator
                 }
             }
         }
-
         return $isValid;
     }
 }

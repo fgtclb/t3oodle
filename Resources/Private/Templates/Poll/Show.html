@@ -5,7 +5,10 @@
 	<f:layout name="Default" />
 
 	<f:section name="content">
-		<h1 class="title">{poll.title}</h1>
+		<h1 class="title">
+			{poll.title}
+			<f:link.action class="btn btn-link" action="list">Back to list</f:link.action>
+		</h1>
 		<f:if condition="{poll.description}">
 			<p class="description lead mb-3">
 				{poll.description -> f:format.nl2br()}
@@ -19,17 +22,8 @@
 
 		<f:flashMessages />
 
+		<f:render  partial="Poll/StatusHandling" section="default" arguments="{poll:poll}" />
+
 		<f:render partial="Poll/Voting" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues}" />
-
-		<f:render  partial="Poll/StatusHandling" arguments="{poll:poll}" />
-
-		<f:link.action class="btn btn-link" action="list">Back to list</f:link.action>
-
-		<f:if condition="{poll -> t3oodle:permission(action:'edit')}">
-			<f:link.action class="btn btn-link" action="edit" arguments="{poll:poll}">Edit</f:link.action>
-		</f:if>
-		<f:if condition="{poll -> t3oodle:permission(action:'delete')}">
-			<f:link.action class="btn btn-link text-danger" action="delete" arguments="{poll:poll}">Delete</f:link.action>
-		</f:if>
 	</f:section>
 </html>

@@ -3,6 +3,7 @@ namespace T3\T3oodle\Domain\Permission;
 
 use T3\T3oodle\Domain\Model\Poll;
 use T3\T3oodle\Domain\Model\Vote;
+use T3\T3oodle\Utility\DateTimeUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class PollPermission
@@ -18,8 +19,16 @@ class PollPermission
     {
         $getter = 'is' . ucfirst($action) . 'Allowed';
         if (!method_exists($this, $getter)) {
+            $available = [];
+            foreach (get_class_methods(self::class) as $method) {
+                $methodPart = substr($method, 2, -7);
+                if (!empty($methodPart) && strpos($method, 'is') === 0) {
+                    $available[] = lcfirst($methodPart);
+                }
+            }
             throw new \InvalidArgumentException(
-                'Given action "' . $action . '" is not existing in ' . PollPermission::class
+                'Given action "' . $action . '" is not existing in ' . PollPermission::class . '. ' .
+                'Available actions are: ' . implode(', ', $available)
             );
         }
         $result = $this->$getter($subject);
@@ -37,7 +46,7 @@ class PollPermission
 
     public function isDeleteAllowed(Poll $poll): bool
     {
-        return $this->isEditAllowed($poll) && !$poll->isPublished();
+        return $this->isEditAllowed($poll) && count($poll->getVotes()) === 0;
     }
 
     public function isPublishAllowed(Poll $poll): bool
@@ -52,7 +61,7 @@ class PollPermission
 
     public function isVotingAllowed(Poll $poll): bool
     {
-        return $poll->isPublished() && !$poll->isFinished();
+        return $poll->isPublished() && !$poll->isFinished() && !$poll->isVotingExpired();
     }
 
     /**

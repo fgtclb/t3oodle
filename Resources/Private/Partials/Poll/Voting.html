@@ -11,6 +11,21 @@
                 <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}" />
             </thead>
             <tbody>
+            <f:if condition="{poll.settingVotingExpiresAt}">
+                <tr>
+                    <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
+                        <strong>Achtung!</strong>
+                        <f:if condition="{poll.votingExpired}">
+                            <f:then>
+                                Für diese Umfrage konnte nur bis <f:render partial="DateTime" arguments="{class:'font-weight-bold text-info', date:poll.settingVotingExpiresAt}" /> abgestimmt werden.
+                            </f:then>
+                            <f:else>
+                                Für diese Umfrage kann nur bis <f:render partial="DateTime" arguments="{class:'font-weight-bold text-info', date:poll.settingVotingExpiresAt}" /> abgestimmt werden.
+                            </f:else>
+                        </f:if>
+                    </td>
+                </tr>
+            </f:if>
             <f:if condition="{poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">
                 <f:then>
                     <f:if condition="{poll.settingAnonymousVoting}">
@@ -69,14 +84,7 @@
                     </tr>
                 </f:then>
                 <f:else>
-                    <tr>
-                        <td><em>Voting disabled</em></td>
-                        <f:for each="{poll.options}" as="option" iteration="iterator">
-                            <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
 
-                            </td>
-                        </f:for>
-                    </tr>
                 </f:else>
             </f:if>
             </tbody>
@@ -85,7 +93,7 @@
         <f:if condition="{poll.finished}">
             <f:then>
                 <div class="text-center">
-                    <p class="mb-1">The voting has been finished at <time datetime="{poll.finishDate -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</time>. The final option is:</p>
+                    <p class="mb-1">The voting has been finished at <f:render partial="DateTime" arguments="date:poll.finishDate" />. The final option is:</p>
                     <p class="lead"><strong>{poll.finalOption.name}</strong></p>
                 </div>
             </f:then>
@@ -100,7 +108,7 @@
                             </f:if>
                         </f:then>
                         <f:else>
-                            <f:form.submit class="btn btn-primary" value="Vote" disabled="disabled" />
+                            <f:form.submit class="btn btn-light" value="Voting disabled" disabled="disabled" />
                         </f:else>
                     </f:if>
                 </div>

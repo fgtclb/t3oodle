@@ -2,20 +2,31 @@
       xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-    <!-- TODO -->
+    <f:section name="default">
+        <f:if condition="{poll -> t3oodle:permission(action:'publish')}">
+            <div class="alert alert-dark mb-4">
+                <f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success float-right my-2">Publish now</f:link.action>
+                <p class="my-3">This poll is not published yet!</p>
+            </div>
+        </f:if>
 
-    <f:if condition="{poll -> t3oodle:permission(action:'publish')}">
-        <div class="alert alert-dark mb-4">
-            <f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success float-right my-2">Publish now</f:link.action>
-            <p class="my-3">This poll is not published yet!</p>
-        </div>
-    </f:if>
+        <f:if condition="{poll -> t3oodle:permission(action:'finish')}">
+            <div class="alert alert-secondary mb-4">
+                <div class="buttons float-right my-2">
+                    <f:render section="buttons" arguments="{poll:poll}" />
+                    <f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success">Finish voting</f:link.action>
+                </div>
+                <p class="my-3"><strong>The poll is published.</strong></p>
+            </div>
+        </f:if>
+    </f:section>
 
-    <f:if condition="{poll -> t3oodle:permission(action:'finish')}">
-        <div class="alert alert-success mb-4">
-            <!-- TODO: hier fehlt noch gänzlich die actions -->
-            <f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success float-right my-2">Finish voting</f:link.action>
-            <p class="my-3">The poll is published. Voting is enabled.</p>
-        </div>
-    </f:if>
+    <f:section name="buttons">
+        <f:if condition="{poll -> t3oodle:permission(action:'edit')}">
+            <f:link.action class="btn btn-secondary mr-1" action="edit" arguments="{poll:poll}">Edit</f:link.action>
+        </f:if>
+        <f:if condition="{poll -> t3oodle:permission(action:'delete')}">
+            <f:link.action class="btn btn-danger mr-1" action="delete" arguments="{poll:poll}">Delete</f:link.action>
+        </f:if>
+    </f:section>
 </html>

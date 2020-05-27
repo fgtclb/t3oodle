@@ -2,6 +2,7 @@
 namespace T3\T3oodle\Controller;
 
 use T3\T3oodle\Utility\CookieUtility;
+use T3\T3oodle\Utility\DateTimeUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -163,14 +164,16 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param int $option uid to finish
      * @return void
+     * @ignorevalidation $poll
      */
     public function finishAction(\T3\T3oodle\Domain\Model\Poll $poll, int $option = 0)
     {
+        $this->pollPermission->isAllowed($poll, 'finish', true);
         if ($option > 0) {
             // Persist
             $option = $this->optionRepository->findByUid($option);
             $poll->setFinalOption($option);
-            $poll->setFinishDate((new \DateTime())->setTimestamp($GLOBALS['SIM_EXEC_TIME']));
+            $poll->setFinishDate(DateTimeUtility::now());
             $poll->setIsFinished(true);
             $this->pollRepository->update($poll);
             $this->addFlashMessage('Poll has been finished!');

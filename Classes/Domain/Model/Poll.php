@@ -1,6 +1,7 @@
 <?php
 namespace T3\T3oodle\Domain\Model;
 
+use T3\T3oodle\Utility\DateTimeUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***
@@ -351,6 +352,14 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             return $this->getSettingVotingExpiresDate()->modify($this->getSettingVotingExpiresTime()->format('H:i:s'));
         }
         return null;
+    }
+
+    public function isVotingExpired(): bool
+    {
+        if (!$this->getSettingVotingExpiresAt()) {
+            return false;
+        }
+        return DateTimeUtility::now()->getTimestamp() > $this->getSettingVotingExpiresAt()->getTimestamp();
     }
 
     public function addVote(\T3\T3oodle\Domain\Model\Vote $vote): void

@@ -16,7 +16,10 @@ tx_t3oodle.dynamicOptionInputs = function(newOptionFields) {
   if (allOptionsFilled) {
     tx_t3oodle.globals.newOptionIndex++
     var clone = lastItem.parentNode.cloneNode(true);
-    clone.querySelector('input[name*="__identity"]').remove();
+    var identityHiddenField = clone.querySelector('input[name*="__identity"]');
+    if (identityHiddenField) {
+      identityHiddenField.remove();
+    }
     var cloneInputs = clone.querySelectorAll('input');
     for (var i = 0; i < cloneInputs.length; i++) {
       var cloneInput = cloneInputs[i];

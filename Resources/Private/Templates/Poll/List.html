@@ -9,24 +9,29 @@
 
 		<f:flashMessages />
 
-		<div class="container">
-			<div class="row">
-				<div class="col">Titel</div>
-				<div class="col">Veröffentlicht</div>
-				<div class="col">Teilnehmer</div>
-				<div class="col"></div>
-			</div>
+		<ol class="collection mb-3">
+			<li class="item">
+				<div class="attribute"><strong>Titel</strong></div>
+				<div class="attribute"><strong>Autor</strong></div>
+				<div class="attribute"><strong>Veröffentlicht</strong></div>
+				<div class="attribute"><strong>Teilnehmer</strong></div>
+			</li>
 			<f:for each="{polls}" as="poll">
-				<div class="row my-2">
-					<div class="col">{poll.title}</div>
-					<div class="col">{poll.published}</div>
-					<div class="col">{poll.votes -> f:count()}</div>
-					<div class="col">
-						<f:link.action action="show" arguments="{poll : poll}" class="btn btn-primary btn-sm">Show</f:link.action>
+				<li class="item">
+					<div class="attribute" data-name="Titel">
+						<f:link.action action="show" arguments="{poll : poll}" class="font-weight-bold">{poll.title}</f:link.action>
 					</div>
-				</div>
+					<div class="attribute" data-name="Autor">{poll.authorName}</div>
+					<div class="attribute" data-name="Veröffentlicht">
+						<f:if condition="{poll.published}">
+							<f:then>{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</f:then>
+							<f:else><em>Unveröffentlicht</em></f:else>
+						</f:if>
+					</div>
+					<div class="attribute" data-name="Teilnehmer">{poll.votes -> f:count()}</div>
+				</li>
 			</f:for>
-		</div>
+		</ol>
 
 		<f:link.action action="new" class="btn btn-primary">Create new poll</f:link.action>
 	</f:section>

@@ -17,4 +17,11 @@ namespace T3\T3oodle\Domain\Repository;
  */
 class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+    /**
+     * @var string[] Show unpublished first, then order by publishDate
+     */
+    protected $defaultOrderings = [
+        'isPublished' => 'ASC',
+        'publishDate' => 'DESC'
+    ];
 }

@@ -54,8 +54,21 @@
                 <f:then>
                     <tr class="vote yours">
                         <td>
-                            <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" />
-                            <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="Deine E-Mail-Adresse" tabindex="2" />
+                            <div class="row">
+                                <div class="col-11">
+                                    <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" />
+                                    <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="Deine E-Mail-Adresse" tabindex="2" />
+                                </div>
+                                <div class="col-1">
+                                    <f:if condition="{vote.uid}">
+                                        <f:link.action action="deleteVote" arguments="{vote:vote}"
+                                                       class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
+                                                       title="Remove your vote" data="{confirm:'Are you sure you want to remove your own vote?'}">
+                                            x
+                                        </f:link.action>
+                                    </f:if>
+                                </div>
+                            </div>
                         </td>
                         <f:if condition="{vote.uid}">
                             <f:then>
@@ -84,7 +97,7 @@
                     </tr>
                 </f:then>
                 <f:else>
-
+                    <f:render partial="Poll/Voting/VoteRow" arguments="{vote:vote}" />
                 </f:else>
             </f:if>
             </tbody>

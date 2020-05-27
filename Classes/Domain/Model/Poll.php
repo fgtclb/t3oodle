@@ -115,6 +115,11 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $isPublished = false;
 
     /**
+     * @var \DateTime|null
+     */
+    protected $publishDate;
+
+    /**
      * @var bool
      */
     protected $isFinished = false;
@@ -395,6 +400,16 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setIsPublished(bool $isPublished): void
     {
         $this->isPublished = $isPublished;
+    }
+
+    public function getPublishDate(): ?\DateTime
+    {
+        return $this->publishDate;
+    }
+
+    public function setPublishDate(?\DateTime $publishDate): void
+    {
+        $this->publishDate = $publishDate;
     }
 
     public function isFinished(): bool

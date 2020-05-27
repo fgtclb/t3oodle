@@ -100,6 +100,13 @@ plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
         background-color: rgba(0, 0, 0, 0.05);
     }
 
+    .tx-t3oodle .voting table thead tr:first-child th {
+        border-bottom: 1px solid var(--gray);
+    }
+    .tx-t3oodle .voting table thead tr:last-child th {
+        border-bottom: 1px solid var(--gray) !important;
+    }
+
     .tx-t3oodle .voting table tr > th:first-child,
     .tx-t3oodle .voting table tr > td:first-child,
     .tx-t3oodle .finishing table tr > th:first-child,
@@ -145,6 +152,7 @@ plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
     .tx-t3oodle .is-final-option {
         background: var(--yellow);
         color: var(--orange);
+        border-color: var(--orange) !important;
         font-weight: bold;
     }
     .tx-t3oodle .voting-status img {

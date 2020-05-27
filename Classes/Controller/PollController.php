@@ -162,6 +162,20 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @return void
+     * @ignorevalidation $poll
+     */
+    public function publishAction(\T3\T3oodle\Domain\Model\Poll $poll)
+    {
+        $this->pollPermission->isAllowed($poll, 'publish', true);
+        $poll->setPublishDate(DateTimeUtility::now());
+        $poll->setIsPublished(true);
+        $this->pollRepository->update($poll);
+        $this->redirect('show', null, null, ['poll' => $poll]);
+    }
+
+    /**
+     * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param int $option uid to finish
      * @return void
      * @ignorevalidation $poll
@@ -261,18 +275,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->addFlashMessage('Because poll options has been touched, ' . $voteCount . ' existing votes has been removed.', '', AbstractMessage::WARNING);
         }
         $this->redirect('edit', null, null, ['poll' => $poll]);
-    }
-
-    /**
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
-     * @return void
-     */
-    public function publishAction(\T3\T3oodle\Domain\Model\Poll $poll)
-    {
-        $this->pollPermission->isAllowed($poll, 'publish', true);
-        $poll->setIsPublished(true);
-        $this->pollRepository->update($poll);
-        $this->redirect('show', null, null, ['poll' => $poll]);
     }
 
     /**

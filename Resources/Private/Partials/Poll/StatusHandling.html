@@ -4,8 +4,11 @@
 
     <f:section name="default">
         <f:if condition="{poll -> t3oodle:permission(action:'publish')}">
-            <div class="alert alert-dark mb-4">
-                <f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success float-right my-2">Publish now</f:link.action>
+            <div class="alert alert-secondary mb-4">
+                <div class="buttons float-right my-2">
+                    <f:render section="buttons" arguments="{poll:poll}" />
+                    <f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success">Publish now</f:link.action>
+                </div>
                 <p class="my-3">This poll is not published yet!</p>
             </div>
         </f:if>
@@ -26,7 +29,7 @@
             <f:link.action class="btn btn-secondary mr-1" action="edit" arguments="{poll:poll}">Edit</f:link.action>
         </f:if>
         <f:if condition="{poll -> t3oodle:permission(action:'delete')}">
-            <f:link.action class="btn btn-danger mr-1" action="delete" arguments="{poll:poll}">Delete</f:link.action>
+            <f:link.action class="btn btn-danger mr-1" action="delete" arguments="{poll:poll}" data="{confirm:'Do you really want to delete this poll?'}">Delete</f:link.action>
         </f:if>
     </f:section>
 </html>

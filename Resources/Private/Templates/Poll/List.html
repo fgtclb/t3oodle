@@ -4,54 +4,30 @@
 
 	<f:layout name="Default" />
 
-	This Template is responsible for creating a table of domain objects.
-
-	If you modify this template, do not forget to change the overwrite settings
-	in /Configuration/ExtensionBuilder/settings.yaml:
-	  Resources:
-		Private:
-		  Templates:
-			List.html: keep
-
-	Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 	<f:section name="content">
-		<h1>Listing for Poll</h1>
+		<h1>Polls</h1>
 
 		<f:flashMessages />
 
-		<table  class="tx_t3oodle" >
-			<tr>
-				<th><f:translate key="tx_t3oodle_domain_model_poll.title" /></th>
-				<th><f:translate key="tx_t3oodle_domain_model_poll.slug" /></th>
-				<th><f:translate key="tx_t3oodle_domain_model_poll.visibility" /></th>
-				<th><f:translate key="tx_t3oodle_domain_model_poll.author" /></th>
-				<th><f:translate key="tx_t3oodle_domain_model_poll.author_user" /></th>
-				<th> </th>
-				<th> </th>
-			</tr>
-
+		<div class="container">
+			<div class="row">
+				<div class="col">Titel</div>
+				<div class="col">Veröffentlicht</div>
+				<div class="col">Teilnehmer</div>
+				<div class="col"></div>
+			</div>
 			<f:for each="{polls}" as="poll">
-				<tr>
-					<td><f:link.action action="show" arguments="{poll : poll}"> {poll.title}</f:link.action></td>
-					<td><f:link.action action="show" arguments="{poll : poll}"> {poll.slug}</f:link.action></td>
-					<td><f:link.action action="show" arguments="{poll : poll}"> {poll.visibility}</f:link.action></td>
-					<td><f:link.action action="show" arguments="{poll : poll}"> {poll.author}</f:link.action></td>
-					<td><f:link.action action="show" arguments="{poll : poll}"> {poll.authorUser}</f:link.action></td>
-					<td>
-						<f:if condition="{poll -> t3oodle:permission(action:'edit')}">
-							<f:link.action action="edit" arguments="{poll : poll}">Edit</f:link.action>
-						</f:if>
-					</td>
-					<td>
-						<f:if condition="{poll -> t3oodle:permission(action:'delete')}">
-							<f:link.action action="delete" arguments="{poll : poll}" class="t3oodle-poll-delete">Delete</f:link.action>
-						</f:if>
-					</td>
-				</tr>
+				<div class="row my-2">
+					<div class="col">{poll.title}</div>
+					<div class="col">{poll.published}</div>
+					<div class="col">{poll.votes -> f:count()}</div>
+					<div class="col">
+						<f:link.action action="show" arguments="{poll : poll}" class="btn btn-primary btn-sm">Show</f:link.action>
+					</div>
+				</div>
 			</f:for>
-		</table>
+		</div>
 
-		<f:link.action action="new">New Poll</f:link.action>
+		<f:link.action action="new" class="btn btn-primary">Create new poll</f:link.action>
 	</f:section>
 </html>

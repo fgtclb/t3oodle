@@ -166,7 +166,9 @@
 					<div class="form-check mb-3">
 						<f:form.checkbox property="settingTristateCheckbox" value="1" checked="{poll.settingTristateCheckbox} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingTristateCheckbox" />
 						<label class="form-check-label" for="t3oodle-poll-settingTristateCheckbox">
-							<strong><f:translate key="poll.settingTristateCheckbox.title" /></strong><br>
+							<strong><f:translate key="poll.settingTristateCheckbox.title" /></strong>
+							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase">Caution</span></f:if>
+							<br>
 							<f:translate key="poll.settingTristateCheckbox.description" />
 						</label>
 					</div>

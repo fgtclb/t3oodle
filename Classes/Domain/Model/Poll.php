@@ -496,7 +496,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         }
 
         // Check related poll settings
-        $attributes = ['settingOneOptionOnly', 'settingMaxVotesPerOption'];
+        $attributes = ['settingOneOptionOnly', 'settingMaxVotesPerOption', 'settingTristateCheckbox'];
         $cleanProps = $this->_getCleanProperties();
         $props = $this->_getProperties();
         foreach ($attributes as $attribute) {

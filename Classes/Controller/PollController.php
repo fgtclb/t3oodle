@@ -152,6 +152,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \T3\T3oodle\Domain\Model\Vote $vote
      * @return void
+     * @ignorevalidation $vote
      */
     public function deleteVoteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
@@ -242,8 +243,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
-     * @ignorevalidation $poll
      * @return void
+     * @ignorevalidation $poll
      */
     public function editAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
@@ -274,7 +275,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $this->addFlashMessage('The poll has been updated!');
         if ($voteCount > 0 && $optionsModified) {
-            $this->addFlashMessage('Because poll options has been touched, ' . $voteCount . ' existing votes has been removed.', '', AbstractMessage::WARNING);
+            $this->addFlashMessage('Because poll options or option related settings has been touched, ' . $voteCount . ' existing votes has been removed.', '', AbstractMessage::WARNING);
         }
         $this->redirect('edit', null, null, ['poll' => $poll]);
     }

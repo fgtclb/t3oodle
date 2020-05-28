@@ -483,6 +483,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function areOptionsModified(): bool
     {
+        // Check options for changes
         $attributes = ['name', 'markToDelete', 'uid'];
         foreach ($this->getOptions() as $option) {
             $cleanProps = $option->_getCleanProperties();
@@ -491,6 +492,16 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 if ($cleanProps[$attribute] !== $props[$attribute]) {
                     return true;
                 }
+            }
+        }
+
+        // Check related poll settings
+        $attributes = ['settingOneOptionOnly', 'settingMaxVotesPerOption'];
+        $cleanProps = $this->_getCleanProperties();
+        $props = $this->_getProperties();
+        foreach ($attributes as $attribute) {
+            if ($cleanProps[$attribute] !== $props[$attribute]) {
+                return true;
             }
         }
         return false;

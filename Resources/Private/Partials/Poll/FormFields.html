@@ -106,7 +106,8 @@
 		<div class="card-body">
 			<f:if condition="{poll.votes -> f:count()} > 0">
 				<div class="alert alert-warning">
-					Caution! Existing votes ({poll.votes -> f:count()}) will get removed, when updating options.
+					<span class="badge badge-warning text-uppercase mr-2">Caution</span>
+					Existing votes ({poll.votes -> f:count()}) will get removed when updating options or option related settings, below.
 				</div>
 			</f:if>
 			<ol class="t3oodle-poll-options">
@@ -171,7 +172,9 @@
 					<div class="form-check mb-3">
 						<f:form.checkbox property="settingOneOptionOnly" value="1" checked="{poll.settingOneOptionOnly} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingOneOptionOnly" />
 						<label class="form-check-label" for="t3oodle-poll-settingOneOptionOnly">
-							<strong><f:translate key="poll.settingOneOptionOnly.title" /></strong><br>
+							<strong><f:translate key="poll.settingOneOptionOnly.title" /></strong>
+							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase">Caution</span></f:if>
+							<br>
 							<f:translate key="poll.settingOneOptionOnly.description" />
 						</label>
 					</div>
@@ -188,7 +191,9 @@
 					<div class="form-check mb-3">
 						<f:form.checkbox name="enableSettingMaxVotesPerOption" value="1" checked="{poll.settingMaxVotesPerOption} > 0" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingMaxVotesPerOption" />
 						<label class="form-check-label" for="t3oodle-poll-enableSettingMaxVotesPerOption">
-							<strong><f:translate key="poll.settingMaxVotesPerOption.title" /></strong><br>
+							<strong><f:translate key="poll.settingMaxVotesPerOption.title" /></strong>
+							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase">Caution</span></f:if>
+							<br>
 							<f:translate key="poll.settingMaxVotesPerOption.description" /><br>
 							<f:if condition="{poll.settingMaxVotesPerOption} > 0">
 								<f:then><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{minn:'0'}" /></f:then>

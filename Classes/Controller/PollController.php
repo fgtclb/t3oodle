@@ -1,10 +1,12 @@
 <?php
 namespace T3\T3oodle\Controller;
 
+use T3\T3oodle\Domain\Enumeration\Visbility;
 use T3\T3oodle\Domain\Validator\PollValidator;
 use T3\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use T3\T3oodle\Utility\CookieUtility;
 use T3\T3oodle\Utility\DateTimeUtility;
+use T3\T3oodle\Utility\SlugUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -106,7 +108,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function showAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
-        $this->pollPermission->isAllowed($poll, 'viewing', true);
+        $this->pollPermission->isAllowed($poll, 'show', true);
 
         $this->view->assign('poll', $poll);
 
@@ -234,6 +236,19 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $poll->setAuthor($this->currentUser);
             $poll->setAuthorIdent($this->currentUserIdent);
         }
+
+        $slugUtility = GeneralUtility::makeInstance(
+            SlugUtility::class,
+            'tx_t3oodle_domain_model_poll',
+            'slug'
+        );
+
+        if ($poll->getVisibility() === Visbility::NOT_LISTED) {
+            $poll->setSlug($slugUtility->sanitize(uniqid('', true)));
+        } else {
+            $poll->setSlug($slugUtility->sanitize($poll->getTitle()));
+        }
+
         $this->pollRepository->add($poll);
 
         $persistenceManager = $this->objectManager->get(PersistenceManager::class);

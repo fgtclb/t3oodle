@@ -43,14 +43,31 @@ class PollPermission
         return $result;
     }
 
+    /**
+     * This is related to list view
+     *
+     * @param Poll $poll
+     * @return bool
+     */
     public function isViewingInGeneralAllowed(Poll $poll): bool
     {
         return $poll->getVisibility() !== Visbility::NOT_LISTED && $poll->isPublished();
     }
 
+    /**
+     * This is related to list view
+     *
+     * @param Poll $poll
+     * @return bool
+     */
     public function isViewingAllowed(Poll $poll): bool
     {
         return $this->isViewingInGeneralAllowed($poll) || $this->userIsAuthor($poll);
+    }
+
+    public function isShowAllowed(Poll $poll): bool
+    {
+        return true;
     }
 
     public function isEditAllowed(Poll $poll): bool

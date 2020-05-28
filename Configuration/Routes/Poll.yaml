@@ -1,0 +1,34 @@
+# Routing Enhancer configuration for EXT:t3oodle
+# To apply this configuration to your project, add this to your site's config.yaml:
+#
+# imports:
+#     - { resource: 'EXT:t3oodle/Configuration/Routes/Poll.yaml' }
+
+routeEnhancers:
+    T3oodle:
+        type: Extbase
+        extension: T3oodle
+        plugin: Main
+        routes:
+            - routePath: '/'
+              _controller: 'Poll::list'
+            - routePath: '/create'
+              _controller: 'Poll::new'
+            - routePath: '/poll/{poll-title}'
+              _controller: 'Poll::show'
+              _arguments:
+                  poll-title: poll
+            - routePath: '/poll/{poll-title}/edit'
+              _controller: 'Poll::edit'
+              _arguments:
+                  poll-title: poll
+            - routePath: '/poll/{poll-title}/finish'
+              _controller: 'Poll::finish'
+              _arguments:
+                  poll-title: poll
+        defaultController: 'Poll::list'
+        aspects:
+            poll-title:
+                type: PersistedAliasMapper
+                tableName: tx_t3oodle_domain_model_poll
+                routeFieldName: slug

@@ -43,6 +43,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 ])
             ];
         }
+        $constraints[] = $query->logicalNot($query->equals('slug', ''));
         $query->matching($query->logicalAnd($constraints));
         return $query->execute();
     }

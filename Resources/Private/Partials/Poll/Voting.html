@@ -33,7 +33,7 @@
                         <f:if condition="{poll.settingAnonymousVoting}">
                             <tr>
                                 <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
-                                    <span class="text-danger font-weight-bolder small">Die Abstimmung ist anonym.</span>
+                                    <span class="text-danger font-weight-bolder small">Die Abstimmung ist geheim.</span>
                                     <span class="small">Als Autor der Umfrage siehst Du die Ergebnisse dennoch.</span>
                                 </td>
                             </tr>
@@ -47,7 +47,8 @@
                     <f:else>
                         <tr>
                             <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
-                                <span class="text-danger font-weight-bolder small">Die Abstimmung ist anonym.</span>
+                                <span class="text-danger font-weight-bolder small">Die Abstimmung ist geheim.</span>
+                                <span class="small">Der Autor der Umfrage kann die Ergebnisse alle einsehen.</span>
                             </td>
                         </tr>
                     </f:else>

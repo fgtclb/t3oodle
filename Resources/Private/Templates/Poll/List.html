@@ -25,9 +25,12 @@
 						<tr>
 							<td>
 								<f:link.action action="show" arguments="{poll : poll}" class="font-weight-bold">{poll.title}</f:link.action>
+								<f:if condition="!{poll -> t3oodle:permission(action:'viewingInGeneral')}">
+									(nur für dich sichtbar)
+								</f:if>
 							</td>
 							<td>
-								Status
+								{poll.status}
 							</td>
 							<td>{poll.authorName}</td>
 							<td>

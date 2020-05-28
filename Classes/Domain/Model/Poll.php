@@ -1,6 +1,8 @@
 <?php
 namespace T3\T3oodle\Domain\Model;
 
+use T3\T3oodle\Domain\Enumeration\PollStatus;
+use T3\T3oodle\Domain\Permission\PollPermission;
 use T3\T3oodle\Utility\DateTimeUtility;
 use T3\T3oodle\Utility\SettingsUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -357,9 +359,6 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $this->settingVotingExpiresTime;
     }
 
-
-
-
     public function setSettingVotingExpiresTime(?\DateTime $settingVotingExpiresTime): void
     {
         $this->settingVotingExpiresTime = $settingVotingExpiresTime;
@@ -495,5 +494,21 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             }
         }
         return false;
+    }
+
+    public function getStatus(): PollStatus
+    {
+        if (!$this->isPublished()) {
+            return new PollStatus(PollStatus::DRAFT);
+        }
+        if ($this->isFinished()) {
+            return new PollStatus(PollStatus::FINISHED);
+        }
+
+        $pollPermission = GeneralUtility::makeInstance(PollPermission::class);
+        if ($pollPermission->isVotingAllowed($this)) {
+            return new PollStatus(PollStatus::OPENED);
+        }
+        return new PollStatus(PollStatus::CLOSED);
     }
 }

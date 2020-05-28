@@ -90,7 +90,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function listAction()
     {
-        $polls = $this->pollRepository->findAll();
+        $polls = $this->pollRepository->findPolls();
         $this->view->assign('polls', $polls);
     }
 
@@ -102,6 +102,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function showAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
+        $this->pollPermission->isAllowed($poll, 'viewing', true);
+
         $this->view->assign('poll', $poll);
 
         $vote = $this->voteRepository->findByPollAndParticipantIdent($poll, $this->currentUserIdent);

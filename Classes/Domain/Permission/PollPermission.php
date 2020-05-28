@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 namespace T3\T3oodle\Domain\Permission;
 
+use T3\T3oodle\Domain\Enumeration\Visbility;
 use T3\T3oodle\Domain\Model\Poll;
 use T3\T3oodle\Domain\Model\Vote;
-use T3\T3oodle\Utility\DateTimeUtility;
+use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class PollPermission
@@ -12,6 +13,9 @@ class PollPermission
 
     public function __construct(string $currentUserIdent = null)
     {
+        if (!$currentUserIdent) {
+            $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
+        }
         $this->currentUserIdent = $currentUserIdent;
     }
 
@@ -37,6 +41,16 @@ class PollPermission
             throw new AccessDeniedException('Access denied for ' . $action . ' action.');
         }
         return $result;
+    }
+
+    public function isViewingInGeneralAllowed(Poll $poll): bool
+    {
+        return $poll->getVisibility() !== Visbility::NOT_LISTED && $poll->isPublished();
+    }
+
+    public function isViewingAllowed(Poll $poll): bool
+    {
+        return $this->isViewingInGeneralAllowed($poll) || $this->userIsAuthor($poll);
     }
 
     public function isEditAllowed(Poll $poll): bool

@@ -2,6 +2,14 @@
       xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-    <f:form.hidden property="optionValues.{key}.option" value="{option}" />
-    <f:form.select property="optionValues.{key}.value" options="{option.checkboxStates}" value="{value}" class="t3oodle-voting-checkbox"></f:form.select>
+    <f:if condition="{option.full}">
+        <f:then>
+            Full
+        </f:then>
+        <f:else>
+            <f:form.hidden property="optionValues.{key}.option" value="{option}" />
+            <f:form.select property="optionValues.{key}.value" options="{option.checkboxStates}" value="{value}" class="t3oodle-voting-checkbox"></f:form.select>
+        </f:else>
+    </f:if>
+
 </html>

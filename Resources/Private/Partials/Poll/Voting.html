@@ -58,7 +58,7 @@
                         <tr class="vote yours">
                             <td>
                                 <div class="row">
-                                    <div class="col-11">
+                                    <div class="col-10">
                                         <f:if condition="{settings._currentUser}">
                                             <f:then>
                                                 <f:form.hidden property="participant" />
@@ -67,11 +67,13 @@
                                             </f:then>
                                             <f:else>
                                                 <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" />
+                                                <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantName'}" />
                                                 <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="Deine E-Mail-Adresse" tabindex="2" />
+                                                <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantMail'}" />
                                             </f:else>
                                         </f:if>
                                     </div>
-                                    <div class="col-1">
+                                    <div class="col-2">
                                         <f:if condition="{vote.uid}">
                                             <f:link.action action="deleteVote" arguments="{vote:vote}"
                                                            class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
@@ -84,9 +86,10 @@
                             </td>
                             <f:if condition="{vote.uid}">
                                 <f:then>
-                                    <f:for each="{vote.optionValues}" as="optionValue" iteration="iterator" key="key">
+                                    <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
                                         <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-                                            <f:render partial="Poll/VotingBox" arguments="{option:optionValue.option, key:key, value:optionValue.value}" />
+                                            <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
+                                            <f:render partial="Poll/VotingBox" arguments="{option:option, key:key, value:optionValue.value}" />
                                         </td>
                                     </f:for>
                                 </f:then>
@@ -94,14 +97,7 @@
                                     <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
                                         <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
                                             <f:variable name="newOptionValue">{newOptionValues.{option.uid}}</f:variable>
-                                            <f:if condition="{option.full}">
-                                                <f:then>
-                                                    Full
-                                                </f:then>
-                                                <f:else>
-                                                    <f:render partial="Poll/VotingBox" arguments="{option:option, key:key, value:newOptionValue}" />
-                                                </f:else>
-                                            </f:if>
+                                            <f:render partial="Poll/VotingBox" arguments="{option:option, key:key, value:newOptionValue}" />
                                         </td>
                                     </f:for>
                                 </f:else>
@@ -114,6 +110,7 @@
                 </f:if>
                 </tbody>
             </table>
+            <f:render partial="FormFieldErrors" arguments="{for: 'vote.optionValues'}" />
         </div>
         <input type="hidden" name="t3oodleResourcePath" id="t3oodleResourcePath" value="{f:uri.resource(path:'')}" />
         <f:if condition="{poll.finished}">

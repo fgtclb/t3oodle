@@ -12,7 +12,8 @@
             </f:if>
             {vote.participantName} - {vote.participantMail}
         </td>
-        <f:for each="{vote.optionValues}" as="optionValue" iteration="iterator" key="key">
+        <f:for each="{vote.parent.options}" as="option" iteration="iterator">
+            <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
             <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">
                 <img src="{f:uri.resource(path:'Icons/status-{optionValue.value}.svg')}" width="32">
             </td>

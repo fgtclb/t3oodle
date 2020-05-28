@@ -83,7 +83,8 @@ class PollPermission
      */
     public function isVoteDeletionAllowed(Vote $vote): bool
     {
-        return $this->isVotingAllowed($vote->getParent()) && $this->userIsAuthor($vote->getParent());
+        return $this->isVotingAllowed($vote->getParent()) &&
+               ($this->userIsAuthor($vote->getParent()) || $vote->getParticipantIdent() === $this->currentUserIdent);
     }
 
     public function isSeeVotesDuringVotingAllowed(Poll $poll): bool

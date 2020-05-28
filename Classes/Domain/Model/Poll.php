@@ -2,6 +2,7 @@
 namespace T3\T3oodle\Domain\Model;
 
 use T3\T3oodle\Utility\DateTimeUtility;
+use T3\T3oodle\Utility\SettingsUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***
@@ -221,6 +222,15 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function getAuthorName(): string
     {
+        if ($this->getAuthor()) {
+            $getter = 'name';
+            $settings = SettingsUtility::getTypoScriptSettings();
+            if ($settings && $settings['frontendUserNameField']) {
+                $getter = $settings['frontendUserNameField'] ?? 'name';
+            }
+            $getter = 'get' . ucfirst($getter);
+            return $this->getAuthor()->$getter();
+        }
         return $this->authorName;
     }
 
@@ -231,6 +241,15 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function getAuthorMail(): string
     {
+        if ($this->getAuthor()) {
+            $getter = 'email';
+            $settings = SettingsUtility::getTypoScriptSettings();
+            if ($settings && $settings['frontendUserMailField']) {
+                $getter = $settings['frontendUserMailField'] ?? 'email';
+            }
+            $getter = 'get' . ucfirst($getter);
+            return $this->getAuthor()->$getter();
+        }
         return $this->authorMail;
     }
 

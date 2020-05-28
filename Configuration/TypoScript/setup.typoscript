@@ -1,4 +1,4 @@
-plugin.tx_t3oodle_main {
+plugin.tx_t3oodle {
     view {
         templateRootPaths.0 = EXT:{extension.shortExtensionKey}/Resources/Private/Templates/
         templateRootPaths.1 = {$plugin.tx_t3oodle_main.view.templateRootPath}
@@ -13,6 +13,8 @@ plugin.tx_t3oodle_main {
     }
     settings {
         dateTimeFormat = %d.%m.%Y %H:%M
+        frontendUserNameField = name
+        frontendUserMailField = email
     }
 }
 

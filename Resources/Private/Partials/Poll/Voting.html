@@ -56,8 +56,18 @@
                         <td>
                             <div class="row">
                                 <div class="col-11">
-                                    <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" />
-                                    <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="Deine E-Mail-Adresse" tabindex="2" />
+                                    <f:debug>{_all}</f:debug>
+                                    <f:if condition="{settings._currentUser}">
+                                        <f:then>
+                                            <f:form.hidden property="participant" />
+                                            <div>{vote.participantName}</div>
+                                            <div>{vote.participantMail}</div>
+                                        </f:then>
+                                        <f:else>
+                                            <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" />
+                                            <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="Deine E-Mail-Adresse" tabindex="2" />
+                                        </f:else>
+                                    </f:if>
                                 </div>
                                 <div class="col-1">
                                     <f:if condition="{vote.uid}">

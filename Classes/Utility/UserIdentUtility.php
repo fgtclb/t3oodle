@@ -17,7 +17,7 @@ class UserIdentUtility
         $context = GeneralUtility::makeInstance(Context::class);
         $userAspect = $context->getAspect('frontend.user');
         if ($userAspect->isLoggedIn()) {
-            self::$currentUserIdent = $userAspect->get('id');
+            self::$currentUserIdent = (string) $userAspect->get('id');
         } else {
             self::$currentUserIdent = CookieUtility::get('userIdent') ?? '';
         }

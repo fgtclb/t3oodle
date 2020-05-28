@@ -2,7 +2,7 @@
 namespace T3\T3oodle\ViewHelpers;
 
 use T3\T3oodle\Domain\Permission\PollPermission;
-use T3\T3oodle\Utility\CookieUtility;
+use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -28,7 +28,7 @@ class PermissionViewHelper extends AbstractViewHelper
     private static function init(array $arguments)
     {
         if (!self::$permission) {
-            $currentUserIdent = CookieUtility::get('userIdent');
+            $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
             self::$permission = GeneralUtility::makeInstance($arguments['permissionClassName'], $currentUserIdent);
         }
     }

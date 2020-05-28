@@ -2,6 +2,8 @@
 namespace T3\T3oodle\Domain\Model;
 
 
+use T3\T3oodle\Utility\SettingsUtility;
+
 /***
  *
  * This file is part of the "t3oodle" Extension for TYPO3 CMS.
@@ -65,6 +67,15 @@ class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function getParticipantName(): string
     {
+        if ($this->getParticipant()) {
+            $getter = 'name';
+            $settings = SettingsUtility::getTypoScriptSettings();
+            if ($settings && $settings['frontendUserNameField']) {
+                $getter = $settings['frontendUserNameField'] ?? 'name';
+            }
+            $getter = 'get' . ucfirst($getter);
+            return $this->getParticipant()->$getter();
+        }
         return $this->participantName;
     }
 
@@ -75,6 +86,15 @@ class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function getParticipantMail(): string
     {
+        if ($this->getParticipant()) {
+            $getter = 'email';
+            $settings = SettingsUtility::getTypoScriptSettings();
+            if ($settings && $settings['frontendUserMailField']) {
+                $getter = $settings['frontendUserMailField'] ?? 'email';
+            }
+            $getter = 'get' . ucfirst($getter);
+            return $this->getParticipant()->$getter();
+        }
         return $this->participantMail;
     }
 

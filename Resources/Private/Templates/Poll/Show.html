@@ -9,38 +9,48 @@
 			{poll.title}
 			<f:link.action class="btn btn-link" action="list">Back to list</f:link.action>
 		</h1>
-		<f:if condition="{poll.description}">
-			<p class="description lead mb-3">
-				{poll.description -> f:format.nl2br()}
-			</p>
-		</f:if>
-		<f:if condition="{poll.link}">
-			<p class="link lead my-3">
-				Link: <f:link.external uri="{poll.link}" target="_blank" class="external">{poll.link -> f:format.crop(maxCharacters:48)}</f:link.external>
-			</p>
-		</f:if>
-		<div class="t3oodle-stats">
-			<ul class="list-unstyled">
-				<li>
-					<strong>Author:</strong>
-					<span>{poll.authorName}</span>
-					<f:if condition="{poll.authorMail}">
-						<<f:link.email email="{poll.authorMail}" />>
-					</f:if>
-				</li>
-				<f:if condition="{poll.published}">
-					<li>
-						<strong>Published at:</strong>
-						<span>{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
-					</li>
+		<div class="row mb-4">
+			<div class="col-md-6">
+				<f:if condition="{poll.description}">
+					<p class="description lead mb-4">
+						{poll.description -> f:format.nl2br()}
+					</p>
 				</f:if>
-				<f:if condition="{poll.finished}">
-					<li>
-						<strong>Finished at:</strong>
-						<span>{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
-					</li>
+				<f:if condition="{poll.link}">
+					<p class="link lead my-4">
+						Link: <f:link.external uri="{poll.link}" target="_blank" class="external">{poll.link -> f:format.crop(maxCharacters:48)}</f:link.external>
+					</p>
 				</f:if>
-			</ul>
+			</div>
+			<div class="col-md-6 text-md-right">
+				<div class="t3oodle-stats d-inline-block text-left">
+					<ul class="list-unstyled my-0">
+						<li>
+							<strong>Type:</strong>
+							<span>{poll.type}</span>
+						</li>
+						<li>
+							<strong>Author:</strong>
+							<span>{poll.authorName}</span>
+							<f:if condition="{poll.authorMail}">
+								<<f:link.email email="{poll.authorMail}" />>
+							</f:if>
+						</li>
+						<f:if condition="{poll.published}">
+							<li>
+								<strong>Published at:</strong>
+								<span>{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+							</li>
+						</f:if>
+						<f:if condition="{poll.finished}">
+							<li>
+								<strong>Finished at:</strong>
+								<span>{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+							</li>
+						</f:if>
+					</ul>
+				</div>
+			</div>
 		</div>
 
 		<f:flashMessages />

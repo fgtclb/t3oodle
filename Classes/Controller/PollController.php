@@ -243,16 +243,24 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'slug'
         );
 
-        if ($poll->getVisibility() === Visbility::NOT_LISTED) {
-            $poll->setSlug($slugUtility->sanitize(uniqid('', true)));
-        } else {
-            $poll->setSlug($slugUtility->sanitize($poll->getTitle()));
-        }
-
         $this->pollRepository->add($poll);
 
         $persistenceManager = $this->objectManager->get(PersistenceManager::class);
         $persistenceManager->persistAll();
+
+        // Create slug and update created entity
+        if ($poll->getVisibility() === Visbility::NOT_LISTED) {
+            $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
+        } else {
+            $newSlug = $slugUtility->sanitize($poll->getTitle());
+            if ($this->pollRepository->countBySlug($newSlug) > 0) {
+                $newSlug .= '-' . $poll->getUid();
+            }
+            $poll->setSlug($newSlug);
+        }
+        $this->pollRepository->update($poll);
+        $persistenceManager->persistAll();
+
         $this->addFlashMessage('The poll was created.', '', AbstractMessage::OK);
 
         if ($publishDirectly) {

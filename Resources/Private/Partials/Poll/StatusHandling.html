@@ -19,7 +19,7 @@
                     <f:render section="buttons" arguments="{poll:poll}" />
                     <f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success">Finish voting</f:link.action>
                 </div>
-                <p class="my-3"><strong>You are the author. The poll is published.</strong></p>
+                <p class="my-3"><strong>You are the author. The poll is published<f:if condition="{poll.visibility} == 'not_listed'">, but not listed</f:if>.</strong></p>
             </div>
         </f:if>
     </f:section>

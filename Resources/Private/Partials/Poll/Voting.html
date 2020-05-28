@@ -6,7 +6,7 @@
         <f:form.hidden property="parent" value="{poll}" />
 
         <div class="table-responsive">
-            <table class="table table-striped table-borderless">
+            <table class="table table-borderless">
                 <thead>
                     <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}" />
                 </thead>
@@ -55,7 +55,7 @@
                 <f:if condition="{poll -> t3oodle:permission(action:'voting')}">
                     <f:then>
                         <tr class="vote yours">
-                            <td>
+                            <td class="participant">
                                 <div class="row">
                                     <div class="col-10">
                                         <f:if condition="{settings._currentUser}">
@@ -127,8 +127,8 @@
                     <f:if condition="{poll -> t3oodle:permission(action:'voting')}">
                         <f:then>
                             <f:if condition="{vote.uid}">
-                                <f:then><f:form.submit class="btn btn-primary" value="Update" /></f:then>
-                                <f:else><f:form.submit class="btn btn-primary" value="Vote" /></f:else>
+                                <f:then><f:form.submit class="btn btn-primary" value="Update" tabindex="3" /></f:then>
+                                <f:else><f:form.submit class="btn btn-primary" value="Vote" tabindex="3" /></f:else>
                             </f:if>
                         </f:then>
                         <f:else>

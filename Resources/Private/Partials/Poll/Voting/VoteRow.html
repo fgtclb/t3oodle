@@ -2,8 +2,9 @@
       xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
+<f:if condition="{vote.uid}">
     <tr class="vote">
-        <td>
+        <td class="participant">
             <f:if condition="!{hideRemoveLink} && {vote -> t3oodle:permission(action:'VoteDeletion')}">
                 <f:link.action action="deleteVote" arguments="{vote:vote}"
                                class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
@@ -14,10 +15,10 @@
         </td>
         <f:for each="{vote.parent.options}" as="option" iteration="iterator">
             <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
-            <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">
+            <td class="{f:if(condition:'{vote.parent.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">
                 <img src="{f:uri.resource(path:'Icons/status-{optionValue.value}.svg')}" width="32">
             </td>
         </f:for>
     </tr>
-
+</f:if>
 </html>

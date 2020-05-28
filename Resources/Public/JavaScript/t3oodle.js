@@ -142,7 +142,6 @@ tx_t3oodle.calculateVotes = function() {
         var image = document.createElement('IMG');
         image.src = path + 'Icons/check-' + key + '.svg';
         image.alt = amount;
-        image.tabIndex = 2
         image.classList.add('t3oodle-checkbox-icon');
         summary.appendChild(image);
 

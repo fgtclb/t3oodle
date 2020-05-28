@@ -24,18 +24,26 @@ plugin.tx_t3oodle {
 page.includeJS.t3oodle = EXT:t3oodle/Resources/Public/JavaScript/t3oodle.js
 
 plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
-    textarea.f3-form-error {
+    .tx-t3oodle textarea.f3-form-error {
         background-color:#FFCECC;
         border: 1px var(--danger) solid;
     }
-    input.f3-form-error {
+    .tx-t3oodle input.f3-form-error {
         background-color:#FFCECC;
         border: 1px var(--danger) solid;
     }
-    .typo3-messages .message-error {
+    .tx-t3oodle .typo3-messages {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .tx-t3oodle .typo3-messages .alert-message {
+        margin-bottom: 0;
+    }
+    .tx-t3oodle .typo3-messages .message-error {
         color: var(--danger);
     }
-    .typo3-messages .message-ok {
+    .tx-t3oodle .typo3-messages .message-ok {
         color: var(--success);
     }
 
@@ -45,16 +53,16 @@ plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
         min-width: 10rem;
         margin-right: .5rem;
     }
-    .t3oodle-poll-options {
+    ol.t3oodle-poll-options {
         list-style: none;
         padding-left: 2.4rem;
         counter-reset: t3oodle-poll-options-counter;
     }
-    .t3oodle-poll-options li {
+    ol.t3oodle-poll-options > li {
         counter-increment: t3oodle-poll-options-counter;
         margin-bottom: .5rem;
     }
-    .t3oodle-poll-options li::before {
+    ol.t3oodle-poll-options > li::before {
         content: counter(t3oodle-poll-options-counter) ". ";
         position: absolute;
         width: 2rem;
@@ -64,7 +72,7 @@ plugin.tx_t3oodle._CSS_DEFAULT_STYLE (
         text-align: right;
         padding: .375rem 0;
     }
-    .t3oodle-poll-options li:last-child button.t3oodle-poll-option-remove {
+    ol.t3oodle-poll-options > li:last-child button.t3oodle-poll-option-remove {
         display: none;
     }
 

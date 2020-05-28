@@ -20,6 +20,10 @@ tx_t3oodle.dynamicOptionInputs = function(newOptionFields) {
     if (identityHiddenField) {
       identityHiddenField.remove();
     }
+    var errorMessagesNode = clone.querySelector('ul');
+    if (errorMessagesNode) {
+      errorMessagesNode.remove();
+    }
     var cloneInputs = clone.querySelectorAll('input');
     for (var i = 0; i < cloneInputs.length; i++) {
       var cloneInput = cloneInputs[i];

@@ -1,7 +1,7 @@
 <?php
 namespace T3\T3oodle\Domain\Model;
 
-use T3\T3oodle\Domain\Traits\MarkToDeleteTrait;
+use T3\T3oodle\Traits\MarkToDeleteTrait;
 use T3\T3oodle\Utility\UserIdentUtility;
 
 /***

@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 namespace T3\T3oodle\Domain\Validator;
 
+use T3\T3oodle\Domain\Enumeration\Visbility;
 use T3\T3oodle\Utility\DateTimeUtility;
+use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Error;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
@@ -9,6 +11,10 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 class PollValidator extends AbstractValidator
 {
     protected $acceptsEmptyValues = false;
+
+    protected $supportedOptions = [
+        'action' => ['update', '"create" or "update"', 'string'],
+    ];
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $value
@@ -34,8 +40,12 @@ class PollValidator extends AbstractValidator
         }
 
         // Check unique options
+        $i = 0;
         /** @var \T3\T3oodle\Domain\Model\Option $option */
         foreach ($options as $key => $option) {
+            if ($this->options['action'] === 'create') {
+                $key = $i++;
+            }
             if (in_array($option->getName(), $optionValues)) {
                 $this->result->forProperty('options.' . $key . '.name')->addError(
                     new Error('The option value "%s" is already used in another option.', 55, [$option->getName()])
@@ -56,6 +66,40 @@ class PollValidator extends AbstractValidator
             $isValid = false;
             $this->result->forProperty('title')->addError(
                 new Error('Title is required!', 59)
+            );
+        }
+        if (strlen($value->getTitle()) > 255) {
+            $isValid = false;
+            $this->result->forProperty('title')->addError(
+                new Error('Maximum title length is 255 chars', 59)
+            );
+        }
+
+        if ($value->getDescription() && strlen($value->getDescription()) > 65535) {
+            $isValid = false;
+            $this->result->forProperty('description')->addError(
+                new Error('Maximum description length is 65535 chars', 59)
+            );
+        }
+
+        if ($value->getLink() && filter_var($value->getLink(), FILTER_VALIDATE_URL) === false) {
+            $isValid = false;
+            $this->result->forProperty('link')->addError(
+                new Error('Given link is not a valid URL.', 59)
+            );
+        }
+        if ($value->getLink() && strpos($value->getLink(), 'http') !== 0) {
+            $isValid = false;
+            $this->result->forProperty('link')->addError(
+                new Error('Must start with http:// or https://', 59)
+            );
+        }
+        try {
+            new Visbility($value->getVisibility());
+        } catch (InvalidEnumerationValueException $e) {
+            $isValid = false;
+            $this->result->forProperty('visibility')->addError(
+                new Error('Given value is not allowed!', 59)
             );
         }
 
@@ -95,22 +139,20 @@ class PollValidator extends AbstractValidator
                 $this->result->forProperty('settingVotingExpiresDate')->addError(
                     new Error('The expiration date must be located in the future.', 61)
                 );
+            } elseif ($expiresAt = $value->getSettingVotingExpiresAt()) {
+                if ($expiresAt->getTimestamp() < DateTimeUtility::now()->getTimestamp()) {
+                    $isValid = false;
+                    $this->result->forProperty('settingVotingExpiresTime')->addError(
+                        new Error('Given time is in the past.', 63)
+                    );
+                }
             }
 
             if (!$value->getSettingVotingExpiresTime()) {
                 $isValid = false;
                 $this->result->forProperty('settingVotingExpiresTime')->addError(
-                    new Error('You also need to define a time for voting expiration.', 62)
+                    new Error('Please also set a time.', 62)
                 );
-            }
-
-            if ($expiresAt = $value->getSettingVotingExpiresAt()) {
-                if ($expiresAt->getTimestamp() < DateTimeUtility::now()->getTimestamp()) {
-                    $isValid = false;
-                    $this->result->forProperty('settingVotingExpiresTime')->addError(
-                        new Error('The expiration date (including the time) must be located in the future.', 63)
-                    );
-                }
             }
         }
         return $isValid;

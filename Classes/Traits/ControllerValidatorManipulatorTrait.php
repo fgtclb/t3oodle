@@ -1,0 +1,51 @@
+<?php declare(strict_types=1);
+namespace T3\T3oodle\Traits;
+
+use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
+
+trait ControllerValidatorManipulatorTrait
+{
+    private function disableValidator(string $argument, string $validatorToRemove)
+    {
+        if ($this->arguments->hasArgument($argument)) {
+            $argumentValidator = $this->arguments->getArgument($argument)->getValidator();
+            $this->removeValidatorRecursively($argumentValidator, $validatorToRemove);
+        }
+    }
+
+    private function removeValidatorRecursively(ConjunctionValidator $validator, string $validatorToRemove)
+    {
+        $markToRemove = [];
+        foreach ($validator->getValidators() as $subValidator) {
+            if ($subValidator instanceof ConjunctionValidator) {
+                $this->removeValidatorRecursively($subValidator, $validatorToRemove);
+            }
+            if ($subValidator instanceof $validatorToRemove) {
+                $markToRemove[] = $subValidator;
+            }
+        }
+        foreach ($markToRemove as $validatorMarkedToRemove) {
+            $validator->removeValidator($validatorMarkedToRemove);
+        }
+    }
+
+    private function disableGenericObjectValidator(string $argumentName, string $propertyName): void
+    {
+        if ($this->arguments->hasArgument($argumentName)) {
+            $validator = $this->arguments->getArgument($argumentName)->getValidator();
+            if (method_exists($validator, 'getValidators')) {
+                foreach ($validator->getValidators() as $subValidator) {
+                    if (method_exists($subValidator, 'getValidators')) {
+                        foreach ($subValidator->getValidators() as $subValidatorSub) {
+                            if (method_exists($subValidatorSub, 'getPropertyValidators')) {
+                                $subValidatorSub->getPropertyValidators($propertyName)->removeAll(
+                                    $subValidatorSub->getPropertyValidators($propertyName)
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

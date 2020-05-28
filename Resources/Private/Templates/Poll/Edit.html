@@ -11,8 +11,6 @@
 
     <f:flashMessages />
 
-    <f:render partial="FormErrors" />
-
     <f:form action="update" name="poll" object="{poll}" class="my-4">
       <f:render partial="Poll/FormFields" section="default" arguments="{poll:poll,contentObject:contentObject}" />
       <f:form.submit class="btn btn-primary" value="Save changes" />

@@ -12,16 +12,19 @@
 					<div class="form-group">
 						<label for="t3oodle-poll-title"><f:translate key="poll.title" /><span class="required">*</span></label>
 						<f:form.textfield id="t3oodle-poll-title" class="form-control" property="title" />
+						<f:render partial="FormFieldErrors" arguments="{for: 'poll.title'}" />
 					</div>
 
 					<div class="form-group">
 						<label for="t3oodle-poll-description"><f:translate key="poll.description" /></label>
 						<f:form.textarea id="t3oodle-poll-description" class="form-control" property="description" />
+						<f:render partial="FormFieldErrors" arguments="{for: 'poll.description'}" />
 					</div>
 
 					<div class="form-group">
 						<label for="t3oodle-poll-link"><f:translate key="poll.link" /></label>
 						<f:form.textfield id="t3oodle-poll-link" class="form-control" property="link" placeholder="https://domain.com" />
+						<f:render partial="FormFieldErrors" arguments="{for: 'poll.link'}" />
 					</div>
 				</div>
 				<div class="col-sm-5 col-md-4 col-lg-3">
@@ -39,18 +42,10 @@
 								<f:translate key="poll.visibility.notListed" />
 							</label>
 						</div>
+						<f:render partial="FormFieldErrors" arguments="{for: 'poll.visibility'}" />
 					</div>
 				</div>
 			</div>
-
-			<f:comment>
-<!--			<div class="form-group">-->
-<!--				<label for="t3oodle-poll-slug"><f:translate key="poll.slug" /><span class="required">*</span></label>-->
-<!--				<f:form.textfield id="t3oodle-poll-slug" class="form-control" property="slug" />-->
-<!--			</div>-->
-			</f:comment>
-
-
 		</div>
 	</div>
 
@@ -71,12 +66,14 @@
 							<div class="form-group">
 								<label for="t3oodle-poll-author-name"><f:translate key="poll.author_name" /><span class="required">*</span></label>
 								<f:form.textfield id="t3oodle-poll-author-name" class="form-control" property="authorName" />
+								<f:render partial="FormFieldErrors" arguments="{for: 'poll.authorName'}" />
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label for="t3oodle-poll-author-mail"><f:translate key="poll.author_mail" /><span class="required">*</span></label>
 								<f:form.textfield id="t3oodle-poll-author-mail" class="form-control" property="authorMail" />
+								<f:render partial="FormFieldErrors" arguments="{for: 'poll.authorMail'}" />
 							</div>
 						</div>
 					</div>
@@ -102,6 +99,8 @@
 				</label>
 			</div>
 
+			<f:render partial="FormFieldErrors" arguments="{for: 'poll.options'}" />
+
 		</div>
 		<div class="card-body">
 			<f:if condition="{poll.votes -> f:count()} > 0">
@@ -121,6 +120,7 @@
 								<f:form.textfield class="t3oodle-new-poll-option form-control" property="options.{key}.name" value="{option.name}" placeholder="Option hinzufügen"></f:form.textfield>
 								<f:form.hidden property="options.{key}.markToDelete" value="{option.markToDelete}"></f:form.hidden>
 								<f:render section="removeButton" />
+								<f:render partial="FormFieldErrors" arguments="{for: 'poll.options.{key}.name'}" />
 							</li>
 							<f:variable name="lastIndex">{iterator.cycle}</f:variable>
 						</f:for>
@@ -132,6 +132,8 @@
 								<f:for each="{newOptions}" as="option" key="key" iteration="iterator">
 									<li>
 										<f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][{iterator.index}][name]" value="{option.name}"></f:form.textfield>
+										<f:render section="removeButton" />
+										<f:render partial="FormFieldErrors" arguments="{for: 'poll.options.{iterator.index}.name'}" />
 									</li>
 									<f:variable name="lastIndex">{iterator.cycle}</f:variable>
 								</f:for>
@@ -199,7 +201,7 @@
 								<f:then><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{minn:'0'}" /></f:then>
 								<f:else><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" readonly="readonly" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{minn:'0'}" /></f:else>
 							</f:if>
-
+							<f:render partial="FormFieldErrors" arguments="{for: 'poll.enableSettingMaxVotesPerOption'}" />
 						</label>
 					</div>
 
@@ -219,6 +221,8 @@
 									<f:form.textfield type="time" id="t3oodle-poll-settingVotingExpiresTime" class="form-control input-time mt-2" property="settingVotingExpiresTime" value="{poll.settingVotingExpiresTime -> f:format.date(format:'H:i')}" data="{bind-disable:'#t3oodle-poll-enableSettingVotingExpiresAt'}" />
 								</f:else>
 							</f:if>
+							<f:render partial="FormFieldErrors" arguments="{for: 'poll.settingVotingExpiresDate'}" />
+							<f:render partial="FormFieldErrors" arguments="{for: 'poll.settingVotingExpiresTime'}" />
 						</label>
 					</div>
 				</div>

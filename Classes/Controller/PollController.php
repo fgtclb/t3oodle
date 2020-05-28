@@ -1,6 +1,8 @@
 <?php
 namespace T3\T3oodle\Controller;
 
+use T3\T3oodle\Domain\Validator\PollValidator;
+use T3\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use T3\T3oodle\Utility\CookieUtility;
 use T3\T3oodle\Utility\DateTimeUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
@@ -24,6 +26,8 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
  */
 class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
+    use ControllerValidatorManipulatorTrait;
+
     /**
      * @var mixed
      */
@@ -207,6 +211,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->view->assign('publishDirectly', $publishDirectly);
     }
 
+    public function initializeCreateAction()
+    {
+        $this->disableValidator('poll', PollValidator::class);
+        $this->arguments->getArgument('poll')->getValidator()->addValidator(new PollValidator(['action' => 'create']));
+    }
+
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param bool $publishDirectly
@@ -226,10 +236,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
         $this->pollRepository->add($poll);
 
+        $persistenceManager = $this->objectManager->get(PersistenceManager::class);
+        $persistenceManager->persistAll();
         $this->addFlashMessage('The poll was created.', '', AbstractMessage::OK);
+
         if ($publishDirectly) {
-            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-            $persistenceManager->persistAll();
             $this->forward('publish', null, null, ['poll' => $poll]);
         }
         $this->redirect('show', null, null, ['poll' => $poll->getUid()]);
@@ -377,25 +388,5 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             );
         }
 
-    }
-
-    private function disableGenericObjectValidator(string $argumentName, string $propertyName): void
-    {
-        if ($this->arguments->hasArgument($argumentName)) {
-            $validator = $this->arguments->getArgument($argumentName)->getValidator();
-            if (method_exists($validator, 'getValidators')) {
-                foreach ($validator->getValidators() as $subValidator) {
-                    if (method_exists($subValidator, 'getValidators')) {
-                        foreach ($subValidator->getValidators() as $subValidatorSub) {
-                            if (method_exists($subValidatorSub, 'getPropertyValidators')) {
-                                $subValidatorSub->getPropertyValidators($propertyName)->removeAll(
-                                    $subValidatorSub->getPropertyValidators($propertyName)
-                                );
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }

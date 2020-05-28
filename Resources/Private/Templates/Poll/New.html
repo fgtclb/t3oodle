@@ -17,7 +17,6 @@
 
     <f:flashMessages />
 
-    <f:render partial="FormErrors" />
     <f:form action="create"  name="poll" object="{poll}">
       <f:render partial="Poll/FormFields" section="default" arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject}" />
       <div class="card mb-3">

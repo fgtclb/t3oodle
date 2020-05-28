@@ -101,7 +101,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var bool
      */
-    protected $settingAnonymousVoting = false;
+    protected $settingSecretVoting = false;
 
     /**
      * @var \DateTime|null
@@ -334,14 +334,14 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->settingOneOptionOnly = $settingOneOptionOnly;
     }
 
-    public function isSettingAnonymousVoting(): bool
+    public function isSettingSecretVoting(): bool
     {
-        return $this->settingAnonymousVoting;
+        return $this->settingSecretVoting;
     }
 
-    public function setSettingAnonymousVoting(bool $settingAnonymousVoting): void
+    public function setSettingSecretVoting(bool $settingSecretVoting): void
     {
-        $this->settingAnonymousVoting = $settingAnonymousVoting;
+        $this->settingSecretVoting = $settingSecretVoting;
     }
 
     public function getSettingVotingExpiresDate(): ?\DateTime

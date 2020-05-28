@@ -40,7 +40,7 @@ return [
             'showitem' => 'author,--linebreak--,author_name,author_mail,author_ident'
         ],
         'settings' => [
-            'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_max_votes_per_option, --linebreak--, setting_one_option_only, --linebreak--, setting_anonymous_voting, --linebreak--, setting_voting_expires_date, setting_voting_expires_time'
+            'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_max_votes_per_option, --linebreak--, setting_one_option_only, --linebreak--, setting_secret_voting, --linebreak--, setting_voting_expires_date, setting_voting_expires_time'
         ],
     ],
     'columns' => [
@@ -291,9 +291,9 @@ return [
                 'default' => 0
             ],
         ],
-        'setting_anonymous_voting' => [
+        'setting_secret_voting' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_anonymous_voting',
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_secret_voting',
             'config' => [
                 'type' => 'check',
                 'default' => 0

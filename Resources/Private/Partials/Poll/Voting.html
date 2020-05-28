@@ -30,7 +30,7 @@
                 </f:if>
                 <f:if condition="{poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">
                     <f:then>
-                        <f:if condition="{poll.settingAnonymousVoting}">
+                        <f:if condition="{poll.settingSecretVoting}">
                             <tr>
                                 <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
                                     <span class="text-danger font-weight-bolder small">Die Abstimmung ist geheim.</span>

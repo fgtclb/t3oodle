@@ -63,10 +63,10 @@
 			<trans-unit id="poll.settingOneOptionOnly.description">
 				<source>Each participant can only select one option. But one option can get selected by multiple participants.</source>
 			</trans-unit>
-			<trans-unit id="poll.settingAnonymousVoting.title">
-				<source>Hidden Voting</source>
+			<trans-unit id="poll.settingSecretVoting.title">
+				<source>Secret Voting</source>
 			</trans-unit>
-			<trans-unit id="poll.settingAnonymousVoting.description">
+			<trans-unit id="poll.settingSecretVoting.description">
 				<source>Participants and selected options are not visible. Only the author (you) see the results.</source>
 			</trans-unit>
 			<trans-unit id="poll.settingMaxVotesPerOption.title">

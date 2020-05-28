@@ -88,7 +88,7 @@ class PollPermission
 
     public function isSeeVotesDuringVotingAllowed(Poll $poll): bool
     {
-        return !$poll->isSettingAnonymousVoting() || $this->userIsAuthor($poll);
+        return !$poll->isSettingSecretVoting() || $this->userIsAuthor($poll);
     }
 
     private function userIsAuthor(Poll $poll): bool

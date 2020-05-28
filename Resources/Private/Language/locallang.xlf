@@ -81,6 +81,12 @@
 			<trans-unit id="poll.settingVotingExpiresAt.description">
 				<source>Allows votings only until the given date and time.</source>
 			</trans-unit>
+			<trans-unit id="poll.publishDirectly.title">
+				<source>Publish</source>
+			</trans-unit>
+			<trans-unit id="poll.publishDirectly.description">
+				<source>When this checkbox is enabled, the poll is published instantly.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

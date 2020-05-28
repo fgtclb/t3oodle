@@ -20,6 +20,17 @@
     <f:render partial="FormErrors" />
     <f:form action="create"  name="poll" object="{poll}">
       <f:render partial="Poll/FormFields" section="default" arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject}" />
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="form-check">
+            <f:form.checkbox name="publishDirectly" value="1" checked="{publishDirectly}" class="form-check-input mr-3 larger" id="t3oodle-poll-publish-directly" />
+            <label class="form-check-label" for="t3oodle-poll-publish-directly">
+              <strong><f:translate key="poll.publishDirectly.title" /></strong><br>
+              <f:translate key="poll.publishDirectly.description" />
+            </label>
+          </div>
+        </div>
+      </div>
       <f:form.submit class="btn btn-primary" value="Create new" />
 
       <!-- TODO: Publish button -->

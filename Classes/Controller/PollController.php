@@ -165,20 +165,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
-     * @return void
-     * @ignorevalidation $poll
-     */
-    public function publishAction(\T3\T3oodle\Domain\Model\Poll $poll)
-    {
-        $this->pollPermission->isAllowed($poll, 'publish', true);
-        $poll->setPublishDate(DateTimeUtility::now());
-        $poll->setIsPublished(true);
-        $this->pollRepository->update($poll);
-        $this->redirect('show', null, null, ['poll' => $poll]);
-    }
-
-    /**
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param int $option uid to finish
      * @return void
      * @ignorevalidation $poll
@@ -201,10 +187,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll|null $poll
+     * @param bool $publishDirectly
      * @return void
      * @ignorevalidation $poll
      */
-    public function newAction(\T3\T3oodle\Domain\Model\Poll $poll = null)
+    public function newAction(\T3\T3oodle\Domain\Model\Poll $poll = null, bool $publishDirectly = true)
     {
         if (!$poll) {
             $poll = GeneralUtility::makeInstance(\T3\T3oodle\Domain\Model\Poll::class);
@@ -217,13 +204,15 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $newOptions = $this->request->getOriginalRequest()->getArgument('poll')['options'];
             $this->view->assign('newOptions', $newOptions);
         }
+        $this->view->assign('publishDirectly', $publishDirectly);
     }
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @param bool $publishDirectly
      * @return void
      */
-    public function createAction(\T3\T3oodle\Domain\Model\Poll $poll)
+    public function createAction(\T3\T3oodle\Domain\Model\Poll $poll, bool $publishDirectly)
     {
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
@@ -237,8 +226,28 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
         $this->pollRepository->add($poll);
 
-        $this->addFlashMessage('The object was created.', '', AbstractMessage::OK);
-        $this->redirect('list');
+        $this->addFlashMessage('The poll was created.', '', AbstractMessage::OK);
+        if ($publishDirectly) {
+            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
+            $persistenceManager->persistAll();
+            $this->forward('publish', null, null, ['poll' => $poll]);
+        }
+        $this->redirect('show', null, null, ['poll' => $poll->getUid()]);
+    }
+
+    /**
+     * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @return void
+     * @ignorevalidation $poll
+     */
+    public function publishAction(\T3\T3oodle\Domain\Model\Poll $poll)
+    {
+        $this->pollPermission->isAllowed($poll, 'publish', true);
+        $poll->setPublishDate(DateTimeUtility::now());
+        $poll->setIsPublished(true);
+        $this->pollRepository->update($poll);
+        $this->addFlashMessage('The poll has been published.', '', AbstractMessage::OK);
+        $this->redirect('show', null, null, ['poll' => $poll]);
     }
 
     /**
@@ -328,7 +337,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
 
         // Remove empty option entries and trim non-empty ones
-        if ($this->request->hasArgument('poll')) {
+        if ($this->request->hasArgument('poll') && is_array($this->request->getArgument('poll'))) {
             $poll = $this->request->getArgument('poll');
             $pollOptions = $poll['options'];
             foreach ($pollOptions as $index => $pollOption) {

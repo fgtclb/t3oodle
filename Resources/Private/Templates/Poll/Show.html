@@ -5,6 +5,8 @@
 	<f:layout name="Default" />
 
 	<f:section name="content">
+		<f:flashMessages />
+
 		<h1 class="title">
 			{poll.title}
 			<f:link.action class="btn btn-link" action="list">Back to list</f:link.action>
@@ -48,8 +50,6 @@
 				</ul>
 			</div>
 		</div>
-
-		<f:flashMessages />
 
 		<f:render partial="Poll/Voting" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues}" />
 

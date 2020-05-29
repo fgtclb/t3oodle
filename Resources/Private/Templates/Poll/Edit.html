@@ -4,12 +4,12 @@
   <f:layout name="Default" />
 
   <f:section name="content">
+    <f:flashMessages />
+
     <h1>
       Edit "{poll.title}"
       <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link">Zurück</f:link.action>
     </h1>
-
-    <f:flashMessages />
 
     <f:form action="update" name="poll" object="{poll}" class="my-4">
       <f:render partial="Poll/FormFields" section="default" arguments="{poll:poll,contentObject:contentObject}" />

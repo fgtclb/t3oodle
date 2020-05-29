@@ -1,21 +1,9 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
   <f:layout name="Default" />
-
-  This template displays a NEW form for the current domain object.
-
-  If you modify this template, do not forget to change the overwrite settings
-  in /Configuration/ExtensionBuilder/settings.yaml:
-    Resources:
-      Private:
-        Templates:
-          New.html: keep
-
-  Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
   <f:section name="content">
-    <h1>New Poll</h1>
-
     <f:flashMessages />
+
+    <h1>New Poll</h1>
 
     <f:form action="create"  name="poll" object="{poll}">
       <f:render partial="Poll/FormFields" section="default" arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject}" />

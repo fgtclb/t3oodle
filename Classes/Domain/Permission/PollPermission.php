@@ -69,7 +69,7 @@ class PollPermission
 
     public function isShowAllowed(Poll $poll): bool
     {
-        return true;
+        return $poll->isPublished() || $this->userIsAuthor($poll);
     }
 
     public function isEditAllowed(Poll $poll): bool

@@ -65,14 +65,14 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label for="t3oodle-poll-author-name"><f:translate key="poll.author_name" /><span class="required">*</span></label>
-								<f:form.textfield id="t3oodle-poll-author-name" class="form-control" property="authorName" />
+								<f:form.textfield id="t3oodle-poll-author-name" class="form-control" property="authorName" data="{remember:'username'}" />
 								<f:render partial="FormFieldErrors" arguments="{for: 'poll.authorName'}" />
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label for="t3oodle-poll-author-mail"><f:translate key="poll.author_mail" /><span class="required">*</span></label>
-								<f:form.textfield id="t3oodle-poll-author-mail" class="form-control" property="authorMail" />
+								<f:form.textfield id="t3oodle-poll-author-mail" class="form-control" property="authorMail" data="{remember:'mail'}" />
 								<f:render partial="FormFieldErrors" arguments="{for: 'poll.authorMail'}" />
 							</div>
 						</div>

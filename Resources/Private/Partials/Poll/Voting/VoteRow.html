@@ -6,10 +6,12 @@
     <tr class="vote">
         <td class="participant">
             <f:if condition="!{hideRemoveLink} && {vote -> t3oodle:permission(action:'VoteDeletion')}">
-                <f:link.action action="deleteVote" arguments="{vote:vote}"
-                               class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
-                               title="Remove this vote" data="{confirm:'Are you sure you want to remove this vote?'}"
-                >x</f:link.action>
+                <f:if condition="{settings.allowNewVotes}">
+                    <f:link.action action="deleteVote" arguments="{vote:vote}"
+                                   class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
+                                   title="Remove this vote" data="{confirm:'Are you sure you want to remove this vote?'}"
+                    >x</f:link.action>
+                </f:if>
             </f:if>
             {vote.participantName} - {vote.participantMail}
         </td>

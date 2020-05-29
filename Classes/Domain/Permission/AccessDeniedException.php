@@ -2,7 +2,6 @@
 namespace T3\T3oodle\Domain\Permission;
 
 
-class AccessDeniedException extends \Exception
+class AccessDeniedException extends \T3\T3oodle\Exception\AccessDeniedException
 {
-
 }

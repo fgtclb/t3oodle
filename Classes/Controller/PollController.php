@@ -3,6 +3,7 @@ namespace T3\T3oodle\Controller;
 
 use T3\T3oodle\Domain\Enumeration\Visbility;
 use T3\T3oodle\Domain\Validator\PollValidator;
+use T3\T3oodle\Exception\AccessDeniedException;
 use T3\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use T3\T3oodle\Utility\CookieUtility;
 use T3\T3oodle\Utility\DateTimeUtility;
@@ -137,6 +138,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function voteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
+        if (!$this->settings['allowNewVotes']) {
+            throw new AccessDeniedException('New votes on polls have been disabled.');
+        }
         $this->pollPermission->isAllowed($vote->getParent(), 'voting', true);
 
         if (!$this->currentUser) {
@@ -162,6 +166,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function deleteVoteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
+        if (!$this->settings['allowNewVotes']) {
+            throw new AccessDeniedException(
+                'Because new votes has been disabled, deleting or editing votes is also disallowed.'
+            );
+        }
         $this->pollPermission->isAllowed($vote, 'voteDeletion', true);
         $name = $vote->getParticipantName();
         $this->voteRepository->remove($vote);
@@ -199,6 +208,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function newAction(\T3\T3oodle\Domain\Model\Poll $poll = null, bool $publishDirectly = true)
     {
+        if (!$this->settings['allowNewPolls']) {
+            throw new AccessDeniedException('Creation of new polls has been disabled.');
+        }
         if (!$poll) {
             $poll = GeneralUtility::makeInstance(\T3\T3oodle\Domain\Model\Poll::class);
             if ($this->currentUser) {
@@ -226,6 +238,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function createAction(\T3\T3oodle\Domain\Model\Poll $poll, bool $publishDirectly)
     {
+        if (!$this->settings['allowNewPolls']) {
+            throw new AccessDeniedException('Creation of new polls has been disabled.');
+        }
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
                 $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));

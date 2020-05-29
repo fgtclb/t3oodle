@@ -18,6 +18,9 @@ plugin.tx_t3oodle {
         # TODO: implement
         adminUserUids =
         adminUserGroupUids =
+
+        allowNewPolls = 1
+        allowNewVotes = 1
     }
 }
 

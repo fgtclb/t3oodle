@@ -52,7 +52,7 @@
                         </tr>
                     </f:else>
                 </f:if>
-                <f:if condition="{poll -> t3oodle:permission(action:'voting')}">
+                <f:if condition="{settings.allowNewVotes} && {poll -> t3oodle:permission(action:'voting')}">
                     <f:then>
                         <tr class="vote yours">
                             <td class="participant">
@@ -124,7 +124,7 @@
             <f:else>
                 <div class="text-right">
                     <span id="t3oodle-votes-summary"></span>
-                    <f:if condition="{poll -> t3oodle:permission(action:'voting')}">
+                    <f:if condition="{settings.allowNewVotes} && {poll -> t3oodle:permission(action:'voting')}">
                         <f:then>
                             <f:if condition="{vote.uid}">
                                 <f:then><f:form.submit class="btn btn-primary" value="Update" tabindex="3" /></f:then>

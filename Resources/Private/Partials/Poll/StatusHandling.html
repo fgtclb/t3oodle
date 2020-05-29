@@ -9,7 +9,10 @@
                     <f:render section="buttons" arguments="{poll:poll}" />
                     <f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success">Publish now</f:link.action>
                 </div>
-                <p class="my-3">You are the author. This poll is not published yet!</p>
+                <p class="my-3">
+                    You are the author. This poll is not published yet!
+                    <f:render section="noticeVotingDisabled" />
+                </p>
             </div>
         </f:if>
 
@@ -19,7 +22,11 @@
                     <f:render section="buttons" arguments="{poll:poll}" />
                     <f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success">Finish voting</f:link.action>
                 </div>
-                <p class="my-3"><strong>You are the author. The poll is published<f:if condition="{poll.visibility} == 'not_listed'">, but not listed</f:if>.</strong></p>
+                <p class="my-3">
+                    <strong>You are the author. The poll is published<f:if condition="{poll.visibility} == 'not_listed'">, but not listed</f:if>.</strong>
+                    <f:render section="noticeVotingDisabled" />
+                </p>
+
             </div>
         </f:if>
     </f:section>
@@ -30,6 +37,12 @@
         </f:if>
         <f:if condition="{poll -> t3oodle:permission(action:'delete')}">
             <f:link.action class="btn btn-danger mr-1" action="delete" arguments="{poll:poll}" data="{confirm:'Do you really want to delete this poll?'}">Delete</f:link.action>
+        </f:if>
+    </f:section>
+
+    <f:section name="noticeVotingDisabled">
+        <f:if condition="!{settings.allowNewVotes}">
+            <br><strong class="text-info">Note: Adding new votes has been disabled by administrator.</strong>
         </f:if>
     </f:section>
 </html>

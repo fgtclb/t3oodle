@@ -53,6 +53,12 @@
 				</tbody>
 			</table>
 		</div>
-		<f:link.action action="new" class="btn btn-primary">Create new poll</f:link.action>
+		<f:render section="newButton" />
+	</f:section>
+
+	<f:section name="newButton">
+		<f:if condition="{settings.allowNewPolls}">
+			<f:link.action action="new" class="btn btn-primary">Create new poll</f:link.action>
+		</f:if>
 	</f:section>
 </html>

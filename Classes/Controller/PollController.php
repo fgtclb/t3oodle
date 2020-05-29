@@ -341,7 +341,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($voteCount > 0 && $optionsModified) {
             $this->addFlashMessage('Because poll options or option related settings has been touched, ' . $voteCount . ' existing votes has been removed.', '', AbstractMessage::WARNING);
         }
-        $this->redirect('edit', null, null, ['poll' => $poll]);
+        $this->redirect('show', null, null, ['poll' => $poll]);
     }
 
     /**

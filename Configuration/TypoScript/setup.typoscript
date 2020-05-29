@@ -15,7 +15,7 @@ plugin.tx_t3oodle {
         dateTimeFormat = %d.%m.%Y %H:%M
         frontendUserNameField = name
         frontendUserMailField = email
-        # TODO: implement
+
         adminUserUids =
         adminUserGroupUids =
 

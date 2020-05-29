@@ -3,6 +3,11 @@
       data-namespace-typo3-fluid="true">
 
     <f:section name="default">
+        <f:variable name="whoYouAre">the author</f:variable>
+        <f:if condition="{poll -> t3oodle:permission(action:'administration')}">
+            <f:variable name="whoYouAre">the author or an admin</f:variable>
+        </f:if>
+
         <f:if condition="{poll -> t3oodle:permission(action:'publish')}">
             <div class="alert alert-secondary mb-4">
                 <div class="buttons float-right my-2">
@@ -10,7 +15,7 @@
                     <f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success">Publish now</f:link.action>
                 </div>
                 <p class="my-3">
-                    You are the author. This poll is not published yet!
+                    You are {whoYouAre}. This poll is not published yet!
                     <f:render section="noticeVotingDisabled" />
                 </p>
             </div>
@@ -23,7 +28,7 @@
                     <f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success">Finish voting</f:link.action>
                 </div>
                 <p class="my-3">
-                    <strong>You are the author. The poll is published<f:if condition="{poll.visibility} == 'not_listed'">, but not listed</f:if>.</strong>
+                    <strong>You are {whoYouAre}. The poll is published<f:if condition="{poll.visibility} == 'not_listed'">, but not listed</f:if>.</strong>
                     <f:render section="noticeVotingDisabled" />
                 </p>
 

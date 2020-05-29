@@ -4,7 +4,9 @@ namespace T3\T3oodle\Domain\Permission;
 use T3\T3oodle\Domain\Enumeration\Visbility;
 use T3\T3oodle\Domain\Model\Poll;
 use T3\T3oodle\Domain\Model\Vote;
+use T3\T3oodle\Utility\SettingsUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class PollPermission
@@ -109,6 +111,11 @@ class PollPermission
         return !$poll->isSettingSecretVoting() || $this->userIsAuthor($poll);
     }
 
+    public function isAdministrationAllowed(Poll $poll = null): bool
+    {
+        return $this->userIsAdmin();
+    }
+
     private function userIsAuthor(Poll $poll): bool
     {
         return $poll->getAuthorIdent() === $this->currentUserIdent || $this->userIsAdmin();
@@ -116,6 +123,25 @@ class PollPermission
 
     private function userIsAdmin(): bool
     {
-        return false; // TODO: implement me, this should be configurable
+        $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
+        if (is_numeric($currentUserIdent)) {
+            $frontendUserUid = (int) $currentUserIdent;
+            $settings = SettingsUtility::getTypoScriptSettings();
+            if (!empty($settings['adminUserUids'])) {
+                $adminUserUids = GeneralUtility::intExplode(',', $settings['adminUserUids'], true);
+                if (in_array($frontendUserUid, $adminUserUids, true)) {
+                    return true;
+                }
+            }
+            if (!empty($settings['adminUserGroupUids'])) {
+                $adminUserGroupUids = GeneralUtility::intExplode(',', $settings['adminUserGroupUids'], true);
+                $userAspect = UserIdentUtility::getCurrentUserAspect();
+                $setAdminGroups = array_intersect($userAspect->getGroupIds(), $adminUserGroupUids);
+                if (count($setAdminGroups) > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

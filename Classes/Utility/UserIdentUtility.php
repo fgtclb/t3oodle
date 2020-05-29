@@ -2,6 +2,7 @@
 namespace T3\T3oodle\Utility;
 
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\UserAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UserIdentUtility
@@ -14,8 +15,7 @@ class UserIdentUtility
             return self::$currentUserIdent;
         }
 
-        $context = GeneralUtility::makeInstance(Context::class);
-        $userAspect = $context->getAspect('frontend.user');
+        $userAspect = self::getCurrentUserAspect();
         if ($userAspect->isLoggedIn()) {
             self::$currentUserIdent = (string) $userAspect->get('id');
         } else {
@@ -27,5 +27,11 @@ class UserIdentUtility
     public static function generateNewUserIdent(): string
     {
         return base64_encode(uniqid('', true) . uniqid('', true));
+    }
+
+    public static function getCurrentUserAspect(): UserAspect
+    {
+        $context = GeneralUtility::makeInstance(Context::class);
+        return $context->getAspect('frontend.user');
     }
 }

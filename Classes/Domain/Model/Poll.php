@@ -51,7 +51,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var string
      */
-    protected $visibility = \T3\T3oodle\Domain\Enumeration\Visbility::LISTED;
+    protected $visibility = \T3\T3oodle\Domain\Enumeration\Visibility::LISTED;
 
     /**
      * author
@@ -231,7 +231,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 $getter = $settings['frontendUserNameField'] ?? 'name';
             }
             $getter = 'get' . ucfirst($getter);
-            return $this->getAuthor()->$getter();
+            return $this->getAuthor()->$getter() ?: '<no name>';
         }
         return $this->authorName;
     }
@@ -361,6 +361,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function setSettingVotingExpiresTime(?\DateTime $settingVotingExpiresTime): void
     {
+        $settingVotingExpiresTime->modify('1970-01-01');
         $this->settingVotingExpiresTime = $settingVotingExpiresTime;
     }
 

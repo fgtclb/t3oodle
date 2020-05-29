@@ -19,8 +19,23 @@ plugin.tx_t3oodle {
         adminUserUids =
         adminUserGroupUids =
 
+        # Allow creation of new polls
         allowNewPolls = 1
+        # Allow creation of new votes
         allowNewVotes = 1
+
+        list {
+            # Display draft polls (only for author and admins)
+            draft = 1
+            # Display polls open for voting
+            opened = 1
+            # Display polls closed for voting (not implemeted yet)
+            closed = 1
+            # Display polls which has been finished
+            finished = 1
+            # Enable display of polls, which only you see (e.g. not listed or draft)
+            personal = 1
+        }
     }
 }
 

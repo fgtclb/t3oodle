@@ -8,6 +8,14 @@ final class DateTimeUtility
         return new \DateTime();
     }
 
+    /**
+     * @return \DateTime with current time, but set 1970-01-01 as day
+     */
+    public static function time(): \DateTime
+    {
+        return self::now()->modify('1970-01-01');
+    }
+
     public static function today(): \DateTime
     {
         return self::now()->modify('midnight');

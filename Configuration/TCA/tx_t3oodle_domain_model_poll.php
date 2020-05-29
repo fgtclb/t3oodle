@@ -1,7 +1,7 @@
 <?php
 
 use T3\T3oodle\Domain\Enumeration\PollType;
-use T3\T3oodle\Domain\Enumeration\Visbility;
+use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Utility\TcaGeneratorUtility;
 
 $ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
@@ -181,8 +181,8 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => TcaGeneratorUtility::getItemListForEnumeration(Visbility::class),
-                'default' => Visbility::LISTED,
+                'items' => TcaGeneratorUtility::getItemListForEnumeration(Visibility::class),
+                'default' => Visibility::LISTED,
                 'size' => 1,
                 'maxitems' => 1,
                 'eval' => 'required'

@@ -1,7 +1,7 @@
 <?php
 namespace T3\T3oodle\Controller;
 
-use T3\T3oodle\Domain\Enumeration\Visbility;
+use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Domain\Validator\PollValidator;
 use T3\T3oodle\Exception\AccessDeniedException;
 use T3\T3oodle\Traits\ControllerValidatorManipulatorTrait;
@@ -97,7 +97,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function listAction()
     {
-        $polls = $this->pollRepository->findPolls();
+        $polls = $this->pollRepository->findPolls(
+            (bool) $this->settings['list']['draft'],
+            (bool) $this->settings['list']['opened'],
+            (bool) $this->settings['list']['closed'],
+            (bool) $this->settings['list']['finished'],
+            (bool) $this->settings['list']['personal']
+        );
         $this->view->assign('polls', $polls);
     }
 
@@ -264,7 +270,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $persistenceManager->persistAll();
 
         // Create slug and update created entity
-        if ($poll->getVisibility() === Visbility::NOT_LISTED) {
+        if ($poll->getVisibility() === Visibility::NOT_LISTED) {
             $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
         } else {
             $newSlug = $slugUtility->sanitize($poll->getTitle());

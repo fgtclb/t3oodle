@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace T3\T3oodle\Domain\Validator;
 
-use T3\T3oodle\Domain\Enumeration\Visbility;
+use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Utility\DateTimeUtility;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -95,7 +95,7 @@ class PollValidator extends AbstractValidator
             );
         }
         try {
-            new Visbility($value->getVisibility());
+            new Visibility($value->getVisibility());
         } catch (InvalidEnumerationValueException $e) {
             $isValid = false;
             $this->result->forProperty('visibility')->addError(

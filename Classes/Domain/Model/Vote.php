@@ -74,7 +74,7 @@ class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 $getter = $settings['frontendUserNameField'] ?? 'name';
             }
             $getter = 'get' . ucfirst($getter);
-            return $this->getParticipant()->$getter();
+            return $this->getParticipant()->$getter() ?: '<no name>';
         }
         return $this->participantName;
     }

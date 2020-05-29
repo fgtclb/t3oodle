@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace T3\T3oodle\Domain\Permission;
 
-use T3\T3oodle\Domain\Enumeration\Visbility;
+use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Domain\Model\Poll;
 use T3\T3oodle\Domain\Model\Vote;
 use T3\T3oodle\Utility\SettingsUtility;
@@ -53,7 +53,7 @@ class PollPermission
      */
     public function isViewingInGeneralAllowed(Poll $poll): bool
     {
-        return $poll->getVisibility() !== Visbility::NOT_LISTED && $poll->isPublished();
+        return $poll->getVisibility() !== Visibility::NOT_LISTED && $poll->isPublished();
     }
 
     /**
@@ -94,6 +94,7 @@ class PollPermission
 
     public function isVotingAllowed(Poll $poll): bool
     {
+        // TODO: check if enough options are available (based on settingMaxVotesPerOption)
         return $poll->isPublished() && !$poll->isFinished() && !$poll->isVotingExpired();
     }
 
@@ -121,7 +122,11 @@ class PollPermission
         return $poll->getAuthorIdent() === $this->currentUserIdent || $this->userIsAdmin();
     }
 
-    private function userIsAdmin(): bool
+    /**
+     * @return bool
+     * @TODO Move this to own class. This is not poll related
+     */
+    public function userIsAdmin(): bool
     {
         $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
         if (is_numeric($currentUserIdent)) {

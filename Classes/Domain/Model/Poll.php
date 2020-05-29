@@ -361,7 +361,9 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function setSettingVotingExpiresTime(?\DateTime $settingVotingExpiresTime): void
     {
-        $settingVotingExpiresTime->modify('1970-01-01');
+        if ($settingVotingExpiresTime) {
+            $settingVotingExpiresTime->modify('1970-01-01');
+        }
         $this->settingVotingExpiresTime = $settingVotingExpiresTime;
     }
 

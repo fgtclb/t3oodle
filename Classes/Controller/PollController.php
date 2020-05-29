@@ -111,7 +111,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param \T3\T3oodle\Domain\Model\Vote|null $vote
      * @return void
-     * @ignorevalidation $poll
+     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function showAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
@@ -168,7 +168,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \T3\T3oodle\Domain\Model\Vote $vote
      * @return void
-     * @ignorevalidation $vote
+     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("vote")
      */
     public function deleteVoteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
@@ -188,7 +188,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param int $option uid to finish
      * @return void
-     * @ignorevalidation $poll
+     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function finishAction(\T3\T3oodle\Domain\Model\Poll $poll, int $option = 0)
     {
@@ -210,7 +210,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param \T3\T3oodle\Domain\Model\Poll|null $poll
      * @param bool $publishDirectly
      * @return void
-     * @ignorevalidation $poll
+     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function newAction(\T3\T3oodle\Domain\Model\Poll $poll = null, bool $publishDirectly = true)
     {
@@ -293,7 +293,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @return void
-     * @ignorevalidation $poll
+     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function publishAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
@@ -308,7 +308,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @return void
-     * @ignorevalidation $poll
+     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function editAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
@@ -351,7 +351,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function deleteAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
         $this->pollPermission->isAllowed($poll, 'delete', true);
-        $this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. See https://docs.typo3.org/typo3cms/extensions/extension_builder/User/Index.html', '', AbstractMessage::WARNING);
+        $this->addFlashMessage('The poll has been successfully deleted');
         $this->pollRepository->remove($poll);
         $this->redirect('list');
     }

@@ -13,7 +13,7 @@ call_user_func(
             ],
             // non-cacheable actions
             [
-                'Poll' => 'show, vote, create, update, publish, finish, delete, deleteVote',
+                'Poll' => 'list, show, vote, create, edit, update, publish, finish, delete, deleteVote',
             ]
         );
 

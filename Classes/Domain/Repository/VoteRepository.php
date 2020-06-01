@@ -31,7 +31,7 @@ class VoteRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $query = $this->createQuery();
         $query->matching($query->logicalAnd([
-            $query->equals('parent', $poll),
+            $query->equals('poll', $poll),
             $query->equals('participantIdent', $participantIdent)
         ]));
         return $query->execute()->getFirst();

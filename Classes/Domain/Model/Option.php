@@ -38,11 +38,11 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
 
     /**
-     * parent
+     * poll
      * 
      * @var \T3\T3oodle\Domain\Model\Poll
      */
-    protected $parent = null;
+    protected $poll = null;
 
     /**
      * Returns the name
@@ -97,24 +97,20 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the parent
-     * 
-     * @return \T3\T3oodle\Domain\Model\Poll parent
+     * @return \T3\T3oodle\Domain\Model\Poll
      */
-    public function getParent()
+    public function getPoll()
     {
-        return $this->parent;
+        return $this->poll;
     }
 
     /**
-     * Sets the parent
-     * 
-     * @param \T3\T3oodle\Domain\Model\Poll $parent
+     * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @return void
      */
-    public function setParent(\T3\T3oodle\Domain\Model\Poll $parent)
+    public function setPoll(\T3\T3oodle\Domain\Model\Poll $poll)
     {
-        $this->parent = $parent;
+        $this->poll = $poll;
     }
 
     public function getCheckboxStates(): array
@@ -123,7 +119,7 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             0 => 'no',
             1 => 'yes'
         ];
-        if ($this->parent && $this->parent->isSettingTristateCheckbox()) {
+        if ($this->poll && $this->poll->isSettingTristateCheckbox()) {
             $states[2] = 'maybe';
         }
         return $states;
@@ -131,12 +127,12 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function isFull(): bool
     {
-        if (!$this->getParent()->getSettingMaxVotesPerOption()) {
+        if (!$this->getPoll()->getSettingMaxVotesPerOption()) {
             return false;
         }
 
         $total = 0;
-        foreach ($this->getParent()->getVotes() as $vote) {
+        foreach ($this->getPoll()->getVotes() as $vote) {
             if ($vote->getParticipantIdent() !== UserIdentUtility::getCurrentUserIdent()) {
                 foreach ($vote->getOptionValues() as $optionValue) {
                     if ($optionValue->getOption() === $this) {
@@ -147,6 +143,6 @@ class Option extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 }
             }
         }
-        return $total >= $this->getParent()->getSettingMaxVotesPerOption();
+        return $total >= $this->getPoll()->getSettingMaxVotesPerOption();
     }
 }

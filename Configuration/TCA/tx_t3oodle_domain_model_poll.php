@@ -235,7 +235,7 @@ return [
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_t3oodle_domain_model_option',
-                'foreign_field' => 'parent',
+                'foreign_field' => 'poll',
                 'maxitems' => 9999,
                 'appearance' => [
                     'collapseAll' => 1,
@@ -253,7 +253,7 @@ return [
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_t3oodle_domain_model_vote',
-                'foreign_field' => 'parent',
+                'foreign_field' => 'poll',
                 'maxitems' => 9999,
                 'appearance' => [
                     'collapseAll' => 1,

@@ -41,7 +41,7 @@ class VoteValidator extends AbstractValidator
 
         // Check poll settings
         // One option only
-        if ($value->getParent() && $value->getParent()->isSettingOneOptionOnly()) {
+        if ($value->getPoll() && $value->getPoll()->isSettingOneOptionOnly()) {
             $amount = 0;
             foreach ($value->getOptionValues() as $optionValue) {
                 if ($optionValue->getValue() !== '0') {
@@ -57,7 +57,7 @@ class VoteValidator extends AbstractValidator
         }
 
         // Max votes per option
-        if ($value->getParent() && $value->getParent()->getSettingMaxVotesPerOption() > 0) {
+        if ($value->getPoll() && $value->getPoll()->getSettingMaxVotesPerOption() > 0) {
             foreach ($value->getOptionValues() as $optionValue) {
                 if ($optionValue->getValue() !== '0' && $optionValue->getOption()->isFull()) {
                     $isValid = false;

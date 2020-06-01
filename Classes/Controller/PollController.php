@@ -122,7 +122,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $vote = $this->voteRepository->findByPollAndParticipantIdent($poll, $this->currentUserIdent);
         if (!$vote) {
             $vote = GeneralUtility::makeInstance(\T3\T3oodle\Domain\Model\Vote::class);
-            $vote->setParent($poll);
+            $vote->setPoll($poll);
             if ($this->currentUser) {
                 $vote->setParticipant($this->currentUser);
             }
@@ -147,7 +147,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if (!$this->settings['allowNewVotes']) {
             throw new AccessDeniedException('New votes on polls have been disabled.');
         }
-        $this->pollPermission->isAllowed($vote->getParent(), 'voting', true);
+        $this->pollPermission->isAllowed($vote->getPoll(), 'voting', true);
 
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
@@ -162,7 +162,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->voteRepository->add($vote);
 
         $this->addFlashMessage('Voting saved!', '', AbstractMessage::OK);
-        $this->redirect('show', null, null, ['poll' => $vote->getParent()]);
+        $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
     }
 
     /**
@@ -181,7 +181,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $name = $vote->getParticipantName();
         $this->voteRepository->remove($vote);
         $this->addFlashMessage('Vote of "' . $name . '" successfully deleted.');
-        $this->redirect('show', null, null, ['poll' => $vote->getParent()]);
+        $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
     }
 
     /**
@@ -408,7 +408,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($this->arguments->hasArgument('vote')) {
             // Disable generic object validator for option_values in polls
             $this->disableGenericObjectValidator('vote', 'optionValues');
-            $this->disableGenericObjectValidator('vote', 'parent');
+            $this->disableGenericObjectValidator('vote', 'poll');
         }
 
         if ($this->arguments->hasArgument('poll')) {

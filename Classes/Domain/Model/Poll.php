@@ -277,7 +277,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function addOption(\T3\T3oodle\Domain\Model\Option $option): void
     {
-        $option->setParent($this);
+        $option->setPoll($this);
         $this->options->attach($option);
     }
 
@@ -405,7 +405,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function addVote(\T3\T3oodle\Domain\Model\Vote $vote): void
     {
-        $vote->setParent($this);
+        $vote->setPoll($this);
         $this->votes->attach($vote);
     }
 

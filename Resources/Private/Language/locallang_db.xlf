@@ -70,8 +70,8 @@
 			<trans-unit id="tx_t3oodle_domain_model_option.votes">
 				<source>Votes</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_option.parent">
-				<source>Parent</source>
+			<trans-unit id="tx_t3oodle_domain_model_option.poll">
+				<source>Poll</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_vote">
 				<source>Vote</source>
@@ -92,8 +92,8 @@
 			<trans-unit id="tx_t3oodle_domain_model_vote.value">
 				<source>Value</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_vote.parent">
-				<source>Parent</source>
+			<trans-unit id="tx_t3oodle_domain_model_vote.poll">
+				<source>Poll</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_main.name">
 				<source>t3oodle</source>

@@ -16,10 +16,10 @@ return [
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_option.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, name, selected, parent',
+        'showRecordFieldList' => 'hidden, name, selected, poll',
     ],
     'types' => [
-        '1' => ['showitem' => 'name, selected, parent, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden'],
+        '1' => ['showitem' => 'name, selected, poll, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden'],
     ],
     'columns' => [
         'hidden' => [
@@ -60,9 +60,9 @@ return [
                 'default' => 0,
             ]
         ],
-        'parent' => [
+        'poll' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.parent',
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.poll',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

@@ -39,8 +39,7 @@ CREATE TABLE tx_t3oodle_domain_model_option (
 	poll int(11) unsigned DEFAULT '0' NOT NULL,
 
 	name varchar(255) DEFAULT '' NOT NULL,
-	selected smallint(5) unsigned DEFAULT '0' NOT NULL,
-	parent int(11) unsigned DEFAULT '0'
+	selected smallint(5) unsigned DEFAULT '0' NOT NULL
 
 );
 
@@ -54,7 +53,7 @@ CREATE TABLE tx_t3oodle_domain_model_vote (
     participant_mail varchar(255) DEFAULT '' NOT NULL,
     participant_ident varchar(128) DEFAULT '' NOT NULL,
     option_values int(11) unsigned DEFAULT '0' NOT NULL,
-	parent int(11) unsigned DEFAULT '0'
+	poll int(11) unsigned DEFAULT '0'
 
 );
 

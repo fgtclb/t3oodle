@@ -47,7 +47,7 @@ class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var \T3\T3oodle\Domain\Model\Poll
      */
-    protected $parent = null;
+    protected $poll;
 
 
     public function __construct()
@@ -136,13 +136,13 @@ class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->optionValues->detach($optionValue);
     }
 
-    public function getParent(): ?Poll
+    public function getPoll(): ?Poll
     {
-        return $this->parent;
+        return $this->poll;
     }
 
-    public function setParent(\T3\T3oodle\Domain\Model\Poll $parent): void
+    public function setPoll(\T3\T3oodle\Domain\Model\Poll $poll): void
     {
-        $this->parent = $parent;
+        $this->poll = $poll;
     }
 }

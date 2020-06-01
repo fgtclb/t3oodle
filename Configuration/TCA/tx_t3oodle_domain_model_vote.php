@@ -14,10 +14,10 @@ return [
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_vote.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, participant, participant_name, participant_mail, participant_ident, parent',
+        'showRecordFieldList' => 'hidden, participant, participant_name, participant_mail, participant_ident, poll',
     ],
     'types' => [
-        '1' => ['showitem' => 'hidden, --palette--;;participant, option_values, parent'],
+        '1' => ['showitem' => 'hidden, --palette--;;participant, option_values, poll'],
     ],
     'palettes' => [
         'participant' => [
@@ -99,9 +99,9 @@ return [
             ],
 
         ],
-        'parent' => [
+        'poll' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.parent',
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.poll',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

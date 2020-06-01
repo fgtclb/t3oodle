@@ -3,7 +3,7 @@
       data-namespace-typo3-fluid="true">
 
     <f:form action="vote" name="vote" object="{vote}" class="voting mb-5">
-        <f:form.hidden property="parent" value="{poll}" />
+        <f:form.hidden property="poll" value="{poll}" />
 
         <f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
             <div class="alert alert-info">

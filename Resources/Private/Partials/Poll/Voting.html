@@ -9,16 +9,34 @@
             <div class="alert alert-info">
                 <strong class="d-block">Die Abstimmung ist geheim.</strong>
                 <f:if condition="{poll.settingSecretVotings} && {poll.settingSecretParticipants}">
-                    <f:then>Sowohl Teilnehmer als auch die abgegebenen Stimmen sind nur für den Autor der Umfrage sichtbar.</f:then>
+                    <f:then>Sowohl die Teilnehmer als auch die abgegebenen Stimmen sind nur für den Autor der Umfrage sichtbar.</f:then>
                     <f:else>
                         <f:if condition="{poll.settingSecretVotings}">
                             Die abgegebenen Stimmen der Teilnehmer sind nur für den Autor der Umfrage sichtbar.
                         </f:if>
                         <f:if condition="{poll.settingSecretParticipants}">
-                            Die Namen der Teilnehmer sind nur für den Autor der Umfrage sichtbar.
+                            Die Daten der Teilnehmer sind nur für den Autor der Umfrage sichtbar.
                         </f:if>
                     </f:else>
                 </f:if>
+            </div>
+        </f:if>
+
+
+        <f:if condition="{poll.settingVotingExpiresAt}">
+            <div class="alert alert-warning">
+                <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
+                    <strong>Achtung!</strong>
+                    <f:if condition="{poll.votingExpired}">
+                        <f:then>
+                            Für diese Umfrage konnte nur bis <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>
+                            abgestimmt werden.
+                        </f:then>
+                        <f:else>
+                            Für diese Umfrage kann nur bis <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time> abgestimmt werden.
+                        </f:else>
+                    </f:if>
+                </td>
             </div>
         </f:if>
 
@@ -28,22 +46,6 @@
                     <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}" />
                 </thead>
                 <tbody>
-                <f:if condition="{poll.settingVotingExpiresAt}">
-                    <tr>
-                        <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
-                            <strong>Achtung!</strong>
-                            <f:if condition="{poll.votingExpired}">
-                                <f:then>
-                                    Für diese Umfrage konnte nur bis <time class="font-weight-bold text-info" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>
-                                    abgestimmt werden.
-                                </f:then>
-                                <f:else>
-                                    Für diese Umfrage kann nur bis <time class="font-weight-bold text-info" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time> abgestimmt werden.
-                                </f:else>
-                            </f:if>
-                        </td>
-                    </tr>
-                </f:if>
 
                 <f:for each="{poll.votes}" as="pollVote">
                     <f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">

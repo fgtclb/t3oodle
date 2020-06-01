@@ -101,7 +101,12 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var bool
      */
-    protected $settingSecretVoting = false;
+    protected $settingSecretParticipants = false;
+
+    /**
+     * @var bool
+     */
+    protected $settingSecretVotings = false;
 
     /**
      * @var \DateTime|null
@@ -334,14 +339,24 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->settingOneOptionOnly = $settingOneOptionOnly;
     }
 
-    public function isSettingSecretVoting(): bool
+    public function isSettingSecretParticipants(): bool
     {
-        return $this->settingSecretVoting;
+        return $this->settingSecretParticipants;
     }
 
-    public function setSettingSecretVoting(bool $settingSecretVoting): void
+    public function setSettingSecretParticipants(bool $settingSecretParticipants): void
     {
-        $this->settingSecretVoting = $settingSecretVoting;
+        $this->settingSecretParticipants = $settingSecretParticipants;
+    }
+
+    public function isSettingSecretVotings(): bool
+    {
+        return $this->settingSecretVotings;
+    }
+
+    public function setSettingSecretVotings(bool $settingSecretVotings): void
+    {
+        $this->settingSecretVotings = $settingSecretVotings;
     }
 
     public function getSettingVotingExpiresDate(): ?\DateTime

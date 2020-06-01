@@ -107,9 +107,14 @@ class PollPermission
                ($this->userIsAuthor($vote->getParent()) || $vote->getParticipantIdent() === $this->currentUserIdent);
     }
 
+    public function isSeeParticipantsDuringVotingAllowed(Poll $poll): bool
+    {
+        return !$poll->isSettingSecretParticipants() || $this->userIsAuthor($poll);
+    }
+
     public function isSeeVotesDuringVotingAllowed(Poll $poll): bool
     {
-        return !$poll->isSettingSecretVoting() || $this->userIsAuthor($poll);
+        return !$poll->isSettingSecretVotings() || $this->userIsAuthor($poll);
     }
 
     public function isAdministrationAllowed(Poll $poll = null): bool

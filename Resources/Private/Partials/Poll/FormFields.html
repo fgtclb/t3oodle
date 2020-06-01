@@ -184,10 +184,17 @@
 					</div>
 
 					<div class="form-check mb-3">
-						<f:form.checkbox property="settingSecretVoting" value="1" checked="{poll.settingSecretVoting} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingSecretVoting" />
-						<label class="form-check-label" for="t3oodle-poll-settingSecretVoting">
-							<strong><f:translate key="poll.settingSecretVoting.title" /></strong><br>
-							<f:translate key="poll.settingSecretVoting.description" />
+						<f:form.checkbox property="settingSecretParticipants" value="1" checked="{poll.settingSecretParticipants} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingSecretParticipants" />
+						<label class="form-check-label" for="t3oodle-poll-settingSecretParticipants">
+							<strong><f:translate key="poll.settingSecretParticipants.title" /></strong><br>
+							<f:translate key="poll.settingSecretParticipants.description" />
+						</label>
+					</div>
+					<div class="form-check mb-3">
+						<f:form.checkbox property="settingSecretVotings" value="1" checked="{poll.settingSecretVotings} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingSecretVotings" />
+						<label class="form-check-label" for="t3oodle-poll-settingSecretVotings">
+							<strong><f:translate key="poll.settingSecretVotings.title" /></strong><br>
+							<f:translate key="poll.settingSecretVotings.description" />
 						</label>
 					</div>
 				</div>

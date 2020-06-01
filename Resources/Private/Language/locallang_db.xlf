@@ -45,8 +45,11 @@
 			<trans-unit id="tx_t3oodle_domain_model_poll.setting_one_option_only">
 				<source>Each participant can only select one option</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_poll.setting_secret_voting">
-				<source>Enable secret voting</source>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_secret_participants">
+				<source>Enable secret participants</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_secret_votings">
+				<source>Enable secret votings</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.setting_voting_expires_at">
 				<source>Expire possibility to vote at</source>

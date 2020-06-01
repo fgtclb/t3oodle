@@ -13,13 +13,28 @@
                     >x</f:link.action>
                 </f:if>
             </f:if>
-            {vote.participantName} - {vote.participantMail}
+            <f:if condition="{vote.parent -> t3oodle:permission(action:'seeParticipantsDuringVoting')}">
+                <f:then>
+                    <span>{vote.participantName} - {vote.participantMail}</span>
+                </f:then>
+                <f:else>
+                    <span>?</span>
+                </f:else>
+            </f:if>
         </td>
         <f:for each="{vote.parent.options}" as="option" iteration="iterator">
-            <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
-            <td class="{f:if(condition:'{vote.parent.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">
-                <img src="{f:uri.resource(path:'Icons/status-{optionValue.value}.svg')}" width="32">
-            </td>
+            <f:if condition="{vote.parent -> t3oodle:permission(action:'seeVotesDuringVoting')}">
+                <f:then>
+                    <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
+                    <td class="{f:if(condition:'{vote.parent.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">
+                        <img src="{f:uri.resource(path:'Icons/status-{optionValue.value}.svg')}" width="32">
+                    </td>
+                </f:then>
+                <f:else>
+                    <td class="{f:if(condition:'{vote.parent.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-secret">
+                    </td>
+                </f:else>
+            </f:if>
         </f:for>
     </tr>
 </f:if>

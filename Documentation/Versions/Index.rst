@@ -7,6 +7,14 @@
 Versions
 ========
 
+0.1.2
+-----
+
+- [TASK] Add Routing Enhancer Configuration for pagination widget
+- [TASK] Refactor fluid templates
+- [TASK] Introduce SVG view helper & icons
+
+
 0.1.1
 -----
 

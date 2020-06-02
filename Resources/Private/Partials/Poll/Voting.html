@@ -67,8 +67,7 @@
                                         <f:if condition="{settings._currentUser}">
                                             <f:then>
                                                 <f:form.hidden property="participant" />
-                                                <div>{vote.participantName}</div>
-                                                <div>{vote.participantMail}</div>
+                                                <f:render partial="Poll/ParticipantInfo" arguments="{vote:vote}" />
                                             </f:then>
                                             <f:else>
                                                 <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" data="{remember:'username'}" />

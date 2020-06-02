@@ -19,10 +19,10 @@ t3oodle
 		en
 
 	:Description:
-		tbw;
+		Simple poll extension for TYPO3 CMS. t3oodle allows your frontend users to create new polls and vote for existing ones.
 
 	:Keywords:
-		TYPO3 CMS, tbw;
+		TYPO3 CMS, poll, doodle, vote
 
 	:Copyright:
 		2020
@@ -51,3 +51,7 @@ t3oodle
         Welcome/Index
         Support/Index
         Versions/Index
+
+
+.. note::
+   This extension has been supported by `Friedrich-Ebert-Stiftung e. V.<https://www.fes.de/>`_.

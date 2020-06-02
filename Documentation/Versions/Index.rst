@@ -7,7 +7,7 @@
 Versions
 ========
 
-0.1.0-dev
----------
+0.1.0
+-----
 
-- Kickstaring Extension
+- Very first release of t3oodle, for testing purposes. Many open (cleanup) tasks, left.

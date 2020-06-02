@@ -178,18 +178,13 @@ ol.t3oodle-poll-options > li:last-child button.t3oodle-poll-option-remove {
 .tx-t3oodle .voting-status-2 {
     background: rgba(255, 220, 0, 0.25) !important;
 }
-/*.tx-t3oodle .voting-status-1 {*/
-/*    background: #d5fcc8 !important;*/
-/*}*/
-/*.tx-t3oodle .voting-status-2 {*/
-/*    background: #FFFCAC !important;*/
-/*}*/
-/*.tx-t3oodle .voting-status-0.odd {*/
-/*    background: #ffd9d8 !important;*/
-/*}*/
-/*.tx-t3oodle .voting-status-1.odd {*/
-/*    background: #d5fcc8 !important;*/
-/*}*/
-/*.tx-t3oodle .voting-status-2.odd {*/
-/*    background: #FFFCAC !important;*/
-/*}*/
+
+.tx-t3oodle .svg-icon {
+    width: 1rem;
+    max-height: 1rem;
+    display: inline-block;
+}
+
+.tx-t3oodle .icon-light {
+    color: #888;
+}

@@ -7,7 +7,10 @@
 
         <f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
             <div class="alert alert-info">
-                <strong class="d-block">Die Abstimmung ist geheim.</strong>
+                <strong class="d-block">
+                    <t3oodle:svg class="mx-1 alert-info" path="Icons/user-secret-solid.svg" />
+                    Die Abstimmung ist geheim.
+                </strong>
                 <f:if condition="{poll.settingSecretVotings} && {poll.settingSecretParticipants}">
                     <f:then>Sowohl die Teilnehmer als auch die abgegebenen Stimmen sind nur für den Autor der Umfrage sichtbar.</f:then>
                     <f:else>
@@ -26,7 +29,10 @@
         <f:if condition="{poll.settingVotingExpiresAt}">
             <div class="alert alert-warning">
                 <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
-                    <strong>Achtung!</strong>
+                    <strong>
+                        <t3oodle:svg class="mx-1 alert-warning" path="Icons/clock-regular.svg" />
+                        Achtung!
+                    </strong>
                     <f:if condition="{poll.votingExpired}">
                         <f:then>
                             Für diese Umfrage konnte nur bis <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>

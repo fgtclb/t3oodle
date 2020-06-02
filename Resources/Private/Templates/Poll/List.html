@@ -58,6 +58,15 @@
 				<f:if condition="!{poll -> t3oodle:permission(action:'viewingInGeneral')}">
 					(nur für dich sichtbar)
 				</f:if>
+				<f:if condition="{poll.settingVotingExpiresAt}">
+					<t3oodle:svg class="mx-1 icon-light" path="Icons/clock-regular.svg" title="Für diese Umfrage kann nur bis {poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')} abgestimmt werden" />
+				</f:if>
+				<f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
+					<t3oodle:svg class="mx-1 icon-light" path="Icons/user-secret-solid.svg" title="Teile der Umfrage sind nicht öffentlich einsehbar." />
+				</f:if>
+				<f:if condition="{poll.hasCurrentUserVoted}">
+					<t3oodle:svg class="mx-1 icon-light" path="Icons/check-gray.svg" title="Du hast bereits abgestimmt." />
+				</f:if>
 			</td>
 			<td>
 				{poll.status}
@@ -66,14 +75,18 @@
 			<td>
 				<f:if condition="{poll.published}">
 					<f:then>
-						<f:if condition="{poll.finished}">
-							<f:then>
-								{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}
-							</f:then>
-							<f:else>
-								{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}
-							</f:else>
-						</f:if>
+						<f:spaceless>
+							<f:if condition="{poll.finished}">
+								<f:then>
+									<t3oodle:svg class="mr-1 icon-light" path="Icons/flag-checkered-solid.svg" title="Finished at" />
+									<span>{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+								</f:then>
+								<f:else>
+									<t3oodle:svg class="mr-1 icon-light" path="Icons/clock-regular.svg" title="Published at" />
+									{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}
+								</f:else>
+							</f:if>
+						</f:spaceless>
 					</f:then>
 					<f:else><em>Unveröffentlicht</em></f:else>
 				</f:if></td>

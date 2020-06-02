@@ -5,6 +5,7 @@ use T3\T3oodle\Domain\Enumeration\PollStatus;
 use T3\T3oodle\Domain\Permission\PollPermission;
 use T3\T3oodle\Traits\Model\DynamicUserProperties;
 use T3\T3oodle\Utility\DateTimeUtility;
+use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***
@@ -416,6 +417,16 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setVotes(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $votes): void
     {
         $this->votes = $votes;
+    }
+
+    public function getHasCurrentUserVoted(): bool
+    {
+        foreach ($this->getVotes() as $vote) {
+            if ($vote->getParticipantIdent() === UserIdentUtility::getCurrentUserIdent()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function isPublished(): bool

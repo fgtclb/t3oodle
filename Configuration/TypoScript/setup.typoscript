@@ -41,6 +41,11 @@ plugin.tx_t3oodle {
             # Enable display of polls, which only you see (e.g. not listed or draft)
             personal = 1
         }
+
+        classes {
+            table = table
+            tableResponsive = table-responsive
+        }
     }
 }
 

@@ -10,7 +10,8 @@
 		<h1 class="title">Finish "{poll.title}"</h1>
 
 		<f:form action="finish" name="poll" object="{poll}" class="finishing">
-			<table class="table table-striped table-borderless">
+			<div class="{settings.classes.tableResponsive}"></div>
+			<table class="{settings.classes.table} table-striped table-borderless">
 				<thead>
 					<f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}" />
 				</thead>

@@ -395,11 +395,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($this->request->hasArgument('poll') && is_array($this->request->getArgument('poll'))) {
             $poll = $this->request->getArgument('poll');
             $pollOptions = $poll['options'];
-            foreach ($pollOptions as $index => $pollOption) {
-                if (empty($pollOption['name'])) {
-                    unset ($poll['options'][$index]); // remove
-                } else {
-                    $poll['options'][$index]['name'] = trim($pollOption['name']); // trim
+            if ($pollOptions) {
+                foreach ($pollOptions as $index => $pollOption) {
+                    if (empty($pollOption['name'])) {
+                        unset ($poll['options'][$index]); // remove
+                    } else {
+                        $poll['options'][$index]['name'] = trim($pollOption['name']); // trim
+                    }
                 }
             }
             $this->request->setArgument('poll', $poll);

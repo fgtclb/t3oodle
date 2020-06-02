@@ -7,6 +7,14 @@
 Versions
 ========
 
+0.1.1
+-----
+
+- [FEATURE] Add configurable classes
+- [BUGFIX] Fix wrong variable in template and do not iterate over null
+- [FEATURE] Add "DynamicUserProperties" trait
+
+
 0.1.0
 -----
 

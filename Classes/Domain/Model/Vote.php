@@ -2,7 +2,7 @@
 namespace T3\T3oodle\Domain\Model;
 
 
-use T3\T3oodle\Utility\SettingsUtility;
+use T3\T3oodle\Traits\Model\DynamicUserProperties;
 
 /***
  *
@@ -19,6 +19,8 @@ use T3\T3oodle\Utility\SettingsUtility;
  */
 class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
+    use DynamicUserProperties;
+
     /**
      * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
@@ -68,13 +70,7 @@ class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getParticipantName(): string
     {
         if ($this->getParticipant()) {
-            $getter = 'name';
-            $settings = SettingsUtility::getTypoScriptSettings();
-            if ($settings && $settings['frontendUserNameField']) {
-                $getter = $settings['frontendUserNameField'] ?? 'name';
-            }
-            $getter = 'get' . ucfirst($getter);
-            return $this->getParticipant()->$getter() ?: '<no name>';
+            return $this->getPropertyDynamically($this->getParticipant(), 'name');
         }
         return $this->participantName;
     }
@@ -87,13 +83,7 @@ class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getParticipantMail(): string
     {
         if ($this->getParticipant()) {
-            $getter = 'email';
-            $settings = SettingsUtility::getTypoScriptSettings();
-            if ($settings && $settings['frontendUserMailField']) {
-                $getter = $settings['frontendUserMailField'] ?? 'email';
-            }
-            $getter = 'get' . ucfirst($getter);
-            return $this->getParticipant()->$getter();
+            return $this->getPropertyDynamically($this->getParticipant(), 'mail', false);
         }
         return $this->participantMail;
     }

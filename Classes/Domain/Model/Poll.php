@@ -3,8 +3,8 @@ namespace T3\T3oodle\Domain\Model;
 
 use T3\T3oodle\Domain\Enumeration\PollStatus;
 use T3\T3oodle\Domain\Permission\PollPermission;
+use T3\T3oodle\Traits\Model\DynamicUserProperties;
 use T3\T3oodle\Utility\DateTimeUtility;
-use T3\T3oodle\Utility\SettingsUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***
@@ -23,6 +23,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
+    use DynamicUserProperties;
+
     /**
      * @var string
      */
@@ -230,13 +232,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getAuthorName(): string
     {
         if ($this->getAuthor()) {
-            $getter = 'name';
-            $settings = SettingsUtility::getTypoScriptSettings();
-            if ($settings && $settings['frontendUserNameField']) {
-                $getter = $settings['frontendUserNameField'] ?? 'name';
-            }
-            $getter = 'get' . ucfirst($getter);
-            return $this->getAuthor()->$getter() ?: '<no name>';
+            return $this->getPropertyDynamically($this->getAuthor(), 'name');
         }
         return $this->authorName;
     }
@@ -249,13 +245,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getAuthorMail(): string
     {
         if ($this->getAuthor()) {
-            $getter = 'email';
-            $settings = SettingsUtility::getTypoScriptSettings();
-            if ($settings && $settings['frontendUserMailField']) {
-                $getter = $settings['frontendUserMailField'] ?? 'email';
-            }
-            $getter = 'get' . ucfirst($getter);
-            return $this->getAuthor()->$getter();
+            return $this->getPropertyDynamically($this->getAuthor(), 'mail', false);
         }
         return $this->authorMail;
     }

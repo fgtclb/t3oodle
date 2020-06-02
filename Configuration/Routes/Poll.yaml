@@ -14,6 +14,10 @@ routeEnhancers:
               _controller: 'Poll::list'
             - routePath: '/create'
               _controller: 'Poll::new'
+            - routePath: '/page/{page}'
+              _controller: 'Poll::list'
+              _arguments:
+                page: '@widget_0/currentPage'
             - routePath: '/poll/{poll-title}'
               _controller: 'Poll::show'
               _arguments:
@@ -27,6 +31,10 @@ routeEnhancers:
               _arguments:
                   poll-title: poll
         defaultController: 'Poll::list'
+        defaults:
+            page: '1'
+        requirements:
+            page: '\d+'
         aspects:
             poll-title:
                 type: PersistedAliasMapper

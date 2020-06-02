@@ -5,11 +5,7 @@ use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Utility\TcaGeneratorUtility;
 
 $ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
-    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:'
-);
-
-$llCore = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
-    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:'
+    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.'
 );
 
 return [
@@ -33,14 +29,28 @@ return [
         'showRecordFieldList' => 'hidden, title, type, slug, visibility, is_published, publish_date, author, author_name, author_mail, author_ident, options, fe_group, votes, is_finished, finish_date, final_option',
     ],
     'types' => [
-        '1' => ['showitem' => 'title, description, link, type, slug, visibility, is_published, publish_date, is_finished, finish_date, final_option, --palette--;;author, options, --palette--;Settings;settings, votes, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden, starttime, endtime, fe_group'],
+        '1' => ['showitem' => '--palettes--;;general, --palette--;;author, title, slug, description, link, options, ' .
+                              '--div--;' . $ll('tab.status') . ', --palettes--;;publishing, --palettes--;;finishing, ' .
+                              '--div--;' . $ll('tab.settings') . ',--palette--;Settings;settings, ' .
+                              '--div--;' . $ll('tab.votes') . ', votes, ' .
+                              '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden, starttime, endtime, fe_group'
+        ],
     ],
     'palettes' => [
+        'general' => [
+            'showitem' => 'type, visibility'
+        ],
         'author' => [
             'showitem' => 'author,--linebreak--,author_name,author_mail,author_ident'
         ],
         'settings' => [
             'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_max_votes_per_option, --linebreak--, setting_one_option_only, --linebreak--, setting_secret_participants, setting_secret_votings, --linebreak--, setting_voting_expires_date, setting_voting_expires_time'
+        ],
+        'publishing' => [
+            'showitem' => 'is_published, publish_date'
+        ],
+        'finishing' => [
+            'showitem' => 'is_finished, finish_date, final_option'
         ],
     ],
     'columns' => [
@@ -119,7 +129,7 @@ return [
         ],
         'title' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.title',
+            'label' => $ll('title'),
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -128,7 +138,7 @@ return [
         ],
         'description' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.description',
+            'label' => $ll('description'),
             'config' => [
                 'type' => 'text',
                 'cols' => 30,
@@ -138,7 +148,7 @@ return [
         ],
         'link' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.link',
+            'label' => $ll('link'),
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -147,7 +157,7 @@ return [
         ],
         'slug' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.slug',
+            'label' => $ll('slug'),
             'config' => [
                 'type' => 'slug',
                 'size' => 50,
@@ -164,7 +174,7 @@ return [
         ],
         'type' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type',
+            'label' => $ll('type'),
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -177,7 +187,7 @@ return [
         ],
         'visibility' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.visibility',
+            'label' => $ll('visibility'),
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -190,7 +200,7 @@ return [
         ],
         'author' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.author',
+            'label' => $ll('author'),
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -203,7 +213,7 @@ return [
         ],
         'author_name' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.author_name',
+            'label' => $ll('author_name'),
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -212,7 +222,7 @@ return [
         ],
         'author_mail' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.author_mail',
+            'label' => $ll('author_mail'),
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -221,7 +231,7 @@ return [
         ],
         'author_ident' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.author_ident',
+            'label' => $ll('author_ident'),
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -231,7 +241,7 @@ return [
         ],
         'options' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.options',
+            'label' => $ll('options'),
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_t3oodle_domain_model_option',
@@ -267,7 +277,7 @@ return [
         ],
         'setting_tristate_checkbox' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_tristate_checkbox',
+            'label' => $ll('setting_tristate_checkbox'),
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -275,7 +285,7 @@ return [
         ],
         'setting_max_votes_per_option' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_max_votes_per_option',
+            'label' => $ll('setting_max_votes_per_option'),
             'config' => [
                 'type' => 'input',
                 'eval' => 'int',
@@ -285,7 +295,7 @@ return [
         ],
         'setting_one_option_only' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_one_option_only',
+            'label' => $ll('setting_one_option_only'),
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -293,7 +303,7 @@ return [
         ],
         'setting_secret_participants' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_secret_participants',
+            'label' => $ll('setting_secret_participants'),
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -301,7 +311,7 @@ return [
         ],
         'setting_secret_votings' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_secret_votings',
+            'label' => $ll('setting_secret_votings'),
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -309,7 +319,7 @@ return [
         ],
         'setting_voting_expires_date' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_voting_expires_date',
+            'label' => $ll('setting_voting_expires_date'),
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -325,7 +335,7 @@ return [
         ],
         'setting_voting_expires_time' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_voting_expires_time',
+            'label' => $ll('setting_voting_expires_time'),
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -341,7 +351,7 @@ return [
         ],
         'is_published' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.is_published',
+            'label' => $ll('is_published'),
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -349,7 +359,7 @@ return [
         ],
         'publish_date' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.publish_date',
+            'label' => $ll('publish_date'),
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -365,7 +375,7 @@ return [
         ],
         'is_finished' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.is_finished',
+            'label' => $ll('is_finished'),
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -373,7 +383,7 @@ return [
         ],
         'finish_date' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.finish_date',
+            'label' => $ll('finish_date'),
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -389,12 +399,15 @@ return [
         ],
         'final_option' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.final_option',
+            'label' => $ll('final_option'),
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_t3oodle_domain_model_option',
-                'minitems' => 1,
+                'items' => [
+                    ['', '']
+                ],
+                'minitems' => 0,
                 'maxitems' => 1,
             ],
         ]

@@ -1,8 +1,11 @@
 <?php
+$ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
+    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.'
+);
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option',
-        'label' => 'name',
+        'label' => 'name', // TODO: Add userfunc to show amount of votes per option
         'hideTable' => true,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -16,10 +19,10 @@ return [
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_option.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, name, selected, poll',
+        'showRecordFieldList' => 'hidden, name, poll',
     ],
     'types' => [
-        '1' => ['showitem' => 'name, selected, poll, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden'],
+        '1' => ['showitem' => 'name, poll, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden'],
     ],
     'columns' => [
         'hidden' => [
@@ -40,29 +43,16 @@ return [
 
         'name' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.name',
+            'label' => $ll('name'),
             'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required'
             ],
         ],
-        'selected' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.selected',
-            'config' => [
-                'type' => 'check',
-                'items' => [
-                    '1' => [
-                        '0' => 'LLL:EXT:lang/locallang_core.xlf:labels.enabled'
-                    ]
-                ],
-                'default' => 0,
-            ]
-        ],
         'poll' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.poll',
+            'label' => $ll('poll'),
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

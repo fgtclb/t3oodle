@@ -1,8 +1,12 @@
 <?php
+$ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
+    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.'
+);
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote',
-        'label' => 'value',
+        'label' => 'participant_ident',
+        'hideTable' => true,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
@@ -10,14 +14,14 @@ return [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'searchFields' => 'value',
+        'searchFields' => 'participant, participant_name, participant_mail, participant_ident',
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_vote.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, participant, participant_name, participant_mail, participant_ident, poll',
+        'showRecordFieldList' => 'participant, participant_name, participant_mail, participant_ident, poll',
     ],
     'types' => [
-        '1' => ['showitem' => 'hidden, --palette--;;participant, option_values, poll'],
+        '1' => ['showitem' => '--palette--;;participant, option_values, poll'],
     ],
     'palettes' => [
         'participant' => [
@@ -25,24 +29,9 @@ return [
         ],
     ],
     'columns' => [
-        'hidden' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.visible',
-            'config' => [
-                'type' => 'check',
-                'renderType' => 'checkboxToggle',
-                'items' => [
-                    [
-                        0 => '',
-                        1 => '',
-                        'invertStateDisplay' => true
-                    ]
-                ],
-            ],
-        ],
         'participant' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.participant',
+            'label' => $ll('participant'),
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -55,7 +44,7 @@ return [
         ],
         'participant_name' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.participant_name',
+            'label' => $ll('participant_name'),
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -64,7 +53,7 @@ return [
         ],
         'participant_mail' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.participant_mail',
+            'label' => $ll('participant_mail'),
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -73,7 +62,7 @@ return [
         ],
         'participant_ident' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.participant_ident',
+            'label' => $ll('participant_ident'),
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -83,7 +72,7 @@ return [
         ],
         'option_values' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.option_values',
+            'label' => $ll('option_values'),
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_t3oodle_domain_model_optionvalue',
@@ -101,7 +90,7 @@ return [
         ],
         'poll' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.poll',
+            'label' => $ll('poll'),
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

@@ -1,4 +1,7 @@
 <?php
+$ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
+    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.'
+);
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue',
@@ -9,6 +12,7 @@ return [
         'cruser_id' => 'cruser_id',
         'sortby' => 'sorting',
         'delete' => 'deleted',
+        'readOnly' => true,
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
@@ -16,59 +20,46 @@ return [
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_optionvalue.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, option, value, vote',
+        'showRecordFieldList' => 'option, value, vote',
     ],
     'types' => [
-        '1' => ['showitem' => 'hidden, option, value, vote'],
+        '1' => ['showitem' => 'option, value, vote'],
     ],
     'columns' => [
-        'hidden' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.visible',
-            'config' => [
-                'type' => 'check',
-                'renderType' => 'checkboxToggle',
-                'items' => [
-                    [
-                        0 => '',
-                        1 => '',
-                        'invertStateDisplay' => true
-                    ]
-                ],
-            ],
-        ],
-
         'value' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value',
+            'label' => $ll('value'),
             'config' => [
                 'type' => 'input',
                 'size' => 1,
                 'eval' => 'int,required',
                 'max' => 2,
+                'readOnly' => true,
             ],
         ],
         'option' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.option',
+            'label' => $ll('option'),
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_t3oodle_domain_model_option',
                 'minitems' => 1,
                 'maxitems' => 1,
+                'readOnly' => true,
             ],
 
         ],
         'vote' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.vote',
+            'label' => $ll('vote'),
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_t3oodle_domain_model_vote',
                 'minitems' => 1,
                 'maxitems' => 1,
+                'readOnly' => true,
             ],
         ],
     ],

@@ -7,22 +7,9 @@ use T3\T3oodle\Traits\Model\DynamicUserProperties;
 use T3\T3oodle\Utility\DateTimeUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-/***
- *
- * This file is part of the "t3oodle" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- *  (c) 2020 
- *
- ***/
-
-/**
- * Poll
- */
-class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Poll extends AbstractEntity
 {
     use DynamicUserProperties;
 

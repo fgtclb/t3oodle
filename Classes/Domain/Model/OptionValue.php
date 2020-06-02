@@ -1,18 +1,9 @@
 <?php
 namespace T3\T3oodle\Domain\Model;
 
-/***
- *
- * This file is part of the "t3oodle" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- *  (c) 2020 
- *
- ***/
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-class OptionValue extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class OptionValue extends AbstractEntity
 {
     /**
      * @var string

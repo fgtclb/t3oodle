@@ -15,11 +15,23 @@
 			<trans-unit id="tx_t3oodle_domain_model_poll.link">
 				<source>Link</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.type">
+				<source>Type</source>
+			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.slug">
 				<source>Slug</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.visibility">
 				<source>Visibility</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.is_finished">
+				<source>Is finished?</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.finish_date">
+				<source>Finish date</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.final_option">
+				<source>Final option</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.author">
 				<source>Author</source>
@@ -54,8 +66,26 @@
 			<trans-unit id="tx_t3oodle_domain_model_poll.setting_voting_expires_at">
 				<source>Expire possibility to vote at</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_voting_expires_date">
+				<source>Expire date</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_voting_expires_time">
+				<source>Expire time</source>
+			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.is_published">
-				<source>Is published</source>
+				<source>Is published?</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.publish_date">
+				<source>Publish date</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.tab.status">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.tab.settings">
+				<source>Settings</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.tab.votes">
+				<source>Votes</source>
 			</trans-unit>
 
 			<trans-unit id="tx_t3oodle_domain_model_option">
@@ -64,19 +94,17 @@
 			<trans-unit id="tx_t3oodle_domain_model_option.name">
 				<source>Name</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_option.selected">
-				<source>Selected</source>
-			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_option.votes">
 				<source>Votes</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_option.poll">
 				<source>Poll</source>
 			</trans-unit>
+
+
 			<trans-unit id="tx_t3oodle_domain_model_vote">
 				<source>Vote</source>
 			</trans-unit>
-
 			<trans-unit id="tx_t3oodle_domain_model_vote.participant">
 				<source>Participant</source>
 			</trans-unit>
@@ -89,12 +117,29 @@
 			<trans-unit id="tx_t3oodle_domain_model_vote.participant_ident">
 				<source>Participant Ident</source>
 			</trans-unit>
-			<trans-unit id="tx_t3oodle_domain_model_vote.value">
-				<source>Value</source>
-			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_vote.poll">
 				<source>Poll</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_vote.option_values">
+				<source>Option values</source>
+			</trans-unit>
+
+
+			<trans-unit id="tx_t3oodle_domain_model_optionvalue">
+				<source>Option value</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_optionvalue.option">
+				<source>Option</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_optionvalue.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_optionvalue.vote">
+				<source>Vote</source>
+			</trans-unit>
+
+
+
 			<trans-unit id="tx_t3oodle_main.name">
 				<source>t3oodle</source>
 			</trans-unit>

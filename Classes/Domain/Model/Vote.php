@@ -1,23 +1,10 @@
 <?php
 namespace T3\T3oodle\Domain\Model;
 
-
 use T3\T3oodle\Traits\Model\DynamicUserProperties;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-/***
- *
- * This file is part of the "t3oodle" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- *  (c) 2020 
- *
- ***/
-/**
- * Vote
- */
-class Vote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Vote extends AbstractEntity
 {
     use DynamicUserProperties;
 

@@ -17,7 +17,7 @@
 				</thead>
 				<tbody>
 					<f:for each="{poll.votes}" as="vote">
-						<f:render partial="Poll/Voting/VoteRow" arguments="{vote:vote, hideRemoveLink:1}" />
+						<f:render partial="Poll/Voting/VoteRow" section="default" arguments="{vote:vote, hideRemoveLink:1}" />
 					</f:for>
 					<tr>
 						<td>

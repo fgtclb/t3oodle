@@ -54,7 +54,7 @@
 
                 <f:for each="{poll.votes}" as="pollVote">
                     <f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
-                        <f:render partial="Poll/Voting/VoteRow" arguments="{vote:pollVote}" />
+                        <f:render partial="Poll/Voting/VoteRow" section="default" arguments="{vote:pollVote}" />
                     </f:if>
                 </f:for>
 
@@ -110,7 +110,7 @@
                         </tr>
                     </f:then>
                     <f:else>
-                        <f:render partial="Poll/Voting/VoteRow" arguments="{vote:vote}" />
+                        <f:render partial="Poll/Voting/VoteRow" section="default" arguments="{vote:vote}" />
                     </f:else>
                 </f:if>
                 </tbody>

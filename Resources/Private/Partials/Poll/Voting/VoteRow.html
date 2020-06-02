@@ -2,40 +2,46 @@
       xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<f:if condition="{vote.uid}">
-    <tr class="vote">
-        <td class="participant">
-            <f:if condition="!{hideRemoveLink} && {vote -> t3oodle:permission(action:'VoteDeletion')}">
-                <f:if condition="{settings.allowNewVotes}">
-                    <f:link.action action="deleteVote" arguments="{vote:vote}"
-                                   class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
-                                   title="Remove this vote" data="{confirm:'Are you sure you want to remove this vote?'}"
-                    >x</f:link.action>
+<f:section name="default">
+    <f:if condition="{vote.uid}">
+        <tr class="vote">
+            <td class="participant">
+                <f:render section="removeVote" arguments="{vote:vote, hideRemoveLink:hideRemoveLink}"></f:render>
+                <f:if condition="{vote.poll -> t3oodle:permission(action:'seeParticipantsDuringVoting')}">
+                    <f:then>
+                        <f:render partial="Poll/ParticipantInfo" arguments="{vote:vote}" />
+                    </f:then>
+                    <f:else>
+                        <span class="{settings.classes.secret}">?</span>
+                    </f:else>
                 </f:if>
-            </f:if>
-            <f:if condition="{vote.poll -> t3oodle:permission(action:'seeParticipantsDuringVoting')}">
-                <f:then>
-                    <span>{vote.participantName} - {vote.participantMail}</span>
-                </f:then>
-                <f:else>
-                    <span>?</span>
-                </f:else>
-            </f:if>
-        </td>
-        <f:for each="{vote.poll.options}" as="option" iteration="iterator">
-            <f:if condition="{vote.poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">
-                <f:then>
-                    <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
-                    <td class="{f:if(condition:'{vote.poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">
-                        <img src="{f:uri.resource(path:'Icons/status-{optionValue.value}.svg')}" width="32">
-                    </td>
-                </f:then>
-                <f:else>
-                    <td class="{f:if(condition:'{vote.poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-secret">
-                    </td>
-                </f:else>
-            </f:if>
-        </f:for>
-    </tr>
-</f:if>
+            </td>
+            <f:for each="{vote.poll.options}" as="option" iteration="iterator">
+                <f:if condition="{vote.poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">
+                    <f:then>
+                        <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
+                        <td class="{f:if(condition:'{vote.poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">
+                            <img src="{f:uri.resource(path:'Icons/status-{optionValue.value}.svg')}" width="32">
+                        </td>
+                    </f:then>
+                    <f:else>
+                        <td class="{f:if(condition:'{vote.poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-secret">
+                        </td>
+                    </f:else>
+                </f:if>
+            </f:for>
+        </tr>
+    </f:if>
+</f:section>
+
+<f:section name="removeVote">
+    <f:if condition="!{hideRemoveLink} && {vote -> t3oodle:permission(action:'VoteDeletion')}">
+        <f:if condition="{settings.allowNewVotes}">
+            <f:link.action action="deleteVote" arguments="{vote:vote}"
+                           class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
+                           title="Remove this vote" data="{confirm:'Are you sure you want to remove this vote?'}"
+            >x</f:link.action>
+        </f:if>
+    </f:if>
+</f:section>
 </html>

@@ -45,6 +45,7 @@ plugin.tx_t3oodle {
         classes {
             table = table
             tableResponsive = table-responsive
+            secret = secret
         }
     }
 }

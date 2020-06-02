@@ -1,0 +1,13 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:if condition="{vote.participantMail}">
+    <f:then>
+        <f:link.email email="{vote.participantMail}">{vote.participantName}</f:link.email>
+    </f:then>
+    <f:else>
+        <span>{vote.participantName}</span>
+    </f:else>
+</f:if>
+</html>

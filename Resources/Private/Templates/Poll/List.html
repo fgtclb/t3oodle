@@ -71,7 +71,9 @@
 			<td>
 				{poll.status}
 			</td>
-			<td>{poll.authorName}</td>
+			<td>
+				<f:render partial="Poll/AuthorInfo" arguments="{poll:poll}" />
+			</td>
 			<td>
 				<f:if condition="{poll.published}">
 					<f:then>

@@ -50,5 +50,4 @@ plugin.tx_t3oodle {
     }
 }
 
-page.includeJS.t3oodle = EXT:t3oodle/Resources/Public/JavaScript/t3oodle.js
 page.includeCSS.t3oodle = EXT:t3oodle/Resources/Public/Stylesheets/t3oodle.css

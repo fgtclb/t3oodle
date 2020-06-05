@@ -116,7 +116,7 @@
             </table>
             <f:render partial="FormFieldErrors" arguments="{for: 'vote.optionValues'}" />
         </div>
-        <input type="hidden" name="t3oodleResourcePath" id="t3oodleResourcePath" value="{f:uri.resource(path:'')}" />
+
         <f:if condition="{poll.finished}">
             <f:then>
                 <div class="text-center">

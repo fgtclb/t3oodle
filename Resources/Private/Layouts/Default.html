@@ -1,5 +1,11 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 	<div class="tx-t3oodle">
 		<f:render section="content" />
+
+		<script type="text/javascript"
+				src="{f:uri.resource(path:'JavaScript/t3oodle.js')}"
+				data-path="{f:uri.resource(path:'')}"
+				onload="tx_t3oodle.init(this)"
+		></script>
 	</div>
 </html>

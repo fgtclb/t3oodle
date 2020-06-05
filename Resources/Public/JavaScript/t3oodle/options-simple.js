@@ -64,7 +64,7 @@ tx_t3oodle['options-simple'] = function (items) {
     items[i].addEventListener(
       'keyup',
       function () {
-        tx_t3oodle._buildDynamicOptionInputs(items);
+        tx_t3oodle._buildDynamicOptionInputs(document.querySelectorAll('.t3oodle-new-poll-option'));
       },
       false
     );

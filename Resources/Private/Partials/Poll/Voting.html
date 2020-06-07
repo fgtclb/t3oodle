@@ -100,7 +100,12 @@
                                 <f:else>
                                     <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
                                         <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-                                            <f:variable name="newOptionValue">{newOptionValues.{option.uid}}</f:variable>
+                                            <f:variable name="newOptionValue"><f:spaceless>
+                                                <f:if condition="{newOptionValues.{option.uid}}">
+                                                    <f:then>{newOptionValues.{option.uid}}</f:then>
+                                                    <f:else>0</f:else>
+                                                </f:if>
+                                            </f:spaceless></f:variable>
                                             <f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:newOptionValue}" />
                                         </td>
                                     </f:for>

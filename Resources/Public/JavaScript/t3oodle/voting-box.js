@@ -21,10 +21,19 @@ tx_t3oodle._buildVotingBox = function (checkbox) {
     if (!nextOption) {
       nextOption = currentOption.parentNode.firstChild;
     }
+
+    if (nextOption.value === '-1') {
+      nextOption = checkbox.querySelector('option[value="' + nextOption.value + '"] ~ option');
+    }
+
     checkbox.value = nextOption.value;
 
     image.alt = nextOption.text;
     image.src = tx_t3oodle.vars.path + 'Icons/check-' + nextOption.value + '.svg';
+    image.parentNode.classList.remove('voting-status-0');
+    image.parentNode.classList.remove('voting-status-1');
+    image.parentNode.classList.remove('voting-status-2');
+    image.parentNode.classList.add('voting-status-' + nextOption.value);
     tx_t3oodle._calculateVotes();
   }
 
@@ -32,6 +41,7 @@ tx_t3oodle._buildVotingBox = function (checkbox) {
   image.addEventListener('keyup', event);
 
   checkbox.after(image);
+  image.parentNode.classList.add('voting-status-' + currentOption.value);
 };
 
 tx_t3oodle._calculateVotes = function () {
@@ -65,7 +75,7 @@ tx_t3oodle._calculateVotes = function () {
   }
 };
 
-tx_t3oodle['calculate-votes'] = function (items) {
+tx_t3oodle['voting-box'] = function (items) {
   for (var i = 0; i < items.length; i++) {
     var checkbox = items[i];
     tx_t3oodle._buildVotingBox(checkbox)

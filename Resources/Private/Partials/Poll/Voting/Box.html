@@ -8,7 +8,7 @@
         </f:then>
         <f:else>
             <f:form.hidden property="optionValues.{key}.option" value="{option}" />
-            <f:form.select property="optionValues.{key}.value" options="{option.checkboxStates}" value="{value}" class="t3oodle-voting-checkbox"></f:form.select>
+            <f:form.select property="optionValues.{key}.value" options="{option.checkboxStates}" value="{value}" class="t3oodle-voting-checkbox d-none"></f:form.select>
         </f:else>
     </f:if>
 

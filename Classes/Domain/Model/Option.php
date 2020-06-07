@@ -43,6 +43,7 @@ class Option extends AbstractEntity
     public function getCheckboxStates(): array
     {
         $states = [
+            -1 => '',
             0 => 'no',
             1 => 'yes'
         ];

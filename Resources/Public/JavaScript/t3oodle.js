@@ -36,7 +36,7 @@ var tx_t3oodle = {
     this.loadScriptBySelector('confirmation', '*[data-confirm]');
     this.loadScriptBySelector('remember', '*[data-remember]');
     this.loadScriptBySelector('conditional-inputs', 'input[data-bind-disable]');
-    this.loadScriptBySelector('calculate-votes', '.t3oodle-voting-checkbox');
+    this.loadScriptBySelector('voting-box', '.t3oodle-voting-checkbox');
     this.loadScriptBySelector('options-simple', '.t3oodle-new-poll-option');
   }
 };

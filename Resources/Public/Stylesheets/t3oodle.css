@@ -172,11 +172,20 @@ ol.t3oodle-poll-options > li:last-child button.t3oodle-poll-option-remove {
 .tx-t3oodle .voting-status-0 {
     background: rgba(243, 17, 17, 0.15) !important;
 }
+.tx-t3oodle .voting-status-0.odd {
+    background: rgba(243, 17, 17, 0.25) !important;
+}
 .tx-t3oodle .voting-status-1 {
     background: rgba(111, 229, 27, 0.25) !important;
 }
+.tx-t3oodle .voting-status-1.odd {
+    background: rgba(111, 229, 27, 0.35) !important;
+}
 .tx-t3oodle .voting-status-2 {
     background: rgba(255, 220, 0, 0.25) !important;
+}
+.tx-t3oodle .voting-status-2.odd {
+    background: rgba(255, 220, 0, 0.35) !important;
 }
 
 .tx-t3oodle .svg-icon {

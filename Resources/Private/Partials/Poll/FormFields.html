@@ -87,6 +87,7 @@
 	</div>
 </f:section>
 
+<f:form.hidden property="type" value="{poll.type}" />
 <f:render partial="Poll/Type/{poll.partialName}" arguments="{poll:poll,newOptions:newOptions}" />
 
 <f:render section="settings" arguments="{poll:poll}" />

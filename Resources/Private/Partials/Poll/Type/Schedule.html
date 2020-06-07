@@ -1,0 +1,107 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:if condition="{poll.uid}">
+    <f:else>
+        <div class="card mb-4">
+            <div class="card-header">
+                <strong>Optionen</strong>
+                <f:render partial="FormFieldErrors" arguments="{for: 'poll.options'}" />
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 col-lg-5 t3oodle-date-picker mb-4">
+                        <strong class="title">Select date(s)</strong>
+                        <input type="hidden" style="display: none"/>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <strong class="title">Selected</strong>
+                        <ul class="col selected-dates">
+                            <li>...</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <strong class="title">Options per day (optional)</strong>
+                        <ol class="list-unstyled t3oodle-options-per-day">
+                            <f:if condition="{newOptions}">
+                                <f:variable name="dayOptions">{newOptions -> t3oodle:schedule.splitDayOptions(get:'options')}</f:variable>
+                            </f:if>
+                            <f:if condition="{dayOptions -> f:count()} > 0">
+                                <f:then>
+                                    <f:for each="{dayOptions}" as="option" key="key" iteration="iterator">
+                                        <li><input type=text" maxlength="11" class="form-control new-option-per-day" name="dayOption[]"
+                                                   value="{option}">
+                                            <button class="t3oodle-poll-option-remove border-0 bg-white text-danger font-weight-bold"
+                                                    type="button"
+                                                    onclick="tx_t3oodle._removeTime(this)"
+                                                    title="Remove this option"
+                                                    tabindex="99">x
+                                            </button>
+                                        </li>
+                                    </f:for>
+                                </f:then>
+                                <f:else>
+                                    <li><input type=text" maxlength="11" class="form-control new-option-per-day" name="dayOption[]"
+                                               placeholder="e.g. 10:00-12:00">
+                                        <button class="t3oodle-poll-option-remove border-0 bg-white text-danger font-weight-bold"
+                                                type="button"
+                                                onclick="tx_t3oodle._removeTime(this)"
+                                                title="Remove this option"
+                                                tabindex="99">x
+                                        </button>
+                                    </li>
+                                    <li><input type=text" maxlength="11" class="form-control new-option-per-day" name="dayOption[]"
+                                               placeholder="e.g. noon">
+                                        <button class="t3oodle-poll-option-remove border-0 bg-white text-danger font-weight-bold"
+                                                type="button"
+                                                onclick="tx_t3oodle._removeTime(this)"
+                                                title="Remove this option"
+                                                tabindex="99">x
+                                        </button>
+                                    </li>
+                                </f:else>
+                            </f:if>
+
+                        </ol>
+
+                        <div>
+                            Insgesamt <span id="schedule-option-amount">0</span> Optionen.
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scheduled-options" style="display: none">
+                    <f:if condition="{poll.options -> f:count()}">
+                        <f:else>
+                            <f:if condition="{newOptions -> f:count()} > 0">
+                                <f:then>
+                                    <f:for each="{newOptions}" as="option" key="key" iteration="iterator">
+                                        <f:form.hidden name="poll[options][{iterator.index}][name]" value="{option.name}"></f:form.hidden>
+                                    </f:for>
+                                </f:then>
+                                <f:else>
+                                    <f:form.hidden name="poll[options][0][name]" value=""></f:form.hidden>
+                                    <f:form.hidden name="poll[options][1][name]" value=""></f:form.hidden>
+                                </f:else>
+                            </f:if>
+                        </f:else>
+                    </f:if>
+                </div>
+            </div>
+        </div>
+    </f:else>
+    <f:then>
+        <f:render partial="Poll/Type/Simple" arguments="{poll:poll,newOptions:newOptions}" />
+    </f:then>
+</f:if>
+
+<f:section name="removeButton">
+    <button class="t3oodle-poll-option-remove border-0 bg-white text-danger font-weight-bold"
+            type="button"
+            onclick="tx_t3oodle._removeOption(this)"
+            title="Remove this option"
+            tabindex="99">x</button>
+</f:section>
+
+</html>

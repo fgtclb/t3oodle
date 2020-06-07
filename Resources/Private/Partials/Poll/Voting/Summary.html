@@ -1,6 +1,6 @@
 <f:if condition="{poll.finished}">
     <f:then>
-        <f:render section="poll-finished" arguments="{poll:poll}" />
+        <f:render section="poll-finished" arguments="{poll:poll, vote:vote}" />
         <f:section name="poll-finished">
             <div class="text-center">
 
@@ -11,7 +11,7 @@
         </f:section>
     </f:then>
     <f:else>
-        <f:render section="poll-not-finished" arguments="{poll:poll}" />
+        <f:render section="poll-not-finished" arguments="{poll:poll, vote:vote}" />
         <f:section name="poll-not-finished">
             <div class="text-right">
                 <f:if condition="{poll.settingOneOptionOnly}">

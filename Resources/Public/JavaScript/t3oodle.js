@@ -14,10 +14,10 @@ var tx_t3oodle = {
     script.src = this.vars.path + 'JavaScript/t3oodle/' + name;
     document.getElementsByTagName('head')[0].appendChild(script);
   },
-  loadScriptBySelector: function (script, selector) {
+  loadScriptBySelector: function (script, selector, callback) {
     var items = document.querySelectorAll(selector)
     if (items.length > 0) {
-      this.loadScript(script + '.js', function () {
+      this.loadScript(script + '.js', callback || function () {
         tx_t3oodle[script](items);
       });
     }
@@ -37,6 +37,9 @@ var tx_t3oodle = {
     this.loadScriptBySelector('remember', '*[data-remember]');
     this.loadScriptBySelector('conditional-inputs', 'input[data-bind-disable]');
     this.loadScriptBySelector('voting-box', '.t3oodle-voting-checkbox');
-    this.loadScriptBySelector('options-simple', '.t3oodle-new-poll-option');
+    this.loadScriptBySelector('utils-options', '.t3oodle-new-poll-option, .t3oodle-options-per-day', function () {
+      tx_t3oodle.loadScriptBySelector('options-simple', '.t3oodle-new-poll-option');
+      tx_t3oodle.loadScriptBySelector('options-dates', '.t3oodle-options-per-day');
+    });
   }
 };

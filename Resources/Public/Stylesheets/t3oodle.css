@@ -47,13 +47,19 @@ ol.t3oodle-poll-options > li::before {
     text-align: right;
     padding: .375rem 0;
 }
-ol.t3oodle-poll-options > li:last-child button.t3oodle-poll-option-remove {
+ol.t3oodle-poll-options > li:last-child button.t3oodle-poll-option-remove,
+ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
     display: none;
 }
 
 .tx-t3oodle input.input-date, .tx-t3oodle input.input-time {
     display:inline-block;
     width: auto;
+}
+
+.tx-t3oodle .new-option-per-day {
+    display: inline-block;
+    width: calc(100% - 5rem);
 }
 
 .tx-t3oodle .form-check {
@@ -196,4 +202,22 @@ ol.t3oodle-poll-options > li:last-child button.t3oodle-poll-option-remove {
 
 .tx-t3oodle .icon-light {
     color: #888;
+}
+
+.tx-t3oodle .date-group {
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.7);
+}
+.tx-t3oodle .date-group .day {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 1);
+    line-height: 1.3;
+}
+.tx-t3oodle .date-group .weekday {
+    text-transform: uppercase;
+}
+
+.tx-t3oodle .date-group .weekday-7 {
+    color: var(--red)
 }

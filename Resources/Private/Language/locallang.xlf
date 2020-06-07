@@ -93,6 +93,28 @@
 			<trans-unit id="poll.publishDirectly.description">
 				<source>When this checkbox is enabled, the poll is published instantly.</source>
 			</trans-unit>
+
+			<trans-unit id="weekday.1">
+				<source>Mo</source>
+			</trans-unit>
+			<trans-unit id="weekday.2">
+				<source>Tu</source>
+			</trans-unit>
+			<trans-unit id="weekday.3">
+				<source>We</source>
+			</trans-unit>
+			<trans-unit id="weekday.4">
+				<source>Th</source>
+			</trans-unit>
+			<trans-unit id="weekday.5">
+				<source>Fr</source>
+			</trans-unit>
+			<trans-unit id="weekday.6">
+				<source>Sa</source>
+			</trans-unit>
+			<trans-unit id="weekday.7">
+				<source>So</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

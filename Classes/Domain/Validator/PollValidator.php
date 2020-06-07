@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 namespace T3\T3oodle\Domain\Validator;
 
+use T3\T3oodle\Domain\Enumeration\PollType;
 use T3\T3oodle\Domain\Enumeration\Visibility;
+use T3\T3oodle\Domain\Model\Poll;
 use T3\T3oodle\Utility\DateTimeUtility;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -17,7 +19,7 @@ class PollValidator extends AbstractValidator
     ];
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $value
+     * @param Poll $value
      * @return bool
      */
     protected function isValid($value)
@@ -26,6 +28,9 @@ class PollValidator extends AbstractValidator
             return true;
         }
         $statusOptions = $this->checkOptions($value);
+        if ($value->getType() === PollType::SCHEDULE) {
+            $statusOptions = $statusOptions && $this->checkScheduleOptions($value);
+        }
         $statusInfo = $this->checkInfo($value);
         $statusAuthor = $this->checkAuthor($value);
         $statusSettings = $this->checkSettings($value);
@@ -33,10 +38,10 @@ class PollValidator extends AbstractValidator
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $value
+     * @param Poll $value
      * @return bool
      */
-    protected function checkOptions(\T3\T3oodle\Domain\Model\Poll $value): bool
+    protected function checkOptions(Poll $value): bool
     {
         $isValid = true;
         $optionsUnique = true;
@@ -76,11 +81,37 @@ class PollValidator extends AbstractValidator
         return $isValid;
     }
 
+    protected function checkScheduleOptions(Poll $value): bool
+    {
+        $isValid = true;
+        $options = $value->getOptions(true);
+        foreach ($options as $key => $option) {
+            $parts = GeneralUtility::trimExplode(' - ', $option->getName(), 2);
+            if (count($parts) < 1) {
+                $isValid = false;
+                $this->result->forProperty('options')->addError(
+                    new Error('The schedule option value "%s" is not properly formatted!', 56, [$option->getName()])
+                );
+            }
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $parts[0])) {
+                $this->result->forProperty('options')->addError(
+                    new Error('Date format for schedule option is "YYYY-MM-DD". Given value "%s" is not matching!', 57, [$option->getName()])
+                );
+            }
+            if (isset($parts[1]) && empty(trim($parts[1]))) {
+                $this->result->forProperty('options')->addError(
+                    new Error('When you define options per day, they are not allowed to be empty!', 57)
+                );
+            }
+        }
+        return $isValid;
+    }
+
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $value
+     * @param Poll $value
      * @return bool
      */
-    protected function checkInfo(\T3\T3oodle\Domain\Model\Poll $value): bool
+    protected function checkInfo(Poll $value): bool
     {
         $isValid = true;
         if (empty(trim($value->getTitle()))) {
@@ -127,10 +158,10 @@ class PollValidator extends AbstractValidator
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $value
+     * @param Poll $value
      * @return bool
      */
-    protected function checkAuthor(\T3\T3oodle\Domain\Model\Poll $value): bool
+    protected function checkAuthor(Poll $value): bool
     {
         $isValid = true;
         if (!$value->getAuthor()) {
@@ -157,10 +188,10 @@ class PollValidator extends AbstractValidator
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $value
+     * @param Poll $value
      * @return bool
      */
-    protected function checkSettings(\T3\T3oodle\Domain\Model\Poll $value): bool
+    protected function checkSettings(Poll $value): bool
     {
         $isValid = true;
         if ($value->getSettingMaxVotesPerOption() < 0) {

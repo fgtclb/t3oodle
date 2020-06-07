@@ -21,6 +21,7 @@
             <thead>
             <tr>
                 <th>Titel</th>
+                <th>Typ</th>
                 <th>Status</th>
                 <th>Autor</th>
                 <th>Letzte Änderung</th>
@@ -72,6 +73,9 @@
             </f:if>
         </td>
         <td>
+            <span>{poll.type}</span>
+        </td>
+        <td>
             <span>{poll.status}</span>
 
             <f:if condition="{poll.settingVotingExpiresAt}">
@@ -113,7 +117,8 @@
 
 <f:section name="newButton">
     <f:if condition="{settings.allowNewPolls}">
-        <f:link.action action="new" class="btn btn-primary">Create new poll</f:link.action>
+		<f:link.action action="new" arguments="{pollType:'simple'}" class="btn btn-primary">New simple poll</f:link.action>
+		<f:link.action action="new" arguments="{pollType:'schedule'}" class="btn btn-primary">New schedule poll</f:link.action>
     </f:if>
 </f:section>
 </html>

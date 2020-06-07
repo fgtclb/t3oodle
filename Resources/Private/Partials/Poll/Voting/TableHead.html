@@ -5,7 +5,7 @@
     <tr>
         <th class="participant"></th>
         <f:for each="{poll.options}" as="option" iteration="iterator">
-            <th title="{option.name}" class="title {f:if(condition:'{poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">{option.name}</th>
+            <f:render section="tableHeader{poll.partialName}" arguments="{option:option, iterator:iterator}" />
         </f:for>
     </tr>
     <tr>
@@ -26,5 +26,27 @@
             </th>
         </f:for>
     </tr>
+
+<f:section name="tableHeaderSimple">
+    <th title="{option.name}" class="title {f:if(condition:'{poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+        {option.name}
+    </th>
+</f:section>
+<f:section name="tableHeaderSchedule">
+    <th title="{option.name}" class="title {f:if(condition:'{poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+        <f:variable name="date">{option.name -> t3oodle:schedule.splitDayOption(get:'date')}</f:variable>
+        <f:variable name="dateOption">{option.name -> t3oodle:schedule.splitDayOption(get:'option')}</f:variable>
+
+
+        <div class="date-group" style="word-break: keep-all">
+            <div class="month">{date -> f:format.date(format:'M')}</div>
+            <div class="day">{date -> f:format.date(format:'d')}</div>
+            <div class="weekday weekday-{date -> f:format.date(format:'N')}"><f:translate key="weekday.{date -> f:format.date(format:'N')}">{date -> f:format.date(format:'D')}</f:translate></div>
+            <div class="mt-2">
+                {dateOption}
+            </div>
+        </div>
+    </th>
+</f:section>
 
 </html>

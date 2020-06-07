@@ -38,6 +38,10 @@
 					<span>{poll.type}</span>
 				</li>
 				<li>
+					<strong>Amount of options:</strong>
+					<span>{poll.options -> f:count()}</span>
+				</li>
+				<li>
 					<strong>Author:</strong>
 					<span>{poll.authorName}</span>
 					<f:if condition="{poll.authorMail}">

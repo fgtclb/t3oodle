@@ -54,7 +54,7 @@
         <f:render section="votingTable" arguments="{poll:poll, vote:vote}" />
         <f:section name="votingTable">
             <div class="{settings.classes.tableResponsive}">
-                <table class="{settings.classes.table} table-borderless">
+                <table class="{settings.classes.table} table-borderless voting-poll-type-{poll-type}">
                     <thead>
                         <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}" />
                     </thead>
@@ -131,7 +131,7 @@
             </div>
         </f:section>
 
-        <f:render partial="Poll/Voting/Summary" arguments="{poll:poll}" />
+        <f:render partial="Poll/Voting/Summary" arguments="{poll:poll, vote:vote}" />
     </f:form>
 
 </html>

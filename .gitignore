@@ -1,3 +1,5 @@
 /.idea/
 /Documentation-GENERATED-temp/
 /Documentation.tmpl/
+/gource*
+/TODO*

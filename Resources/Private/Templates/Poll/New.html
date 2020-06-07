@@ -3,7 +3,9 @@
   <f:section name="content">
     <f:flashMessages />
 
-    <h1>New Poll</h1>
+    <h1>New Poll
+      <f:link.action action="list" class="btn btn-link">Abbrechen</f:link.action>
+    </h1>
 
     <f:form action="create"  name="poll" object="{poll}">
       <f:render partial="Poll/FormFields" section="default" arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject}" />

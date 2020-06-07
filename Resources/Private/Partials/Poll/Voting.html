@@ -54,7 +54,7 @@
 
                 <f:for each="{poll.votes}" as="pollVote">
                     <f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
-                        <f:render partial="Poll/Voting/VoteRow" section="default" arguments="{vote:pollVote}" />
+                        <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:pollVote}" />
                     </f:if>
                 </f:for>
 
@@ -67,7 +67,7 @@
                                         <f:if condition="{settings._currentUser}">
                                             <f:then>
                                                 <f:form.hidden property="participant" />
-                                                <f:render partial="Poll/ParticipantInfo" arguments="{vote:vote}" />
+                                                <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}" />
                                             </f:then>
                                             <f:else>
                                                 <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" data="{remember:'username'}" />
@@ -93,7 +93,7 @@
                                     <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
                                         <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
                                             <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
-                                            <f:render partial="Poll/VotingBox" arguments="{option:option, key:key, value:optionValue.value}" />
+                                            <f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:optionValue.value}" />
                                         </td>
                                     </f:for>
                                 </f:then>
@@ -101,7 +101,7 @@
                                     <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
                                         <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
                                             <f:variable name="newOptionValue">{newOptionValues.{option.uid}}</f:variable>
-                                            <f:render partial="Poll/VotingBox" arguments="{option:option, key:key, value:newOptionValue}" />
+                                            <f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:newOptionValue}" />
                                         </td>
                                     </f:for>
                                 </f:else>
@@ -109,7 +109,7 @@
                         </tr>
                     </f:then>
                     <f:else>
-                        <f:render partial="Poll/Voting/VoteRow" section="default" arguments="{vote:vote}" />
+                        <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:vote}" />
                     </f:else>
                 </f:if>
                 </tbody>

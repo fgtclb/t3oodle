@@ -9,7 +9,7 @@
                 <f:render section="removeVote" arguments="{vote:vote, hideRemoveLink:hideRemoveLink}"></f:render>
                 <f:if condition="{vote.poll -> t3oodle:permission(action:'seeParticipantsDuringVoting')}">
                     <f:then>
-                        <f:render partial="Poll/ParticipantInfo" arguments="{vote:vote}" />
+                        <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}" />
                     </f:then>
                     <f:else>
                         <span class="{settings.classes.secret}">?</span>

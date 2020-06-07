@@ -8,5 +8,5 @@ final class PollType extends Enumeration
     const __default = self::SIMPLE;
 
     const SIMPLE = 'simple';
-    const APPOINTMENT = 'appointment';
+    const SCHEDULE = 'schedule';
 }

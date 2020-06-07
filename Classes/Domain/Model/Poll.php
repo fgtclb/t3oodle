@@ -528,4 +528,9 @@ class Poll extends AbstractEntity
         }
         return new PollStatus(PollStatus::CLOSED);
     }
+
+    public function getPartialName(): string
+    {
+        return ucfirst($this->getType());
+    }
 }

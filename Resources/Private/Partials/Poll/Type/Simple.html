@@ -1,0 +1,72 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong>Optionen</strong>
+        <f:render partial="FormFieldErrors" arguments="{for: 'poll.options'}" />
+    </div>
+    <div class="card-body">
+        <f:if condition="{poll.votes -> f:count()} > 0">
+            <div class="alert alert-warning">
+                <span class="badge badge-warning text-uppercase mr-2">Caution</span>
+                Existing votes ({poll.votes -> f:count()}) will get removed when updating options or option related settings, below.
+            </div>
+        </f:if>
+        <ol class="t3oodle-poll-options">
+            <f:variable name="lastIndex">2</f:variable>
+            <f:if condition="{poll.options -> f:count()}">
+                <f:then>
+                    <!-- used in edit action -->
+                    <f:for each="{poll.options}" as="option" key="key" iteration="iterator">
+                        <li class="t3oodle-poll-option" style="{f:if(condition:'{option.markToDelete}', then:'display: none;')}">
+                            <f:form.hidden property="options.{key}.__identity" value="{option.uid}" />
+                            <f:form.textfield class="t3oodle-new-poll-option form-control" property="options.{key}.name" value="{option.name}" placeholder="Option hinzufügen"></f:form.textfield>
+                            <f:form.hidden property="options.{key}.markToDelete" value="{option.markToDelete}"></f:form.hidden>
+                            <f:render section="removeButton" />
+                            <f:render partial="FormFieldErrors" arguments="{for: 'poll.options.{key}.name'}" />
+                        </li>
+                        <f:variable name="lastIndex">{iterator.cycle}</f:variable>
+                    </f:for>
+                </f:then>
+                <f:else>
+                    <!-- used in new action -->
+                    <f:if condition="{newOptions -> f:count()} > 0">
+                        <f:then>
+                            <f:for each="{newOptions}" as="option" key="key" iteration="iterator">
+                                <li>
+                                    <f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][{iterator.index}][name]" value="{option.name}"></f:form.textfield>
+                                    <f:render section="removeButton" />
+                                    <f:render partial="FormFieldErrors" arguments="{for: 'poll.options.{iterator.index}.name'}" />
+                                </li>
+                                <f:variable name="lastIndex">{iterator.cycle}</f:variable>
+                            </f:for>
+                        </f:then>
+                        <f:else>
+                            <li>
+                                <f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][0][name]" value="" placeholder="Option hinzufügen"></f:form.textfield>
+                                <f:render section="removeButton" />
+                            </li>
+                            <li>
+                                <f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][1][name]" value="" placeholder="Option hinzufügen"></f:form.textfield>
+                                <f:render section="removeButton" />
+                            </li>
+                        </f:else>
+                    </f:if>
+                </f:else>
+            </f:if>
+        </ol>
+        <input type="hidden" name="t3oodleLastOptionIndex" id="t3oodleLastOptionIndex" value="{lastIndex}">
+    </div>
+</div>
+
+<f:section name="removeButton">
+    <button class="t3oodle-poll-option-remove border-0 bg-white text-danger font-weight-bold"
+            type="button"
+            onclick="tx_t3oodle._removeOption(this)"
+            title="Remove this option"
+            tabindex="99">x</button>
+</f:section>
+
+</html>

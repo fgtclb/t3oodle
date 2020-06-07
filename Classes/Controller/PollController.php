@@ -1,6 +1,7 @@
 <?php
 namespace T3\T3oodle\Controller;
 
+use T3\T3oodle\Domain\Enumeration\PollType;
 use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Domain\Validator\PollValidator;
 use T3\T3oodle\Exception\AccessDeniedException;
@@ -209,11 +210,15 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \T3\T3oodle\Domain\Model\Poll|null $poll
      * @param bool $publishDirectly
+     * @param string $pollType
      * @return void
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function newAction(\T3\T3oodle\Domain\Model\Poll $poll = null, bool $publishDirectly = true)
-    {
+    public function newAction(
+        \T3\T3oodle\Domain\Model\Poll $poll = null,
+        bool $publishDirectly = true,
+        string $pollType = PollType::SIMPLE
+    ) {
         if (!$this->settings['allowNewPolls']) {
             throw new AccessDeniedException('Creation of new polls has been disabled.');
         }
@@ -223,6 +228,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 $poll->setAuthor($this->currentUser);
             }
         }
+        $poll->setType($pollType);
         $this->view->assign('poll', $poll);
         if ($this->request->getOriginalRequest()) {
             $newOptions = $this->request->getOriginalRequest()->getArgument('poll')['options'];

@@ -14,7 +14,16 @@
         <f:render section="poll-not-finished" arguments="{poll:poll}" />
         <f:section name="poll-not-finished">
             <div class="text-right">
-                <span id="t3oodle-votes-summary"></span>
+                <f:if condition="{poll.settingOneOptionOnly}">
+                    <f:then>
+                        <span class="text-dark mr-3">
+                        Hinweis: Es ist nur eine Option erlaubt.
+                        </span>
+                        </f:then>
+                    <f:else>
+                        <span id="t3oodle-votes-summary"></span>
+                    </f:else>
+                </f:if>
                 <f:if condition="{settings.allowNewVotes} && {poll -> t3oodle:permission(action:'voting')}">
                     <f:then>
                         <f:if condition="{vote.uid}">

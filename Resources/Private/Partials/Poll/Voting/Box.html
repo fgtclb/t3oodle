@@ -7,8 +7,9 @@
             Full
         </f:then>
         <f:else>
+            <f:variable name="oneOptionOnlyClass"><f:if condition="{option.poll.settingOneOptionOnly}">one-option-only</f:if></f:variable>
             <f:form.hidden property="optionValues.{key}.option" value="{option}" />
-            <f:form.select property="optionValues.{key}.value" options="{option.checkboxStates}" value="{value}" class="t3oodle-voting-checkbox d-none"></f:form.select>
+            <f:form.select property="optionValues.{key}.value" options="{option.checkboxStates}" value="{value}" class="t3oodle-voting-checkbox d-none {oneOptionOnlyClass}"></f:form.select>
         </f:else>
     </f:if>
 </html>

@@ -26,6 +26,18 @@ tx_t3oodle._buildVotingBox = function (checkbox) {
       nextOption = checkbox.querySelector('option[value="' + nextOption.value + '"] ~ option');
     }
 
+    if (checkbox.classList.contains('one-option-only')) {
+      var checkboxes = checkbox.closest('div').querySelectorAll('.t3oodle-voting-checkbox');
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].value = 0;
+        checkboxes[i].alt = '';
+        checkboxes[i]._image.src = tx_t3oodle.vars.path + 'Icons/check-0.svg';
+        checkboxes[i]._image.parentNode.classList.remove('voting-status-1');
+        checkboxes[i]._image.parentNode.classList.remove('voting-status-2');
+        checkboxes[i]._image.parentNode.classList.add('voting-status-0');
+      }
+    }
+
     checkbox.value = nextOption.value;
 
     image.alt = nextOption.text;
@@ -40,6 +52,7 @@ tx_t3oodle._buildVotingBox = function (checkbox) {
   image.addEventListener('click', event);
   image.addEventListener('keyup', event);
 
+  checkbox._image = image;
   checkbox.after(image);
   image.parentNode.classList.add('voting-status-' + currentOption.value);
 };

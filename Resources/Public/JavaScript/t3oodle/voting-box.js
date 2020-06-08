@@ -15,6 +15,7 @@ tx_t3oodle._buildVotingBox = function (checkbox) {
     if (event.key && event.keyCode !== 32) { // Space
       return;
     }
+    event.stopPropagation();
 
     var currentOption = checkbox.querySelector('option[value="' + checkbox.value + '"]');
     var nextOption = checkbox.querySelector('option[value="' + checkbox.value + '"] ~ option');

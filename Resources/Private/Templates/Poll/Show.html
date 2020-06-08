@@ -2,57 +2,63 @@
 	  xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
 	  data-namespace-typo3-fluid="true">
 
-	<f:layout name="Default" />
+<f:layout name="Default" />
 
-	<f:section name="content">
-		<f:flashMessages />
+<f:section name="content">
+	<f:flashMessages />
+	<f:render section="header" arguments="{poll:poll}" />
+	<f:render section="info" arguments="{poll:poll}" />
+	<f:render partial="Poll/Voting" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues}" />
+	<f:render partial="Poll/Administration" section="default" arguments="{poll:poll}" />
+</f:section>
 
-		<h1 class="title">
-			{poll.title}
-			<f:link.action class="btn btn-link" action="list">Back to list</f:link.action>
-		</h1>
-		<div class=" mb-4">
-			<f:if condition="{poll.description}">
-				<p class="description lead mb-4">
-					{poll.description -> f:format.nl2br()}
-				</p>
-			</f:if>
-			<f:if condition="{poll.link}">
-				<p class="link lead my-4">
-					Link: <f:link.external uri="{poll.link}" target="_blank" class="external">{poll.link -> f:format.crop(maxCharacters:48)}</f:link.external>
-				</p>
-			</f:if>
-			<div class="t3oodle-stats d-inline-block text-left">
-				<ul class="list-unstyled my-0">
-					<li>
-						<strong>Type:</strong>
-						<span>{poll.type}</span>
-					</li>
-					<li>
-						<strong>Author:</strong>
-						<span>{poll.authorName}</span>
-						<f:if condition="{poll.authorMail}">
-							<<f:link.email email="{poll.authorMail}" />>
-						</f:if>
-					</li>
-					<f:if condition="{poll.published}">
-						<li>
-							<strong>Published at:</strong>
-							<span>{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
-						</li>
+<f:section name="header">
+	<h1 class="title">
+		{poll.title}
+		<f:link.action class="btn btn-link" action="list">Back to list</f:link.action>
+	</h1>
+</f:section>
+
+<f:section name="info">
+	<div class=" mb-4">
+		<f:if condition="{poll.description}">
+			<p class="description lead mb-4">
+				{poll.description -> f:format.nl2br()}
+			</p>
+		</f:if>
+		<f:if condition="{poll.link}">
+			<p class="link lead my-4">
+				Link: <f:link.external uri="{poll.link}" target="_blank" class="external">{poll.link -> f:format.crop(maxCharacters:48)}</f:link.external>
+			</p>
+		</f:if>
+		<div class="t3oodle-stats d-inline-block text-left">
+			<ul class="list-unstyled my-0">
+				<li>
+					<strong>Type:</strong>
+					<span>{poll.type}</span>
+				</li>
+				<li>
+					<strong>Author:</strong>
+					<span>{poll.authorName}</span>
+					<f:if condition="{poll.authorMail}">
+						<<f:link.email email="{poll.authorMail}" />>
 					</f:if>
-					<f:if condition="{poll.finished}">
-						<li>
-							<strong>Finished at:</strong>
-							<span>{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
-						</li>
-					</f:if>
-				</ul>
-			</div>
+				</li>
+				<f:if condition="{poll.published}">
+					<li>
+						<strong>Published at:</strong>
+						<span>{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+					</li>
+				</f:if>
+				<f:if condition="{poll.finished}">
+					<li>
+						<strong>Finished at:</strong>
+						<span>{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+					</li>
+				</f:if>
+			</ul>
 		</div>
+	</div>
+</f:section>
 
-		<f:render partial="Poll/Voting" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues}" />
-
-		<f:render  partial="Poll/StatusHandling" section="default" arguments="{poll:poll}" />
-	</f:section>
 </html>

@@ -1,6 +1,7 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
-<f:section name="default">
+<f:render section="general" arguments="{poll:poll}" />
+<f:section name="general">
 	<div class="card mb-4">
 		<div class="card-header">
 			<strong>General</strong>
@@ -48,7 +49,10 @@
 			</div>
 		</div>
 	</div>
+</f:section>
 
+<f:render section="author" arguments="{poll:poll}" />
+<f:section name="author">
 	<div class="card mb-4">
 		<div class="card-header">
 			<strong>Author</strong>
@@ -81,9 +85,12 @@
 			</f:if>
 		</div>
 	</div>
+</f:section>
 
-	<f:render partial="Poll/Type/{poll.partialName}" arguments="{poll:poll,newOptions:newOptions}" />
+<f:render partial="Poll/Type/{poll.partialName}" arguments="{poll:poll,newOptions:newOptions}" />
 
+<f:render section="settings" arguments="{poll:poll}" />
+<f:section name="settings">
 	<div class="card mb-4">
 		<div class="card-header">
 			<strong>Einstellungen</strong>
@@ -165,8 +172,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
+</div>
 </f:section>
 
 </html>

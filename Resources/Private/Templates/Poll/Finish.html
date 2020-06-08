@@ -1,45 +1,52 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-	  xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
-	  data-namespace-typo3-fluid="true">
+      xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
-	<f:layout name="Default" />
+<f:layout name="Default"/>
 
-	<f:section name="content">
-		<f:flashMessages />
+<f:section name="content">
+    <f:flashMessages/>
+    <f:render section="header" arguments="{poll:poll}" />
+    <f:render section="form" arguments="{poll:poll}" />
+</f:section>
 
-		<h1 class="title">Finish "{poll.title}"</h1>
+<f:section name="header">
+    <h1 class="title">
+        Finish "{poll.title}"
+        <f:link.action class="btn btn-link" action="show" arguments="{poll:poll}">Back to poll</f:link.action>
+    </h1>
+</f:section>
 
-		<f:form action="finish" name="poll" object="{poll}" class="finishing">
-			<div class="{settings.classes.tableResponsive}"></div>
-			<table class="{settings.classes.table} table-striped table-borderless">
-				<thead>
-					<f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}" />
-				</thead>
-				<tbody>
-					<f:for each="{poll.votes}" as="vote">
-						<f:render partial="Poll/Voting/Row" section="default" arguments="{vote:vote, hideRemoveLink:1}" />
-					</f:for>
-					<tr>
-						<td>
-							<strong>Select final option(s)</strong>
-						</td>
-						<f:for each="{poll.options}" as="option" iteration="iterator">
-							<td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-								<div class="form-check">
-									<f:form.radio name="option" class="form-check-input position-static larger"  value="{option.uid}" />
-								</div>
-							</td>
-						</f:for>
-					</tr>
-				</tbody>
-			</table>
+<f:section name="form">
+    <f:form action="finish" name="poll" object="{poll}" class="finishing">
+        <div class="{settings.classes.tableResponsive}"></div>
+        <table class="{settings.classes.table} table-striped table-borderless">
+            <thead>
+            <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}"/>
+            </thead>
+            <tbody>
+            <f:for each="{poll.votes}" as="vote">
+                <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:vote, hideRemoveLink:1}"/>
+            </f:for>
+            <tr>
+                <td>
+                    <strong>Select final option(s)</strong>
+                </td>
+                <f:for each="{poll.options}" as="option" iteration="iterator">
+                    <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+                        <div class="form-check">
+                            <f:form.radio name="option" class="form-check-input position-static larger"
+                                          value="{option.uid}"/>
+                        </div>
+                    </td>
+                </f:for>
+            </tr>
+            </tbody>
+        </table>
 
-			<div class="text-right">
-				<f:form.submit value="Finish" class="btn btn-primary" />
-			</div>
-		</f:form>
-
-		<f:link.action class="btn btn-link" action="show" arguments="{poll:poll}">Back to poll</f:link.action>
-
-	</f:section>
+        <div class="text-right">
+            <f:form.submit value="Finish" class="btn btn-primary"/>
+        </div>
+    </f:form>
+</f:section>
 </html>

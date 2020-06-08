@@ -5,149 +5,133 @@
     <f:form action="vote" name="vote" object="{vote}" class="voting mb-5">
         <f:form.hidden property="poll" value="{poll}" />
 
-        <f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
-            <div class="alert alert-info">
-                <strong class="d-block">
-                    <t3oodle:svg class="mx-1 alert-info" path="Icons/user-secret-solid.svg" />
-                    Die Abstimmung ist geheim.
-                </strong>
-                <f:if condition="{poll.settingSecretVotings} && {poll.settingSecretParticipants}">
-                    <f:then>Sowohl die Teilnehmer als auch die abgegebenen Stimmen sind nur für den Autor der Umfrage sichtbar.</f:then>
-                    <f:else>
-                        <f:if condition="{poll.settingSecretVotings}">
-                            Die abgegebenen Stimmen der Teilnehmer sind nur für den Autor der Umfrage sichtbar.
-                        </f:if>
-                        <f:if condition="{poll.settingSecretParticipants}">
-                            Die Daten der Teilnehmer sind nur für den Autor der Umfrage sichtbar.
-                        </f:if>
-                    </f:else>
-                </f:if>
-            </div>
-        </f:if>
-
-
-        <f:if condition="{poll.settingVotingExpiresAt}">
-            <div class="alert alert-warning">
-                <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
-                    <strong>
-                        <t3oodle:svg class="mx-1 alert-warning" path="Icons/clock-regular.svg" />
-                        Achtung!
+        <f:render section="noticeSecretVoting" arguments="{poll:poll}" />
+        <f:section name="noticeSecretVoting">
+            <f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
+                <div class="alert alert-info">
+                    <strong class="d-block">
+                        <t3oodle:svg class="mx-1 alert-info" path="Icons/user-secret-solid.svg" />
+                        Die Abstimmung ist geheim.
                     </strong>
-                    <f:if condition="{poll.votingExpired}">
-                        <f:then>
-                            Für diese Umfrage konnte nur bis <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>
-                            abgestimmt werden.
-                        </f:then>
+                    <f:if condition="{poll.settingSecretVotings} && {poll.settingSecretParticipants}">
+                        <f:then>Sowohl die Teilnehmer als auch die abgegebenen Stimmen sind nur für den Autor der Umfrage sichtbar.</f:then>
                         <f:else>
-                            Für diese Umfrage kann nur bis <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time> abgestimmt werden.
+                            <f:if condition="{poll.settingSecretVotings}">
+                                Die abgegebenen Stimmen der Teilnehmer sind nur für den Autor der Umfrage sichtbar.
+                            </f:if>
+                            <f:if condition="{poll.settingSecretParticipants}">
+                                Die Daten der Teilnehmer sind nur für den Autor der Umfrage sichtbar.
+                            </f:if>
                         </f:else>
                     </f:if>
-                </td>
-            </div>
-        </f:if>
-        <div class="{settings.classes.tableResponsive}">
-            <table class="{settings.classes.table} table-borderless">
-                <thead>
-                    <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}" />
-                </thead>
-                <tbody>
-
-                <f:for each="{poll.votes}" as="pollVote">
-                    <f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
-                        <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:pollVote}" />
-                    </f:if>
-                </f:for>
-
-                <f:if condition="{settings.allowNewVotes} && {poll -> t3oodle:permission(action:'voting')}">
-                    <f:then>
-                        <tr class="vote yours">
-                            <td class="participant">
-                                <div class="row">
-                                    <div class="col-10">
-                                        <f:if condition="{settings._currentUser}">
-                                            <f:then>
-                                                <f:form.hidden property="participant" />
-                                                <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}" />
-                                            </f:then>
-                                            <f:else>
-                                                <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" data="{remember:'username'}" />
-                                                <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantName'}" />
-                                                <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="Deine E-Mail-Adresse" tabindex="2" data="{remember:'mail'}" />
-                                                <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantMail'}" />
-                                            </f:else>
-                                        </f:if>
-                                    </div>
-                                    <div class="col-2">
-                                        <f:if condition="{vote.uid}">
-                                            <f:link.action action="deleteVote" arguments="{vote:vote}"
-                                                           class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
-                                                           title="Remove your vote" data="{confirm:'Are you sure you want to remove your own vote?'}">
-                                                x
-                                            </f:link.action>
-                                        </f:if>
-                                    </div>
-                                </div>
-                            </td>
-                            <f:if condition="{vote.uid}">
-                                <f:then>
-                                    <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
-                                        <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-                                            <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
-                                            <f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:optionValue.value}" />
-                                        </td>
-                                    </f:for>
-                                </f:then>
-                                <f:else>
-                                    <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
-                                        <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-                                            <f:variable name="newOptionValue"><f:spaceless>
-                                                <f:if condition="{newOptionValues.{option.uid}}">
-                                                    <f:then>{newOptionValues.{option.uid}}</f:then>
-                                                    <f:else>0</f:else>
-                                                </f:if>
-                                            </f:spaceless></f:variable>
-                                            <f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:newOptionValue}" />
-                                        </td>
-                                    </f:for>
-                                </f:else>
-                            </f:if>
-                        </tr>
-                    </f:then>
-                    <f:else>
-                        <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:vote}" />
-                    </f:else>
-                </f:if>
-                </tbody>
-            </table>
-            <f:render partial="FormFieldErrors" arguments="{for: 'vote.optionValues'}" />
-        </div>
-
-        <f:if condition="{poll.finished}">
-            <f:then>
-                <div class="text-center">
-
-                    <p class="mb-1">The voting has been finished at <time class="font-weight-bold text-info" datetime="{poll.finishDate -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</time>.
-                        The final option is:</p>
-                    <p class="lead"><strong>{poll.finalOption.name}</strong></p>
                 </div>
-            </f:then>
-            <f:else>
-                <div class="text-right">
-                    <span id="t3oodle-votes-summary"></span>
+            </f:if>
+        </f:section>
+
+        <f:render section="noticeExpiring" arguments="{poll:poll}" />
+        <f:section name="noticeExpiring">
+            <f:if condition="{poll.settingVotingExpiresAt}">
+                <div class="alert alert-warning">
+                    <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
+                        <strong>
+                            <t3oodle:svg class="mx-1 alert-warning" path="Icons/clock-regular.svg" />
+                            Achtung!
+                        </strong>
+                        <f:if condition="{poll.votingExpired}">
+                            <f:then>
+                                Für diese Umfrage konnte nur bis <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>
+                                abgestimmt werden.
+                            </f:then>
+                            <f:else>
+                                Für diese Umfrage kann nur bis <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time> abgestimmt werden.
+                            </f:else>
+                        </f:if>
+                    </td>
+                </div>
+            </f:if>
+        </f:section>
+
+        <f:render section="votingTable" arguments="{poll:poll, vote:vote}" />
+        <f:section name="votingTable">
+            <div class="{settings.classes.tableResponsive}">
+                <table class="{settings.classes.table} table-borderless">
+                    <thead>
+                        <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}" />
+                    </thead>
+                    <tbody>
+
+                    <f:for each="{poll.votes}" as="pollVote">
+                        <f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
+                            <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:pollVote}" />
+                        </f:if>
+                    </f:for>
+
                     <f:if condition="{settings.allowNewVotes} && {poll -> t3oodle:permission(action:'voting')}">
                         <f:then>
-                            <f:if condition="{vote.uid}">
-                                <f:then><f:form.submit class="btn btn-primary" value="Update" tabindex="3" /></f:then>
-                                <f:else><f:form.submit class="btn btn-primary" value="Vote" tabindex="3" /></f:else>
-                            </f:if>
+                            <tr class="vote yours">
+                                <td class="participant">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <f:if condition="{settings._currentUser}">
+                                                <f:then>
+                                                    <f:form.hidden property="participant" />
+                                                    <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}" />
+                                                </f:then>
+                                                <f:else>
+                                                    <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" data="{remember:'username'}" />
+                                                    <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantName'}" />
+                                                    <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="Deine E-Mail-Adresse" tabindex="2" data="{remember:'mail'}" />
+                                                    <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantMail'}" />
+                                                </f:else>
+                                            </f:if>
+                                        </div>
+                                        <div class="col-2">
+                                            <f:if condition="{vote.uid}">
+                                                <f:link.action action="deleteVote" arguments="{vote:vote}"
+                                                               class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
+                                                               title="Remove your vote" data="{confirm:'Are you sure you want to remove your own vote?'}">
+                                                    x
+                                                </f:link.action>
+                                            </f:if>
+                                        </div>
+                                    </div>
+                                </td>
+                                <f:if condition="{vote.uid}">
+                                    <f:then>
+                                        <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
+                                            <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+                                                <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
+                                                <f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:optionValue.value}" />
+                                            </td>
+                                        </f:for>
+                                    </f:then>
+                                    <f:else>
+                                        <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
+                                            <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+                                                <f:variable name="newOptionValue"><f:spaceless>
+                                                    <f:if condition="{newOptionValues.{option.uid}}">
+                                                        <f:then>{newOptionValues.{option.uid}}</f:then>
+                                                        <f:else>0</f:else>
+                                                    </f:if>
+                                                </f:spaceless></f:variable>
+                                                <f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:newOptionValue}" />
+                                            </td>
+                                        </f:for>
+                                    </f:else>
+                                </f:if>
+                            </tr>
                         </f:then>
                         <f:else>
-                            <f:form.submit class="btn btn-light" value="Voting disabled" disabled="disabled" />
+                            <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:vote}" />
                         </f:else>
                     </f:if>
-                </div>
-            </f:else>
-        </f:if>
+                    </tbody>
+                </table>
+                <f:render partial="FormFieldErrors" arguments="{for: 'vote.optionValues'}" />
+            </div>
+        </f:section>
+
+        <f:render partial="Poll/Voting/Summary" arguments="{poll:poll}" />
     </f:form>
 
 </html>

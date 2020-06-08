@@ -1,103 +1,115 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-	  xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
-	  data-namespace-typo3-fluid="true">
+      xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
-	<f:layout name="Default" />
+<f:layout name="Default"/>
 
-	<f:section name="content">
-		<f:flashMessages />
+<f:section name="content">
+    <f:flashMessages/>
+    <f:render section="header" arguments="{polls:polls}"/>
+    <f:render section="table" arguments="{polls:polls}"/>
+    <f:render section="newButton"/>
+</f:section>
 
-		<h1>Polls</h1>
+<f:section name="header">
+    <h1>Polls</h1>
+</f:section>
 
-		<div class="{settings.classes.tableResponsive}">
-			<table class="{settings.classes.table}">
-				<thead>
-					<tr>
-						<th>Titel</th>
-						<th>Status</th>
-						<th>Autor</th>
-						<th>Letzte Änderung</th>
-						<th>Teilnehmer</th>
-					</tr>
-				</thead>
-				<tbody>
-					<f:if condition="{polls -> f:count()} > 0"><
-						<f:then>
-							<f:if condition="{settings.pollsPerPage} > 0">
-								<f:then>
-									<f:widget.paginate objects="{polls}" as="paginatedPolls" configuration="{itemsPerPage:settings.pollsPerPage, insertBelow: 1, maximumNumberOfLinks: 99}">
-										<f:for each="{paginatedPolls}" as="poll">
-											<f:render section="pollRow" arguments="{poll:poll}" />
-										</f:for>
-									</f:widget.paginate>
-								</f:then>
-								<f:else>
-									<f:for each="{polls}" as="poll">
-										<f:render section="pollRow" arguments="{poll:poll}" />
-									</f:for>
-								</f:else>
-							</f:if>
-						</f:then>
-						<f:else>
-							<tr>
-								<td colspan="5"><em>No polls found</em></td>
-							</tr>
-						</f:else>
-					</f:if>
-				</tbody>
-			</table>
-		</div>
-		<f:render section="newButton" />
-	</f:section>
+<f:section name="table">
+    <div class="{settings.classes.tableResponsive}">
+        <table class="{settings.classes.table}">
+            <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Status</th>
+                <th>Autor</th>
+                <th>Letzte Änderung</th>
+                <th>Teilnehmer</th>
+            </tr>
+            </thead>
+            <tbody>
+            <f:if condition="{polls -> f:count()} > 0"><
+                <f:then>
+                    <f:if condition="{settings.pollsPerPage} > 0">
+                        <f:then>
+                            <f:widget.paginate objects="{polls}" as="paginatedPolls"
+                                               configuration="{itemsPerPage:settings.pollsPerPage, insertBelow: 1, maximumNumberOfLinks: 99}">
+                                <f:for each="{paginatedPolls}" as="poll">
+                                    <f:render section="pollRow" arguments="{poll:poll}"/>
+                                </f:for>
+                            </f:widget.paginate>
+                        </f:then>
+                        <f:else>
+                            <f:for each="{polls}" as="poll">
+                                <f:render section="pollRow" arguments="{poll:poll}"/>
+                            </f:for>
+                        </f:else>
+                    </f:if>
+                </f:then>
+                <f:else>
+                    <tr>
+                        <td colspan="5"><em>No polls found</em></td>
+                    </tr>
+                </f:else>
+            </f:if>
+            </tbody>
+        </table>
+    </div>
+</f:section>
 
+<f:section name="pollRow">
+    <tr>
+        <td>
+            <f:link.action action="show" arguments="{poll : poll}" class="font-weight-bold">{poll.title}</f:link.action>
+            <f:if condition="!{poll -> t3oodle:permission(action:'viewingInGeneral')}">
+                (nur für dich sichtbar)
+            </f:if>
+            <f:if condition="{poll.settingVotingExpiresAt}">
+                <t3oodle:svg class="mx-1 icon-light" path="Icons/clock-regular.svg"
+                             title="Für diese Umfrage kann nur bis {poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')} abgestimmt werden"/>
+            </f:if>
+            <f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
+                <t3oodle:svg class="mx-1 icon-light" path="Icons/user-secret-solid.svg"
+                             title="Teile der Umfrage sind nicht öffentlich einsehbar."/>
+            </f:if>
+            <f:if condition="{poll.hasCurrentUserVoted}">
+                <t3oodle:svg class="mx-1 icon-light" path="Icons/check-gray.svg" title="Du hast bereits abgestimmt."/>
+            </f:if>
+        </td>
+        <td>
+            {poll.status}
+        </td>
+        <td>
+            <f:render partial="Poll/AuthorInfo" arguments="{poll:poll}"/>
+        </td>
+        <td>
+            <f:if condition="{poll.published}">
+                <f:then>
+                    <f:spaceless>
+                        <f:if condition="{poll.finished}">
+                            <f:then>
+                                <t3oodle:svg class="mr-1 icon-light" path="Icons/flag-checkered-solid.svg"
+                                             title="Finished at"/>
+                                <span>{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+                            </f:then>
+                            <f:else>
+                                <t3oodle:svg class="mr-1 icon-light" path="Icons/clock-regular.svg"
+                                             title="Published at"/>
+                                {poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}
+                            </f:else>
+                        </f:if>
+                    </f:spaceless>
+                </f:then>
+                <f:else><em>Unveröffentlicht</em></f:else>
+            </f:if>
+        </td>
+        <td>{poll.votes -> f:count()}</td>
+    </tr>
+</f:section>
 
-	<f:section name="pollRow">
-		<tr>
-			<td>
-				<f:link.action action="show" arguments="{poll : poll}" class="font-weight-bold">{poll.title}</f:link.action>
-				<f:if condition="!{poll -> t3oodle:permission(action:'viewingInGeneral')}">
-					(nur für dich sichtbar)
-				</f:if>
-				<f:if condition="{poll.settingVotingExpiresAt}">
-					<t3oodle:svg class="mx-1 icon-light" path="Icons/clock-regular.svg" title="Für diese Umfrage kann nur bis {poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')} abgestimmt werden" />
-				</f:if>
-				<f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
-					<t3oodle:svg class="mx-1 icon-light" path="Icons/user-secret-solid.svg" title="Teile der Umfrage sind nicht öffentlich einsehbar." />
-				</f:if>
-				<f:if condition="{poll.hasCurrentUserVoted}">
-					<t3oodle:svg class="mx-1 icon-light" path="Icons/check-gray.svg" title="Du hast bereits abgestimmt." />
-				</f:if>
-			</td>
-			<td>
-				{poll.status}
-			</td>
-			<td>
-				<f:render partial="Poll/AuthorInfo" arguments="{poll:poll}" />
-			</td>
-			<td>
-				<f:if condition="{poll.published}">
-					<f:then>
-						<f:spaceless>
-							<f:if condition="{poll.finished}">
-								<f:then>
-									<t3oodle:svg class="mr-1 icon-light" path="Icons/flag-checkered-solid.svg" title="Finished at" />
-									<span>{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
-								</f:then>
-								<f:else>
-									<t3oodle:svg class="mr-1 icon-light" path="Icons/clock-regular.svg" title="Published at" />
-									{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}
-								</f:else>
-							</f:if>
-						</f:spaceless>
-					</f:then>
-					<f:else><em>Unveröffentlicht</em></f:else>
-				</f:if></td>
-			<td>{poll.votes -> f:count()}</td>
-		</tr>
-	</f:section>
-	<f:section name="newButton">
-		<f:if condition="{settings.allowNewPolls}">
-			<f:link.action action="new" class="btn btn-primary">Create new poll</f:link.action>
-		</f:if>
-	</f:section>
+<f:section name="newButton">
+    <f:if condition="{settings.allowNewPolls}">
+        <f:link.action action="new" class="btn btn-primary">Create new poll</f:link.action>
+    </f:if>
+</f:section>
 </html>

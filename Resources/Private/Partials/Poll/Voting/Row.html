@@ -9,7 +9,7 @@
                 <f:render section="removeVote" arguments="{vote:vote, hideRemoveLink:hideRemoveLink}"></f:render>
                 <f:if condition="{vote.poll -> t3oodle:permission(action:'seeParticipantsDuringVoting')}">
                     <f:then>
-                        <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}" />
+                        <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}"/>
                     </f:then>
                     <f:else>
                         <span class="{settings.classes.secret}">?</span>
@@ -40,7 +40,8 @@
             <f:link.action action="deleteVote" arguments="{vote:vote}"
                            class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
                            title="Remove this vote" data="{confirm:'Are you sure you want to remove this vote?'}"
-            >x</f:link.action>
+            >x
+            </f:link.action>
         </f:if>
     </f:if>
 </f:section>

@@ -1,31 +1,39 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
-  <f:layout name="Default" />
-  <f:section name="content">
-    <f:flashMessages />
+<f:layout name="Default"/>
+<f:section name="content">
+    <f:flashMessages/>
 
-    <h1>New Poll
-      <f:link.action action="list" class="btn btn-link">Abbrechen</f:link.action>
+    <f:render section="header" arguments="{poll:poll, contentObject:contentObject}" />
+    <f:render section="form" arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject}" />
+</f:section>
+
+<f:section name="header">
+    <h1>
+        New Poll
+        <f:link.action action="list" class="btn btn-link">Abbrechen</f:link.action>
     </h1>
+</f:section>
 
-    <f:form action="create"  name="poll" object="{poll}">
-      <f:render partial="Poll/FormFields" section="default" arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject}" />
-      <div class="card mb-3">
-        <div class="card-body">
-          <div class="form-check">
-            <f:form.checkbox name="publishDirectly" value="1" checked="{publishDirectly}" class="form-check-input mr-3 larger" id="t3oodle-poll-publish-directly" />
-            <label class="form-check-label" for="t3oodle-poll-publish-directly">
-              <strong><f:translate key="poll.publishDirectly.title" /></strong><br>
-              <f:translate key="poll.publishDirectly.description" />
-            </label>
-          </div>
+<f:section name="form">
+    <f:form action="create" name="poll" object="{poll}">
+        <f:render partial="Poll/FormFields"
+                  arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject}"/>
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="form-check">
+                    <f:form.checkbox name="publishDirectly" value="1" checked="{publishDirectly}"
+                                     class="form-check-input mr-3 larger" id="t3oodle-poll-publish-directly"/>
+                    <label class="form-check-label" for="t3oodle-poll-publish-directly">
+                        <strong>
+                            <f:translate key="poll.publishDirectly.title"/>
+                        </strong><br>
+                        <f:translate key="poll.publishDirectly.description"/>
+                    </label>
+                </div>
+            </div>
         </div>
-      </div>
-      <f:form.submit class="btn btn-primary" value="Create new" />
-
-      <!-- TODO: Publish button -->
-
-      <f:link.action action="list" class="btn btn-link">Zurück zur Übersicht</f:link.action>
-
+        <f:form.submit class="btn btn-primary" value="Create new"/>
+        <f:link.action action="list" class="btn btn-link">Zurück zur Übersicht</f:link.action>
     </f:form>
-  </f:section>
+</f:section>
 </html>

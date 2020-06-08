@@ -1,20 +1,20 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
-  <f:layout name="Default" />
+<f:layout name="Default"/>
 
-  <f:section name="content">
-    <f:flashMessages />
+<f:section name="content">
+    <f:flashMessages/>
 
     <h1>
-      Edit "{poll.title}"
-      <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link">Zurück</f:link.action>
+        Edit "{poll.title}"
+        <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link">Zurück</f:link.action>
     </h1>
 
     <f:form action="update" name="poll" object="{poll}" class="my-4">
-      <f:render partial="Poll/FormFields" section="default" arguments="{poll:poll,contentObject:contentObject}" />
-      <f:form.submit class="btn btn-primary" value="Save changes" />
-      <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link">Zurück zur Umfrage</f:link.action>
+        <f:render partial="Poll/FormFields" arguments="{poll:poll,contentObject:contentObject}"/>
+        <f:form.submit class="btn btn-primary" value="Save changes"/>
+        <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link">Zurück zur Umfrage</f:link.action>
     </f:form>
-  </f:section>
+</f:section>
 </html>

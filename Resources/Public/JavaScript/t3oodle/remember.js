@@ -12,6 +12,12 @@ tx_t3oodle.remember = function (items) {
           rememberInput.value = value;
         }
       }
+
+      if (rememberInput.value && document.cookie && document.cookie.indexOf('tx_t3oodle_userIdent=') > -1) {
+        rememberInput.readOnly = true;
+        rememberInput.classList.add('disabled');
+      }
+
       rememberInput.addEventListener('change', function (event) {
         var key = 't3oodle-remember-' + event.target.dataset.remember;
         if (event.target.value) {

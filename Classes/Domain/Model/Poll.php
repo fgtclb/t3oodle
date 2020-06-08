@@ -406,6 +406,11 @@ class Poll extends AbstractEntity
         $this->votes = $votes;
     }
 
+    public function getIsCurrentUserAuthor(): bool
+    {
+        return $this->getAuthorIdent() === UserIdentUtility::getCurrentUserIdent();
+    }
+
     public function getHasCurrentUserVoted(): bool
     {
         foreach ($this->getVotes() as $vote) {

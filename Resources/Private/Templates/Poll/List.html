@@ -64,6 +64,16 @@
             <f:if condition="!{poll -> t3oodle:permission(action:'viewingInGeneral')}">
                 (nur für dich sichtbar)
             </f:if>
+            <f:if condition="{poll.isCurrentUserAuthor}">
+                <t3oodle:svg class="mx-1 icon-light" path="Icons/crown-solid.svg" title="Du bist der Autor dieser Umfrage."/>
+            </f:if>
+            <f:if condition="{poll.hasCurrentUserVoted}">
+                <t3oodle:svg class="mx-1 icon-light" path="Icons/check-gray.svg" title="Du hast bereits abgestimmt."/>
+            </f:if>
+        </td>
+        <td>
+            <span>{poll.status}</span>
+
             <f:if condition="{poll.settingVotingExpiresAt}">
                 <t3oodle:svg class="mx-1 icon-light" path="Icons/clock-regular.svg"
                              title="Für diese Umfrage kann nur bis {poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')} abgestimmt werden"/>
@@ -72,12 +82,6 @@
                 <t3oodle:svg class="mx-1 icon-light" path="Icons/user-secret-solid.svg"
                              title="Teile der Umfrage sind nicht öffentlich einsehbar."/>
             </f:if>
-            <f:if condition="{poll.hasCurrentUserVoted}">
-                <t3oodle:svg class="mx-1 icon-light" path="Icons/check-gray.svg" title="Du hast bereits abgestimmt."/>
-            </f:if>
-        </td>
-        <td>
-            {poll.status}
         </td>
         <td>
             <f:render partial="Poll/AuthorInfo" arguments="{poll:poll}"/>

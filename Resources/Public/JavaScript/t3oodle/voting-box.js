@@ -55,6 +55,7 @@ tx_t3oodle._buildVotingBox = function (checkbox) {
   checkbox._image = image;
   checkbox.after(image);
   image.parentNode.classList.add('voting-status-' + currentOption.value);
+  image.parentNode.addEventListener('click', event);
 };
 
 tx_t3oodle._calculateVotes = function () {

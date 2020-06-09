@@ -16,12 +16,10 @@ tx_t3oodle._calcScheduleOptions = function () {
   var optionsContainer = document.querySelector('.t3oodle-options-per-day');
   var allOptions = optionsContainer.querySelectorAll('.new-option-per-day');
 
-  if (!tx_t3oodle.vars.selectedTimes || tx_t3oodle.vars.selectedTimes.length === 0 || tx_t3oodle.vars.selectedTimes.length !== allOptions.length) {
-    tx_t3oodle.vars.selectedTimes = [];
-    for (var i2 = 0; i2 < allOptions.length; i2++) {
-      if (allOptions[i2].value) {
-        tx_t3oodle.vars.selectedTimes[i2] = allOptions[i2].value;
-      }
+  tx_t3oodle.vars.selectedTimes = [];
+  for (var i2 = 0; i2 < allOptions.length; i2++) {
+    if (allOptions[i2].value) {
+      tx_t3oodle.vars.selectedTimes[i2] = allOptions[i2].value;
     }
   }
 
@@ -46,14 +44,15 @@ tx_t3oodle._calcScheduleOptions = function () {
     if (tx_t3oodle.vars.selectedTimes.length > 0) {
       for (var i3 = 0; i3 < tx_t3oodle.vars.selectedTimes.length; i3++) {
         var dayOption = tx_t3oodle.vars.selectedTimes[i3];
-
-        var value2 = day + ' - ' + dayOption;
-        var hidden = document.createElement('input');
-        hidden.type = 'hidden';
-        hidden.name = 'tx_t3oodle_main[poll][options][' + index + '][name]';
-        hidden.value = value2;
-        container.appendChild(hidden);
-        index++;
+        if (dayOption) {
+          var value2 = day + ' - ' + dayOption;
+          var hidden = document.createElement('input');
+          hidden.type = 'hidden';
+          hidden.name = 'tx_t3oodle_main[poll][options][' + index + '][name]';
+          hidden.value = value2;
+          container.appendChild(hidden);
+          index++;
+        }
       }
     } else {
       var hidden2 = document.createElement('input');
@@ -73,7 +72,7 @@ tx_t3oodle.optionPerDayKeyUpCallback = function () {
   tx_t3oodle._calcScheduleOptions();
 };
 
-tx_t3oodle['options-dates'] = function (items) {
+tx_t3oodle['options-schedule'] = function (items) {
   if (items.length !== 1) {
     return;
   }
@@ -132,8 +131,6 @@ tx_t3oodle['options-dates'] = function (items) {
       var option = existingOptions[i];
 
       if (option.value.indexOf(' - ') > -1) {
-        // TODO: variationen existieren
-        // console.log('variations existing');
         var parts = option.value.split(' - ');
         var date = parts[0];
         var variation = parts[1];

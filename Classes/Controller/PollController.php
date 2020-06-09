@@ -8,6 +8,7 @@ use T3\T3oodle\Exception\AccessDeniedException;
 use T3\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use T3\T3oodle\Utility\CookieUtility;
 use T3\T3oodle\Utility\DateTimeUtility;
+use T3\T3oodle\Utility\ScheduleOptionUtility;
 use T3\T3oodle\Utility\SlugUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -407,6 +408,16 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                         unset ($poll['options'][$index]); // remove
                     } else {
                         $poll['options'][$index]['name'] = trim($pollOption['name']); // trim
+                    }
+                }
+
+                if ($poll['type'] === PollType::SCHEDULE) {
+                    // Order options alphabetically
+                    $status = usort($pollOptions, function(array $a, array $b) {
+                        return strcmp($a['name'], $b['name']);
+                    });
+                    if ($status) {
+                        $poll['options'] = $pollOptions;
                     }
                 }
             }

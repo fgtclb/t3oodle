@@ -39,7 +39,7 @@ var tx_t3oodle = {
     this.loadScriptBySelector('voting-box', '.t3oodle-voting-checkbox');
     this.loadScriptBySelector('utils-options', '.t3oodle-new-poll-option, .t3oodle-options-per-day', function () {
       tx_t3oodle.loadScriptBySelector('options-simple', '.t3oodle-new-poll-option');
-      tx_t3oodle.loadScriptBySelector('options-dates', '.t3oodle-options-per-day');
+      tx_t3oodle.loadScriptBySelector('options-schedule', '.t3oodle-options-per-day');
     });
   }
 };

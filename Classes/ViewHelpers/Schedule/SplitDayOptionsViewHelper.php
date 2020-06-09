@@ -2,6 +2,7 @@
 namespace T3\T3oodle\ViewHelpers\Schedule;
 
 use T3\T3oodle\Domain\Model\Option;
+use T3\T3oodle\Utility\ScheduleOptionUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -28,7 +29,7 @@ class SplitDayOptionsViewHelper extends AbstractViewHelper
         /** @var Option|array $option */
         foreach ($options as $option) {
             $name = is_array($option) ? $option['name'] : $option->getName();
-            $parts = GeneralUtility::trimExplode(' - ', $name, true, 2);
+            $parts = GeneralUtility::trimExplode(ScheduleOptionUtility::DAY_OPTION_DELIMITER, $name, true, 2);
             if (count($parts) === 2) {
                 if ($arguments['get'] === 'options') {
                     $items[] = $parts[1];

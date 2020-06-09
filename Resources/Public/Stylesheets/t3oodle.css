@@ -207,6 +207,7 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
 .tx-t3oodle .date-group {
     line-height: 1;
     color: rgba(0, 0, 0, 0.7);
+    word-break: keep-all;
 }
 .tx-t3oodle .date-group .day {
     font-size: 1.2rem;

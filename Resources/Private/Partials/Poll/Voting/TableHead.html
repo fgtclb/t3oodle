@@ -34,16 +34,13 @@
 </f:section>
 <f:section name="tableHeaderSchedule">
     <th title="{option.name}" class="title {f:if(condition:'{poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-        <f:variable name="date">{option.name -> t3oodle:schedule.splitDayOption(get:'date')}</f:variable>
-        <f:variable name="dateOption">{option.name -> t3oodle:schedule.splitDayOption(get:'option')}</f:variable>
-
-
-        <div class="date-group" style="word-break: keep-all">
-            <div class="month">{date -> f:format.date(format:'M')}</div>
-            <div class="day">{date -> f:format.date(format:'d')}</div>
-            <div class="weekday weekday-{date -> f:format.date(format:'N')}"><f:translate key="weekday.{date -> f:format.date(format:'N')}">{date -> f:format.date(format:'D')}</f:translate></div>
+        <f:variable name="date">{option.name -> t3oodle:schedule.parseDayOption()}</f:variable>
+        <div class="date-group">
+            <div class="month">{date.dateStart -> f:format.date(format:'M')}</div>
+            <div class="day">{date.dateStart -> f:format.date(format:'d')}</div>
+            <div class="weekday weekday-{date.dateStart -> f:format.date(format:'N')}"><f:translate key="weekday.{date.dateStart -> f:format.date(format:'N')}">{date.dateStart -> f:format.date(format:'D')}</f:translate></div>
             <div class="mt-2">
-                {dateOption}
+                {date.option}
             </div>
         </div>
     </th>

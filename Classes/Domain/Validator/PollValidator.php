@@ -25,6 +25,19 @@ class PollValidator extends AbstractValidator
         if (!$value) {
             return true;
         }
+        $statusOptions = $this->checkOptions($value);
+        $statusInfo = $this->checkInfo($value);
+        $statusAuthor = $this->checkAuthor($value);
+        $statusSettings = $this->checkSettings($value);
+        return $statusOptions && $statusInfo && $statusAuthor && $statusSettings;
+    }
+
+    /**
+     * @param \T3\T3oodle\Domain\Model\Poll $value
+     * @return bool
+     */
+    protected function checkOptions(\T3\T3oodle\Domain\Model\Poll $value): bool
+    {
         $isValid = true;
         $optionsUnique = true;
         $optionValues = [];
@@ -60,8 +73,16 @@ class PollValidator extends AbstractValidator
                 new Error('All options in a poll must be unique.', 51)
             );
         }
+        return $isValid;
+    }
 
-        // Check title
+    /**
+     * @param \T3\T3oodle\Domain\Model\Poll $value
+     * @return bool
+     */
+    protected function checkInfo(\T3\T3oodle\Domain\Model\Poll $value): bool
+    {
+        $isValid = true;
         if (empty(trim($value->getTitle()))) {
             $isValid = false;
             $this->result->forProperty('title')->addError(
@@ -102,8 +123,16 @@ class PollValidator extends AbstractValidator
                 new Error('Given value is not allowed!', 59)
             );
         }
+        return $isValid;
+    }
 
-        // Check author
+    /**
+     * @param \T3\T3oodle\Domain\Model\Poll $value
+     * @return bool
+     */
+    protected function checkAuthor(\T3\T3oodle\Domain\Model\Poll $value): bool
+    {
+        $isValid = true;
         if (!$value->getAuthor()) {
             if (empty(trim($value->getAuthorName()))) {
                 $isValid = false;
@@ -124,8 +153,16 @@ class PollValidator extends AbstractValidator
                 );
             }
         }
+        return $isValid;
+    }
 
-        // Check settings
+    /**
+     * @param \T3\T3oodle\Domain\Model\Poll $value
+     * @return bool
+     */
+    protected function checkSettings(\T3\T3oodle\Domain\Model\Poll $value): bool
+    {
+        $isValid = true;
         if ($value->getSettingMaxVotesPerOption() < 0) {
             $isValid = false;
             $this->result->forProperty('settingMaxVotesPerOption')->addError(

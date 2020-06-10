@@ -51,7 +51,7 @@
             </f:if>
         </f:section>
 
-        <f:render section="votingTable" arguments="{poll:poll, vote:vote}" />
+        <f:render section="votingTable" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues}" />
         <f:section name="votingTable">
             <div class="{settings.classes.tableResponsive}">
                 <table class="{settings.classes.table} table-borderless voting-poll-type-{poll-type}">

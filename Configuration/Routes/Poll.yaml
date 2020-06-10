@@ -12,27 +12,37 @@ routeEnhancers:
         routes:
             - routePath: '/'
               _controller: 'Poll::list'
-            - routePath: '/create'
+
+            - routePath: '/{label-create}{poll-type}'
               _controller: 'Poll::new'
-            - routePath: '/page/{page}'
+              _arguments:
+                  poll-type: pollType
+              locale: 'de_DE'
+
+            - routePath: '/{label-page}/{page}'
               _controller: 'Poll::list'
               _arguments:
                 page: '@widget_0/currentPage'
-            - routePath: '/poll/{poll-title}'
+
+            - routePath: '/{label-poll}/{poll-title}'
               _controller: 'Poll::show'
               _arguments:
                   poll-title: poll
-            - routePath: '/poll/{poll-title}/edit'
+
+            - routePath: '/{label-poll}/{poll-title}/edit'
               _controller: 'Poll::edit'
               _arguments:
                   poll-title: poll
-            - routePath: '/poll/{poll-title}/finish'
+
+            - routePath: '/{label-poll}/{poll-title}/finish'
               _controller: 'Poll::finish'
               _arguments:
                   poll-title: poll
+
         defaultController: 'Poll::list'
         defaults:
             page: '1'
+            poll-type: ''
         requirements:
             page: '\d+'
         aspects:
@@ -40,3 +50,37 @@ routeEnhancers:
                 type: PersistedAliasMapper
                 tableName: tx_t3oodle_domain_model_poll
                 routeFieldName: slug
+            poll-type:
+                type: StaticValueMapper
+                map:
+                    '': 'simple'
+                    '-schedule': 'schedule'
+                localeMap:
+                    - locale: 'de_.*'
+                      map:
+                          '': 'simple'
+                          '-terminfindung': 'schedule'
+            label-page:
+                type: LocaleModifier
+                default: 'page'
+                localeMap:
+                    -   locale: 'de_.*'
+                        value: 'seite'
+            label-create:
+                type: LocaleModifier
+                default: 'create'
+                localeMap:
+                    -   locale: 'de_.*'
+                        value: 'erstellen'
+            label-edit:
+                type: LocaleModifier
+                default: 'edit'
+                localeMap:
+                    -   locale: 'de_.*'
+                        value: 'bearbeiten'
+            label-poll:
+                type: LocaleModifier
+                default: 'poll'
+                localeMap:
+                    -   locale: 'de_.*'
+                        value: 'umfrage'

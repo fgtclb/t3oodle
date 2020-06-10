@@ -90,10 +90,10 @@ tx_t3oodle._calculateVotes = function () {
   }
 };
 
-tx_t3oodle['voting-box'] = function (items) {
-  for (var i = 0; i < items.length; i++) {
-    var checkbox = items[i];
-    tx_t3oodle._buildVotingBox(checkbox)
+tx_t3oodle['voting-box'] = function () {
+  var newItems = document.querySelectorAll('.t3oodle-voting-checkbox');
+  for (var i = 0; i < newItems.length; i++) {
+    tx_t3oodle._buildVotingBox(newItems[i]);
   }
   tx_t3oodle._calculateVotes();
 };

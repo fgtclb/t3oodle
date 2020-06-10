@@ -47,6 +47,7 @@ ol.t3oodle-poll-options > li::before {
     text-align: right;
     padding: .375rem 0;
 }
+select.t3oodle-voting-checkbox,
 ol.t3oodle-poll-options > li:last-child button.t3oodle-poll-option-remove,
 ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
     display: none;

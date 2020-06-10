@@ -11,8 +11,6 @@ call_user_func(
             't3oodle'
         );
 
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('t3oodle', 'Configuration/TypoScript', 't3oodle');
-
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_t3oodle_domain_model_poll', 'EXT:t3oodle/Resources/Private/Language/locallang_csh_tx_t3oodle_domain_model_poll.xlf');
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_t3oodle_domain_model_poll');
 

@@ -281,8 +281,8 @@
 			<trans-unit id="poll.lastChange">
 				<source>Last changed</source>
 			</trans-unit>
-			<trans-unit id="poll.attendees">
-				<source>Attendees</source>
+			<trans-unit id="poll.participants">
+				<source>Participants</source>
 			</trans-unit>
 			<trans-unit id="poll.options">
 				<source>Options</source>

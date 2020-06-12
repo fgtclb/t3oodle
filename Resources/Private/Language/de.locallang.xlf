@@ -341,7 +341,7 @@
 			</trans-unit>
 			<trans-unit id="poll.type.schedule">
 				<source>Schedule</source>
-				<target>Terminfindung</target>
+				<target>Termin-Umfrage</target>
 			</trans-unit>
 			<trans-unit id="poll.status">
 				<source>Status</source>
@@ -371,8 +371,8 @@
 				<source>Last changed</source>
 				<target>Letzte Änderung</target>
 			</trans-unit>
-			<trans-unit id="poll.attendees">
-				<source>Attendees</source>
+			<trans-unit id="poll.participants">
+				<source>Participants</source>
 				<target>Teilnehmer</target>
 			</trans-unit>
 			<trans-unit id="poll.options">

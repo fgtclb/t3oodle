@@ -93,7 +93,7 @@ class PollValidator extends AbstractValidator
                     new Error('The schedule option value "%s" is not properly formatted!', 56, [$option->getName()])
                 );
             }
-            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $parts[0])) {
+            if (isset($parts[0]) && $parts[0] && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $parts[0])) {
                 $this->result->forProperty('options')->addError(
                     new Error('Date format for schedule option is "YYYY-MM-DD". Given value "%s" is not matching!', 57, [$option->getName()])
                 );

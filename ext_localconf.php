@@ -42,7 +42,7 @@ call_user_func(
         $iconRegistry->registerIcon(
             't3oodle-plugin-main',
             \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-            ['source' => 'EXT:t3oodle/Resources/Public/Icons/user_plugin_main.svg']
+            ['source' => 'EXT:t3oodle/Resources/Public/Icons/Extension.svg']
         );
     }
 );

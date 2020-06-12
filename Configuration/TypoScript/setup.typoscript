@@ -49,7 +49,9 @@ plugin.tx_t3oodle {
             # Pagination in list view. Set to 0 to disable pagination.
             itemsPerPage = 10
         }
-
+        show {
+            showReturnToListLink = 1
+        }
         form {
             showReturnToListLink = 1
         }

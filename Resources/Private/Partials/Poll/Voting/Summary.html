@@ -3,7 +3,6 @@
         <f:render section="poll-finished" arguments="{poll:poll, vote:vote}" />
         <f:section name="poll-finished">
             <div class="text-center">
-
                 <p class="mb-1">The voting has been finished at <time class="font-weight-bold text-info" datetime="{poll.finishDate -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</time>.
                     The final option is:</p>
                 <p class="lead"><strong>{poll.finalOption.name}</strong></p>
@@ -17,9 +16,9 @@
                 <f:if condition="{poll.settingOneOptionOnly}">
                     <f:then>
                         <span class="text-dark mr-3">
-                        Hinweis: Es ist nur eine Option erlaubt.
+                            <f:translate key="label.oneOptionOnly" />
                         </span>
-                        </f:then>
+                    </f:then>
                     <f:else>
                         <span id="t3oodle-votes-summary"></span>
                     </f:else>
@@ -27,12 +26,12 @@
                 <f:if condition="{settings.allowNewVotes} && {poll -> t3oodle:permission(action:'voting')}">
                     <f:then>
                         <f:if condition="{vote.uid}">
-                            <f:then><f:form.submit class="btn btn-primary" value="Update" tabindex="3" /></f:then>
-                            <f:else><f:form.submit class="btn btn-primary" value="Vote" tabindex="3" /></f:else>
+                            <f:then><f:form.submit class="btn btn-primary" value="{f:translate(key:'label.updateVote')}" tabindex="3" /></f:then>
+                            <f:else><f:form.submit class="btn btn-primary" value="{f:translate(key:'label.vote')}" tabindex="3" /></f:else>
                         </f:if>
                     </f:then>
                     <f:else>
-                        <f:form.submit class="btn btn-light" value="Voting disabled" disabled="disabled" />
+                        <f:form.submit class="btn btn-light" value="{f:translate(key:'label.votingDisabled')}" disabled="disabled" />
                     </f:else>
                 </f:if>
             </div>

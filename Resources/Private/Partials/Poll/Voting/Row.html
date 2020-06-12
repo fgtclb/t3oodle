@@ -39,7 +39,7 @@
         <f:if condition="{settings.allowNewVotes}">
             <f:link.action action="deleteVote" arguments="{vote:vote}"
                            class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
-                           title="Remove this vote" data="{confirm:'Are you sure you want to remove this vote?'}"
+                           title="{f:translate(key:'label.removeThisVote')}" data="{confirm:'{f:translate(key:\'label.removeThisVoteConfirmation\')}'}"
             >x
             </f:link.action>
         </f:if>

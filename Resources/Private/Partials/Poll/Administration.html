@@ -3,19 +3,19 @@
       data-namespace-typo3-fluid="true">
 
     <f:section name="default">
-        <f:variable name="whoYouAre">the author</f:variable>
+        <f:variable name="whoYouAre"><f:translate key="label.theAuthor" /></f:variable>
         <f:if condition="{poll -> t3oodle:permission(action:'administration')}">
-            <f:variable name="whoYouAre">the author or an admin</f:variable>
+            <f:variable name="whoYouAre"><f:translate key="label.theAuthorOrAdmin" /></f:variable>
         </f:if>
 
         <f:if condition="{poll -> t3oodle:permission(action:'publish')}">
             <div class="alert alert-secondary mb-4">
                 <div class="buttons float-right my-2">
                     <f:render section="buttons" arguments="{poll:poll}" />
-                    <f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success">Publish now</f:link.action>
+                    <f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success"><f:translate key="label.publishNow" /></f:link.action>
                 </div>
                 <p class="my-3">
-                    You are {whoYouAre}. This poll is not published yet!
+                    <f:translate key="label.youAre" /> {whoYouAre}. <f:translate key="label.pollNotPublishedYet" />
                     <f:render section="noticeVotingDisabled" />
                 </p>
             </div>
@@ -25,10 +25,10 @@
             <div class="alert alert-secondary mb-4">
                 <div class="buttons float-right my-2">
                     <f:render section="buttons" arguments="{poll:poll}" />
-                    <f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success">Finish voting</f:link.action>
+                    <f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success"><f:translate key="label.finishVoting" /></f:link.action>
                 </div>
                 <p class="my-3">
-                    <strong>You are {whoYouAre}. The poll is published<f:if condition="{poll.visibility} == 'not_listed'">, but not listed</f:if>.</strong>
+                    <strong><f:translate key="label.youAre" /> {whoYouAre}. <f:translate key="label.pollPublished" /><f:if condition="{poll.visibility} == 'not_listed'"><f:translate key="label.butNotListed" /></f:if>.</strong>
                     <f:render section="noticeVotingDisabled" />
                 </p>
 
@@ -38,16 +38,16 @@
 
     <f:section name="buttons">
         <f:if condition="{poll -> t3oodle:permission(action:'edit')}">
-            <f:link.action class="btn btn-secondary mr-1" action="edit" arguments="{poll:poll}">Edit</f:link.action>
+            <f:link.action class="btn btn-secondary mr-1" action="edit" arguments="{poll:poll}"><f:translate key="label.edit" /></f:link.action>
         </f:if>
         <f:if condition="{poll -> t3oodle:permission(action:'delete')}">
-            <f:link.action class="btn btn-danger mr-1" action="delete" arguments="{poll:poll}" data="{confirm:'Do you really want to delete this poll?'}">Delete</f:link.action>
+            <f:link.action class="btn btn-danger mr-1" action="delete" arguments="{poll:poll}" data="{confirm:'{f:translate(key:\'label.deleteConfirmation\')}'}"><f:translate key="label.delete" /></f:link.action>
         </f:if>
     </f:section>
 
     <f:section name="noticeVotingDisabled">
         <f:if condition="!{settings.allowNewVotes}">
-            <br><strong class="text-info">Note: Adding new votes has been disabled by administrator.</strong>
+            <br><strong class="text-info"><f:translate key="label.noticeAllowNewVotesDisabled" /></strong>
         </f:if>
     </f:section>
 </html>

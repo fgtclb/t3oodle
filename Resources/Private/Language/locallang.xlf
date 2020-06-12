@@ -24,6 +24,15 @@
 			<trans-unit id="header.edit.schedule">
 				<source>Edit schedule poll "%s"</source>
 			</trans-unit>
+			<trans-unit id="header.show">
+				<source>Displaying poll</source>
+			</trans-unit>
+			<trans-unit id="header.show.simple">
+				<source>%s</source>
+			</trans-unit>
+			<trans-unit id="header.show.schedule">
+				<source>%s</source>
+			</trans-unit>
 			<trans-unit id="header.finish">
 				<source>Finish poll "%s"</source>
 			</trans-unit>
@@ -123,8 +132,116 @@
 			<trans-unit id="label.optionOptions">
 				<source>option/s</source>
 			</trans-unit>
+			<trans-unit id="label.moreInfo">
+				<source>More info</source>
+			</trans-unit>
 			<trans-unit id="label.linkPlaceholder">
 				<source>e.g. https://domain.com</source>
+			</trans-unit>
+			<trans-unit id="label.amountOptions">
+				<source>Amount of options</source>
+			</trans-unit>
+			<trans-unit id="label.secret.title">
+				<source>The vote is secret</source>
+			</trans-unit>
+			<trans-unit id="label.secret.all">
+				<source>Information about participants and votes are just visible for poll author.</source>
+			</trans-unit>
+			<trans-unit id="label.secret.votings">
+				<source>The votes of participants are just visible for the poll author.</source>
+			</trans-unit>
+			<trans-unit id="label.secret.participants">
+				<source>Participants info are just visible for the poll author.</source>
+			</trans-unit>
+			<trans-unit id="label.votingWillExpire.pre">
+				<source>Voting for this poll will end at</source>
+			</trans-unit>
+			<trans-unit id="label.votingWillExpire.post">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="label.votingIsExpired.pre">
+				<source>Voting for this poll ended at</source>
+			</trans-unit>
+			<trans-unit id="label.votingIsExpired.post">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="label.yourName">
+				<source>Your name</source>
+			</trans-unit>
+			<trans-unit id="label.yourMailAddress">
+				<source>Your mail address</source>
+			</trans-unit>
+			<trans-unit id="label.removeYourVote">
+				<source>Remove your vote</source>
+			</trans-unit>
+			<trans-unit id="label.removeYourVoteConfirmation">
+				<source>Are you sure you want to remove your own vote?</source>
+			</trans-unit>
+			<trans-unit id="label.full">
+				<source>full</source>
+			</trans-unit>
+			<trans-unit id="label.removeThisVote">
+				<source>Remove this vote</source>
+			</trans-unit>
+			<trans-unit id="label.removeThisVoteConfirmation">
+				<source>Are you sure you want to remove this vote?</source>
+			</trans-unit>
+			<trans-unit id="label.oneOptionOnly">
+				<source>Note: Only one option allowed.</source>
+			</trans-unit>
+			<trans-unit id="label.vote">
+				<source>Vote</source>
+			</trans-unit>
+			<trans-unit id="label.updateVote">
+				<source>Update vote</source>
+			</trans-unit>
+			<trans-unit id="label.votingDisabled">
+				<source>Voting disabled</source>
+			</trans-unit>
+			<trans-unit id="label.participant">
+				<source>participant</source>
+			</trans-unit>
+			<trans-unit id="label.participants">
+				<source>participants</source>
+			</trans-unit>
+			<trans-unit id="label.inclYou">
+				<source>(incl. you)</source>
+			</trans-unit>
+			<trans-unit id="label.youAre">
+				<source>You are</source>
+			</trans-unit>
+			<trans-unit id="label.theAuthor">
+				<source>the author</source>
+			</trans-unit>
+			<trans-unit id="label.theAuthorOrAdmin">
+				<source>the author or an admin</source>
+			</trans-unit>
+			<trans-unit id="label.publishNow">
+				<source>Publish now</source>
+			</trans-unit>
+			<trans-unit id="label.pollNotPublishedYet">
+				<source>This poll is not published yet!</source>
+			</trans-unit>
+			<trans-unit id="label.pollPublished">
+				<source>The poll is published</source>
+			</trans-unit>
+			<trans-unit id="label.butNotListed">
+				<source>, but not listed</source>
+			</trans-unit>
+			<trans-unit id="label.finishVoting">
+				<source>Finish voting</source>
+			</trans-unit>
+			<trans-unit id="label.edit">
+				<source>Edit</source>
+			</trans-unit>
+			<trans-unit id="label.delete">
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="label.deleteConfirmation">
+				<source>Do you really want to delete this poll?</source>
+			</trans-unit>
+			<trans-unit id="label.noticeAllowNewVotesDisabled">
+				<source>Note: Adding new votes has been disabled by administrator.</source>
 			</trans-unit>
 
 

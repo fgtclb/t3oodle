@@ -11,16 +11,16 @@
                 <div class="alert alert-info">
                     <strong class="d-block">
                         <t3oodle:svg class="mx-1 alert-info" path="Icons/user-secret-solid.svg" />
-                        Die Abstimmung ist geheim.
+                        <f:translate key="label.secret.title" />
                     </strong>
                     <f:if condition="{poll.settingSecretVotings} && {poll.settingSecretParticipants}">
-                        <f:then>Sowohl die Teilnehmer als auch die abgegebenen Stimmen sind nur für den Autor der Umfrage sichtbar.</f:then>
+                        <f:then><f:translate key="label.secret.all" /></f:then>
                         <f:else>
                             <f:if condition="{poll.settingSecretVotings}">
-                                Die abgegebenen Stimmen der Teilnehmer sind nur für den Autor der Umfrage sichtbar.
+                                <f:translate key="label.secret.votings" />
                             </f:if>
                             <f:if condition="{poll.settingSecretParticipants}">
-                                Die Daten der Teilnehmer sind nur für den Autor der Umfrage sichtbar.
+                                <f:translate key="label.secret.participants" />
                             </f:if>
                         </f:else>
                     </f:if>
@@ -35,15 +35,18 @@
                     <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
                         <strong>
                             <t3oodle:svg class="mx-1 alert-warning" path="Icons/clock-regular.svg" />
-                            Achtung!
+                            <f:translate key="label.caution" />
                         </strong>
                         <f:if condition="{poll.votingExpired}">
                             <f:then>
-                                Für diese Umfrage konnte nur bis <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>
-                                abgestimmt werden.
+                                <f:translate key="label.votingIsExpired.pre" />
+                                <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>
+                                <f:translate key="label.votingIsExpired.post" />
                             </f:then>
                             <f:else>
-                                Für diese Umfrage kann nur bis <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time> abgestimmt werden.
+                                <f:translate key="label.votingWillExpire.pre" />
+                                <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>
+                                <f:translate key="label.votingWillExpire.post" />
                             </f:else>
                         </f:if>
                     </td>
@@ -78,9 +81,9 @@
                                                     <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}" />
                                                 </f:then>
                                                 <f:else>
-                                                    <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="Dein Name" tabindex="1" data="{remember:'username'}" />
+                                                    <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="{f:translate(key:'label.yourName')}" tabindex="1" data="{remember:'username'}" />
                                                     <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantName'}" />
-                                                    <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="Deine E-Mail-Adresse" tabindex="2" data="{remember:'mail'}" />
+                                                    <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="{f:translate(key:'label.yourMailAddress')}" tabindex="2" data="{remember:'mail'}" />
                                                     <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantMail'}" />
                                                 </f:else>
                                             </f:if>
@@ -89,7 +92,7 @@
                                             <f:if condition="{vote.uid}">
                                                 <f:link.action action="deleteVote" arguments="{vote:vote}"
                                                                class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
-                                                               title="Remove your vote" data="{confirm:'Are you sure you want to remove your own vote?'}">
+                                                               title="{f:translate(key:'label.removeYourVote')}" data="{confirm:'{f:translate(key:\'label.removeYourVoteConfirmation\')}'}">
                                                     x
                                                 </f:link.action>
                                             </f:if>

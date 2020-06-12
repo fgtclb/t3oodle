@@ -13,14 +13,19 @@
 </f:section>
 
 <f:section name="header">
-	<h1 class="title">
-		{poll.title}
-		<f:link.action class="btn btn-link" action="list">Back to list</f:link.action>
-	</h1>
+	<f:variable name="header"><f:translate key="header.show.{poll.type}" arguments="{0: poll.title}"><f:translate key="header.show" arguments="{0: poll.title}" /></f:translate></f:variable>
+	<f:if condition="{header}">
+		<h1>
+			{header}
+			<f:if condition="{settings.show.showReturnToListLink}">
+				<f:link.action action="list" class="btn btn-link"><f:translate key="label.backToList" /></f:link.action>
+			</f:if>
+		</h1>
+	</f:if>
 </f:section>
 
 <f:section name="info">
-	<div class=" mb-4">
+	<div class="poll-info mb-4">
 		<f:if condition="{poll.description}">
 			<p class="description lead mb-4">
 				{poll.description -> f:format.nl2br()}
@@ -28,36 +33,37 @@
 		</f:if>
 		<f:if condition="{poll.link}">
 			<p class="link lead my-4">
-				Link: <f:link.external uri="{poll.link}" target="_blank" class="external">{poll.link -> f:format.crop(maxCharacters:48)}</f:link.external>
+				<f:translate key="label.moreInfo" />: <f:link.external uri="{poll.link}" target="_blank" class="external">{poll.link -> f:format.crop(maxCharacters:48)}</f:link.external>
 			</p>
 		</f:if>
 		<div class="t3oodle-stats d-inline-block text-left">
 			<ul class="list-unstyled my-0">
 				<li>
-					<strong>Type:</strong>
-					<span>{poll.type}</span>
+					<strong><f:translate key="poll.type" />:</strong>
+					<span><f:translate key="poll.type.{poll.type}">{poll.type}</f:translate></span>
 				</li>
 				<li>
-					<strong>Amount of options:</strong>
+					<strong><f:translate key="poll.status" />:</strong>
+					<span><f:translate key="poll.status.{poll.status}">{poll.status}</f:translate></span>
+				</li>
+				<li>
+					<strong><f:translate key="poll.author" />:</strong>
+					<f:render partial="Poll/AuthorInfo" arguments="{poll:poll}" />
+				</li>
+				<li>
+					<strong><f:translate key="label.amountOptions" />:</strong>
 					<span>{poll.options -> f:count()}</span>
-				</li>
-				<li>
-					<strong>Author:</strong>
-					<span>{poll.authorName}</span>
-					<f:if condition="{poll.authorMail}">
-						<<f:link.email email="{poll.authorMail}" />>
-					</f:if>
 				</li>
 				<f:if condition="{poll.published}">
 					<li>
-						<strong>Published at:</strong>
-						<span>{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+						<strong><f:translate key="label.publishedAt" />:</strong>
+						<span class="date">{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
 					</li>
 				</f:if>
 				<f:if condition="{poll.finished}">
 					<li>
-						<strong>Finished at:</strong>
-						<span>{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+						<strong><f:translate key="label.finishedAt" />:</strong>
+						<span class="date">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
 					</li>
 				</f:if>
 			</ul>

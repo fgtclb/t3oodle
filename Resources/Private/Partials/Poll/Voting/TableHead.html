@@ -9,7 +9,14 @@
         </f:for>
     </tr>
     <tr>
-        <th class="participant">{poll.votes -> f:count()} participants<f:if condition="{vote.uid}"> (incl. you)</f:if> </th>
+        <th class="participant">
+            {poll.votes -> f:count()}
+            <f:if condition="{poll.votes -> f:count()} == 1">
+                <f:then>{f:translate(key:'label.participant')}</f:then>
+                <f:else>{f:translate(key:'label.participants')}</f:else>
+            </f:if>
+            <f:if condition="{vote.uid}"> <f:translate key="label.inclYou" /></f:if>
+        </th>
         <f:for each="{poll.options}" as="option" iteration="iterator">
             <th class="total {f:if(condition:'{poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
                 <f:if condition="{poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">

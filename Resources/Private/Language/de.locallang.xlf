@@ -31,6 +31,18 @@
 				<source>Edit schedule poll "%s"</source>
 				<target>Termin-Umfrage "%s" bearbeiten</target>
 			</trans-unit>
+			<trans-unit id="header.show">
+				<source>Displaying poll</source>
+				<target>Umfrage anzeigen</target>
+			</trans-unit>
+			<trans-unit id="header.show.simple">
+				<source>%s</source>
+				<target>%s</target>
+			</trans-unit>
+			<trans-unit id="header.show.schedule">
+				<source>%s</source>
+				<target>%s</target>
+			</trans-unit>
 			<trans-unit id="header.finish">
 				<source>Finish poll "%s"</source>
 				<target>Umfrage "%s" fertigstellen</target>
@@ -162,11 +174,154 @@
 				<source>option/s</source>
 				<target>Option(en)</target>
 			</trans-unit>
+			<trans-unit id="label.moreInfo">
+				<source>More info</source>
+				<target>Mehr Informationen</target>
+			</trans-unit>
 			<trans-unit id="label.linkPlaceholder">
 				<source>e.g. https://domain.com</source>
 				<target>z.B. https://domain.de</target>
 			</trans-unit>
-
+			<trans-unit id="label.amountOptions">
+				<source>Amount of options</source>
+				<target>Anzahl Optionen</target>
+			</trans-unit>
+			<trans-unit id="label.secret.title">
+				<source>The vote is secret</source>
+				<target>Die Abstimmung ist geheim</target>
+			</trans-unit>
+			<trans-unit id="label.secret.all">
+				<source>Information about participants and votes are just visible for poll author.</source>
+				<target>Sowohl die Teilnehmer als auch die abgegebenen Stimmen sind nur für den Autor der Umfrage sichtbar.</target>
+			</trans-unit>
+			<trans-unit id="label.secret.votings">
+				<source>The votes of participants are just visible for the poll author.</source>
+				<target>Die abgegebenen Stimmen der Teilnehmer sind nur für den Autor der Umfrage sichtbar.</target>
+			</trans-unit>
+			<trans-unit id="label.secret.participants">
+				<source>Participants info are just visible for the poll author.</source>
+				<target>Die Daten der Teilnehmer sind nur für den Autor der Umfrage sichtbar.</target>
+			</trans-unit>
+			<trans-unit id="label.votingWillExpire.pre">
+				<source>Voting for this poll will end at</source>
+				<target>Für diese Umfrage kann nur bis</target>
+			</trans-unit>
+			<trans-unit id="label.votingWillExpire.post">
+				<source></source>
+				<target>abgestimmt werden.</target>
+			</trans-unit>
+			<trans-unit id="label.votingIsExpired.pre">
+				<source>Voting for this poll ended at</source>
+				<target>Für diese Umfrage konnte nur bis</target>
+			</trans-unit>
+			<trans-unit id="label.votingIsExpired.post">
+				<source></source>
+				<target>abgestimmt werden.</target>
+			</trans-unit>
+			<trans-unit id="label.yourName">
+				<source>Your name</source>
+				<target>Dein Name</target>
+			</trans-unit>
+			<trans-unit id="label.yourMailAddress">
+				<source>Your mail address</source>
+				<target>Deine E-Mail-Adresse</target>
+			</trans-unit>
+			<trans-unit id="label.removeYourVote">
+				<source>Remove your vote</source>
+				<target>Entferne deine abgegebene Stimme</target>
+			</trans-unit>
+			<trans-unit id="label.removeYourVoteConfirmation">
+				<source>Are you sure you want to remove your own vote?</source>
+				<target>Bist Du sicher Deine abgegebene Stimme entfernen zu wollen?</target>
+			</trans-unit>
+			<trans-unit id="label.full">
+				<source>full</source>
+				<target>voll</target>
+			</trans-unit>
+			<trans-unit id="label.removeThisVote">
+				<source>Remove this vote</source>
+				<target>Entferne abgegebene Stimme</target>
+			</trans-unit>
+			<trans-unit id="label.removeThisVoteConfirmation">
+				<source>Are you sure you want to remove this vote?</source>
+				<target>Bist Du sicher diese Stimme entfernen zu wollen?</target>
+			</trans-unit>
+			<trans-unit id="label.oneOptionOnly">
+				<source>Note: Only one option allowed.</source>
+				<target>Hinweis: Es ist nur eine Option erlaubt.</target>
+			</trans-unit>
+			<trans-unit id="label.vote">
+				<source>Vote</source>
+				<target>Abstimmen</target>
+			</trans-unit>
+			<trans-unit id="label.updateVote">
+				<source>Update vote</source>
+				<target>Abstimmung ändern</target>
+			</trans-unit>
+			<trans-unit id="label.votingDisabled">
+				<source>Voting disabled</source>
+				<target>Abstimmung deaktiviert</target>
+			</trans-unit>
+			<trans-unit id="label.participant">
+				<source>participant</source>
+				<target>Teilnehmer</target>
+			</trans-unit>
+			<trans-unit id="label.participants">
+				<source>participants</source>
+				<target>Teilnehmer</target>
+			</trans-unit>
+			<trans-unit id="label.inclYou">
+				<source>(incl. you)</source>
+				<target>(inkl. Dir)</target>
+			</trans-unit>
+			<trans-unit id="label.youAre">
+				<source>You are</source>
+				<target>Du bist</target>
+			</trans-unit>
+			<trans-unit id="label.theAuthor">
+				<source>the author</source>
+				<target>der Autor</target>
+			</trans-unit>
+			<trans-unit id="label.theAuthorOrAdmin">
+				<source>the author or an admin</source>
+				<target>der Autor oder ein Administrator</target>
+			</trans-unit>
+			<trans-unit id="label.publishNow">
+				<source>Publish now</source>
+				<target>Jetzt veröffentlichen</target>
+			</trans-unit>
+			<trans-unit id="label.pollNotPublishedYet">
+				<source>This poll is not published yet!</source>
+				<target>Diese Umfrage wurde bisher noch nicht veröffentlicht!</target>
+			</trans-unit>
+			<trans-unit id="label.pollPublished">
+				<source>The poll is published</source>
+				<target>Die Umfrage ist veröffentlicht</target>
+			</trans-unit>
+			<trans-unit id="label.butNotListed">
+				<source>, but not listed</source>
+				<target>, aber nicht gelistet</target>
+			</trans-unit>
+			<trans-unit id="label.finishVoting">
+				<source>Finish voting</source>
+				<target>Abstimmung beenden</target>
+			</trans-unit>
+			<trans-unit id="label.edit">
+				<source>Edit</source>
+				<target>Bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="label.delete">
+				<source>Delete</source>
+				<target>Löschen</target>
+			</trans-unit>
+			<trans-unit id="label.deleteConfirmation">
+				<source>Do you really want to delete this poll?</source>
+				<target>Möchtest Du diese Umfrage wirklich löschen?</target>
+			</trans-unit>
+			<trans-unit id="label.noticeAllowNewVotesDisabled">
+				<source>Note: Adding new votes has been disabled by administrator.</source>
+				<target>Info: Das Hinzufügen von neuen Stimmen wurde vom Administrator deaktiviert.</target>
+			</trans-unit>
 
 			<trans-unit id="poll">
 				<source>Poll</source>
@@ -237,8 +392,8 @@
 				<target>Beschreibung</target>
 			</trans-unit>
 			<trans-unit id="poll.link">
-				<source>Link (further info)</source>
-				<target>Link (weitere Informationen)</target>
+				<source>Link (more info)</source>
+				<target>Link (mehr Informationen)</target>
 			</trans-unit>
 			<trans-unit id="poll.visibility">
 				<source>Visibility</source>

@@ -119,12 +119,12 @@
                                 <f:then>
                                     <t3oodle:svg class="mr-1 icon-light" path="Icons/flag-checkered-solid.svg"
                                                  title="{f:translate(key:'label.finishedAt')}"/>
-                                    <span>{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+                                    <span class="date">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
                                 </f:then>
                                 <f:else>
                                     <t3oodle:svg class="mr-1 icon-light" path="Icons/clock-regular.svg"
                                                  title="{f:translate(key:'label.publishedAt')}"/>
-                                    {poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}
+                                    <span class="date">{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
                                 </f:else>
                             </f:if>
                         </f:spaceless>

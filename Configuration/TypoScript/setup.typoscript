@@ -29,6 +29,9 @@ plugin.tx_t3oodle {
         adminUserUids =
         adminUserGroupUids =
 
+        # When enabled, a "maybe" vote does count like a regular vote. Disabled by default.
+        countMaybeVotes = 0
+
         # Allow creation of new polls
         allowNewPolls = 1
         # Allow creation of new votes

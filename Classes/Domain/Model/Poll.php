@@ -5,6 +5,7 @@ use T3\T3oodle\Domain\Enumeration\PollStatus;
 use T3\T3oodle\Domain\Permission\PollPermission;
 use T3\T3oodle\Traits\Model\DynamicUserProperties;
 use T3\T3oodle\Utility\DateTimeUtility;
+use T3\T3oodle\Utility\SettingsUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -476,6 +477,7 @@ class Poll extends AbstractEntity
      */
     public function getOptionTotals(): array
     {
+        $settings = SettingsUtility::getTypoScriptSettings();
         $optionTotals = [];
         foreach ($this->getVotes() as $vote) {
             foreach ($vote->getOptionValues() as $optionValue) {
@@ -483,7 +485,7 @@ class Poll extends AbstractEntity
                     if (!array_key_exists($optionValue->getOption()->getUid(), $optionTotals)) {
                         $optionTotals[$optionValue->getOption()->getUid()] = 0;
                     }
-                    if ($optionValue->getValue() === '1') {
+                    if ($optionValue->getValue() === '1' || ($settings['countMaybeVotes'] && $optionValue->getValue() === '2')) {
                         $optionTotals[$optionValue->getOption()->getUid()]++;
                     }
                 }

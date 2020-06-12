@@ -1,12 +1,18 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
-<f:if condition="{poll.authorMail}">
+<f:if condition="{poll.authorMail} && {settings.outputAuthorMails}">
     <f:then>
         <f:link.email email="{poll.authorMail}">{poll.authorName}</f:link.email>
+        <f:if condition="{settings.outputGuestNotice} && !{poll.author}">
+            <span class="text-guest"><f:translate key="label.guest" /></span>
+        </f:if>
     </f:then>
     <f:else>
         <span>{poll.authorName}</span>
+        <f:if condition="{settings.outputGuestNotice} && !{poll.author}">
+            <span class="text-guest"><f:translate key="label.guest" /></span>
+        </f:if>
     </f:else>
 </f:if>
 </html>

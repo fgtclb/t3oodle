@@ -18,6 +18,14 @@ plugin.tx_t3oodle {
         frontendUserNameField = name
         frontendUserMailField = email
 
+        # When enabled, outputs name of author and adds a mailto link, if mail is given. Just output name if disabled
+        outputAuthorMails = 1
+        # Same like outputAuthorMails, just for participants who voted on a poll
+        outputParticipantMails = 1
+
+        # When enabled, poll authors and participants without fe_users session are marked as "guest"
+        outputGuestNotice = 1
+
         adminUserUids =
         adminUserGroupUids =
 
@@ -25,9 +33,6 @@ plugin.tx_t3oodle {
         allowNewPolls = 1
         # Allow creation of new votes
         allowNewVotes = 1
-
-        # Pagination in list view. Set to 0 to disable pagination.
-        pollsPerPage = 10
 
         list {
             # Display draft polls (only for author and admins)
@@ -40,6 +45,9 @@ plugin.tx_t3oodle {
             finished = 1
             # Enable display of polls, which only you see (e.g. not listed or draft)
             personal = 1
+
+            # Pagination in list view. Set to 0 to disable pagination.
+            itemsPerPage = 10
         }
 
         classes {

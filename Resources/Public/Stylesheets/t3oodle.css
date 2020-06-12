@@ -223,3 +223,10 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
 .tx-t3oodle .date-group .weekday-7 {
     color: var(--red)
 }
+
+.tx-t3oodle span.text-guest,
+.tx-t3oodle span.text-empty,
+.tx-t3oodle span.text-unpublished {
+    color: var(--secondary);
+    font-style: italic;
+}

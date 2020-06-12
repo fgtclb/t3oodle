@@ -25,17 +25,17 @@
 				<li class="previous page-item">
 					<f:if condition="{pagination.previousPage} > 1">
 						<f:then>
-							<f:widget.link class="page-link" rel="prev" arguments="{currentPage: pagination.previousPage}" addQueryStringMethod="{configuration.addQueryStringMethod}" section="{configuration.section}" ><f:translate key="widget.pagination.previous" /></f:widget.link>
+							<f:widget.link class="page-link" rel="prev" arguments="{currentPage: pagination.previousPage}" addQueryStringMethod="{configuration.addQueryStringMethod}" section="{configuration.section}" ><f:translate key="widget.pagination.previous" extensionName="T3oodle" /></f:widget.link>
 						</f:then>
 						<f:else>
-							<f:widget.link class="page-link" rel="prev" addQueryStringMethod="{configuration.addQueryStringMethod}" section="{configuration.section}"><f:translate key="widget.pagination.previous" /></f:widget.link>
+							<f:widget.link class="page-link" rel="prev" addQueryStringMethod="{configuration.addQueryStringMethod}" section="{configuration.section}"><f:translate key="widget.pagination.previous" extensionName="T3oodle" /></f:widget.link>
 						</f:else>
 					</f:if>
 				</li>
 			</f:then>
 			<f:else>
 				<li class="previous page-item disabled">
-					<a href="#" class="page-link" tabindex="-1"><f:translate key="widget.pagination.previous" /></a>
+					<a href="#" class="page-link" tabindex="-1"><f:translate key="widget.pagination.previous" extensionName="T3oodle" /></a>
 				</li>
 			</f:else>
 		</f:if>
@@ -79,12 +79,12 @@
 		<f:if condition="{pagination.nextPage}">
 			<f:then>
 				<li class="next page-item">
-					<f:widget.link class="page-link" rel="next" arguments="{currentPage: pagination.nextPage}" addQueryStringMethod="{configuration.addQueryStringMethod}" section="{configuration.section}"><f:translate key="widget.pagination.next" /></f:widget.link>
+					<f:widget.link class="page-link" rel="next" arguments="{currentPage: pagination.nextPage}" addQueryStringMethod="{configuration.addQueryStringMethod}" section="{configuration.section}"><f:translate key="widget.pagination.next" extensionName="T3oodle" /></f:widget.link>
 				</li>
 			</f:then>
 			<f:else>
 				<li class="next page-item disabled">
-					<a href="#" class="page-link" tabindex="-1"><f:translate key="widget.pagination.next" /></a>
+					<a href="#" class="page-link" tabindex="-1"><f:translate key="widget.pagination.next" extensionName="T3oodle" /></a>
 				</li>
 			</f:else>
 		</f:if>

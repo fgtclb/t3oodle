@@ -1,92 +1,119 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" product-name="t3oodle">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" product-name="t3oodle">
 		<header/>
 		<body>
 			<trans-unit id="header.list">
 				<source>Polls</source>
+				<target>Umfragen</target>
 			</trans-unit>
 
 
 			<trans-unit id="label.noPollsFound">
 				<source>No polls found.</source>
+				<target>Keine Umfragen gefunden.</target>
 			</trans-unit>
 			<trans-unit id="label.onlyVisibleForYou">
 				<source>(only visible for you)</source>
+				<target>(nur für dich sichtbar)</target>
 			</trans-unit>
 			<trans-unit id="label.youAreTheAuthor">
 				<source>You are the author of this poll.</source>
+				<target>Du bist der Autor dieser Umfrage.</target>
 			</trans-unit>
 			<trans-unit id="label.alreadyVoted">
 				<source>You've already voted.</source>
+				<target>Du hast bereits abgestimmt.</target>
 			</trans-unit>
 			<trans-unit id="label.newPollSimple">
 				<source>New poll</source>
+				<target>Neue Umfrage</target>
 			</trans-unit>
 			<trans-unit id="label.newPollSchedule">
 				<source>New schedule poll</source>
+				<target>Neue Terminfindung</target>
 			</trans-unit>
 			<trans-unit id="label.pollExpireNotice">
 				<source>Voting for this poll is just possible till %s.</source>
+				<target>Für diese Umfrage kann nur bis %s abgestimmt werden.</target>
 			</trans-unit>
 			<trans-unit id="label.pollSecretNotice">
 				<source>Parts of this poll are not publicly available.</source>
+				<target>Teile der Umfrage sind nicht öffentlich verfügbar.</target>
 			</trans-unit>
 			<trans-unit id="label.unpublished">
 				<source>Unpublished</source>
+				<target>Unveröffentlicht</target>
 			</trans-unit>
 			<trans-unit id="label.publishedAt">
 				<source>Published at</source>
+				<target>Veröffentlicht am</target>
 			</trans-unit>
 			<trans-unit id="label.finishedAt">
 				<source>Finished at</source>
+				<target>Fertiggestellt am</target>
 			</trans-unit>
 			<trans-unit id="label.guest">
 				<source>(guest)</source>
+				<target>(Gast)</target>
 			</trans-unit>
 
 
 			<trans-unit id="poll">
 				<source>Poll</source>
+				<target>Umfrage</target>
 			</trans-unit>
 			<trans-unit id="poll.title">
 				<source>Title</source>
+				<target>Titel</target>
 			</trans-unit>
 			<trans-unit id="poll.type">
 				<source>Type</source>
+				<target>Typ</target>
 			</trans-unit>
 			<trans-unit id="poll.type.simple">
-				<source>Simple poll</source>
+				<source>Poll</source>
+				<target>Umfrage</target>
 			</trans-unit>
 			<trans-unit id="poll.type.schedule">
 				<source>Schedule</source>
+				<target>Terminfindung</target>
 			</trans-unit>
 			<trans-unit id="poll.status">
 				<source>Status</source>
+				<target>Status</target>
 			</trans-unit>
 			<trans-unit id="poll.status.draft">
 				<source>In draft</source>
+				<target>In Bearbeitung</target>
 			</trans-unit>
 			<trans-unit id="poll.status.opened">
 				<source>Opened</source>
+				<target>Offen</target>
 			</trans-unit>
 			<trans-unit id="poll.status.closed">
 				<source>Closed</source>
+				<target>Geschlossen</target>
 			</trans-unit>
 			<trans-unit id="poll.status.finished">
 				<source>Finished</source>
+				<target>Fertig</target>
 			</trans-unit>
 			<trans-unit id="poll.author">
 				<source>Author</source>
+				<target>Autor</target>
 			</trans-unit>
 			<trans-unit id="poll.lastChange">
 				<source>Last changed</source>
+				<target>Letzte Änderung</target>
 			</trans-unit>
 			<trans-unit id="poll.attendees">
 				<source>Attendees</source>
+				<target>Teilnehmer</target>
 			</trans-unit>
 			<trans-unit id="poll.options">
 				<source>Options</source>
+				<target>Optionen</target>
 			</trans-unit>
 			<trans-unit id="poll.description">
 				<source>Description</source>
@@ -104,13 +131,16 @@
 				<source>Author Mail</source>
 			</trans-unit>
 
+			<trans-unit id="poll.options">
+				<source>Options</source>
+			</trans-unit>
+
 			<trans-unit id="poll.visibility.listed">
 				<source>Show in lists</source>
 			</trans-unit>
 			<trans-unit id="poll.visibility.notListed">
 				<source>Hide in lists</source>
 			</trans-unit>
-
 
 			<trans-unit id="poll.settingTristateCheckbox.title">
 				<source>Yes, No, Maybe</source>
@@ -155,34 +185,43 @@
 				<source>When this checkbox is enabled, the poll is published instantly.</source>
 			</trans-unit>
 
+
 			<trans-unit id="weekday.1">
 				<source>Mo</source>
+				<target>Mo</target>
 			</trans-unit>
 			<trans-unit id="weekday.2">
 				<source>Tu</source>
+				<target>Di</target>
 			</trans-unit>
 			<trans-unit id="weekday.3">
 				<source>We</source>
+				<target>Mi</target>
 			</trans-unit>
 			<trans-unit id="weekday.4">
 				<source>Th</source>
+				<target>Do</target>
 			</trans-unit>
 			<trans-unit id="weekday.5">
 				<source>Fr</source>
+				<target>Fr</target>
 			</trans-unit>
 			<trans-unit id="weekday.6">
 				<source>Sa</source>
+				<target>Sa</target>
 			</trans-unit>
 			<trans-unit id="weekday.7">
 				<source>So</source>
+				<target>So</target>
 			</trans-unit>
-
 
 			<trans-unit id="widget.pagination.previous">
 				<source>previous</source>
+				<target>zurück</target>
 			</trans-unit>
 			<trans-unit id="widget.pagination.next">
 				<source>next</source>
+				<target>weiter</target>
 			</trans-unit>
 		</body>
 	</file>

@@ -81,7 +81,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->currentUserIdent
         );
 
-        $this->processPollArgumentFromRequest();
+        $this->processPollAndVoteArgumentFromRequest();
     }
 
     public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
@@ -386,7 +386,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->settings['_currentUserIdent'] = $this->currentUserIdent;
     }
 
-    private function processPollArgumentFromRequest(): void
+    private function processPollAndVoteArgumentFromRequest(): void
     {
         // Allow child entities (options)
         if ($this->arguments->hasArgument('poll')) {
@@ -410,8 +410,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                         $poll['options'][$index]['name'] = trim($pollOption['name']); // trim
                     }
                 }
-
                 if ($poll['type'] === PollType::SCHEDULE) {
+                    $pollOptions = $poll['options'];
                     // Order options alphabetically
                     $status = usort($pollOptions, function(array $a, array $b) {
                         return strcmp($a['name'], $b['name']);

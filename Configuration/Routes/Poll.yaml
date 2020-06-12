@@ -42,7 +42,7 @@ routeEnhancers:
         defaultController: 'Poll::list'
         defaults:
             page: '1'
-            poll-type: ''
+            poll-type: 'simple'
         requirements:
             page: '\d+'
         aspects:

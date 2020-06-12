@@ -144,7 +144,7 @@
 				<source>t3oodle</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_main.description">
-				<source></source>
+				<source>Poll plugin.</source>
 			</trans-unit>
 		</body>
 	</file>

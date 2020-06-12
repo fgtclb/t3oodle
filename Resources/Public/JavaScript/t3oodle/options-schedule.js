@@ -93,15 +93,15 @@ tx_t3oodle['options-schedule'] = function (items) {
       optionPerDay.addEventListener('keyup', tx_t3oodle.optionPerDayKeyUpCallback);
     }
 
+    // Get locales from data-locale attribute
+    var datepickerLocale = JSON.parse(document.querySelector('.t3oodle-date-picker').dataset.locale);
+
     tx_t3oodle.vars.datepicker = flatpickr('.t3oodle-date-picker > input', {
       inline: true,
       mode: 'multiple',
       minDate: 'today',
       weekNumbers: true,
-      locale: {
-        firstDayOfWeek: 1
-      },
-      // TODO: locale: 'de',
+      locale: datepickerLocale,
       onChange: function (selectedDates, dateStr, instance) {
         // Liste mit Auswahl
         var ul = instance.element.closest('.row').querySelector('.selected-dates');
@@ -116,6 +116,7 @@ tx_t3oodle['options-schedule'] = function (items) {
           var selectedDate = sortedDates[i2];
           var li = document.createElement('li');
           li.textContent = instance.formatDate(selectedDate, 'Y-m-d'); // TODO: Output date
+          li.textContent += ' (' + instance.formatDate(selectedDate, 'D') + ')'
           ul.appendChild(li);
         }
         tx_t3oodle._calcScheduleOptions();

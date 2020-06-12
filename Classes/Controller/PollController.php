@@ -15,6 +15,7 @@ use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /***
  *
@@ -82,6 +83,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         );
 
         $this->processPollAndVoteArgumentFromRequest();
+        $this->addCalendarLabelsToSettings();
     }
 
     public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
@@ -248,6 +250,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param bool $publishDirectly
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function createAction(\T3\T3oodle\Domain\Model\Poll $poll, bool $publishDirectly)
     {
@@ -411,7 +414,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                     }
                 }
                 if ($poll['type'] === PollType::SCHEDULE) {
-                    $pollOptions = $poll['options'];
+                    $pollOptions = [];
+                    foreach ($poll['options'] as $option) {
+                        // Search for times with single hour digit
+                        $option['name'] = preg_replace('/(\D)(\d\:\d\d)/', '${1}0${2}', $option['name']);
+                        $pollOptions[] = $option;
+                    }
                     // Order options alphabetically
                     $status = usort($pollOptions, function(array $a, array $b) {
                         return strcmp($a['name'], $b['name']);
@@ -451,5 +459,63 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             );
         }
 
+    }
+
+    /**
+     * Only used when current poll has type "schedule"
+     */
+    private function addCalendarLabelsToSettings()
+    {
+        if ($this->arguments->hasArgument('poll')) {
+            $pollType = $this->request->hasArgument('pollType')
+                ? $this->request->getArgument('pollType')
+                : null;
+
+            if (!$pollType) {
+                $poll = $this->request->getArgument('poll');
+                if (!is_array($poll) && !is_object($poll)) {
+                    return;
+                }
+                if (is_array($poll)) {
+                    $pollType = $poll['type'];
+                } else {
+                    $pollType = $poll->getType();
+                }
+            }
+
+            if ($pollType === PollType::SCHEDULE) {
+                $this->settings['_calendarLocale'] = json_encode([
+                    'weekdays' => [
+                        'shorthand' => [
+                            LocalizationUtility::translate('weekday.7', 'T3oodle'), // Sun
+                            LocalizationUtility::translate('weekday.1', 'T3oodle'), // Mon
+                            LocalizationUtility::translate('weekday.2', 'T3oodle'),
+                            LocalizationUtility::translate('weekday.3', 'T3oodle'),
+                            LocalizationUtility::translate('weekday.4', 'T3oodle'),
+                            LocalizationUtility::translate('weekday.5', 'T3oodle'),
+                            LocalizationUtility::translate('weekday.6', 'T3oodle'), // Sat
+                        ],
+                    ],
+                    'months' => [
+                        'longhand' => [
+                            LocalizationUtility::translate('month.1', 'T3oodle'),
+                            LocalizationUtility::translate('month.2', 'T3oodle'),
+                            LocalizationUtility::translate('month.3', 'T3oodle'),
+                            LocalizationUtility::translate('month.4', 'T3oodle'),
+                            LocalizationUtility::translate('month.5', 'T3oodle'),
+                            LocalizationUtility::translate('month.6', 'T3oodle'),
+                            LocalizationUtility::translate('month.7', 'T3oodle'),
+                            LocalizationUtility::translate('month.8', 'T3oodle'),
+                            LocalizationUtility::translate('month.9', 'T3oodle'),
+                            LocalizationUtility::translate('month.10', 'T3oodle'),
+                            LocalizationUtility::translate('month.11', 'T3oodle'),
+                            LocalizationUtility::translate('month.12', 'T3oodle'),
+                        ],
+                    ],
+                    'weekAbbreviation' => LocalizationUtility::translate('week', 'T3oodle'),
+                    'firstDayOfWeek' => LocalizationUtility::translate('firstDayOfWeek', 'T3oodle'),
+                ]);
+            }
+        }
     }
 }

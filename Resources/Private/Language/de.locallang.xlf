@@ -7,6 +7,51 @@
 				<source>Polls</source>
 				<target>Umfragen</target>
 			</trans-unit>
+			<trans-unit id="header.new">
+				<source>Create new poll</source>
+				<target>Neue Umfrage erstellen</target>
+			</trans-unit>
+			<trans-unit id="header.new.simple">
+				<source>Create new poll</source>
+				<target>Neue Umfrage erstellen</target>
+			</trans-unit>
+			<trans-unit id="header.new.schedule">
+				<source>Create new schedule poll</source>
+				<target>Neue Termin-Umfrage erstellen</target>
+			</trans-unit>
+			<trans-unit id="header.edit">
+				<source>Edit poll</source>
+				<target>Umfrage bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="header.edit.simple">
+				<source>Edit poll "%s"</source>
+				<target>Umfrage "%s" bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="header.edit.schedule">
+				<source>Edit schedule poll "%s"</source>
+				<target>Termin-Umfrage "%s" bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="header.finish">
+				<source>Finish poll "%s"</source>
+				<target>Umfrage "%s" fertigstellen</target>
+			</trans-unit>
+
+			<trans-unit id="header.form.general">
+				<source>General</source>
+				<target>Allgemein</target>
+			</trans-unit>
+			<trans-unit id="header.form.author">
+				<source>Author</source>
+				<target>Autor</target>
+			</trans-unit>
+			<trans-unit id="header.form.options">
+				<source>Options</source>
+				<target>Optionen</target>
+			</trans-unit>
+			<trans-unit id="header.form.settings">
+				<source>Settings</source>
+				<target>Einstellungen</target>
+			</trans-unit>
 
 
 			<trans-unit id="label.noPollsFound">
@@ -31,7 +76,7 @@
 			</trans-unit>
 			<trans-unit id="label.newPollSchedule">
 				<source>New schedule poll</source>
-				<target>Neue Terminfindung</target>
+				<target>Neue Termin-Umfrage</target>
 			</trans-unit>
 			<trans-unit id="label.pollExpireNotice">
 				<source>Voting for this poll is just possible till %s.</source>
@@ -56,6 +101,70 @@
 			<trans-unit id="label.guest">
 				<source>(guest)</source>
 				<target>(Gast)</target>
+			</trans-unit>
+			<trans-unit id="label.cancel">
+				<source>Cancel</source>
+				<target>Abbrechen</target>
+			</trans-unit>
+			<trans-unit id="label.backToList">
+				<source>Back to list</source>
+				<target>Zurück zur Übersicht</target>
+			</trans-unit>
+			<trans-unit id="label.createNew">
+				<source>Create new</source>
+				<target>Erstellen</target>
+			</trans-unit>
+			<trans-unit id="label.return">
+				<source>Return</source>
+				<target>Zurück</target>
+			</trans-unit>
+			<trans-unit id="label.saveChanges">
+				<source>Save changes</source>
+				<target>Änderungen speichern</target>
+			</trans-unit>
+			<trans-unit id="label.finishPoll">
+				<source>Finish poll</source>
+				<target>Umfrage beenden</target>
+			</trans-unit>
+			<trans-unit id="label.selectFinalOption">
+				<source>Select final option:</source>
+				<target>Finale Option wählen:</target>
+			</trans-unit>
+			<trans-unit id="label.caution">
+				<source>Caution!</source>
+				<target>Achtung!</target>
+			</trans-unit>
+			<trans-unit id="label.editWarningForExistingVotes">
+				<source>Existing votes (%d) will get removed when updating options or option related settings, below.</source>
+				<target>Bereits bestehende Abstimmungen (%d) werden entfernt, wenn Optionen oder optionsrelevante Einstellungen (siehe unten) verändert wurden.</target>
+			</trans-unit>
+			<trans-unit id="label.dayOptionPlaceholder">
+				<source>e.g. 10:00-12:00</source>
+				<target>z.B. 10:00-12:00</target>
+			</trans-unit>
+			<trans-unit id="label.chooseDates">
+				<source>Select dates:</source>
+				<target>Termine auswählen:</target>
+			</trans-unit>
+			<trans-unit id="label.selectedDates">
+				<source>Selected dates:</source>
+				<target>Ausgewählte Termine:</target>
+			</trans-unit>
+			<trans-unit id="label.optionsPerDay">
+				<source>Options per day (optional)</source>
+				<target>Optionen pro Tag (optional)</target>
+			</trans-unit>
+			<trans-unit id="label.totally">
+				<source>Totally</source>
+				<target>Ingesamt</target>
+			</trans-unit>
+			<trans-unit id="label.optionOptions">
+				<source>option/s</source>
+				<target>Option(en)</target>
+			</trans-unit>
+			<trans-unit id="label.linkPlaceholder">
+				<source>e.g. https://domain.com</source>
+				<target>z.B. https://domain.de</target>
 			</trans-unit>
 
 
@@ -115,104 +224,186 @@
 				<source>Options</source>
 				<target>Optionen</target>
 			</trans-unit>
+			<trans-unit id="poll.options.add">
+				<source>Add new option</source>
+				<target>Neue Option hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="poll.options.remove">
+				<source>Remove this option</source>
+				<target>Diese Option entfernen</target>
+			</trans-unit>
 			<trans-unit id="poll.description">
 				<source>Description</source>
+				<target>Beschreibung</target>
 			</trans-unit>
 			<trans-unit id="poll.link">
-				<source>Link</source>
+				<source>Link (further info)</source>
+				<target>Link (weitere Informationen)</target>
 			</trans-unit>
 			<trans-unit id="poll.visibility">
 				<source>Visibility</source>
+				<target>Sichtbarkeit</target>
 			</trans-unit>
-			<trans-unit id="poll.author_name">
-				<source>Author Name</source>
-			</trans-unit>
-			<trans-unit id="poll.author_mail">
-				<source>Author Mail</source>
-			</trans-unit>
-
-			<trans-unit id="poll.options">
-				<source>Options</source>
-			</trans-unit>
-
 			<trans-unit id="poll.visibility.listed">
 				<source>Show in lists</source>
+				<target>Umfrage in Listen anzeigen</target>
 			</trans-unit>
 			<trans-unit id="poll.visibility.notListed">
 				<source>Hide in lists</source>
+				<target>Umfrage in Listen ausblenden</target>
 			</trans-unit>
+			<trans-unit id="poll.author_name">
+				<source>Name</source>
+				<target>Name</target>
+			</trans-unit>
+			<trans-unit id="poll.author_mail">
+				<source>Mail address</source>
+				<target>E-Mail-Adresse</target>
+			</trans-unit>
+
 
 			<trans-unit id="poll.settingTristateCheckbox.title">
 				<source>Yes, No, Maybe</source>
+				<target>Ja, Nein, Vielleicht</target>
 			</trans-unit>
 			<trans-unit id="poll.settingTristateCheckbox.description">
 				<source>When this option is enabled, participants can choose between three options, instead of two (yes/no).</source>
+				<target>Wenn diese Option aktiviert ist, können Teilnehmer zwischen drei statt zwei Optionen wählen.</target>
 			</trans-unit>
 			<trans-unit id="poll.settingOneOptionOnly.title">
 				<source>One option only</source>
+				<target>Nur eine Option</target>
 			</trans-unit>
 			<trans-unit id="poll.settingOneOptionOnly.description">
 				<source>Each participant can only select one option. But one option can get selected by multiple participants.</source>
+				<target>Bei Aktivierung hat jeder Teilnehmer hat nur eine Stimme. Eine Option kann aber von mehreren Teilnehmern gewählt werden.</target>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretParticipants.title">
-				<source>Secret Participants</source>
+				<source>Hide participants</source>
+				<target>Verstecke Teilnehmer</target>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretParticipants.description">
-				<source>When this option is enabled, name and mail of each participant is not displayed.</source>
+				<source>When this option is enabled, information of each participant is not displayed publicly.</source>
+				<target>Wenn diese Option aktiviert wurde, werden keine Infos der Teilnehmer öffentlich ausgegeben.</target>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretVotings.title">
-				<source>Secret Votings</source>
+				<source>Hide voting result</source>
+				<target>Verstecke Abstimmungsergebnis</target>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretVotings.description">
-				<source>When this option is enabled, the votings and totals are not displayed.</source>
+				<source>When this option is enabled, the votings and totals are not displayed publicly.</source>
+				<target>Wenn diese Option aktiviert wurde, werden die abgegebenen Stimmen der Teilnehmer und die Anzahl der Stimmen, nicht öffentlich ausgegeben.</target>
 			</trans-unit>
 			<trans-unit id="poll.settingMaxVotesPerOption.title">
 				<source>Limit amount of votes per option</source>
+				<target>Begrenze Anzahl von Stimmen pro Option</target>
 			</trans-unit>
 			<trans-unit id="poll.settingMaxVotesPerOption.description">
 				<source>First comes, first serves. When the configured limit is reached, the option get disabled in further votings.</source>
+				<target>Wer zu erst kommt gewinnt. Wenn das konfigurierte Limit pro Option erreicht ist, kann die jeweilige Option nicht mehr ausgewählt werden.</target>
 			</trans-unit>
 			<trans-unit id="poll.settingVotingExpiresAt.title">
 				<source>Expiration date</source>
+				<target>Ablaufdatum</target>
 			</trans-unit>
 			<trans-unit id="poll.settingVotingExpiresAt.description">
-				<source>Allows votings only until the given date and time.</source>
+				<source>Allows votings only until the given date in future.</source>
+				<target>Erlaubt die Abgabe von Stimmen nur bis zu einem gewissen Datum in der Zukunft.</target>
 			</trans-unit>
 			<trans-unit id="poll.publishDirectly.title">
-				<source>Publish</source>
+				<source>Publish direclty</source>
+				<target>Direkt veröffentlichen</target>
 			</trans-unit>
 			<trans-unit id="poll.publishDirectly.description">
-				<source>When this checkbox is enabled, the poll is published instantly.</source>
+				<source>When this checkbox is enabled, the poll is published instantly. Before a poll is published, voting is disabled.</source>
+				<target>Wenn dieser Haken aktiviert wurde, wird die Umfrage sofort veröffentlicht. Vor Veröffentlichung können keine Stimmen abgegeben werden.</target>
 			</trans-unit>
 
 
+			<trans-unit id="week">
+				<source>Wk</source>
+				<target>KW</target>
+			</trans-unit>
+			<trans-unit id="firstDayOfWeek">
+				<source>0</source>
+				<target>1</target>
+			</trans-unit>
 			<trans-unit id="weekday.1">
-				<source>Mo</source>
+				<source>Mon</source>
 				<target>Mo</target>
 			</trans-unit>
 			<trans-unit id="weekday.2">
-				<source>Tu</source>
+				<source>Tue</source>
 				<target>Di</target>
 			</trans-unit>
 			<trans-unit id="weekday.3">
-				<source>We</source>
+				<source>Wed</source>
 				<target>Mi</target>
 			</trans-unit>
 			<trans-unit id="weekday.4">
-				<source>Th</source>
+				<source>Thu</source>
 				<target>Do</target>
 			</trans-unit>
 			<trans-unit id="weekday.5">
-				<source>Fr</source>
+				<source>Fri</source>
 				<target>Fr</target>
 			</trans-unit>
 			<trans-unit id="weekday.6">
-				<source>Sa</source>
+				<source>Sat</source>
 				<target>Sa</target>
 			</trans-unit>
 			<trans-unit id="weekday.7">
-				<source>So</source>
+				<source>Sun</source>
 				<target>So</target>
+			</trans-unit>
+
+			<trans-unit id="month.1">
+				<source>January</source>
+				<target>Januar</target>
+			</trans-unit>
+			<trans-unit id="month.2">
+				<source>February</source>
+				<target>Feburar</target>
+			</trans-unit>
+			<trans-unit id="month.3">
+				<source>March</source>
+				<target>März</target>
+			</trans-unit>
+			<trans-unit id="month.4">
+				<source>April</source>
+				<target>April</target>
+			</trans-unit>
+			<trans-unit id="month.5">
+				<source>May</source>
+				<target>Mai</target>
+			</trans-unit>
+			<trans-unit id="month.6">
+				<source>June</source>
+				<target>Juni</target>
+			</trans-unit>
+			<trans-unit id="month.7">
+				<source>July</source>
+				<target>Juli</target>
+			</trans-unit>
+			<trans-unit id="month.8">
+				<source>August</source>
+				<target>August</target>
+			</trans-unit>
+			<trans-unit id="month.9">
+				<source>September</source>
+				<target>September</target>
+			</trans-unit>
+			<trans-unit id="month.10">
+				<source>October</source>
+				<target>Oktober</target>
+			</trans-unit>
+			<trans-unit id="month.11">
+				<source>November</source>
+				<target>November</target>
+			</trans-unit>
+			<trans-unit id="month.12">
+				<source>December</source>
+				<target>Dezember</target>
 			</trans-unit>
 
 			<trans-unit id="widget.pagination.previous">

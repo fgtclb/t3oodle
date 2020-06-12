@@ -4,7 +4,7 @@
 <f:section name="general">
 	<div class="card mb-4">
 		<div class="card-header">
-			<strong>General</strong>
+			<strong><f:translate key="header.form.general" /></strong>
 		</div>
 		<div class="card-body">
 
@@ -24,7 +24,7 @@
 
 					<div class="form-group">
 						<label for="t3oodle-poll-link"><f:translate key="poll.link" /></label>
-						<f:form.textfield id="t3oodle-poll-link" class="form-control" property="link" placeholder="https://domain.com" />
+						<f:form.textfield id="t3oodle-poll-link" class="form-control" property="link" placeholder="{f:translate(key:'label.linkPlaceholder')}" />
 						<f:render partial="FormFieldErrors" arguments="{for: 'poll.link'}" />
 					</div>
 				</div>
@@ -55,7 +55,7 @@
 <f:section name="author">
 	<div class="card mb-4">
 		<div class="card-header">
-			<strong>Author</strong>
+			<strong><f:translate key="header.form.author" /></strong>
 		</div>
 		<div class="card-body">
 			<f:if condition="{poll.author}">
@@ -94,7 +94,7 @@
 <f:section name="settings">
 	<div class="card mb-4">
 		<div class="card-header">
-			<strong>Einstellungen</strong>
+			<strong><f:translate key="header.form.settings" /></strong>
 		</div>
 		<div class="card-body">
 			<div class="row">
@@ -103,7 +103,7 @@
 						<f:form.checkbox property="settingTristateCheckbox" value="1" checked="{poll.settingTristateCheckbox} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingTristateCheckbox" />
 						<label class="form-check-label" for="t3oodle-poll-settingTristateCheckbox">
 							<strong><f:translate key="poll.settingTristateCheckbox.title" /></strong>
-							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase">Caution</span></f:if>
+							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
 							<br>
 							<f:translate key="poll.settingTristateCheckbox.description" />
 						</label>
@@ -113,7 +113,7 @@
 						<f:form.checkbox property="settingOneOptionOnly" value="1" checked="{poll.settingOneOptionOnly} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingOneOptionOnly" />
 						<label class="form-check-label" for="t3oodle-poll-settingOneOptionOnly">
 							<strong><f:translate key="poll.settingOneOptionOnly.title" /></strong>
-							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase">Caution</span></f:if>
+							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
 							<br>
 							<f:translate key="poll.settingOneOptionOnly.description" />
 						</label>
@@ -139,7 +139,7 @@
 						<f:form.checkbox name="enableSettingMaxVotesPerOption" value="1" checked="{poll.settingMaxVotesPerOption} > 0" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingMaxVotesPerOption" />
 						<label class="form-check-label" for="t3oodle-poll-enableSettingMaxVotesPerOption">
 							<strong><f:translate key="poll.settingMaxVotesPerOption.title" /></strong>
-							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase">Caution</span></f:if>
+							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
 							<br>
 							<f:translate key="poll.settingMaxVotesPerOption.description" /><br>
 							<f:if condition="{poll.settingMaxVotesPerOption} > 0">
@@ -149,7 +149,6 @@
 							<f:render partial="FormFieldErrors" arguments="{for: 'poll.enableSettingMaxVotesPerOption'}" />
 						</label>
 					</div>
-
 					<div class="form-check mb-3">
 						<f:form.checkbox name="enableSettingVotingExpiresAt" value="1" checked="{poll.settingVotingExpiresAt}" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingVotingExpiresAt" />
 						<label class="form-check-label" for="t3oodle-poll-enableSettingVotingExpiresAt">
@@ -173,7 +172,7 @@
 				</div>
 			</div>
 		</div>
-</div>
+	</div>
 </f:section>
 
 </html>

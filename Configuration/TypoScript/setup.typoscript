@@ -50,6 +50,10 @@ plugin.tx_t3oodle {
             itemsPerPage = 10
         }
 
+        form {
+            showReturnToListLink = 1
+        }
+
         classes {
             table = table
             tableResponsive = table-responsive

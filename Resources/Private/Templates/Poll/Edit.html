@@ -1,20 +1,34 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
+
 <f:layout name="Default"/>
 
 <f:section name="content">
     <f:flashMessages/>
+    <f:render section="header" arguments="{poll:poll, contentObject:contentObject}" />
+    <f:render section="form" arguments="{poll:poll, contentObject:contentObject}" />
+</f:section>
 
-    <h1>
-        Edit "{poll.title}"
-        <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link">Zurück</f:link.action>
-    </h1>
+<f:section name="header">
+    <f:variable name="header"><f:translate key="header.edit.{poll.type}" arguments="{0: poll.title}"><f:translate key="header.edit" /></f:translate></f:variable>
+    <f:if condition="{header}">
+        <h1>
+            {header}
+            <f:if condition="{settings.form.showReturnToListLink}">
+                <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link"><f:translate key="label.return" /></f:link.action>
+            </f:if>
+        </h1>
+    </f:if>
+</f:section>
 
+<f:section name="form">
     <f:form action="update" name="poll" object="{poll}" class="my-4">
-        <f:render partial="Poll/FormFields" arguments="{poll:poll,contentObject:contentObject}"/>
-        <f:form.submit class="btn btn-primary" value="Save changes"/>
-        <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link">Zurück zur Umfrage</f:link.action>
+        <f:render partial="Poll/FormFields" arguments="{poll:poll, contentObject:contentObject}"/>
+        <f:form.submit class="btn btn-primary" value="{f:translate(key:'label.saveChanges')}"/>
+        <f:if condition="{settings.form.showReturnToListLink}">
+            <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link"><f:translate key="label.backToList" /></f:link.action>
+        </f:if>
     </f:form>
 </f:section>
 </html>

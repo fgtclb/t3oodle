@@ -1,5 +1,9 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/T3/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
 <f:layout name="Default"/>
+
 <f:section name="content">
     <f:flashMessages/>
 
@@ -8,14 +12,19 @@
 </f:section>
 
 <f:section name="header">
+    <f:variable name="header"><f:translate key="header.new.{poll.type}"><f:translate key="header.new" /></f:translate></f:variable>
+    <f:if condition="{header}">
     <h1>
-        New Poll
-        <f:link.action action="list" class="btn btn-link">Abbrechen</f:link.action>
+        {header}
+        <f:if condition="{settings.form.showReturnToListLink}">
+            <f:link.action action="list" class="btn btn-link"><f:translate key="label.cancel" /></f:link.action>
+        </f:if>
     </h1>
+    </f:if>
 </f:section>
 
 <f:section name="form">
-    <f:form action="create" name="poll" object="{poll}">
+    <f:form action="create" name="poll" object="{poll}" class="my-4">
         <f:render partial="Poll/FormFields"
                   arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject}"/>
         <div class="card mb-3">
@@ -32,8 +41,10 @@
                 </div>
             </div>
         </div>
-        <f:form.submit class="btn btn-primary" value="Create new"/>
-        <f:link.action action="list" class="btn btn-link">Zurück zur Übersicht</f:link.action>
+        <f:form.submit class="btn btn-primary" value="{f:translate(key:'label.createNew')}"/>
+        <f:if condition="{settings.form.showReturnToListLink}">
+            <f:link.action action="list" class="btn btn-link"><f:translate key="label.backToList" /></f:link.action>
+        </f:if>
     </f:form>
 </f:section>
 </html>

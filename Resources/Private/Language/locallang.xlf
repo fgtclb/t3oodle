@@ -6,6 +6,40 @@
 			<trans-unit id="header.list">
 				<source>Polls</source>
 			</trans-unit>
+			<trans-unit id="header.new">
+				<source>Create new poll</source>
+			</trans-unit>
+			<trans-unit id="header.new.simple">
+				<source>Create new poll</source>
+			</trans-unit>
+			<trans-unit id="header.new.schedule">
+				<source>Create new schedule poll</source>
+			</trans-unit>
+			<trans-unit id="header.edit">
+				<source>Edit poll</source>
+			</trans-unit>
+			<trans-unit id="header.edit.simple">
+				<source>Edit poll "%s"</source>
+			</trans-unit>
+			<trans-unit id="header.edit.schedule">
+				<source>Edit schedule poll "%s"</source>
+			</trans-unit>
+			<trans-unit id="header.finish">
+				<source>Finish poll "%s"</source>
+			</trans-unit>
+
+			<trans-unit id="header.form.general">
+				<source>General</source>
+			</trans-unit>
+			<trans-unit id="header.form.author">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="header.form.options">
+				<source>Options</source>
+			</trans-unit>
+			<trans-unit id="header.form.settings">
+				<source>Settings</source>
+			</trans-unit>
 
 
 			<trans-unit id="label.noPollsFound">
@@ -43,6 +77,54 @@
 			</trans-unit>
 			<trans-unit id="label.guest">
 				<source>(guest)</source>
+			</trans-unit>
+			<trans-unit id="label.cancel">
+				<source>Cancel</source>
+			</trans-unit>
+			<trans-unit id="label.backToList">
+				<source>Back to list</source>
+			</trans-unit>
+			<trans-unit id="label.createNew">
+				<source>Create new</source>
+			</trans-unit>
+			<trans-unit id="label.return">
+				<source>Return</source>
+			</trans-unit>
+			<trans-unit id="label.saveChanges">
+				<source>Save changes</source>
+			</trans-unit>
+			<trans-unit id="label.finishPoll">
+				<source>Finish poll</source>
+			</trans-unit>
+			<trans-unit id="label.selectFinalOption">
+				<source>Select final option:</source>
+			</trans-unit>
+			<trans-unit id="label.caution">
+				<source>Caution!</source>
+			</trans-unit>
+			<trans-unit id="label.editWarningForExistingVotes">
+				<source>Existing votes (%d) will get removed when updating options or option related settings, below.</source>
+			</trans-unit>
+			<trans-unit id="label.dayOptionPlaceholder">
+				<source>e.g. 10:00-12:00</source>
+			</trans-unit>
+			<trans-unit id="label.chooseDates">
+				<source>Select dates:</source>
+			</trans-unit>
+			<trans-unit id="label.selectedDates">
+				<source>Selected dates:</source>
+			</trans-unit>
+			<trans-unit id="label.optionsPerDay">
+				<source>Options per day (optional)</source>
+			</trans-unit>
+			<trans-unit id="label.totally">
+				<source>Totally</source>
+			</trans-unit>
+			<trans-unit id="label.optionOptions">
+				<source>option/s</source>
+			</trans-unit>
+			<trans-unit id="label.linkPlaceholder">
+				<source>e.g. https://domain.com</source>
 			</trans-unit>
 
 
@@ -88,6 +170,12 @@
 			<trans-unit id="poll.options">
 				<source>Options</source>
 			</trans-unit>
+			<trans-unit id="poll.options.add">
+				<source>Add new option</source>
+			</trans-unit>
+			<trans-unit id="poll.options.remove">
+				<source>Remove this option</source>
+			</trans-unit>
 			<trans-unit id="poll.description">
 				<source>Description</source>
 			</trans-unit>
@@ -103,7 +191,6 @@
 			<trans-unit id="poll.author_mail">
 				<source>Author Mail</source>
 			</trans-unit>
-
 			<trans-unit id="poll.visibility.listed">
 				<source>Show in lists</source>
 			</trans-unit>
@@ -155,26 +242,70 @@
 				<source>When this checkbox is enabled, the poll is published instantly.</source>
 			</trans-unit>
 
+
+			<trans-unit id="week">
+				<source>Wk</source>
+			</trans-unit>
+			<trans-unit id="firstDayOfWeek">
+				<source>0</source>
+			</trans-unit>
 			<trans-unit id="weekday.1">
-				<source>Mo</source>
+				<source>Mon</source>
 			</trans-unit>
 			<trans-unit id="weekday.2">
-				<source>Tu</source>
+				<source>Tue</source>
 			</trans-unit>
 			<trans-unit id="weekday.3">
-				<source>We</source>
+				<source>Wed</source>
 			</trans-unit>
 			<trans-unit id="weekday.4">
-				<source>Th</source>
+				<source>Thu</source>
 			</trans-unit>
 			<trans-unit id="weekday.5">
-				<source>Fr</source>
+				<source>Fri</source>
 			</trans-unit>
 			<trans-unit id="weekday.6">
-				<source>Sa</source>
+				<source>Sat</source>
 			</trans-unit>
 			<trans-unit id="weekday.7">
-				<source>So</source>
+				<source>Sun</source>
+			</trans-unit>
+
+			<trans-unit id="month.1">
+				<source>January</source>
+			</trans-unit>
+			<trans-unit id="month.2">
+				<source>February</source>
+			</trans-unit>
+			<trans-unit id="month.3">
+				<source>March</source>
+			</trans-unit>
+			<trans-unit id="month.4">
+				<source>April</source>
+			</trans-unit>
+			<trans-unit id="month.5">
+				<source>May</source>
+			</trans-unit>
+			<trans-unit id="month.6">
+				<source>June</source>
+			</trans-unit>
+			<trans-unit id="month.7">
+				<source>July</source>
+			</trans-unit>
+			<trans-unit id="month.8">
+				<source>August</source>
+			</trans-unit>
+			<trans-unit id="month.9">
+				<source>September</source>
+			</trans-unit>
+			<trans-unit id="month.10">
+				<source>October</source>
+			</trans-unit>
+			<trans-unit id="month.11">
+				<source>November</source>
+			</trans-unit>
+			<trans-unit id="month.12">
+				<source>December</source>
 			</trans-unit>
 
 

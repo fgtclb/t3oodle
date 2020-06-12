@@ -32,17 +32,19 @@ class ScheduleOptionUtility
 
         $result['dateStart'] = new \DateTime($result['day']);
 
-        // Check if day option contains time(s)
-        preg_match_all('/\d\d:\d\d/', $result['option'], $timeMatches);
-        $timeMatches = current($timeMatches);
-        if (count($timeMatches) > 0) {
-            // set start time
-            $timeParts = GeneralUtility::intExplode(':', $timeMatches[0], true);
-            $result['dateStart']->setTime($timeParts[0], $timeParts[1]);
-            if (count($timeMatches) > 1) {
-                $result['dateEnd'] = clone $result['dateStart'];
-                $timeParts = GeneralUtility::intExplode(':', $timeMatches[1], true);
-                $result['dateEnd']->setTime($timeParts[0], $timeParts[1]);
+        if ($result['option']) {
+            // Check if day option contains time(s)
+            preg_match_all('/\d{1,2}:\d{2}/', $result['option'], $timeMatches);
+            $timeMatches = current($timeMatches);
+            if (count($timeMatches) > 0) {
+                // set start time
+                $timeParts = GeneralUtility::intExplode(':', $timeMatches[0], true);
+                $result['dateStart']->setTime($timeParts[0], $timeParts[1]);
+                if (count($timeMatches) > 1) {
+                    $result['dateEnd'] = clone $result['dateStart'];
+                    $timeParts = GeneralUtility::intExplode(':', $timeMatches[1], true);
+                    $result['dateEnd']->setTime($timeParts[0], $timeParts[1]);
+                }
             }
         }
         return $result;

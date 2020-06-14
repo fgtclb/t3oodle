@@ -15,10 +15,10 @@ var tx_t3oodle = {
     document.getElementsByTagName('head')[0].appendChild(script);
   },
   loadScriptBySelector: function (script, selector, callback) {
-    var items = document.querySelectorAll(selector)
+    var items = document.querySelectorAll(selector);
     if (items.length > 0) {
       this.loadScript(script + '.js', callback || function () {
-        tx_t3oodle[script](items);
+        tx_t3oodle[script](selector);
       });
     }
   },

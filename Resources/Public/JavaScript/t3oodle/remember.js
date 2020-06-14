@@ -1,7 +1,8 @@
 'use strict';
 var tx_t3oodle = tx_t3oodle || {};
 
-tx_t3oodle.remember = function (items) {
+tx_t3oodle.remember = function (selector) {
+  var items = document.querySelectorAll(selector);
   if (localStorage) {
     for (var i = 0; i < items.length; i++) {
       var rememberInput = items[i];

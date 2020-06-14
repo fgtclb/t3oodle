@@ -72,7 +72,8 @@ tx_t3oodle.optionPerDayKeyUpCallback = function () {
   tx_t3oodle._calcScheduleOptions();
 };
 
-tx_t3oodle['options-schedule'] = function (items) {
+tx_t3oodle['options-schedule'] = function (selector) {
+  var items = document.querySelectorAll(selector);
   if (items.length !== 1) {
     return;
   }

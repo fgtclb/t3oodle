@@ -31,7 +31,8 @@ tx_t3oodle._applyConditionalInputs = function (checkbox, disabledInputs, isInit)
   }
 };
 
-tx_t3oodle['conditional-inputs'] = function (items) {
+tx_t3oodle['conditional-inputs'] = function (selector) {
+  var items = document.querySelectorAll(selector);
   for (var i = 0; i < items.length; i++) {
     var disabledInput = items[i];
     var relatedElement = document.querySelector(disabledInput.dataset.bindDisable);

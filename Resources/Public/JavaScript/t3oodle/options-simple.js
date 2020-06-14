@@ -11,7 +11,8 @@ tx_t3oodle._removeOption = function (node) {
   node.parentNode.style.display = 'none';
 };
 
-tx_t3oodle['options-simple'] = function (items) {
+tx_t3oodle['options-simple'] = function (selector) {
+  var items = document.querySelectorAll(selector);
   for (var i = 0; i < items.length; i++) {
     items[i].addEventListener(
       'keyup',

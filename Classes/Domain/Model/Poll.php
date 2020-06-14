@@ -1,6 +1,11 @@
 <?php
 namespace T3\T3oodle\Domain\Model;
 
+/*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
+ */
 use T3\T3oodle\Domain\Enumeration\PollStatus;
 use T3\T3oodle\Domain\Permission\PollPermission;
 use T3\T3oodle\Traits\Model\DynamicUserProperties;
@@ -45,8 +50,6 @@ class Poll extends AbstractEntity
     protected $visibility = \T3\T3oodle\Domain\Enumeration\Visibility::LISTED;
 
     /**
-     * author
-     *
      * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     protected $author;
@@ -67,8 +70,6 @@ class Poll extends AbstractEntity
     protected $authorIdent = '';
 
     /**
-     * options
-     *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Option>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
@@ -134,8 +135,6 @@ class Poll extends AbstractEntity
     protected $finalOption;
 
     /**
-     * votes
-     *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Vote>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */

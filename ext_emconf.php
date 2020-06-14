@@ -1,4 +1,11 @@
 <?php
+
+/*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
+ */
+
 // phpcs:disable
 $EM_CONF[$_EXTKEY] = [
     'title' => 't3oodle',

@@ -1,14 +1,17 @@
 <?php
 namespace T3\T3oodle\Controller;
 
+/*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
+ */
 use T3\T3oodle\Domain\Enumeration\PollType;
-use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Domain\Validator\PollValidator;
 use T3\T3oodle\Exception\AccessDeniedException;
 use T3\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use T3\T3oodle\Utility\CookieUtility;
 use T3\T3oodle\Utility\DateTimeUtility;
-use T3\T3oodle\Utility\SlugUtility;
 use T3\T3oodle\Utility\TranslateUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -17,19 +20,6 @@ use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
-/***
- *
- * This file is part of the "t3oodle" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- *  (c) 2020
- *
- ***/
-/**
- * PollController
- */
 class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     use ControllerValidatorManipulatorTrait;
@@ -102,9 +92,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         return false;
     }
 
-    /**
-     * @return void
-     */
     public function listAction()
     {
         $polls = $this->pollRepository->findPolls(
@@ -125,7 +112,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param \T3\T3oodle\Domain\Model\Vote|null $vote
-     * @return void
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function showAction(\T3\T3oodle\Domain\Model\Poll $poll)
@@ -165,7 +151,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Vote $vote
-     * @return void
      */
     public function voteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
@@ -206,7 +191,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Vote $vote
-     * @return void
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("vote")
      */
     public function deleteVoteAction(\T3\T3oodle\Domain\Model\Vote $vote)
@@ -236,7 +220,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param int $option uid to finish
-     * @return void
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function finishAction(\T3\T3oodle\Domain\Model\Poll $poll, int $option = 0)
@@ -280,7 +263,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param \T3\T3oodle\Domain\Model\Poll|null $poll
      * @param bool $publishDirectly
      * @param string $pollType
-     * @return void
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function newAction(
@@ -328,7 +310,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
      * @param bool $publishDirectly
-     * @return void
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function createAction(\T3\T3oodle\Domain\Model\Poll $poll, bool $publishDirectly)
@@ -385,7 +366,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
-     * @return void
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function publishAction(\T3\T3oodle\Domain\Model\Poll $poll)
@@ -414,7 +394,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
-     * @return void
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function editAction(\T3\T3oodle\Domain\Model\Poll $poll)
@@ -432,7 +411,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
-     * @return void
      */
     public function updateAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
@@ -487,7 +465,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \T3\T3oodle\Domain\Model\Poll $poll
-     * @return void
      */
     public function deleteAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
@@ -506,7 +483,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->redirect('list');
         }
     }
-
 
     protected function removeMarkedPollOptions(\T3\T3oodle\Domain\Model\Poll $poll)
     {

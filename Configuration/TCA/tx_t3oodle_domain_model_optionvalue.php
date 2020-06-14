@@ -1,7 +1,15 @@
 <?php
+
+/*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
+ */
+
 $ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
     'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.'
 );
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue',

@@ -1,6 +1,11 @@
 <?php
 namespace T3\T3oodle\Domain\Model;
 
+/*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
+ */
 use T3\T3oodle\Traits\Model\MarkToDeleteTrait;
 use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;

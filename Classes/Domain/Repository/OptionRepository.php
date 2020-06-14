@@ -1,19 +1,12 @@
 <?php
 namespace T3\T3oodle\Domain\Repository;
 
-/***
- *
- * This file is part of the "t3oodle" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- *  (c) 2020
- *
- ***/
-/**
- * The repository for Options
+/*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
+
 class OptionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 }

@@ -1,8 +1,10 @@
 <?php
 
-use T3\T3oodle\Domain\Enumeration\PollType;
-use T3\T3oodle\Domain\Enumeration\Visibility;
-use T3\T3oodle\Utility\TcaGeneratorUtility;
+/*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
+ */
 
 $ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
     'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.'
@@ -183,8 +185,10 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => TcaGeneratorUtility::getItemListForEnumeration(PollType::class),
-                'default' => PollType::SIMPLE,
+                'items' => \T3\T3oodle\Utility\TcaGeneratorUtility::getItemListForEnumeration(
+                    T3\T3oodle\Domain\Enumeration\PollType::class
+                ),
+                'default' => T3\T3oodle\Domain\Enumeration\PollType::SIMPLE,
                 'size' => 1,
                 'maxitems' => 1,
                 'eval' => 'required'
@@ -196,8 +200,10 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => TcaGeneratorUtility::getItemListForEnumeration(Visibility::class),
-                'default' => Visibility::LISTED,
+                'items' => \T3\T3oodle\Utility\TcaGeneratorUtility::getItemListForEnumeration(
+                    \T3\T3oodle\Domain\Enumeration\Visibility::class
+                ),
+                'default' => \T3\T3oodle\Domain\Enumeration\Visibility::LISTED,
                 'size' => 1,
                 'maxitems' => 1,
                 'eval' => 'required'

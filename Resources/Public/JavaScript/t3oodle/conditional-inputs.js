@@ -6,12 +6,19 @@ tx_t3oodle._applyConditionalInputs = function (checkbox, disabledInputs, isInit)
     var disabledInput = disabledInputs[i];
     if (checkbox.checked) {
       disabledInput.readOnly = false;
-      if (!isInit) {
+      if (!isInit && !disabledInput.previousElementSibling.type) {
         disabledInput.focus();
       }
     } else {
       disabledInput.readOnly = true;
       if (!isInit) {
+        disabledInput.classList.remove('f3-form-error');
+        var errorList = disabledInput.parentNode.querySelectorAll('.errors');
+        if (errorList.length > 0) {
+          for (var e = 0; e < errorList.length; e++) {
+            errorList[e].style.display = 'none';
+          }
+        }
         if (disabledInput.type === 'number') {
           disabledInput.value = 0;
         } else if (disabledInput.type === 'text') {

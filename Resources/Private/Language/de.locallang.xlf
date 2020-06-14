@@ -82,6 +82,10 @@
 				<source>You've already voted.</source>
 				<target>Du hast bereits abgestimmt.</target>
 			</trans-unit>
+			<trans-unit id="label.youveVoted">
+				<source>You've voted.</source>
+				<target>Du hast abgestimmt.</target>
+			</trans-unit>
 			<trans-unit id="label.newPollSimple">
 				<source>New poll</source>
 				<target>Neue Umfrage</target>

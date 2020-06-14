@@ -63,6 +63,9 @@
 			<trans-unit id="label.alreadyVoted">
 				<source>You've already voted.</source>
 			</trans-unit>
+			<trans-unit id="label.youveVoted">
+				<source>You've voted.</source>
+			</trans-unit>
 			<trans-unit id="label.newPollSimple">
 				<source>New poll</source>
 			</trans-unit>

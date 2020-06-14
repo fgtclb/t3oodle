@@ -230,3 +230,7 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
     color: var(--secondary);
     font-style: italic;
 }
+
+.tx-t3oodle .button-vote {
+    margin-top: -0.4rem;
+}

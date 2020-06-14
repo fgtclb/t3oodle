@@ -12,22 +12,28 @@
     <f:else>
         <f:render section="poll-not-finished" arguments="{poll:poll, vote:vote}" />
         <f:section name="poll-not-finished">
-            <div class="text-right">
+            <div class="text-right mt-2">
                 <f:if condition="{poll.settingOneOptionOnly}">
                     <f:then>
                         <span class="text-dark mr-3">
                             <f:translate key="label.oneOptionOnly" />
                         </span>
+                        <f:if condition="{vote.uid}">
+                            <span class="text-already-voted mr-2"><f:translate key="label.youveVoted" /></span>
+                        </f:if>
                     </f:then>
                     <f:else>
+                        <f:if condition="{vote.uid}">
+                            <span class="text-already-voted mr-2"><f:translate key="label.youveVoted" /></span>
+                        </f:if>
                         <span id="t3oodle-votes-summary"></span>
                     </f:else>
                 </f:if>
                 <f:if condition="{settings.allowNewVotes} && {poll -> t3oodle:permission(action:'voting')}">
                     <f:then>
                         <f:if condition="{vote.uid}">
-                            <f:then><f:form.submit class="btn btn-primary" value="{f:translate(key:'label.updateVote')}" tabindex="3" /></f:then>
-                            <f:else><f:form.submit class="btn btn-primary" value="{f:translate(key:'label.vote')}" tabindex="3" /></f:else>
+                            <f:then><f:form.submit class="btn btn-primary button-vote" value="{f:translate(key:'label.updateVote')}" tabindex="3" /></f:then>
+                            <f:else><f:form.submit class="btn btn-primary button-vote" value="{f:translate(key:'label.vote')}" tabindex="3" /></f:else>
                         </f:if>
                     </f:then>
                     <f:else>

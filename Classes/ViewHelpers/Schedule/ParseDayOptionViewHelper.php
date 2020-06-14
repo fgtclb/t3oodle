@@ -15,8 +15,11 @@ class ParseDayOptionViewHelper extends AbstractViewHelper
         $this->registerArgument('value', 'string', 'Date with option as string', false);
     }
 
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
         $value = $arguments['value'] ?? (string) $renderChildrenClosure();
         return ScheduleOptionUtility::parseOptionName($value);
     }

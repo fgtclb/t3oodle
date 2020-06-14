@@ -8,7 +8,7 @@ namespace T3\T3oodle\Domain\Repository;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2020 
+ *  (c) 2020
  *
  ***/
 /**

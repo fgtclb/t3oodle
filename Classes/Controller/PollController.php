@@ -8,7 +8,6 @@ use T3\T3oodle\Exception\AccessDeniedException;
 use T3\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use T3\T3oodle\Utility\CookieUtility;
 use T3\T3oodle\Utility\DateTimeUtility;
-use T3\T3oodle\Utility\ScheduleOptionUtility;
 use T3\T3oodle\Utility\SlugUtility;
 use T3\T3oodle\Utility\TranslateUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
@@ -25,7 +24,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2020 
+ *  (c) 2020
  *
  ***/
 /**
@@ -146,8 +145,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($this->request->getOriginalRequest()) {
             foreach ($this->request->getOriginalRequest()->getArgument('vote')['optionValues'] as $optionValue) {
                 $newOptionValues[$optionValue['option']['__identity']] = $optionValue['value'];
-            };
-            $this->view->assign('newOptionValues', $newOptionValues);
+            }
         }
 
         $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'show', [
@@ -197,7 +195,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         if ($signal['continue']) {
             $this->voteRepository->add($vote);
-            $this->addFlashMessage(TranslateUtility::translate($signal['isNew'] ? 'flash.votingSaved' : 'flash.votingUpdated'), '', AbstractMessage::OK);
+            $this->addFlashMessage(
+                TranslateUtility::translate($signal['isNew'] ? 'flash.votingSaved' : 'flash.votingUpdated'),
+                '',
+                AbstractMessage::OK
+            );
             $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
         }
     }
@@ -368,7 +370,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             ]);
 
             if ($signalAfter['continue']) {
-                $this->addFlashMessage(TranslateUtility::translate('flash.successfullyCreated', [$poll->getTitle()]), '', AbstractMessage::OK);
+                $this->addFlashMessage(
+                    TranslateUtility::translate('flash.successfullyCreated', [$poll->getTitle()]),
+                    '',
+                    AbstractMessage::OK
+                );
                 if ($publishDirectly) {
                     $this->forward('publish', null, null, ['poll' => $poll]);
                 }
@@ -543,7 +549,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             if ($pollOptions) {
                 foreach ($pollOptions as $index => $pollOption) {
                     if (empty($pollOption['name'])) {
-                        unset ($poll['options'][$index]); // remove
+                        unset($poll['options'][$index]); // remove
                     } else {
                         $poll['options'][$index]['name'] = trim($pollOption['name']); // trim
                     }
@@ -556,7 +562,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                         $pollOptions[] = $option;
                     }
                     // Order options alphabetically
-                    $status = usort($pollOptions, function(array $a, array $b) {
+                    $status = usort($pollOptions, function (array $a, array $b) {
                         return strcmp($a['name'], $b['name']);
                     });
                     if ($status) {
@@ -593,7 +599,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 'H:i'
             );
         }
-
     }
 
     /**

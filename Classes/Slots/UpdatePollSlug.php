@@ -19,8 +19,7 @@ class UpdatePollSlug
         bool $continue,
         array $settings,
         PollController $caller
-    )
-    {
+    ) {
         $this->updatePollSlug($poll);
     }
 

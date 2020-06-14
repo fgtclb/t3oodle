@@ -1,7 +1,6 @@
 <?php
 namespace T3\T3oodle\Domain\Repository;
 
-
 use T3\T3oodle\Domain\Model\Option;
 use T3\T3oodle\Domain\Model\Poll;
 use T3\T3oodle\Domain\Model\Vote;
@@ -14,7 +13,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2020 
+ *  (c) 2020
  *
  ***/
 /**
@@ -36,5 +35,4 @@ class VoteRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         ]));
         return $query->execute()->getFirst();
     }
-
 }

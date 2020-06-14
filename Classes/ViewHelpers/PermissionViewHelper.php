@@ -21,7 +21,12 @@ class PermissionViewHelper extends AbstractViewHelper
     {
         $this->registerArgument('permissionClassName', 'string', '', false, PollPermission::class);
         $this->registerArgument('poll', 'object', 'Poll object', false);
-        $this->registerArgument('action', 'string', 'Name of action to ask for permissions, e.g. "voting" or "edit"', true);
+        $this->registerArgument(
+            'action',
+            'string',
+            'Name of action to ask for permissions, e.g. "voting" or "edit"',
+            true
+        );
         $this->registerArgument('negate', 'bool', 'Negates the result, when true', false, false);
     }
 
@@ -33,8 +38,11 @@ class PermissionViewHelper extends AbstractViewHelper
         }
     }
 
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
         self::init($arguments);
 
         $poll = $arguments['poll'] ?? $renderChildrenClosure();

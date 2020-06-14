@@ -17,14 +17,17 @@ class GetOptionValueViewHelper extends AbstractViewHelper
         $this->registerArgument('option', 'object', 'Option object', true);
     }
 
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
         /** @var Vote $vote */
         $vote = $arguments['vote'] ?? $renderChildrenClosure();
         /** @var Option $option */
         $option = $arguments['option'];
 
-        foreach ($vote->getOptionValues() as $key => $optionValue)  {
+        foreach ($vote->getOptionValues() as $key => $optionValue) {
             if ($optionValue->getOption() === $option) {
                 return $optionValue;
             }

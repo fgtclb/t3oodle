@@ -18,8 +18,11 @@ class SplitDayOptionsViewHelper extends AbstractViewHelper
         $this->registerArgument('options', 'array', 'Iterable with options', false);
     }
 
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
         $options = $arguments['options'] ?? $renderChildrenClosure();
         if (!$options || !is_iterable($options)) {
             throw new \InvalidArgumentException('Invalid options given!');

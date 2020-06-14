@@ -1,7 +1,6 @@
 <?php
 namespace T3\T3oodle\Domain\Repository;
 
-
 use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Domain\Permission\PollPermission;
 use T3\T3oodle\Utility\DateTimeUtility;
@@ -16,7 +15,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2020 
+ *  (c) 2020
  *
  ***/
 /**

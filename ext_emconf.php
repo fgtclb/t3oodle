@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable
 $EM_CONF[$_EXTKEY] = [
     'title' => 't3oodle',
     'description' => 'Simple poll extension for TYPO3 CMS. t3oodle allows your frontend users to create new polls and vote for existing ones.',

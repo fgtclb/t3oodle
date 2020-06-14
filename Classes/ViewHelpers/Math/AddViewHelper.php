@@ -15,8 +15,11 @@ class AddViewHelper extends AbstractViewHelper
         $this->registerArgument('number', 'int', 'Number to add to subject', true);
     }
 
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
         $subject = $arguments['subject'] ?? $renderChildrenClosure();
         return (int) $subject + (int) $arguments['number'];
     }

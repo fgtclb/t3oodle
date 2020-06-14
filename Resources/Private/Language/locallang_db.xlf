@@ -48,6 +48,9 @@
 			<trans-unit id="tx_t3oodle_domain_model_poll.options">
 				<source>Options</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.votes">
+				<source>Votes</source>
+			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.setting_tristate_checkbox">
 				<source>Yes, no, maybe</source>
 			</trans-unit>

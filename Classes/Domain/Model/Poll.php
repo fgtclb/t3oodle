@@ -46,7 +46,7 @@ class Poll extends AbstractEntity
 
     /**
      * author
-     * 
+     *
      * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     protected $author;
@@ -485,7 +485,9 @@ class Poll extends AbstractEntity
                     if (!array_key_exists($optionValue->getOption()->getUid(), $optionTotals)) {
                         $optionTotals[$optionValue->getOption()->getUid()] = 0;
                     }
-                    if ($optionValue->getValue() === '1' || ($settings['countMaybeVotes'] && $optionValue->getValue() === '2')) {
+                    if ($optionValue->getValue() === '1' ||
+                        ($settings['countMaybeVotes'] && $optionValue->getValue() === '2')
+                    ) {
                         $optionTotals[$optionValue->getOption()->getUid()]++;
                     }
                 }

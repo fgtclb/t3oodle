@@ -22,7 +22,10 @@ return [
         'showRecordFieldList' => 'hidden, name, poll',
     ],
     'types' => [
-        '1' => ['showitem' => 'name, poll, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden'],
+        '1' => [
+            'showitem' => 'name, poll, ' .
+                          '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden'
+        ],
     ],
     'columns' => [
         'hidden' => [

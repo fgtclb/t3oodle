@@ -26,14 +26,17 @@ return [
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_poll.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, title, type, slug, visibility, is_published, publish_date, author, author_name, author_mail, author_ident, options, fe_group, votes, is_finished, finish_date, final_option',
+        'showRecordFieldList' => 'hidden, title, type, slug, visibility, is_published, publish_date, ' .
+            'author, author_name, author_mail, author_ident, options, fe_group, votes, ' .
+            'is_finished, finish_date, final_option',
     ],
     'types' => [
         '1' => ['showitem' => '--palettes--;;general, --palette--;;author, title, slug, description, link, options, ' .
                               '--div--;' . $ll('tab.status') . ', --palettes--;;publishing, --palettes--;;finishing, ' .
                               '--div--;' . $ll('tab.settings') . ',--palette--;Settings;settings, ' .
                               '--div--;' . $ll('tab.votes') . ', votes, ' .
-                              '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden, starttime, endtime, fe_group'
+                              '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, ' .
+                              'hidden, starttime, endtime, fe_group'
         ],
     ],
     'palettes' => [
@@ -44,7 +47,9 @@ return [
             'showitem' => 'author,--linebreak--,author_name,author_mail,author_ident'
         ],
         'settings' => [
-            'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_max_votes_per_option, --linebreak--, setting_one_option_only, --linebreak--, setting_secret_participants, setting_secret_votings, --linebreak--, setting_voting_expires_date, setting_voting_expires_time'
+            'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_max_votes_per_option, --linebreak--, ' .
+                'setting_one_option_only, --linebreak--, setting_secret_participants, setting_secret_votings, ' .
+                '--linebreak--, setting_voting_expires_date, setting_voting_expires_time'
         ],
         'publishing' => [
             'showitem' => 'is_published, publish_date'
@@ -259,7 +264,7 @@ return [
         ],
         'votes' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.votes',
+            'label' => $ll('votes'),
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_t3oodle_domain_model_vote',

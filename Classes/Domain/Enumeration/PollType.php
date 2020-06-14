@@ -5,8 +5,6 @@ use TYPO3\CMS\Core\Type\Enumeration;
 
 final class PollType extends Enumeration
 {
-    const __default = self::SIMPLE;
-
     const SIMPLE = 'simple';
     const SCHEDULE = 'schedule';
 }

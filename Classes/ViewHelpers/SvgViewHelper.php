@@ -32,7 +32,8 @@ class SvgViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $extensionName = $renderingContext->getControllerContext()->getRequest()->getControllerExtensionName();
-        $uri = 'EXT:' . GeneralUtility::camelCaseToLowerCaseUnderscored($extensionName) . '/Resources/Public/' . $arguments['path'];
+        $uri = 'EXT:' . GeneralUtility::camelCaseToLowerCaseUnderscored($extensionName) . '/Resources/Public/' .
+            $arguments['path'];
         $path = GeneralUtility::getFileAbsFileName($uri);
 
         if (!file_exists($path)) {
@@ -58,8 +59,13 @@ class SvgViewHelper extends AbstractViewHelper
         return self::createSvgSymbol($path, $size, $class, $color, $title);
     }
 
-    protected static function buildSvgSymbolReference(string $id, string $size, string $class, string $color, string $title): string
-    {
+    protected static function buildSvgSymbolReference(
+        string $id,
+        string $size,
+        string $class,
+        string $color,
+        string $title
+    ): string {
         if (!empty($size)) {
             $size = ' width="' . $size . '" height="' . $size . '" ';
         }
@@ -81,7 +87,6 @@ class SvgViewHelper extends AbstractViewHelper
         string $color,
         string $title
     ) : string {
-
         $svgContents = file_get_contents($path);
         $svgDocument = new \DOMDocument();
         $svgDocument->loadXML($svgContents);

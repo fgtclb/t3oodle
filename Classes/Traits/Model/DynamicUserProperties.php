@@ -10,12 +10,12 @@ trait DynamicUserProperties
     /**
      * @var array
      */
-    static protected $typoscriptSettings = [];
+    protected static $typoscriptSettings = [];
 
     /**
      * @var array
      */
-    static protected $userRowCache = [];
+    protected static $userRowCache = [];
 
     /**
      * @param FrontendUser $user

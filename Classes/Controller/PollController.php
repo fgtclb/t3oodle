@@ -10,6 +10,7 @@ use T3\T3oodle\Utility\CookieUtility;
 use T3\T3oodle\Utility\DateTimeUtility;
 use T3\T3oodle\Utility\ScheduleOptionUtility;
 use T3\T3oodle\Utility\SlugUtility;
+use T3\T3oodle\Utility\TranslateUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -149,7 +150,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function voteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
         if (!$this->settings['allowNewVotes']) {
-            throw new AccessDeniedException('New votes on polls have been disabled.');
+            throw new AccessDeniedException(TranslateUtility::translate('exception.1592142677'), 1592142677);
         }
         $this->pollPermission->isAllowed($vote->getPoll(), 'voting', true);
 
@@ -165,7 +166,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
         $this->voteRepository->add($vote);
 
-        $this->addFlashMessage('Voting saved!', '', AbstractMessage::OK);
+        $this->addFlashMessage(TranslateUtility::translate('flash.votingSaved'), '', AbstractMessage::OK);
         $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
     }
 
@@ -177,14 +178,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function deleteVoteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
         if (!$this->settings['allowNewVotes']) {
-            throw new AccessDeniedException(
-                'Because new votes has been disabled, deleting or editing votes is also disallowed.'
-            );
+            throw new AccessDeniedException(TranslateUtility::translate('exception.1592142555'));
         }
         $this->pollPermission->isAllowed($vote, 'voteDeletion', true);
         $name = $vote->getParticipantName();
         $this->voteRepository->remove($vote);
-        $this->addFlashMessage('Vote of "' . $name . '" successfully deleted.');
+        $this->addFlashMessage(TranslateUtility::translate('flash.voteSuccessfullyDeleted', [$name]));
         $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
     }
 
@@ -199,12 +198,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->pollPermission->isAllowed($poll, 'finish', true);
         if ($option > 0) {
             // Persist
+            /** @var \T3\T3oodle\Domain\Model\Option $option */
             $option = $this->optionRepository->findByUid($option);
             $poll->setFinalOption($option);
             $poll->setFinishDate(DateTimeUtility::now());
             $poll->setIsFinished(true);
             $this->pollRepository->update($poll);
-            $this->addFlashMessage('Poll has been finished!');
+            $this->addFlashMessage(TranslateUtility::translate('flash.successfullyFinished', [$poll->getTitle(), $option->getName()]));
             $this->redirect('show', null, null, ['poll' => $poll]);
         }
         $this->view->assign('poll', $poll);
@@ -223,7 +223,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         string $pollType = PollType::SIMPLE
     ) {
         if (!$this->settings['allowNewPolls']) {
-            throw new AccessDeniedException('Creation of new polls has been disabled.');
+            throw new AccessDeniedException(TranslateUtility::translate('exception.1592141715'), 1592141715);
         }
         if (!$poll) {
             $poll = GeneralUtility::makeInstance(\T3\T3oodle\Domain\Model\Poll::class);
@@ -255,7 +255,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function createAction(\T3\T3oodle\Domain\Model\Poll $poll, bool $publishDirectly)
     {
         if (!$this->settings['allowNewPolls']) {
-            throw new AccessDeniedException('Creation of new polls has been disabled.');
+            throw new AccessDeniedException(TranslateUtility::translate('exception.1592141715'), 1592141715);
         }
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
@@ -292,7 +292,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->pollRepository->update($poll);
         $persistenceManager->persistAll();
 
-        $this->addFlashMessage('The poll was created.', '', AbstractMessage::OK);
+        $this->addFlashMessage(TranslateUtility::translate('flash.successfullyCreated', [$poll->getTitle()]), '', AbstractMessage::OK);
 
         if ($publishDirectly) {
             $this->forward('publish', null, null, ['poll' => $poll]);
@@ -311,7 +311,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $poll->setPublishDate(DateTimeUtility::now());
         $poll->setIsPublished(true);
         $this->pollRepository->update($poll);
-        $this->addFlashMessage('The poll has been published.', '', AbstractMessage::OK);
+        $this->addFlashMessage(
+            TranslateUtility::translate('flash.successfullyPublished', [$poll->getTitle()]),
+            '',
+            AbstractMessage::OK
+        );
         $this->redirect('show', null, null, ['poll' => $poll]);
     }
 
@@ -339,7 +343,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $optionsModified = $poll->areOptionsModified();
         if ($voteCount > 0 && $optionsModified) {
             foreach ($poll->getVotes() as $vote) {
-                // TODO: notification for user?
                 $this->voteRepository->remove($vote);
             }
         }
@@ -347,9 +350,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->removeMarkedPollOptions($poll);
         $this->pollRepository->update($poll);
 
-        $this->addFlashMessage('The poll has been updated!');
+        $this->addFlashMessage(TranslateUtility::translate('flash.successfullyUpdated', [$poll->getTitle()]));
         if ($voteCount > 0 && $optionsModified) {
-            $this->addFlashMessage('Because poll options or option related settings has been touched, ' . $voteCount . ' existing votes has been removed.', '', AbstractMessage::WARNING);
+            $this->addFlashMessage(TranslateUtility::translate('flash.noticeRemovedVotes', [$voteCount]), '', AbstractMessage::WARNING);
         }
         $this->redirect('show', null, null, ['poll' => $poll]);
     }
@@ -361,7 +364,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function deleteAction(\T3\T3oodle\Domain\Model\Poll $poll)
     {
         $this->pollPermission->isAllowed($poll, 'delete', true);
-        $this->addFlashMessage('The poll has been successfully deleted');
+        $this->addFlashMessage(TranslateUtility::translate('flash.successfullyDeleted', [$poll->getTitle()]));
         $this->pollRepository->remove($poll);
         $this->redirect('list');
     }

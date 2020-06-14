@@ -5,6 +5,7 @@ use T3\T3oodle\Domain\Enumeration\PollType;
 use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Domain\Model\Poll;
 use T3\T3oodle\Utility\DateTimeUtility;
+use T3\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Error;
@@ -53,7 +54,7 @@ class PollValidator extends AbstractValidator
         if (count($options) < 2) {
             $isValid = false;
             $this->result->forProperty('options')->addError(
-                new Error('At least two options are required.', 52)
+                new Error(TranslateUtility::translate('validation.1592143000'), 1592143000)
             );
         }
 
@@ -66,7 +67,7 @@ class PollValidator extends AbstractValidator
             }
             if (in_array($option->getName(), $optionValues)) {
                 $this->result->forProperty('options.' . $key . '.name')->addError(
-                    new Error('The option value "%s" is already used in another option.', 55, [$option->getName()])
+                    new Error(TranslateUtility::translate('validation.1592143001', [$option->getName()]), 1592143001)
                 );
                 $optionsUnique = false;
             }
@@ -75,7 +76,7 @@ class PollValidator extends AbstractValidator
         if (!$optionsUnique) {
             $isValid = false;
             $this->result->forProperty('options')->addError(
-                new Error('All options in a poll must be unique.', 51)
+                new Error(TranslateUtility::translate('validation.1592143002'), 1592143002)
             );
         }
         return $isValid;
@@ -90,17 +91,17 @@ class PollValidator extends AbstractValidator
             if (count($parts) < 1) {
                 $isValid = false;
                 $this->result->forProperty('options')->addError(
-                    new Error('The schedule option value "%s" is not properly formatted!', 56, [$option->getName()])
+                    new Error(TranslateUtility::translate('validation.1592143003', [$option->getName()]), 1592143003)
                 );
             }
             if (isset($parts[0]) && $parts[0] && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $parts[0])) {
                 $this->result->forProperty('options')->addError(
-                    new Error('Date format for schedule option is "YYYY-MM-DD". Given value "%s" is not matching!', 57, [$option->getName()])
+                    new Error(TranslateUtility::translate('validation.1592143004', [$option->getName()]), 1592143004)
                 );
             }
             if (isset($parts[1]) && empty(trim($parts[1]))) {
                 $this->result->forProperty('options')->addError(
-                    new Error('When you define options per day, they are not allowed to be empty!', 57)
+                    new Error(TranslateUtility::translate('validation.1592143005'), 1592143005)
                 );
             }
         }
@@ -117,33 +118,33 @@ class PollValidator extends AbstractValidator
         if (empty(trim($value->getTitle()))) {
             $isValid = false;
             $this->result->forProperty('title')->addError(
-                new Error('Title is required!', 59)
+                new Error(TranslateUtility::translate('validation.1592143006'), 1592143006)
             );
         }
         if (strlen($value->getTitle()) > 255) {
             $isValid = false;
             $this->result->forProperty('title')->addError(
-                new Error('Maximum title length is 255 chars', 59)
+                new Error(TranslateUtility::translate('validation.1592143007'), 1592143007)
             );
         }
 
         if ($value->getDescription() && strlen($value->getDescription()) > 65535) {
             $isValid = false;
             $this->result->forProperty('description')->addError(
-                new Error('Maximum description length is 65535 chars', 59)
+                new Error(TranslateUtility::translate('validation.1592143008'), 1592143008)
             );
         }
 
         if ($value->getLink() && filter_var($value->getLink(), FILTER_VALIDATE_URL) === false) {
             $isValid = false;
             $this->result->forProperty('link')->addError(
-                new Error('Given link is not a valid URL.', 59)
+                new Error(TranslateUtility::translate('validation.1592143009'), 1592143009)
             );
         }
         if ($value->getLink() && strpos($value->getLink(), 'http') !== 0) {
             $isValid = false;
             $this->result->forProperty('link')->addError(
-                new Error('Must start with http:// or https://', 59)
+                new Error(TranslateUtility::translate('validation.1592143010'), 1592143010)
             );
         }
         try {
@@ -151,7 +152,7 @@ class PollValidator extends AbstractValidator
         } catch (InvalidEnumerationValueException $e) {
             $isValid = false;
             $this->result->forProperty('visibility')->addError(
-                new Error('Given value is not allowed!', 59)
+                new Error(TranslateUtility::translate('validation.1592143011'), 1592143011)
             );
         }
         return $isValid;
@@ -168,19 +169,19 @@ class PollValidator extends AbstractValidator
             if (empty(trim($value->getAuthorName()))) {
                 $isValid = false;
                 $this->result->forProperty('authorName')->addError(
-                    new Error('Author name is required!', 59)
+                    new Error(TranslateUtility::translate('validation.1592143012'), 1592143012)
                 );
             }
             if (empty(trim($value->getAuthorMail()))) {
                 $isValid = false;
                 $this->result->forProperty('authorMail')->addError(
-                    new Error('Author mail is required!', 60)
+                    new Error(TranslateUtility::translate('validation.1592143013'), 1592143013)
                 );
             }
             if ($value->getAuthorMail() && !GeneralUtility::validEmail($value->getAuthorMail())) {
                 $isValid = false;
                 $this->result->forProperty('authorMail')->addError(
-                    new Error('Author mail is no valid mail address!', 61)
+                    new Error(TranslateUtility::translate('validation.1592143014'), 1592143014)
                 );
             }
         }
@@ -197,29 +198,27 @@ class PollValidator extends AbstractValidator
         if ($value->getSettingMaxVotesPerOption() < 0) {
             $isValid = false;
             $this->result->forProperty('settingMaxVotesPerOption')->addError(
-                new Error('Max votes per option must be a positive number or zero.', 61)
+                new Error(TranslateUtility::translate('validation.1592143015'), 1592143015)
             );
         }
-
         if ($value->getSettingVotingExpiresDate()) {
             if ($value->getSettingVotingExpiresDate()->getTimestamp() < DateTimeUtility::today()->getTimestamp()) {
                 $isValid = false;
                 $this->result->forProperty('settingVotingExpiresDate')->addError(
-                    new Error('The expiration date must be located in the future.', 61)
+                    new Error(TranslateUtility::translate('validation.1592143016'), 1592143016)
                 );
             } elseif ($expiresAt = $value->getSettingVotingExpiresAt()) {
                 if ($expiresAt->getTimestamp() < DateTimeUtility::now()->getTimestamp()) {
                     $isValid = false;
                     $this->result->forProperty('settingVotingExpiresTime')->addError(
-                        new Error('Given time is in the past.', 63)
+                        new Error(TranslateUtility::translate('validation.1592143017'), 1592143017)
                     );
                 }
             }
-
             if (!$value->getSettingVotingExpiresTime()) {
                 $isValid = false;
                 $this->result->forProperty('settingVotingExpiresTime')->addError(
-                    new Error('Please also set a time.', 62)
+                    new Error(TranslateUtility::translate('validation.1592143018'), 1592143018)
                 );
             }
         }

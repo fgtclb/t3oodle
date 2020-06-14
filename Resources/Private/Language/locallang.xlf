@@ -432,6 +432,125 @@
 			<trans-unit id="widget.pagination.next">
 				<source>next</source>
 			</trans-unit>
+
+
+			<trans-unit id="flash.successfullyCreated">
+				<source>The poll "%s" has been successfully created.</source>
+			</trans-unit>
+			<trans-unit id="flash.successfullyPublished">
+				<source>The poll "%s" has been successfully published. Now, it's publicly available.</source>
+			</trans-unit>
+			<trans-unit id="flash.successfullyUpdated">
+				<source>The poll "%s" has been successfully updated.</source>
+			</trans-unit>
+			<trans-unit id="flash.votingSaved">
+				<source>Voting saved! Thanks for participating.</source>
+			</trans-unit>
+			<trans-unit id="flash.noticeRemovedVotes">
+				<source>Because poll options or option related settings has been touched, %i existing votes has been removed.</source>
+			</trans-unit>
+			<trans-unit id="flash.successfullyFinished">
+				<source>The poll "%s" has been successfully finished with final option "%s" chosen.</source>
+			</trans-unit>
+			<trans-unit id="flash.successfullyDeleted">
+				<source>The poll "%s" has been successfully deleted.</source>
+			</trans-unit>
+			<trans-unit id="flash.voteSuccessfullyDeleted">
+				<source>Voting from user "%s" has been successfully deleted.</source>
+			</trans-unit>
+
+
+			<trans-unit id="exception.1592141715">
+				<source>Creation of new polls has been disabled.</source>
+			</trans-unit>
+			<trans-unit id="exception.1592142348">
+				<source>Access denied for "%s" action!</source>
+			</trans-unit>
+			<trans-unit id="exception.1592142419">
+				<source>Given action "%s" is not existing in PollPermission class. Available actions are: %s</source>
+			</trans-unit>
+			<trans-unit id="exception.1592142555">
+				<source>Because new votes has been disabled, deleting or editing votes is also disallowed.</source>
+			</trans-unit>
+			<trans-unit id="exception.1592142677">
+				<source>New votes on polls have been disabled.</source>
+			</trans-unit>
+
+
+			<trans-unit id="validation.1592143000">
+				<source>At least two options are required.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143001">
+				<source>The option value "%s" is already used in another option.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143002">
+				<source>All options in a poll must be unique.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143003">
+				<source>The schedule option value "%s" is not properly formatted!</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143004">
+				<source>Date format for schedule option is "YYYY-MM-DD". Given value "%s" is not matching!</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143005">
+				<source>When you define options per day, they are not allowed to be empty!</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143006">
+				<source>Title is required!</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143007">
+				<source>Maximum title length is 255 chars.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143008">
+				<source>Maximum description length is 65,535 chars.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143009">
+				<source>Given link is not a valid URL.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143010">
+				<source>Link must start with http:// or (better) https://</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143011">
+				<source>Given value is not allowed for visibility setting of poll.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143012">
+				<source>Author name is required.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143013">
+				<source>Author mail address is required.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143014">
+				<source>Author mail address is no valid mail address.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143015">
+				<source>Max votes per option must be a positive number or zero.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143016">
+				<source>The expiration date must be located in the future.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143017">
+				<source>Given time is in the past.</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143018">
+				<source>Please also set a time.</source>
+			</trans-unit>
+
+			<!-- For votes -->
+			<trans-unit id="validation.1592143020">
+				<source>Participant name is required!</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143021">
+				<source>Participant mail is required!</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143022">
+				<source>Participant mail is no valid mail address!</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143023">
+				<source>Only one option per participant is allowed!</source>
+			</trans-unit>
+			<trans-unit id="validation.1592143024">
+				<source>Sorry, the option "%s" is already full.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

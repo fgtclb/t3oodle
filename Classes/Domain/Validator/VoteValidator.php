@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace T3\T3oodle\Domain\Validator;
 
+use T3\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Error;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
@@ -22,19 +23,19 @@ class VoteValidator extends AbstractValidator
             if (empty(trim($value->getParticipantName()))) {
                 $isValid = false;
                 $this->result->forProperty('participantName')->addError(
-                    new Error('Participant name is required!', 59)
+                    new Error(TranslateUtility::translate('validation.1592143020'), 1592143020)
                 );
             }
             if (empty(trim($value->getParticipantMail()))) {
                 $isValid = false;
                 $this->result->forProperty('participantMail')->addError(
-                    new Error('Participant mail is required!', 60)
+                    new Error(TranslateUtility::translate('validation.1592143021'), 1592143021)
                 );
             }
             if ($value->getParticipantMail() && !GeneralUtility::validEmail($value->getParticipantMail())) {
                 $isValid = false;
                 $this->result->forProperty('participantMail')->addError(
-                    new Error('Participant mail is no valid mail address!', 61)
+                    new Error(TranslateUtility::translate('validation.1592143022'), 1592143022)
                 );
             }
         }
@@ -51,7 +52,7 @@ class VoteValidator extends AbstractValidator
             if ($amount > 1) {
                 $isValid = false;
                 $this->result->forProperty('optionValues')->addError(
-                    new Error('Only one option per participant is allowed!', 61)
+                    new Error(TranslateUtility::translate('validation.1592143023'), 1592143023)
                 );
             }
         }
@@ -59,10 +60,19 @@ class VoteValidator extends AbstractValidator
         // Max votes per option
         if ($value->getPoll() && $value->getPoll()->getSettingMaxVotesPerOption() > 0) {
             foreach ($value->getOptionValues() as $optionValue) {
-                if ($optionValue->getValue() !== '0' && $optionValue->getOption()->isFull()) {
+                if ($optionValue->getValue() !== '0' &&
+                    $optionValue->getOption() &&
+                    $optionValue->getOption()->isFull()
+                ) {
                     $isValid = false;
                     $this->result->forProperty('optionValues')->addError(
-                        new Error('Sorry, the option "%s" is already full.', 61, [$optionValue->getOption()->getName()])
+                        new Error(
+                            TranslateUtility::translate(
+                                'validation.1592143024',
+                                [$optionValue->getOption()->getName()]
+                            ),
+                            1592143024
+                        )
                     );
                 }
             }

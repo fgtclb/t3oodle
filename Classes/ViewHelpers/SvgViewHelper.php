@@ -87,7 +87,7 @@ class SvgViewHelper extends AbstractViewHelper
         $svgDocument->loadXML($svgContents);
 
         // Used for caching and symbol identifier
-        $id = 'svg-' . str_replace(['/', '_', ' ', '.'], '-', basename($path)); // TODO
+        $id = 'svg-' . str_replace(['/', '_', ' ', '.'], '-', basename($path));
 
         // Create the symbol
         $symbolDocument = new \DOMDocument();

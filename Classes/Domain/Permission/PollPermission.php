@@ -5,6 +5,7 @@ use T3\T3oodle\Domain\Enumeration\Visibility;
 use T3\T3oodle\Domain\Model\Poll;
 use T3\T3oodle\Domain\Model\Vote;
 use T3\T3oodle\Utility\SettingsUtility;
+use T3\T3oodle\Utility\TranslateUtility;
 use T3\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -33,14 +34,14 @@ class PollPermission
                 }
             }
             throw new \InvalidArgumentException(
-                'Given action "' . $action . '" is not existing in ' . PollPermission::class . '. ' .
-                'Available actions are: ' . implode(', ', $available)
+                TranslateUtility::translate('exception.1592142419', [$action, implode(', ', $available)]),
+                1592142419
             );
         }
         $result = $this->$getter($subject);
 
         if (!$result && $throwException) {
-            throw new AccessDeniedException('Access denied for ' . $action . ' action.');
+            throw new AccessDeniedException(TranslateUtility::translate('exception.1592142348', [$action]), 1592142348);
         }
         return $result;
     }

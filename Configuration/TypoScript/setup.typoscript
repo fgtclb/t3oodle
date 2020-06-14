@@ -37,6 +37,9 @@ plugin.tx_t3oodle {
         # Allow creation of new votes
         allowNewVotes = 1
 
+        # When disabled no flash messages (from controllers) are displayed anymore
+        enableFlashMessages = 1
+
         list {
             # Display draft polls (only for author and admins)
             draft = 1
@@ -61,9 +64,11 @@ plugin.tx_t3oodle {
                 participants = 1
             }
         }
+
         show {
             showReturnToListLink = 1
         }
+
         form {
             showReturnToListLink = 1
         }

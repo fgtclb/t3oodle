@@ -521,4 +521,15 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
         }
     }
+
+    public function addFlashMessage(
+        $messageBody,
+        $messageTitle = '',
+        $severity = AbstractMessage::OK,
+        $storeInSession = true
+    ) {
+        if ($this->settings['enableFlashMessages']) {
+            parent::addFlashMessage($messageBody, $messageTitle, $severity, $storeInSession);
+        }
+    }
 }

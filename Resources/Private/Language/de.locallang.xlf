@@ -588,8 +588,12 @@
 				<target>Die Umfrage "%s" wurde erfolgreich aktualisiert.</target>
 			</trans-unit>
 			<trans-unit id="flash.votingSaved">
-				<source>Voting saved! Thanks for participating.</source>
-				<target>Deine Stimme wurde gespeichert! Vielen Dank für die Teilnahme.</target>
+				<source>Voting saved. Thanks for participating!</source>
+				<target>Deine Stimme wurde gespeichert. Vielen Dank für die Teilnahme!</target>
+			</trans-unit>
+			<trans-unit id="flash.votingUpdated">
+				<source>Your vote has been updated.</source>
+				<target>Deine Stimme wurde geändert.</target>
 			</trans-unit>
 			<trans-unit id="flash.noticeRemovedVotes">
 				<source>Because poll options or option related settings has been touched, %i existing votes has been removed.</source>

@@ -367,27 +367,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 'caller' => $this
             ]);
 
-            // TODO: Move this to an own Slot
-            $slugUtility = GeneralUtility::makeInstance(
-                SlugUtility::class,
-                'tx_t3oodle_domain_model_poll',
-                'slug'
-            );
-            // Create slug and update created entity
-            if ($poll->getVisibility() === Visibility::NOT_LISTED) {
-                $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
-            } else {
-                $newSlug = $slugUtility->sanitize($poll->getTitle());
-                if ($this->pollRepository->countBySlug($newSlug) > 0) {
-                    $newSlug .= '-' . $poll->getUid();
-                }
-                $poll->setSlug($newSlug);
-            }
-
-            $this->pollRepository->update($poll);
-            $persistenceManager->persistAll();
-            // TODO: Until here
-
             if ($signalAfter['continue']) {
                 $this->addFlashMessage(TranslateUtility::translate('flash.successfullyCreated', [$poll->getTitle()]), '', AbstractMessage::OK);
                 if ($publishDirectly) {

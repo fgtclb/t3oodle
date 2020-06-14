@@ -441,7 +441,7 @@
 				<source>The poll "%s" has been successfully created.</source>
 			</trans-unit>
 			<trans-unit id="flash.successfullyPublished">
-				<source>The poll "%s" has been successfully published. Now, it's publicly available.</source>
+				<source>The poll "%s" has been successfully published. Now, it is publicly available.</source>
 			</trans-unit>
 			<trans-unit id="flash.successfullyUpdated">
 				<source>The poll "%s" has been successfully updated.</source>
@@ -463,6 +463,9 @@
 			</trans-unit>
 			<trans-unit id="flash.voteSuccessfullyDeleted">
 				<source>Voting from user "%s" has been successfully deleted.</source>
+			</trans-unit>
+			<trans-unit id="flash.slugChanged">
+				<source>Because title or visibility of this poll has been updated, the URL to this poll has been changed!</source>
 			</trans-unit>
 
 

@@ -580,7 +580,7 @@
 				<target>Die Umfrage "%s" wurde erfolgreich erstellt.</target>
 			</trans-unit>
 			<trans-unit id="flash.successfullyPublished">
-				<source>The poll "%s" has been successfully published. Now, it's publicly available.</source>
+				<source>The poll "%s" has been successfully published. Now, it is publicly available.</source>
 				<target>Die Umfrage "%s" wurde erfolgreich veröffentlicht. Sie ist nun öffentlich verfügbar.</target>
 			</trans-unit>
 			<trans-unit id="flash.successfullyUpdated">
@@ -610,6 +610,10 @@
 			<trans-unit id="flash.voteSuccessfullyDeleted">
 				<source>Voting from user "%s" has been successfully deleted.</source>
 				<target>Die abgegebenen Stimmen des Benutzers "%s" wurde erfolgreich gelöscht.</target>
+			</trans-unit>
+			<trans-unit id="flash.slugChanged">
+				<source>Because title or visibility of this poll has been updated, the URL to this poll has been changed!</source>
+				<target>Weil der Titel oder die Sichtbarkeit dieser Umfrage geändert wurde, hat sich die URL zu dieser Umfrage geändert!</target>
 			</trans-unit>
 
 

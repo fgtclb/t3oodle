@@ -80,6 +80,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $this->processPollAndVoteArgumentFromRequest();
         $this->addCalendarLabelsToSettings();
+
+        $this->settings['_dynamic'] = new \stdClass();
     }
 
     public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)

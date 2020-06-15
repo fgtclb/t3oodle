@@ -2,7 +2,7 @@
     "name": "t3/t3oodle",
     "type": "typo3-cms-extension",
     "description": "Simple poll extension for TYPO3 CMS. t3oodle allows your frontend users to create new polls and vote for existing ones.",
-    "keywords": ["poll", "doodle", "votes"],
+    "keywords": ["poll", "schedule", "doodle", "voting", "typo3"],
     "authors": [
         {
             "name": "Armin Vieweg",
@@ -11,6 +11,7 @@
             "homepage": "https://v.ieweg.de"
         }
     ],
+    "license": "GPL-2.0-or-later",
     "require": {
         "php": "^7.2",
         "ext-json": "*",

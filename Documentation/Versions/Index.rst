@@ -7,6 +7,15 @@
 Versions
 ========
 
+0.2.1
+-----
+
+[FEATURE] Add "_dynamic" setting
+[TASK] Add "getContentObjectRow" method to PollController
+[TASK] Pass "view" to all action signals with templates existing
+[TASK] Do not pass items to asynchronous loaded function calls
+
+
 0.2.0
 -----
 

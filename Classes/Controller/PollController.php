@@ -104,6 +104,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->signalSlotDispatcher->dispatch(__CLASS__, 'list', [
             'polls' => $polls,
             'settings' => $this->settings,
+            'view' => $this->view,
             'caller' => $this
         ]);
         $this->view->assign('polls', $polls);
@@ -139,6 +140,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'vote' => $vote,
             'newOptionValues' => $newOptionValues,
             'settings' => $this->settings,
+            'view' => $this->view,
             'caller' => $this
         ]);
 
@@ -238,6 +240,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 'finalOption' => $option,
                 'continue' => true,
                 'settings' => $this->settings,
+                'view' => $this->view,
                 'caller' => $this
             ]);
 
@@ -253,6 +256,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->signalSlotDispatcher->dispatch(__CLASS__, 'showFinish', [
                 'poll' => $poll,
                 'settings' => $this->settings,
+                'view' => $this->view,
                 'caller' => $this
             ]);
         }
@@ -291,6 +295,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'publishDirectly' => $publishDirectly,
             'newOptions' => $newOptions,
             'settings' => $this->settings,
+            'view' => $this->view,
             'caller' => $this
         ]);
 
@@ -403,6 +408,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->signalSlotDispatcher->dispatch(__CLASS__, 'edit', [
             'poll' => $poll,
             'settings' => $this->settings,
+            'view' => $this->view,
             'caller' => $this
         ]);
 

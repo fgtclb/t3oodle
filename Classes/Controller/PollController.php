@@ -490,6 +490,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
     }
 
+    public function getContentObjectRow(): ?array
+    {
+        return $this->configurationManager->getContentObject()->data;
+    }
+
     protected function removeMarkedPollOptions(\T3\T3oodle\Domain\Model\Poll $poll)
     {
         $persistenceManager = $this->objectManager->get(PersistenceManager::class);

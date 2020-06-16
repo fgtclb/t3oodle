@@ -37,7 +37,12 @@
                         </f:if>
                     </f:then>
                     <f:else>
-                        <f:form.submit class="btn btn-light" value="{f:translate(key:'label.votingDisabled')}" disabled="disabled" />
+                        <f:if condition="{poll.availableOptions -> f:count()} == 0">
+                            <span class="my-5">
+                                <f:translate key="label.limitPerOptionsReached" arguments="{0: '{poll.settingMaxVotesPerOption}'}" />
+                            </span>
+                        </f:if>
+                        <f:form.submit class="btn btn-light button-vote" value="{f:translate(key:'label.votingDisabled')}" disabled="disabled" />
                     </f:else>
                 </f:if>
             </div>

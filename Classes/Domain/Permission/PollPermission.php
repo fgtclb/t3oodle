@@ -62,7 +62,6 @@ class PollPermission
         $result = $this->$getter($subject);
 
         if (!$result && $throwException) {
-
             $customErrorMessage = TranslateUtility::translate('exception.permission.' . $action);
             if (empty($customErrorMessage)) {
                 $customErrorMessage = TranslateUtility::translate('exception.1592142348', [$action]);
@@ -146,12 +145,12 @@ class PollPermission
 
     public function isVotingAllowed(Poll $poll): bool
     {
-        // TODO: check if enough options are available (based on settingMaxVotesPerOption)
         // TODO: Controller settings may stay empty, when called from models (like Poll->getStatus())
         $status = (empty($this->controllerSettings) || $this->controllerSettings['allowNewVotes'])
                 && $poll->isPublished()
                 && !$poll->isFinished()
-                && !$poll->isVotingExpired();
+                && !$poll->isVotingExpired()
+                && count($poll->getAvailableOptions()) > 0;
         return $this->dispatch(__METHOD__, $status, $poll);
     }
 

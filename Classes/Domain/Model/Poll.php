@@ -140,6 +140,11 @@ class Poll extends AbstractEntity
      */
     protected $votes;
 
+    /**
+     * @var array|null
+     */
+    protected static $availableOptionsCache;
+
 
     public function __construct()
     {
@@ -521,6 +526,41 @@ class Poll extends AbstractEntity
         return false;
     }
 
+    public function getAvailableOptions(): array
+    {
+        if (!$this->getSettingMaxVotesPerOption()) {
+            return $this->getOptions()->toArray();
+        }
+        if (self::$availableOptionsCache === null) {
+            $settings = SettingsUtility::getTypoScriptSettings();
+            $countMaybeVotes = (bool) $settings['countMaybeVotes'];
+
+            $usedOptions = [];
+            $usedOptionCounts = [];
+            foreach ($this->getOptions() as $option) {
+                $usedOptions[$option->getUid()] = $option;
+                $usedOptionCounts[$option->getUid()] = 0;
+            }
+
+            foreach ($this->getVotes() as $vote) {
+                foreach ($vote->getOptionValues() as $optionValue) {
+                    if ($optionValue->getValue() === '1' || ($countMaybeVotes && $optionValue->getValue() === '2')) {
+                        $usedOptionCounts[$optionValue->getOption()->getUid()]++;
+                    }
+                }
+            }
+
+            $availableOptions = [];
+            foreach ($usedOptionCounts as $usedOptionUid => $usagesAmount) {
+                if ($usagesAmount < $this->getSettingMaxVotesPerOption()) {
+                    $availableOptions[] = $usedOptions[$usedOptionUid];
+                }
+            }
+            self::$availableOptionsCache = $availableOptions;
+        }
+        return self::$availableOptionsCache;
+    }
+
     public function getStatus(): PollStatus
     {
         if (!$this->isPublished()) {
@@ -531,7 +571,7 @@ class Poll extends AbstractEntity
         }
 
         $pollPermission = GeneralUtility::makeInstance(PollPermission::class);
-        if ($pollPermission->isVotingAllowed($this)) {
+        if ($pollPermission->isVotingAllowed($this) && count($this->getAvailableOptions()) > 0) {
             return new PollStatus(PollStatus::OPENED);
         }
         return new PollStatus(PollStatus::CLOSED);

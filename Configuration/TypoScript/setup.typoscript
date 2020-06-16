@@ -47,7 +47,7 @@ plugin.tx_t3oodle {
             draft = 1
             # Display polls open for voting
             opened = 1
-            # Display polls closed for voting (not implemeted yet)
+            # Display polls closed for voting (not implemented yet)
             closed = 1
             # Display polls which has been finished
             finished = 1

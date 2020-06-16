@@ -323,8 +323,12 @@
 				<target>Möchtest Du diese Umfrage wirklich löschen?</target>
 			</trans-unit>
 			<trans-unit id="label.noticeAllowNewVotesDisabled">
-				<source>Note: Adding new votes has been disabled by administrator.</source>
-				<target>Info: Das Hinzufügen von neuen Stimmen wurde vom Administrator deaktiviert.</target>
+				<source>Note: Adding new votes has been disabled.</source>
+				<target>Info: Das Hinzufügen von neuen Stimmen wurde deaktiviert.</target>
+			</trans-unit>
+			<trans-unit id="label.limitPerOptionsReached">
+				<source>The limited amount of votes per option (%d) is reached, for all options.</source>
+				<target>Die begrenze Anzahl an Stimmen pro Option (%d) ist bei allen Optionen erreicht.</target>
 			</trans-unit>
 
 			<trans-unit id="poll">

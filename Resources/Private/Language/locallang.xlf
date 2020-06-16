@@ -246,6 +246,9 @@
 			<trans-unit id="label.noticeAllowNewVotesDisabled">
 				<source>Note: Adding new votes has been disabled by administrator.</source>
 			</trans-unit>
+			<trans-unit id="label.limitPerOptionsReached">
+				<source>The limited amount of votes per option (%d) is reached, for all options.</source>
+			</trans-unit>
 
 
 			<trans-unit id="poll">

@@ -154,16 +154,6 @@ class PollPermission
         return $this->dispatch(__METHOD__, $status, $poll);
     }
 
-    /**
-     * @TODO should be located in a seperate VotePermission class
-     */
-    public function isDeleteVoteAllowed(Vote $vote): bool
-    {
-        $status = $this->controllerSettings['allowNewVotes'] &&
-                  ($this->userIsAuthor($vote->getPoll()) || $vote->getParticipantIdent() === $this->currentUserIdent);
-        return $this->dispatch(__METHOD__, $status, $vote->getPoll(), $vote);
-    }
-
     public function isSeeParticipantsDuringVotingAllowed(Poll $poll): bool
     {
         $status = !$poll->isSettingSecretParticipants() || $this->userIsAuthor($poll);
@@ -189,6 +179,17 @@ class PollPermission
     {
         $status = $poll->getAuthorIdent() === $this->currentUserIdent || $this->userIsAdmin();
         return $this->dispatch(__METHOD__, $status, $poll);
+    }
+
+    /**
+     * @TODO should be located in a seperate VotePermission class
+     */
+    public function isDeleteVoteAllowed(Vote $vote): bool
+    {
+        $status = $this->controllerSettings['allowNewVotes'] &&
+            !$vote->getPoll()->isFinished() &&
+            ($this->userIsAuthor($vote->getPoll()) || $vote->getParticipantIdent() === $this->currentUserIdent);
+        return $this->dispatch(__METHOD__, $status, $vote->getPoll(), $vote);
     }
 
     /**

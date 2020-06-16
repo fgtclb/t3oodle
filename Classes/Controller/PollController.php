@@ -198,7 +198,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function deleteVoteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
-        $this->pollPermission->isAllowed($vote->getPoll(), 'deleteVote', true);
+        $this->pollPermission->isAllowed($vote, 'deleteVote', true);
 
         $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'deleteVote', [
             'vote' => $vote,

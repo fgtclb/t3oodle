@@ -24,7 +24,7 @@ plugin.tx_t3oodle {
         outputParticipantMails = 1
 
         # When enabled, poll authors and participants without fe_users session are marked as "guest"
-        outputGuestNotice = 1
+        outputGuestNotice = 0
 
         adminUserUids =
         adminUserGroupUids =

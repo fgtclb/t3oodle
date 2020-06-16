@@ -617,10 +617,6 @@
 			</trans-unit>
 
 
-			<trans-unit id="exception.1592141715">
-				<source>Creation of new polls has been disabled.</source>
-				<target>Die Erstellung neuer Umfragen wurde deaktiviert.</target>
-			</trans-unit>
 			<trans-unit id="exception.1592142348">
 				<source>Access denied for "%s" action!</source>
 				<target>Zugriff für "%s"-Action verweigert!</target>
@@ -629,13 +625,9 @@
 				<source>Given action "%s" is not existing in PollPermission class. Available actions are: %s</source>
 				<target>Die angeforderte Aktion "%s" existiert nicht in der PollPermission-Klasse. Verfügbare Aktionen sind: %s</target>
 			</trans-unit>
-			<trans-unit id="exception.1592142555">
-				<source>Because new votes has been disabled, deleting or editing votes is also disallowed.</source>
-				<target>Da das Abgeben von Stimmen generell deaktiviert wurde, können Stimmen aktuell auch nicht editiert oder gelöscht werden.</target>
-			</trans-unit>
-			<trans-unit id="exception.1592142677">
-				<source>New votes on polls have been disabled.</source>
-				<target>Das Abgeben von Stimmen wurde deaktiviert.</target>
+			<trans-unit id="exception.permission.show">
+				<source>This poll has not been published yet. Only the poll author is able to see the poll, currently.</source>
+				<target>Diese Umfrage wurde noch nicht veröffentlicht. Nur der Autor kann die Umfrage aktuell sehen.</target>
 			</trans-unit>
 
 

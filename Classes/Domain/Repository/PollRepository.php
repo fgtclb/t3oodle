@@ -23,6 +23,8 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         'publishDate' => 'DESC'
     ];
 
+    private $controllerSettings = [];
+
     public function findPolls(
         bool $draft,
         bool $opened,
@@ -71,7 +73,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $andConstraints = [];
 
-        $pollPermission = GeneralUtility::makeInstance(PollPermission::class);
+        $pollPermission = GeneralUtility::makeInstance(PollPermission::class, null, $this->controllerSettings);
         if ($personal) {
             if (!$pollPermission->userIsAdmin()) {
                 $andConstraints[] = $query->logicalOr([
@@ -94,5 +96,10 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $andConstraints[] = $query->logicalNot($query->equals('slug', ''));
         $query->matching($query->logicalAnd($andConstraints));
         return $query->execute();
+    }
+
+    public function setControllerSettings(array $settings): void
+    {
+        $this->controllerSettings = $settings;
     }
 }

@@ -29,7 +29,7 @@
                         <span id="t3oodle-votes-summary"></span>
                     </f:else>
                 </f:if>
-                <f:if condition="{settings.allowNewVotes} && {poll -> t3oodle:permission(action:'voting')}">
+                <f:if condition="{poll -> t3oodle:permission(action:'voting')}">
                     <f:then>
                         <f:if condition="{vote.uid}">
                             <f:then><f:form.submit class="btn btn-primary button-vote" value="{f:translate(key:'label.updateVote')}" tabindex="3" /></f:then>

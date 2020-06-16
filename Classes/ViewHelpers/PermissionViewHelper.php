@@ -13,6 +13,9 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
+/**
+ * @see PollPermission
+ */
 class PermissionViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
@@ -35,12 +38,14 @@ class PermissionViewHelper extends AbstractViewHelper
         $this->registerArgument('negate', 'bool', 'Negates the result, when true', false, false);
     }
 
-    private static function init(array $arguments)
+    private static function init(array $arguments, RenderingContextInterface $renderingContext)
     {
-        if (!self::$permission) {
-            $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
-            self::$permission = GeneralUtility::makeInstance($arguments['permissionClassName'], $currentUserIdent);
-        }
+        $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
+        self::$permission = GeneralUtility::makeInstance(
+            $arguments['permissionClassName'],
+            $currentUserIdent,
+            $renderingContext->getVariableProvider()->get('settings')
+        );
     }
 
     public static function renderStatic(
@@ -48,7 +53,7 @@ class PermissionViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        self::init($arguments);
+        self::init($arguments, $renderingContext);
 
         $poll = $arguments['poll'] ?? $renderChildrenClosure();
 

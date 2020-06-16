@@ -69,7 +69,7 @@
                         </f:if>
                     </f:for>
 
-                    <f:if condition="{settings.allowNewVotes} && {poll -> t3oodle:permission(action:'voting')}">
+                    <f:if condition="{poll -> t3oodle:permission(action:'voting')}">
                         <f:then>
                             <tr class="vote yours">
                                 <td class="participant">

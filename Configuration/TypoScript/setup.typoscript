@@ -33,7 +33,9 @@ plugin.tx_t3oodle {
         countMaybeVotes = 0
 
         # Allow creation of new polls
-        allowNewPolls = 1
+        allowNewSimplePolls = 1
+        allowNewSchedulePolls = 1
+
         # Allow creation of new votes
         allowNewVotes = 1
 

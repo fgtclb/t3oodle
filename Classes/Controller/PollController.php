@@ -75,7 +75,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $this->pollPermission = GeneralUtility::makeInstance(
             \T3\T3oodle\Domain\Permission\PollPermission::class,
-            $this->currentUserIdent
+            $this->currentUserIdent,
+            $this->settings
         );
 
         $this->processPollAndVoteArgumentFromRequest();
@@ -96,6 +97,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     public function listAction()
     {
+        $this->pollRepository->setControllerSettings($this->settings);
         $polls = $this->pollRepository->findPolls(
             (bool) $this->settings['list']['draft'],
             (bool) $this->settings['list']['opened'],
@@ -158,9 +160,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function voteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
-        if (!$this->settings['allowNewVotes']) {
-            throw new AccessDeniedException(TranslateUtility::translate('exception.1592142677'), 1592142677);
-        }
         $this->pollPermission->isAllowed($vote->getPoll(), 'voting', true);
 
         if (!$this->currentUser) {
@@ -199,10 +198,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function deleteVoteAction(\T3\T3oodle\Domain\Model\Vote $vote)
     {
-        if (!$this->settings['allowNewVotes']) {
-            throw new AccessDeniedException(TranslateUtility::translate('exception.1592142555'));
-        }
-        $this->pollPermission->isAllowed($vote, 'voteDeletion', true);
+        $this->pollPermission->isAllowed($vote->getPoll(), 'deleteVote', true);
 
         $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'deleteVote', [
             'vote' => $vote,
@@ -276,9 +272,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         bool $publishDirectly = true,
         string $pollType = PollType::SIMPLE
     ) {
-        if (!$this->settings['allowNewPolls']) {
-            throw new AccessDeniedException(TranslateUtility::translate('exception.1592141715'), 1592141715);
-        }
         if (!$poll) {
             $poll = GeneralUtility::makeInstance(\T3\T3oodle\Domain\Model\Poll::class);
             if ($this->currentUser) {
@@ -286,6 +279,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
         }
         $poll->setType($pollType);
+
+        if ($pollType === PollType::SIMPLE) {
+            $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
+        } else {
+            $this->pollPermission->isAllowed($poll, 'newSchedulePoll', true);
+        }
 
         $newOptions = [];
         if ($this->request->getOriginalRequest()) {
@@ -321,8 +320,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function createAction(\T3\T3oodle\Domain\Model\Poll $poll, bool $publishDirectly)
     {
-        if (!$this->settings['allowNewPolls']) {
-            throw new AccessDeniedException(TranslateUtility::translate('exception.1592141715'), 1592141715);
+        if ($poll->getType() === PollType::SIMPLE) {
+            $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
+        } else {
+            $this->pollPermission->isAllowed($poll, 'newSchedulePoll', true);
         }
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {

@@ -469,20 +469,14 @@
 			</trans-unit>
 
 
-			<trans-unit id="exception.1592141715">
-				<source>Creation of new polls has been disabled.</source>
-			</trans-unit>
 			<trans-unit id="exception.1592142348">
 				<source>Access denied for "%s" action!</source>
 			</trans-unit>
 			<trans-unit id="exception.1592142419">
 				<source>Given action "%s" is not existing in PollPermission class. Available actions are: %s</source>
 			</trans-unit>
-			<trans-unit id="exception.1592142555">
-				<source>Because new votes has been disabled, deleting or editing votes is also disallowed.</source>
-			</trans-unit>
-			<trans-unit id="exception.1592142677">
-				<source>New votes on polls have been disabled.</source>
+			<trans-unit id="exception.permission.show">
+				<source>This poll has not been published yet. Only the poll author is able to see the poll, currently.</source>
 			</trans-unit>
 
 

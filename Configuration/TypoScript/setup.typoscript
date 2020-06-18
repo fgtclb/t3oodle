@@ -52,6 +52,8 @@ plugin.tx_t3oodle {
 
             # Pagination in list view. Set to 0 to disable pagination.
             itemsPerPage = 10
+            # When enabled, the total amount of polls (with current settings) have been found
+            showTotal = 1
 
             columns {
                 type = 1

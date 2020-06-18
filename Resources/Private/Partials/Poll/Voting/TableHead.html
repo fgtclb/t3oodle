@@ -10,11 +10,7 @@
     </tr>
     <tr>
         <th class="participant">
-            {poll.votes -> f:count()}
-            <f:if condition="{poll.votes -> f:count()} == 1">
-                <f:then>{f:translate(key:'label.participant')}</f:then>
-                <f:else>{f:translate(key:'label.participants')}</f:else>
-            </f:if>
+            <t3oodle:translate key="label.participants" arguments="{0:'{poll.votes -> f:count()}'}" />
             <f:if condition="{vote.uid}"> <f:translate key="label.inclYou" /></f:if>
         </th>
         <f:for each="{poll.options}" as="option" iteration="iterator">

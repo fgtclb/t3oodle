@@ -7,6 +7,7 @@
 <f:section name="content">
     <f:flashMessages/>
     <f:render section="header" arguments="{polls:polls}"/>
+    <f:render section="totals" arguments="{polls:polls}"/>
     <f:render section="table" arguments="{polls:polls}"/>
     <f:render section="newButton"/>
 </f:section>
@@ -16,6 +17,11 @@
     <f:if condition="{header}">
         <h1>{header}</h1>
     </f:if>
+</f:section>
+
+<f:section name="totals">
+    <f:variable name="count"><f:count>{polls}</f:count></f:variable>
+    <p class="lead"><t3oodle:translate key="label.pollsFound" arguments="{0: count}" /></p>
 </f:section>
 
 <f:section name="table">

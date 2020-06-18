@@ -100,8 +100,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->pollRepository->setControllerSettings($this->settings);
         $polls = $this->pollRepository->findPolls(
             (bool) $this->settings['list']['draft'],
-            (bool) $this->settings['list']['opened'],
-            (bool) $this->settings['list']['closed'],
             (bool) $this->settings['list']['finished'],
             (bool) $this->settings['list']['personal']
         );

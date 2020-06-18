@@ -27,8 +27,6 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     public function findPolls(
         bool $draft,
-        bool $opened,
-        bool $closed,
         bool $finished,
         bool $personal
     ): QueryResultInterface {
@@ -38,35 +36,28 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         if ($draft) {
             $orConstraints[] = $query->equals('isPublished', false);
         }
-        if ($opened) {
-            $orConstraints[] = $query->logicalAnd([
-                $query->equals('isPublished', true),
-                $query->equals('isFinished', false),
-                // not expired,
-                $query->logicalOr([
-                    $query->equals('settingVotingExpiresDate', 0),
-                    $query->greaterThanOrEqual('settingVotingExpiresDate', DateTimeUtility::today()->getTimestamp()),
-                ]),
-                $query->logicalOr([
-                    $query->equals('settingVotingExpiresTime', 0),
-                    $query->greaterThanOrEqual('settingVotingExpiresTime', DateTimeUtility::time()->getTimestamp()),
-                ]),
-                // TODO: amount of available options greater than 0
-            ]);
-        }
-        if ($closed) {
-            $orConstraints[] = $query->logicalAnd([
-                $query->equals('isPublished', true),
-                $query->equals('isFinished', false),
-                $query->greaterThan('settingVotingExpiresDate', 0),
-                $query->greaterThan('settingVotingExpiresTime', 0),
-                $query->logicalOr([
-                    $query->lessThan('settingVotingExpiresDate', DateTimeUtility::today()->getTimestamp()),
-                    $query->lessThan('settingVotingExpiresTime', DateTimeUtility::time()->getTimestamp()),
-                ])
-                // TODO: no available options given
-            ]);
-        }
+        $orConstraints[] = $query->logicalAnd([
+            $query->equals('isPublished', true),
+            $query->equals('isFinished', false),
+            $query->logicalOr([
+                $query->equals('settingVotingExpiresDate', 0),
+                $query->greaterThanOrEqual('settingVotingExpiresDate', DateTimeUtility::today()->getTimestamp()),
+            ]),
+            $query->logicalOr([
+                $query->equals('settingVotingExpiresTime', 0),
+                $query->greaterThanOrEqual('settingVotingExpiresTime', DateTimeUtility::time()->getTimestamp()),
+            ]),
+        ]);
+        $orConstraints[] = $query->logicalAnd([
+            $query->equals('isPublished', true),
+            $query->equals('isFinished', false),
+            $query->greaterThan('settingVotingExpiresDate', 0),
+            $query->greaterThan('settingVotingExpiresTime', 0),
+            $query->logicalOr([
+                $query->lessThan('settingVotingExpiresDate', DateTimeUtility::today()->getTimestamp()),
+                $query->lessThan('settingVotingExpiresTime', DateTimeUtility::time()->getTimestamp()),
+            ])
+        ]);
         if ($finished) {
             $orConstraints[] = $query->equals('isFinished', true);
         }

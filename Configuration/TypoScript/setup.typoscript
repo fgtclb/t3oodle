@@ -45,10 +45,6 @@ plugin.tx_t3oodle {
         list {
             # Display draft polls (only for author and admins)
             draft = 1
-            # Display polls open for voting
-            opened = 1
-            # Display polls closed for voting (not implemented yet)
-            closed = 1
             # Display polls which has been finished
             finished = 1
             # Enable display of polls, which only you see (e.g. not listed or draft)

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
-namespace T3\T3oodle\Domain\Validator;
+namespace FGTCLB\T3oodle\Domain\Validator;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Utility\TranslateUtility;
+use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Error;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
@@ -16,7 +16,7 @@ class VoteValidator extends AbstractValidator
     protected $acceptsEmptyValues = true;
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Vote $value
+     * @param \FGTCLB\T3oodle\Domain\Model\Vote $value
      * @return bool
      */
     protected function isValid($value)

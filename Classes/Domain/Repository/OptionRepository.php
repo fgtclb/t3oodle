@@ -1,5 +1,5 @@
 <?php
-namespace T3\T3oodle\Domain\Repository;
+namespace FGTCLB\T3oodle\Domain\Repository;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.

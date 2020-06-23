@@ -1,19 +1,18 @@
 <?php
-namespace T3\T3oodle\Controller;
+namespace FGTCLB\T3oodle\Controller;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Domain\Enumeration\PollType;
-use T3\T3oodle\Domain\Validator\PollValidator;
-use T3\T3oodle\Exception\AccessDeniedException;
-use T3\T3oodle\Traits\ControllerValidatorManipulatorTrait;
-use T3\T3oodle\Utility\CookieUtility;
-use T3\T3oodle\Utility\DateTimeUtility;
-use T3\T3oodle\Utility\TranslateUtility;
-use T3\T3oodle\Utility\UserIdentUtility;
+use FGTCLB\T3oodle\Domain\Enumeration\PollType;
+use FGTCLB\T3oodle\Domain\Validator\PollValidator;
+use FGTCLB\T3oodle\Traits\ControllerValidatorManipulatorTrait;
+use FGTCLB\T3oodle\Utility\CookieUtility;
+use FGTCLB\T3oodle\Utility\DateTimeUtility;
+use FGTCLB\T3oodle\Utility\TranslateUtility;
+use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
@@ -35,24 +34,24 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     protected $currentUserIdent = '';
 
     /**
-     * @var \T3\T3oodle\Domain\Permission\PollPermission
+     * @var \FGTCLB\T3oodle\Domain\Permission\PollPermission
      */
     protected $pollPermission;
 
     /**
-     * @var \T3\T3oodle\Domain\Repository\PollRepository
+     * @var \FGTCLB\T3oodle\Domain\Repository\PollRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $pollRepository;
 
     /**
-     * @var \T3\T3oodle\Domain\Repository\OptionRepository
+     * @var \FGTCLB\T3oodle\Domain\Repository\OptionRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $optionRepository;
 
     /**
-     * @var \T3\T3oodle\Domain\Repository\VoteRepository
+     * @var \FGTCLB\T3oodle\Domain\Repository\VoteRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $voteRepository;
@@ -74,7 +73,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->initializeCurrentUserOrUserIdent();
 
         $this->pollPermission = GeneralUtility::makeInstance(
-            \T3\T3oodle\Domain\Permission\PollPermission::class,
+            \FGTCLB\T3oodle\Domain\Permission\PollPermission::class,
             $this->currentUserIdent,
             $this->settings
         );
@@ -113,17 +112,17 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
-     * @param \T3\T3oodle\Domain\Model\Vote|null $vote
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
+     * @param \FGTCLB\T3oodle\Domain\Model\Vote|null $vote
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function showAction(\T3\T3oodle\Domain\Model\Poll $poll)
+    public function showAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {
         $this->pollPermission->isAllowed($poll, 'show', true);
 
         $vote = $this->voteRepository->findByPollAndParticipantIdent($poll, $this->currentUserIdent);
         if (!$vote) {
-            $vote = GeneralUtility::makeInstance(\T3\T3oodle\Domain\Model\Vote::class);
+            $vote = GeneralUtility::makeInstance(\FGTCLB\T3oodle\Domain\Model\Vote::class);
             $vote->setPoll($poll);
             if ($this->currentUser) {
                 $vote->setParticipant($this->currentUser);
@@ -154,9 +153,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Vote $vote
+     * @param \FGTCLB\T3oodle\Domain\Model\Vote $vote
      */
-    public function voteAction(\T3\T3oodle\Domain\Model\Vote $vote)
+    public function voteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
     {
         $this->pollPermission->isAllowed($vote->getPoll(), 'voting', true);
 
@@ -191,10 +190,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Vote $vote
+     * @param \FGTCLB\T3oodle\Domain\Model\Vote $vote
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("vote")
      */
-    public function deleteVoteAction(\T3\T3oodle\Domain\Model\Vote $vote)
+    public function deleteVoteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
     {
         $this->pollPermission->isAllowed($vote, 'deleteVote', true);
 
@@ -216,16 +215,16 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @param int $option uid to finish
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function finishAction(\T3\T3oodle\Domain\Model\Poll $poll, int $option = 0)
+    public function finishAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll, int $option = 0)
     {
         $this->pollPermission->isAllowed($poll, 'finish', true);
         if ($option > 0) {
             // Persist final option
-            /** @var \T3\T3oodle\Domain\Model\Option $option */
+            /** @var \FGTCLB\T3oodle\Domain\Model\Option $option */
             $option = $this->optionRepository->findByUid($option);
             $poll->setFinalOption($option);
             $poll->setFinishDate(DateTimeUtility::now());
@@ -260,18 +259,18 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll|null $poll
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll|null $poll
      * @param bool $publishDirectly
      * @param string $pollType
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function newAction(
-        \T3\T3oodle\Domain\Model\Poll $poll = null,
+        \FGTCLB\T3oodle\Domain\Model\Poll $poll = null,
         bool $publishDirectly = true,
         string $pollType = PollType::SIMPLE
     ) {
         if (!$poll) {
-            $poll = GeneralUtility::makeInstance(\T3\T3oodle\Domain\Model\Poll::class);
+            $poll = GeneralUtility::makeInstance(\FGTCLB\T3oodle\Domain\Model\Poll::class);
             if ($this->currentUser) {
                 $poll->setAuthor($this->currentUser);
             }
@@ -312,11 +311,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @param bool $publishDirectly
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
-    public function createAction(\T3\T3oodle\Domain\Model\Poll $poll, bool $publishDirectly)
+    public function createAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll, bool $publishDirectly)
     {
         if ($poll->getType() === PollType::SIMPLE) {
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
@@ -371,10 +370,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function publishAction(\T3\T3oodle\Domain\Model\Poll $poll)
+    public function publishAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {
         $this->pollPermission->isAllowed($poll, 'publish', true);
         $poll->setPublishDate(DateTimeUtility::now());
@@ -399,10 +398,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function editAction(\T3\T3oodle\Domain\Model\Poll $poll)
+    public function editAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {
         $this->pollPermission->isAllowed($poll, 'edit', true);
 
@@ -417,9 +416,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      */
-    public function updateAction(\T3\T3oodle\Domain\Model\Poll $poll)
+    public function updateAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {
         $this->pollPermission->isAllowed($poll, 'edit', true);
 
@@ -471,9 +470,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \T3\T3oodle\Domain\Model\Poll $poll
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      */
-    public function deleteAction(\T3\T3oodle\Domain\Model\Poll $poll)
+    public function deleteAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {
         $this->pollPermission->isAllowed($poll, 'delete', true);
 
@@ -496,7 +495,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         return $this->configurationManager->getContentObject()->data;
     }
 
-    protected function removeMarkedPollOptions(\T3\T3oodle\Domain\Model\Poll $poll)
+    protected function removeMarkedPollOptions(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {
         $persistenceManager = $this->objectManager->get(PersistenceManager::class);
 

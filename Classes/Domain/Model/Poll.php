@@ -1,17 +1,17 @@
 <?php
-namespace T3\T3oodle\Domain\Model;
+namespace FGTCLB\T3oodle\Domain\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Domain\Enumeration\PollStatus;
-use T3\T3oodle\Domain\Permission\PollPermission;
-use T3\T3oodle\Traits\Model\DynamicUserProperties;
-use T3\T3oodle\Utility\DateTimeUtility;
-use T3\T3oodle\Utility\SettingsUtility;
-use T3\T3oodle\Utility\UserIdentUtility;
+use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
+use FGTCLB\T3oodle\Domain\Permission\PollPermission;
+use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
+use FGTCLB\T3oodle\Utility\DateTimeUtility;
+use FGTCLB\T3oodle\Utility\SettingsUtility;
+use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -42,12 +42,12 @@ class Poll extends AbstractEntity
     /**
      * @var string
      */
-    protected $type = \T3\T3oodle\Domain\Enumeration\PollType::SIMPLE;
+    protected $type = \FGTCLB\T3oodle\Domain\Enumeration\PollType::SIMPLE;
 
     /**
      * @var string
      */
-    protected $visibility = \T3\T3oodle\Domain\Enumeration\Visibility::LISTED;
+    protected $visibility = \FGTCLB\T3oodle\Domain\Enumeration\Visibility::LISTED;
 
     /**
      * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
@@ -70,7 +70,7 @@ class Poll extends AbstractEntity
     protected $authorIdent = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Option>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Option>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $options;
@@ -130,12 +130,12 @@ class Poll extends AbstractEntity
     protected $finishDate;
 
     /**
-     * @var \T3\T3oodle\Domain\Model\Option
+     * @var \FGTCLB\T3oodle\Domain\Model\Option
      */
     protected $finalOption;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Vote>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Vote>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $votes;
@@ -258,20 +258,20 @@ class Poll extends AbstractEntity
         $this->authorIdent = $authorIdent;
     }
 
-    public function addOption(\T3\T3oodle\Domain\Model\Option $option): void
+    public function addOption(\FGTCLB\T3oodle\Domain\Model\Option $option): void
     {
         $option->setPoll($this);
         $this->options->attach($option);
     }
 
-    public function removeOption(\T3\T3oodle\Domain\Model\Option $optionToRemove): void
+    public function removeOption(\FGTCLB\T3oodle\Domain\Model\Option $optionToRemove): void
     {
         $this->options->detach($optionToRemove);
     }
 
     /**
      * @param bool $skipMarkedToDeleted When true, only options are returned, which are not marked to get deleted
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Option> $options
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Option> $options
      */
     public function getOptions($skipMarkedToDeleted = false): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
@@ -386,13 +386,13 @@ class Poll extends AbstractEntity
         return DateTimeUtility::now()->getTimestamp() > $this->getSettingVotingExpiresAt()->getTimestamp();
     }
 
-    public function addVote(\T3\T3oodle\Domain\Model\Vote $vote): void
+    public function addVote(\FGTCLB\T3oodle\Domain\Model\Vote $vote): void
     {
         $vote->setPoll($this);
         $this->votes->attach($vote);
     }
 
-    public function removeVote(\T3\T3oodle\Domain\Model\Vote $voteToRemove): void
+    public function removeVote(\FGTCLB\T3oodle\Domain\Model\Vote $voteToRemove): void
     {
         $this->votes->detach($voteToRemove);
     }
@@ -403,7 +403,7 @@ class Poll extends AbstractEntity
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\Vote> $votes
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Vote> $votes
      * @return void
      */
     public function setVotes(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $votes): void

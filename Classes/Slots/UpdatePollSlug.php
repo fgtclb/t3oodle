@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
-namespace T3\T3oodle\Slots;
+namespace FGTCLB\T3oodle\Slots;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Controller\PollController;
-use T3\T3oodle\Domain\Model\Poll;
-use T3\T3oodle\Domain\Repository\PollRepository;
-use T3\T3oodle\Utility\SlugUtility;
-use T3\T3oodle\Utility\TranslateUtility;
+use FGTCLB\T3oodle\Controller\PollController;
+use FGTCLB\T3oodle\Domain\Model\Poll;
+use FGTCLB\T3oodle\Domain\Repository\PollRepository;
+use FGTCLB\T3oodle\Utility\SlugUtility;
+use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -66,7 +66,7 @@ class UpdatePollSlug
         $pollRepo = $objectManager->get(PollRepository::class);
 
         // Create slug and update created entity
-        if ($poll->getVisibility() === \T3\T3oodle\Domain\Enumeration\Visibility::NOT_LISTED) {
+        if ($poll->getVisibility() === \FGTCLB\T3oodle\Domain\Enumeration\Visibility::NOT_LISTED) {
             $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
         } else {
             $newSlug = $slugUtility->sanitize($poll->getTitle());

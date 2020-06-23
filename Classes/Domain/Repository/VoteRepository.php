@@ -1,13 +1,13 @@
 <?php
-namespace T3\T3oodle\Domain\Repository;
+namespace FGTCLB\T3oodle\Domain\Repository;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Domain\Model\Poll;
-use T3\T3oodle\Domain\Model\Vote;
+use FGTCLB\T3oodle\Domain\Model\Poll;
+use FGTCLB\T3oodle\Domain\Model\Vote;
 
 class VoteRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {

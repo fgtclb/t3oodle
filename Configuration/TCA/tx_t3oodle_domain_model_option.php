@@ -6,7 +6,7 @@
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
 
-$ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
+$ll = FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
     'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.'
 );
 

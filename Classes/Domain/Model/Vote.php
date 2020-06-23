@@ -1,12 +1,12 @@
 <?php
-namespace T3\T3oodle\Domain\Model;
+namespace FGTCLB\T3oodle\Domain\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Traits\Model\DynamicUserProperties;
+use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Vote extends AbstractEntity
@@ -34,12 +34,12 @@ class Vote extends AbstractEntity
     protected $participantIdent = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\T3oodle\Domain\Model\OptionValue>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\OptionValue>
      */
     protected $optionValues;
 
     /**
-     * @var \T3\T3oodle\Domain\Model\Poll
+     * @var \FGTCLB\T3oodle\Domain\Model\Poll
      */
     protected $poll;
 
@@ -123,7 +123,7 @@ class Vote extends AbstractEntity
         return $this->poll;
     }
 
-    public function setPoll(\T3\T3oodle\Domain\Model\Poll $poll): void
+    public function setPoll(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
     {
         $this->poll = $poll;
     }

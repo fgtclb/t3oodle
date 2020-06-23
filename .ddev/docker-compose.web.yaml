@@ -3,7 +3,7 @@ services:
     web:
         environment:
             - EXTENSION_KEY=t3oodle
-            - PACKAGE_NAME=t3/t3oodle
+            - PACKAGE_NAME=fgtclb/t3oodle
 
             - TYPO3_INSTALL_DB_DRIVER=mysqli
             - TYPO3_INSTALL_DB_USER=root

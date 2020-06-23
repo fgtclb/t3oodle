@@ -1,15 +1,15 @@
 <?php
-namespace T3\T3oodle\Domain\Repository;
+namespace FGTCLB\T3oodle\Domain\Repository;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Domain\Enumeration\Visibility;
-use T3\T3oodle\Domain\Permission\PollPermission;
-use T3\T3oodle\Utility\DateTimeUtility;
-use T3\T3oodle\Utility\UserIdentUtility;
+use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
+use FGTCLB\T3oodle\Domain\Permission\PollPermission;
+use FGTCLB\T3oodle\Utility\DateTimeUtility;
+use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 

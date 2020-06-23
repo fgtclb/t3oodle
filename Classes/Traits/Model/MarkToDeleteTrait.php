@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace T3\T3oodle\Traits\Model;
+namespace FGTCLB\T3oodle\Traits\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.

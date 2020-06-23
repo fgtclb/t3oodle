@@ -11,7 +11,7 @@ call_user_func(
     function () {
         // Configure plugins
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'T3.T3oodle',
+            'FGTCLB.T3oodle',
             'Main',
             [
                 'Poll' => 'list, show, vote, new, create, edit, update, publish, finish, delete, deleteVote',

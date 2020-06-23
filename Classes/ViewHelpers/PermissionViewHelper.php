@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
-namespace T3\T3oodle\ViewHelpers;
+namespace FGTCLB\T3oodle\ViewHelpers;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Domain\Permission\PollPermission;
-use T3\T3oodle\Utility\UserIdentUtility;
+use FGTCLB\T3oodle\Domain\Permission\PollPermission;
+use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;

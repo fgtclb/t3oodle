@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace T3\T3oodle\Utility;
+namespace FGTCLB\T3oodle\Utility;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -44,7 +44,7 @@ final class TcaGeneratorUtility
      *
      * Usage in TCA:
      *
-     * $ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
+     * $ll = FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
      *     'LLL:EXT:yourext/Resources/Private/Language/locallang_db.xlf:'
      * );
      *

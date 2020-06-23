@@ -1,5 +1,5 @@
 <?php
-namespace T3\T3oodle\Domain\Model;
+namespace FGTCLB\T3oodle\Domain\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -16,12 +16,12 @@ class OptionValue extends AbstractEntity
     protected $value = '';
 
     /**
-     * @var \T3\T3oodle\Domain\Model\Option
+     * @var \FGTCLB\T3oodle\Domain\Model\Option
      */
     protected $option;
 
     /**
-     * @var \T3\T3oodle\Domain\Model\Vote
+     * @var \FGTCLB\T3oodle\Domain\Model\Vote
      */
     protected $vote;
 
@@ -41,7 +41,7 @@ class OptionValue extends AbstractEntity
         return $this->option;
     }
 
-    public function setOption(\T3\T3oodle\Domain\Model\Option $option): void
+    public function setOption(\FGTCLB\T3oodle\Domain\Model\Option $option): void
     {
         $this->option = $option;
     }

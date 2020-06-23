@@ -15,11 +15,11 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
-        "typo3/cms-core": "^9.5 || ^10.4"
+        "typo3/cms-core": "^9.5 || ^10.4.2"
     },
     "autoload": {
         "psr-4": {
-            "T3\\T3oodle\\": "Classes"
+            "FGTCLB\\T3oodle\\": "Classes"
         }
     },
     "replace": {

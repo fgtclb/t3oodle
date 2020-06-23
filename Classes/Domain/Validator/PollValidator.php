@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
-namespace T3\T3oodle\Domain\Validator;
+namespace FGTCLB\T3oodle\Domain\Validator;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Domain\Enumeration\PollType;
-use T3\T3oodle\Domain\Enumeration\Visibility;
-use T3\T3oodle\Domain\Model\Poll;
-use T3\T3oodle\Utility\DateTimeUtility;
-use T3\T3oodle\Utility\TranslateUtility;
+use FGTCLB\T3oodle\Domain\Enumeration\PollType;
+use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
+use FGTCLB\T3oodle\Domain\Model\Poll;
+use FGTCLB\T3oodle\Utility\DateTimeUtility;
+use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Error;
@@ -65,7 +65,7 @@ class PollValidator extends AbstractValidator
 
         // Check unique options
         $i = 0;
-        /** @var \T3\T3oodle\Domain\Model\Option $option */
+        /** @var \FGTCLB\T3oodle\Domain\Model\Option $option */
         foreach ($options as $key => $option) {
             if ($this->options['action'] === 'create') {
                 $key = $i++;

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
-namespace T3\T3oodle\Traits\Model;
+namespace FGTCLB\T3oodle\Traits\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
-use T3\T3oodle\Utility\SettingsUtility;
+use FGTCLB\T3oodle\Utility\SettingsUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 

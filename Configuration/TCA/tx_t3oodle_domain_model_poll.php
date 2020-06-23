@@ -6,7 +6,7 @@
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
 
-$ll = T3\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
+$ll = FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
     'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.'
 );
 
@@ -185,10 +185,10 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => \T3\T3oodle\Utility\TcaGeneratorUtility::getItemListForEnumeration(
-                    T3\T3oodle\Domain\Enumeration\PollType::class
+                'items' => \FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getItemListForEnumeration(
+                    FGTCLB\T3oodle\Domain\Enumeration\PollType::class
                 ),
-                'default' => T3\T3oodle\Domain\Enumeration\PollType::SIMPLE,
+                'default' => FGTCLB\T3oodle\Domain\Enumeration\PollType::SIMPLE,
                 'size' => 1,
                 'maxitems' => 1,
                 'eval' => 'required'
@@ -200,10 +200,10 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => \T3\T3oodle\Utility\TcaGeneratorUtility::getItemListForEnumeration(
-                    \T3\T3oodle\Domain\Enumeration\Visibility::class
+                'items' => \FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getItemListForEnumeration(
+                    \FGTCLB\T3oodle\Domain\Enumeration\Visibility::class
                 ),
-                'default' => \T3\T3oodle\Domain\Enumeration\Visibility::LISTED,
+                'default' => \FGTCLB\T3oodle\Domain\Enumeration\Visibility::LISTED,
                 'size' => 1,
                 'maxitems' => 1,
                 'eval' => 'required'

@@ -7,7 +7,7 @@
  */
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'T3.T3oodle',
+    'FGTCLB.T3oodle',
     'Main',
     't3oodle'
 );

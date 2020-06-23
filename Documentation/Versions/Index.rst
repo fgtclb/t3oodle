@@ -12,8 +12,8 @@ Versions
 
 - [BUGFIX] Fix missing argument in Fluid section
 - [FEATURE] Refactor PollPermissions and add Signals to each permission
-- [TASK] Add license to composer.json Armin Vieweg
-- [BUGFIX] Move allowTableOnStandardPages from TCA to ext_tables.php Armin Vieweg
+- [TASK] Add license to composer.json
+- [BUGFIX] Move allowTableOnStandardPages from TCA to ext_tables.php
 
 
 0.2.1

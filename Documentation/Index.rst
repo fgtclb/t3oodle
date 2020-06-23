@@ -54,4 +54,19 @@ t3oodle
 
 
 .. note::
-   This extension has been supported by `Friedrich-Ebert-Stiftung e. V.<https://www.fes.de/>`_.
+   This extension has been brought to you by **FGTCLB** and has been supported by **Friedrich-Ebert-Stiftung e. V.**
+
+   .. image:: Welcome/Images/FGTLB.svg
+      :width: 21%
+      :target: https://www.fgtclb.com/
+      :alt: FGTCLB
+
+   .. image:: Welcome/Images/Spacer.svg
+      :width: 50
+      :target: #
+
+   .. image:: Welcome/Images/FES.svg
+      :width: 40%
+      :target: https://www.fes.de/
+      :alt: Friedrich-Ebert-Stiftung e. V.
+

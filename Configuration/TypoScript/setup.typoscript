@@ -36,6 +36,12 @@ plugin.tx_t3oodle {
         allowNewSimplePolls = 1
         allowNewSchedulePolls = 1
 
+        # When true, authors of new polls need to accept the terms
+        requireAcceptedTerms = 0
+
+        # When set "the terms" is linked with given Typolink parameter, e.g. "t3://page?uid=3" or "https://www.domain.com"
+        termsToAccept =
+
         # Allow creation of new votes
         allowNewVotes = 1
 

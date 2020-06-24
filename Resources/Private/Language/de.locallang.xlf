@@ -502,7 +502,14 @@
 				<source>When this checkbox is enabled, the poll is published instantly. Before a poll is published, voting is disabled.</source>
 				<target>Wenn dieser Haken aktiviert wurde, wird die Umfrage sofort veröffentlicht. Vor Veröffentlichung können keine Stimmen abgegeben werden.</target>
 			</trans-unit>
-
+			<trans-unit id="poll.acceptTerms.title">
+				<source>Accept terms*</source>
+				<target>Bedingungen akzeptieren*</target>
+			</trans-unit>
+			<trans-unit id="poll.acceptTerms.description">
+				<source>Yes, I accept <![CDATA[<a href="%s" target="_blank">the terms</a>]]>.</source>
+				<target>Ja, ich akzeptiere <![CDATA[<a href="%s" target="_blank">die Bedingungen</a>]]>.</target>
+			</trans-unit>
 
 			<trans-unit id="week">
 				<source>Wk</source>
@@ -731,6 +738,10 @@
 			<trans-unit id="validation.1592143018">
 				<source>Please also set a time.</source>
 				<target>Bitte ebenfalls eine Uhrzeit angeben.</target>
+			</trans-unit>
+			<trans-unit id="validation.1593008155">
+				<source>The terms need to get accepted by the author of the new poll!</source>
+				<target>Die Bedingungen müssen vom Autor der neuen Umfrage akzeptiert werden!</target>
 			</trans-unit>
 
 			<!-- For votes -->

@@ -380,6 +380,12 @@
 			<trans-unit id="poll.publishDirectly.description">
 				<source>When this checkbox is enabled, the poll is published instantly.</source>
 			</trans-unit>
+			<trans-unit id="poll.acceptTerms.title">
+				<source>Accept terms*</source>
+			</trans-unit>
+			<trans-unit id="poll.acceptTerms.description">
+				<source>Yes, I accept <![CDATA[<a href="%s" target="_blank">the terms</a>]]>.</source>
+			</trans-unit>
 
 
 			<trans-unit id="week">
@@ -555,6 +561,9 @@
 			</trans-unit>
 			<trans-unit id="validation.1592143018">
 				<source>Please also set a time.</source>
+			</trans-unit>
+			<trans-unit id="validation.1593008155">
+				<source>The terms need to get accepted by the author of the new poll!</source>
 			</trans-unit>
 
 			<!-- For votes -->

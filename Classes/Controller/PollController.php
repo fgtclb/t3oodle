@@ -313,10 +313,14 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @param bool $publishDirectly
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @param bool $acceptTerms
+     * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator", param="acceptTerms")
      */
-    public function createAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll, bool $publishDirectly)
-    {
+    public function createAction(
+        \FGTCLB\T3oodle\Domain\Model\Poll $poll,
+        bool $publishDirectly,
+        bool $acceptTerms = false
+    ) {
         if ($poll->getType() === PollType::SIMPLE) {
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
         } else {

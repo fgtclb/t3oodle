@@ -7,6 +7,24 @@
 Versions
 ========
 
+0.3.0
+-----
+
+- [TASK] Use "poll-{uid}" as slug, when sanitized title is empty (e.g. Emojis only)
+- [BUGFIX] Fix updated namespace in ext_localconf.php
+- [FEATURE] Add "requireAcceptedTerms" and "termsToAccept" options
+- [!!!][TASK] Update vendor name in PHP classes
+- [DOCS] Add credits to README and documentation index page
+- [TASK] Update package name from "t3/t3oodle" to "fgtclb/t3oodle"
+- [DOCS] Improvements
+- [FEATURE] Add pluralization support for XLIFF
+- [TASK] Remove typoscript settings "list.opened" and "list.closed"
+- [BUGFIX] Do not allow to delete votes, when poll is finished
+- [TASK] Disable "outputGuestNotice" by default
+- [FEATURE] Respect available options (when settingMaxVotesPerOption is set)
+- [BUGFIX] Fix wrong parameter in deleteVoteAction
+
+
 0.2.2
 -----
 

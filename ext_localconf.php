@@ -59,15 +59,15 @@ TS
             \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
         );
         $dispatcher->connect(
-            \T3\T3oodle\Controller\PollController::class,
+            \FGTCLB\T3oodle\Controller\PollController::class,
             'createAfter',
-            \T3\T3oodle\Slots\UpdatePollSlug::class,
+            \FGTCLB\T3oodle\Slots\UpdatePollSlug::class,
             'afterCreate'
         );
         $dispatcher->connect(
-            \T3\T3oodle\Controller\PollController::class,
+            \FGTCLB\T3oodle\Controller\PollController::class,
             'updateBefore',
-            \T3\T3oodle\Slots\UpdatePollSlug::class,
+            \FGTCLB\T3oodle\Slots\UpdatePollSlug::class,
             'beforeUpdate'
         );
     }

@@ -70,8 +70,12 @@ class UpdatePollSlug
             $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
         } else {
             $newSlug = $slugUtility->sanitize($poll->getTitle());
-            if ($pollRepo->countBySlug($newSlug) > 0) {
-                $newSlug .= '-' . $poll->getUid();
+            if (empty($newSlug)) {
+                $newSlug = 'poll-' . $poll->getUid();
+            } else {
+                if ($pollRepo->countBySlug($newSlug) > 0) {
+                    $newSlug .= '-' . $poll->getUid();
+                }
             }
             $poll->setSlug($newSlug);
         }

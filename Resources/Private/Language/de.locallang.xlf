@@ -266,20 +266,14 @@
 				<source>Voting disabled</source>
 				<target>Abstimmung deaktiviert</target>
 			</trans-unit>
-			<group restype="x-gettext-plurals">
-				<trans-unit id="label.participants[0]">
-					<source>No participants. Be the first!</source>
-					<target>Keine Teilnehmer. Sei der Erste!</target>
-				</trans-unit>
-				<trans-unit id="label.participants[1]">
-					<source>One participant</source>
-					<target>Ein Teilnehmer</target>
-				</trans-unit>
-				<trans-unit id="label.participants[2]">
-					<source>%d participants</source>
-					<target>%d Teilnehmer</target>
-				</trans-unit>
-			</group>
+			<trans-unit id="label.participant">
+				<source>participant</source>
+				<target>Teilnehmer</target>
+			</trans-unit>
+			<trans-unit id="label.participants">
+				<source>participants</source>
+				<target>Teilnehmer</target>
+			</trans-unit>
 			<trans-unit id="label.inclYou">
 				<source>(incl. you)</source>
 				<target>(inkl. Dir)</target>
@@ -336,20 +330,18 @@
 				<source>The limited amount of votes per option (%d) is reached, for all options.</source>
 				<target>Die begrenze Anzahl an Stimmen pro Option (%d) ist bei allen Optionen erreicht.</target>
 			</trans-unit>
-			<group restype="x-gettext-plurals">
-				<trans-unit id="label.pollsFound[0]">
-					<source>No polls found. Be the first!</source>
-					<target>Keine Umfragen gefunden. Sei die Erste!</target>
-				</trans-unit>
-				<trans-unit id="label.pollsFound[1]">
-					<source>Found one poll.</source>
-					<target>Eine Umfrage gefunden.</target>
-				</trans-unit>
-				<trans-unit id="label.pollsFound[2]">
-					<source>Found %d polls.</source>
-					<target>%d Umfragen gefunden.</target>
-				</trans-unit>
-			</group>
+			<trans-unit id="label.pollsFound.zero">
+				<source>No polls found. Be the first!</source>
+				<target>Keine Umfragen gefunden. Sei die Erste!</target>
+			</trans-unit>
+			<trans-unit id="label.pollsFound.one">
+				<source>Found one poll.</source>
+				<target>Eine Umfrage gefunden.</target>
+			</trans-unit>
+			<trans-unit id="label.pollsFound.many">
+				<source>Found %d polls.</source>
+				<target>%d Umfragen gefunden.</target>
+			</trans-unit>
 
 
 			<trans-unit id="poll">

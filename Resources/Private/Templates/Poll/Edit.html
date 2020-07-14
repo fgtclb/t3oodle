@@ -15,7 +15,7 @@
     <f:if condition="{header}">
         <h1>
             {header}
-            <f:if condition="{settings.form.showReturnToListLink}">
+            <f:if condition="{settings.form.showReturnLink}">
                 <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link"><f:translate key="label.return" /></f:link.action>
             </f:if>
         </h1>
@@ -26,7 +26,7 @@
     <f:form action="update" name="poll" object="{poll}" class="my-4">
         <f:render partial="Poll/FormFields" arguments="{poll:poll, contentObject:contentObject}"/>
         <f:form.submit class="btn btn-primary" value="{f:translate(key:'label.saveChanges')}"/>
-        <f:if condition="{settings.form.showReturnToListLink}">
+        <f:if condition="{settings.form.showReturnLink}">
             <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link"><f:translate key="label.backToList" /></f:link.action>
         </f:if>
     </f:form>

@@ -16,7 +16,7 @@
     <f:if condition="{header}">
     <h1>
         {header}
-        <f:if condition="{settings.form.showReturnToListLink}">
+        <f:if condition="{settings.form.showReturnLink}">
             <f:link.action action="list" class="btn btn-link"><f:translate key="label.cancel" /></f:link.action>
         </f:if>
     </h1>
@@ -62,7 +62,7 @@
             </div>
         </div>
         <f:form.submit class="btn btn-primary" value="{f:translate(key:'label.createNew')}"/>
-        <f:if condition="{settings.form.showReturnToListLink}">
+        <f:if condition="{settings.form.showReturnLink}">
             <f:link.action action="list" class="btn btn-link"><f:translate key="label.backToList" /></f:link.action>
         </f:if>
     </f:form>

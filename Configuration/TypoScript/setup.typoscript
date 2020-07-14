@@ -72,11 +72,11 @@ plugin.tx_t3oodle {
         }
 
         show {
-            showReturnToListLink = 1
+            showReturnLink = 1
         }
 
         form {
-            showReturnToListLink = 1
+            showReturnLink = 1
         }
 
         classes {

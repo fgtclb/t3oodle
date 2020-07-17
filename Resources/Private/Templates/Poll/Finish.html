@@ -40,7 +40,7 @@
                     <f:for each="{poll.options}" as="option" iteration="iterator">
                         <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
                             <div class="form-check">
-                                <f:form.radio name="option" class="form-check-input position-static larger"
+                                <f:form.radio name="option" checked="0" class="form-check-input position-static larger"
                                               value="{option.uid}"/>
                             </div>
                         </td>

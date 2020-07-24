@@ -49,6 +49,11 @@ t3oodle
         :titlesonly:
 
         Welcome/Index
+        Installation/Index
+        Usage/Index
+        Configuration/Index
+        AdditionalInformation/Index
+        DevNotes/Index
         Support/Index
         Versions/Index
 

@@ -33,8 +33,8 @@ return [
             'is_finished, finish_date, final_option',
     ],
     'types' => [
-        '1' => ['showitem' => '--palettes--;;general, --palette--;;author, title, slug, description, link, options, ' .
-                              '--div--;' . $ll('tab.status') . ', --palettes--;;publishing, --palettes--;;finishing, ' .
+        '1' => ['showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, ' .
+                              '--div--;' . $ll('tab.status') . ', --palette--;;publishing, --palette--;;finishing, ' .
                               '--div--;' . $ll('tab.settings') . ',--palette--;Settings;settings, ' .
                               '--div--;' . $ll('tab.votes') . ', votes, ' .
                               '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, ' .
@@ -281,7 +281,10 @@ return [
                     'levelLinksPosition' => 'top',
                     'showSynchronizationLink' => 1,
                     'showPossibleLocalizationRecords' => 1,
-                    'showAllLocalizationLink' => 1
+                    'showAllLocalizationLink' => 1,
+                    'enabledControls' => [
+                        'new' => false
+                    ]
                 ],
             ],
 
@@ -415,8 +418,9 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_t3oodle_domain_model_option',
+                'foreign_table_where' => 'AND tx_t3oodle_domain_model_option.poll = ###THIS_UID###',
                 'items' => [
-                    ['', '']
+                    ['', 0]
                 ],
                 'minitems' => 0,
                 'maxitems' => 1,

@@ -14,6 +14,8 @@ return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue',
         'label' => 'option',
+        'label_alt' => 'value',
+        'label_alt_force' => true,
         'hideTable' => true,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',

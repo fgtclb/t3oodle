@@ -13,7 +13,8 @@ $ll = FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote',
-        'label' => 'participant_ident',
+        'label' => 'participant_name',
+        'label_alt' => 'participant_ident',
         'hideTable' => true,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -45,6 +46,7 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'fe_users',
                 'maxitems' => 1,
+                'readOnly' => true,
                 'items' => [
                     ['', 0]
                 ],
@@ -56,7 +58,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim'
+                'eval' => 'trim',
+                'readOnly' => true,
             ],
         ],
         'participant_mail' => [
@@ -65,7 +68,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,email'
+                'eval' => 'trim,email',
+                'readOnly' => true,
             ],
         ],
         'participant_ident' => [
@@ -86,6 +90,7 @@ return [
                 'foreign_table' => 'tx_t3oodle_domain_model_optionvalue',
                 'foreign_field' => 'vote',
                 'maxitems' => 9999,
+                'readOnly' => true,
                 'appearance' => [
                     'collapseAll' => 1,
                     'levelLinksPosition' => 'top',
@@ -105,6 +110,7 @@ return [
                 'foreign_table' => 'tx_t3oodle_domain_model_poll',
                 'minitems' => 1,
                 'maxitems' => 1,
+                'readOnly' => true,
             ],
         ],
     ],

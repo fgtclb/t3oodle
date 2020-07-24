@@ -38,11 +38,15 @@ return [
             'exclude' => true,
             'label' => $ll('value'),
             'config' => [
-                'type' => 'input',
-                'size' => 1,
-                'eval' => 'int,required',
-                'max' => 2,
-                'readOnly' => true,
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [$ll('value.0'), 0],
+                    [$ll('value.1'), 1],
+                    [$ll('value.2'), 2],
+                ],
+                'minitems' => 0,
+                'maxitems' => 1,
             ],
         ],
         'option' => [

@@ -29,12 +29,12 @@ routeEnhancers:
               _arguments:
                   poll-title: poll
 
-            - routePath: '/{label-poll}/{poll-title}/edit'
+            - routePath: '/{label-poll}/{poll-title}/{label-edit}'
               _controller: 'Poll::edit'
               _arguments:
                   poll-title: poll
 
-            - routePath: '/{label-poll}/{poll-title}/finish'
+            - routePath: '/{label-poll}/{poll-title}/{label-finish}'
               _controller: 'Poll::finish'
               _arguments:
                   poll-title: poll
@@ -78,6 +78,12 @@ routeEnhancers:
                 localeMap:
                     -   locale: 'de_.*'
                         value: 'bearbeiten'
+            label-finish:
+                type: LocaleModifier
+                default: 'finish'
+                localeMap:
+                    -   locale: 'de_.*'
+                        value: 'fertigstellen'
             label-poll:
                 type: LocaleModifier
                 default: 'poll'

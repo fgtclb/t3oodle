@@ -137,6 +137,15 @@
 			<trans-unit id="tx_t3oodle_domain_model_optionvalue.value">
 				<source>Value</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_optionvalue.value.0">
+				<source>No</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_optionvalue.value.1">
+				<source>Yes</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_optionvalue.value.2">
+				<source>Maybe</source>
+			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_optionvalue.vote">
 				<source>Vote</source>
 			</trans-unit>

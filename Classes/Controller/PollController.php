@@ -154,6 +154,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Vote $vote
+     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\VoteValidator", param="vote")
      */
     public function voteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
     {
@@ -314,6 +315,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @param bool $publishDirectly
      * @param bool $acceptTerms
+     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\PollValidator", param="poll")
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator", param="acceptTerms")
      */
     public function createAction(
@@ -421,6 +423,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
+     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\PollValidator", param="poll")
      */
     public function updateAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {
@@ -475,6 +478,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
+     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\PollValidator", param="poll")
      */
     public function deleteAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {

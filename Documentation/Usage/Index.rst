@@ -15,3 +15,4 @@ Usage
         CreatingNewPolls
         PollAdministration
         PollStatus
+        PollLifecycle

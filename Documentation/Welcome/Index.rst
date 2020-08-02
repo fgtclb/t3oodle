@@ -15,6 +15,12 @@ Welcome
    Show action of a single poll, shown as author of the poll.
 
 
+Demo
+----
+
+You will find a demonstration of the extension on https://t3oodle.com
+
+
 Features
 --------
 

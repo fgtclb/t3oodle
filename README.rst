@@ -29,6 +29,12 @@ This extension provides a ReST documentation, located in ``Documentation/`` dire
 You can see a rendered version on https://docs.typo3.org/p/fgtclb/t3oodle once the extension has been released.
 
 
+Demo
+----
+
+You will find a demonstration of the extension on https://t3oodle.com
+
+
 Development
 -----------
 

@@ -7,6 +7,24 @@
 Versions
 ========
 
+0.4.0
+-----
+
+**First TER Release**
+
+- [BUGFIX] Add translations for displayed text, when poll is finished
+- [TASK] Improve routes
+- [BUGFIX] Add missing validate annotation for Extbase controller actions
+- [DOCS] Add "Poll Lifecycle" and "Missing Features" to documentation
+- [FEATURE] Initial Documentation
+- [BUGFIX] Allow polls to be created from backend
+- [TASK] Improve translations
+- [DEVOPS] Fix old DDEV configuration
+- [BUGFIX] Fix missing "checked" attribute for f:form.checkbox and f:form.radio
+- [TASK] Rename "showReturnToListLink" to "showReturnLink" in TypoScript configuration
+- Revert "[FEATURE] Add pluralization support for XLIFF"
+
+
 0.3.0
 -----
 

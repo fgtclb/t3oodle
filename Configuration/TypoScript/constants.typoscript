@@ -1,4 +1,3 @@
-
 plugin.tx_t3oodle_main {
     view {
         # cat=plugin.tx_t3oodle_main/file; type=string; label=Path to template root (FE)

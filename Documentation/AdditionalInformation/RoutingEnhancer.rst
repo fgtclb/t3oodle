@@ -24,11 +24,12 @@ The following routes are defined by t3oodle, you can define your own, if you wan
 
 https://domain.com/path/to/page
 
-- **List Action:** ``/`` or ``/page/2`` or ``/seite/2``
+- **List Action:** ``/`` or ``/123`` (when paginated)
 - **New Action:** ``/create`` or ``/create-schedule`` or ``/erstellen`` or ``/erstellen-terminfindung``
-- **Show Action:** ``/poll/{poll-slug}`` or ``/umfrage/{poll-slug}``
-- **Edit Action:** ``/poll/{poll-slug}/edit`` or ``/umfrage/{poll-slug}/bearbeiten``
-- **Finish Action:** ``/poll/{poll-slug}/finish`` or ``/umfrage/{poll-slug}/fertigstellen``
+- **Show Action:** ``/{poll-slug}``
+- **Edit Action:** ``/{poll-slug}/edit`` or ``/{poll-slug}/bearbeiten``
+- **Delete Action:** ``/{poll-slug}/delete`` or ``/{poll-slug}/loeschen``
+- **Finish Action:** ``/{poll-slug}/finish`` or ``/{poll-slug}/fertigstellen``
 
 All static parts of routes are implemented by ``LocaleModifier`` aspect, to provide translations.
 

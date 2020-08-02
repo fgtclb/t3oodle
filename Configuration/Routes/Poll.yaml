@@ -19,22 +19,27 @@ routeEnhancers:
                   poll-type: pollType
               locale: 'de_DE'
 
-            - routePath: '/{label-page}/{page}'
+            - routePath: '/{page}'
               _controller: 'Poll::list'
               _arguments:
                 page: '@widget_0/currentPage'
 
-            - routePath: '/{label-poll}/{poll-title}'
+            - routePath: '/{poll-title}'
               _controller: 'Poll::show'
               _arguments:
                   poll-title: poll
 
-            - routePath: '/{label-poll}/{poll-title}/{label-edit}'
+            - routePath: '/{poll-title}/{label-edit}'
               _controller: 'Poll::edit'
               _arguments:
                   poll-title: poll
 
-            - routePath: '/{label-poll}/{poll-title}/{label-finish}'
+            - routePath: '/{poll-title}/{label-delete}'
+              _controller: 'Poll::delete'
+              _arguments:
+                  poll-title: poll
+
+            - routePath: '/{poll-title}/{label-finish}'
               _controller: 'Poll::finish'
               _arguments:
                   poll-title: poll
@@ -60,12 +65,10 @@ routeEnhancers:
                       map:
                           '': 'simple'
                           '-terminfindung': 'schedule'
-            label-page:
-                type: LocaleModifier
-                default: 'page'
-                localeMap:
-                    -   locale: 'de_.*'
-                        value: 'seite'
+            page:
+                type: StaticRangeMapper
+                start: '1'
+                end: '100'
             label-create:
                 type: LocaleModifier
                 default: 'create'
@@ -78,15 +81,15 @@ routeEnhancers:
                 localeMap:
                     -   locale: 'de_.*'
                         value: 'bearbeiten'
+            label-delete:
+                type: LocaleModifier
+                default: 'delete'
+                localeMap:
+                    -   locale: 'de_.*'
+                        value: 'loeschen'
             label-finish:
                 type: LocaleModifier
                 default: 'finish'
                 localeMap:
                     -   locale: 'de_.*'
                         value: 'fertigstellen'
-            label-poll:
-                type: LocaleModifier
-                default: 'poll'
-                localeMap:
-                    -   locale: 'de_.*'
-                        value: 'umfrage'

@@ -3,8 +3,11 @@
         <f:render section="poll-finished" arguments="{poll:poll, vote:vote}" />
         <f:section name="poll-finished">
             <div class="text-center">
-                <p class="mb-1">The voting has been finished at <time class="font-weight-bold text-info" datetime="{poll.finishDate -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</time>.
-                    The final option is:</p>
+                <p class="mb-1">
+                    <f:format.raw>
+                        <f:translate key="label.pollFinished" arguments="{0: '{poll.finishDate -> f:format.date(format:\'{settings.dateTimeFormat}\')}'}" />
+                    </f:format.raw>
+                </p>
                 <p class="lead"><strong>{poll.finalOption.name}</strong></p>
             </div>
         </f:section>

@@ -258,6 +258,9 @@
 			<trans-unit id="label.pollsFound.many">
 				<source>Found %d polls.</source>
 			</trans-unit>
+			<trans-unit id="label.pollFinished">
+				<source>The voting has been finished at <![CDATA[<span class="font-weight-bold text-info">%s</span>]]>. The final option is:</source>
+			</trans-unit>
 
 
 			<trans-unit id="poll">

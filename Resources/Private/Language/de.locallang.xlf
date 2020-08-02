@@ -342,6 +342,10 @@
 				<source>Found %d polls.</source>
 				<target>%d Umfragen gefunden.</target>
 			</trans-unit>
+			<trans-unit id="label.pollFinished">
+				<source>The voting has been finished at <![CDATA[<span class="font-weight-bold text-info">%s</span>]]>. The final option is:</source>
+				<target>Die Umfrage wurde am <![CDATA[<span class="font-weight-bold text-info">%s</span>]]> beendet. Die finale Option lautet:</target>
+			</trans-unit>
 
 
 			<trans-unit id="poll">

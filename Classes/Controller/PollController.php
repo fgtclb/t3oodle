@@ -7,7 +7,7 @@ namespace FGTCLB\T3oodle\Controller;
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Domain\Enumeration\PollType;
-use FGTCLB\T3oodle\Domain\Validator\PollValidator;
+use FGTCLB\T3oodle\Domain\Validator\CustomPollValidator;
 use FGTCLB\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use FGTCLB\T3oodle\Utility\CookieUtility;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
@@ -154,7 +154,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Vote $vote
-     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\VoteValidator", param="vote")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator", param="vote")
      */
     public function voteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
     {
@@ -307,15 +307,15 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     public function initializeCreateAction()
     {
-        $this->disableValidator('poll', PollValidator::class);
-        $this->arguments->getArgument('poll')->getValidator()->addValidator(new PollValidator(['action' => 'create']));
+        $this->disableValidator('poll', CustomPollValidator::class);
+        $this->arguments->getArgument('poll')->getValidator()->addValidator(new CustomPollValidator(['action' => 'create']));
     }
 
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @param bool $publishDirectly
      * @param bool $acceptTerms
-     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\PollValidator", param="poll")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator", param="acceptTerms")
      */
     public function createAction(
@@ -423,7 +423,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
-     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\PollValidator", param="poll")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
     public function updateAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {
@@ -478,7 +478,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
-     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\PollValidator", param="poll")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
     public function deleteAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {

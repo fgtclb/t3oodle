@@ -11,7 +11,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Error;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
-class VoteValidator extends AbstractValidator
+class CustomVoteValidator extends AbstractValidator
 {
     protected $acceptsEmptyValues = true;
 

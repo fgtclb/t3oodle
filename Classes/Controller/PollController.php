@@ -548,6 +548,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                     } else {
                         $poll['options'][$index]['name'] = trim($pollOption['name']); // trim
                     }
+                    if ($pollOption['__identity'] === '') {
+                        unset($poll['options'][$index]['__identity']);
+                    }
                 }
                 if ($poll['type'] === PollType::SCHEDULE) {
                     $pollOptions = [];

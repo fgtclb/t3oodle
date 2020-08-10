@@ -7,6 +7,13 @@
 Versions
 ========
 
+0.4.1
+-----
+
+- [BUGFIX] Rename model validators
+- [BUGFIX] Remove empty "__identity" argument
+
+
 0.4.0
 -----
 

@@ -7,6 +7,13 @@
 Versions
 ========
 
+
+0.4.2
+-----
+
+- [BUGFIX] When editing simple options, after validation has been triggered no exception (PropertyMapper) is thrown anymore
+
+
 0.4.1
 -----
 

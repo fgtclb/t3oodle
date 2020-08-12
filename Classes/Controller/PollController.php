@@ -568,6 +568,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                     }
                 }
             }
+            $poll['options'] = array_values($poll['options']);
             $this->request->setArgument('poll', $poll);
         }
 

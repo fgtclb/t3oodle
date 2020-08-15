@@ -8,6 +8,12 @@ Versions
 ========
 
 
+0.4.3
+-----
+
+- [BUGFIX] Fix error when finish action is submitted without final option set
+
+
 0.4.2
 -----
 

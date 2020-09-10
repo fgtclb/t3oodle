@@ -13,7 +13,6 @@ use FGTCLB\T3oodle\Utility\SettingsUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 class PollPermission
@@ -156,13 +155,19 @@ class PollPermission
 
     public function isSeeParticipantsDuringVotingAllowed(Poll $poll): bool
     {
-        $status = !$poll->isSettingSecretParticipants() || $this->userIsAuthor($poll);
+        $status = false;
+        if (!$poll->isSettingSuperSecretMode()) {
+            $status = !$poll->isSettingSecretParticipants() || $this->userIsAuthor($poll);
+        }
         return $this->dispatch(__METHOD__, $status, $poll);
     }
 
     public function isSeeVotesDuringVotingAllowed(Poll $poll): bool
     {
-        $status = !$poll->isSettingSecretVotings() || $this->userIsAuthor($poll);
+        $status = false;
+        if (!$poll->isSettingSuperSecretMode()) {
+            $status = !$poll->isSettingSecretVotings() || $this->userIsAuthor($poll);
+        }
         return $this->dispatch(__METHOD__, $status, $poll);
     }
 

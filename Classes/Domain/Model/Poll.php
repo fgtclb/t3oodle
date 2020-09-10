@@ -101,6 +101,11 @@ class Poll extends AbstractEntity
     protected $settingSecretVotings = false;
 
     /**
+     * @var bool Note: When Super Secret Mode is true, both previous secret settings are true as well
+     */
+    protected $settingSuperSecretMode = false;
+
+    /**
      * @var \DateTime|null
      */
     protected $settingVotingExpiresDate;
@@ -340,6 +345,16 @@ class Poll extends AbstractEntity
     public function setSettingSecretVotings(bool $settingSecretVotings): void
     {
         $this->settingSecretVotings = $settingSecretVotings;
+    }
+
+    public function isSettingSuperSecretMode(): bool
+    {
+        return $this->settingSuperSecretMode;
+    }
+
+    public function setSettingSuperSecretMode(bool $settingSuperSecretMode): void
+    {
+        $this->settingSuperSecretMode = $settingSuperSecretMode;
     }
 
     public function getSettingVotingExpiresDate(): ?\DateTime

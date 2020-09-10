@@ -11,16 +11,24 @@
                 <div class="alert alert-info">
                     <strong class="d-block">
                         <t3oodle:svg class="mx-1 alert-info" path="Icons/user-secret-solid.svg" />
-                        <f:translate key="label.secret.title" />
+                        <f:variable name="suffix"><f:if condition="{poll.settingSuperSecretMode}"><f:translate key="label.super" /> </f:if></f:variable>
+                        <f:translate key="label.secret.title" arguments="{0 : '{suffix}'}" />
                     </strong>
-                    <f:if condition="{poll.settingSecretVotings} && {poll.settingSecretParticipants}">
-                        <f:then><f:translate key="label.secret.all" /></f:then>
+                    <f:if condition="{poll.settingSuperSecretMode}">
+                        <f:then>
+                            <f:translate key="label.secret.superSecretMode" />
+                        </f:then>
                         <f:else>
-                            <f:if condition="{poll.settingSecretVotings}">
-                                <f:translate key="label.secret.votings" />
-                            </f:if>
-                            <f:if condition="{poll.settingSecretParticipants}">
-                                <f:translate key="label.secret.participants" />
+                            <f:if condition="{poll.settingSecretVotings} && {poll.settingSecretParticipants}">
+                                <f:then><f:translate key="label.secret.all" /></f:then>
+                                <f:else>
+                                    <f:if condition="{poll.settingSecretVotings}">
+                                        <f:translate key="label.secret.votings" />
+                                    </f:if>
+                                    <f:if condition="{poll.settingSecretParticipants}">
+                                        <f:translate key="label.secret.participants" />
+                                    </f:if>
+                                </f:else>
                             </f:if>
                         </f:else>
                     </f:if>

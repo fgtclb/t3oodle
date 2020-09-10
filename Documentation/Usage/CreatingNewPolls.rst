@@ -20,7 +20,6 @@ for scheduled polls.
    :width: 250px
    :class: with-shadow
 
-
 General
 ~~~~~~~
 
@@ -114,16 +113,6 @@ Yes, No, Maybe
         :class: with-border
 
 
-.. _oneOptionOnly:
-
-One option only
-"""""""""""""""
-.. container:: table-row
-
-   Description
-      Each participant can only select one option. But one option can get selected by multiple participants.
-
-
 .. _secretParticipants:
 
 Secret Participants
@@ -148,6 +137,28 @@ Secret Votings
 
       .. caution::
          The poll author and system administrators can see the hidden information.
+
+
+.. _superSecretMode:
+
+Super Secret Mode
+"""""""""""""""""
+.. container:: table-row
+
+   Description
+      When this option is enabled, the options **Secret Participants** and **Secret Votings** are also enabled.
+      Additionally, nobody (not even the poll author or admins) can see participant names and votings. Also,
+      in TYPO3 backend, the votes get hidden when this setting is enabled.
+
+
+.. _oneOptionOnly:
+
+One option only
+"""""""""""""""
+.. container:: table-row
+
+   Description
+      Each participant can only select one option. But one option can get selected by multiple participants.
 
 
 .. _limitAmountOfVotesPerOption:

@@ -66,6 +66,9 @@
 			<trans-unit id="tx_t3oodle_domain_model_poll.setting_secret_votings">
 				<source>Enable secret votings</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.setting_super_secret_mode">
+				<source>Enable super secret mode</source>
+			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.setting_voting_expires_at">
 				<source>Expire possibility to vote at</source>
 			</trans-unit>

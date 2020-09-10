@@ -102,6 +102,10 @@
 				<source>Parts of this poll are not publicly available.</source>
 				<target>Teile der Umfrage sind nicht öffentlich verfügbar.</target>
 			</trans-unit>
+			<trans-unit id="label.pollSuperSecretNotice">
+				<source>This poll is secret. Not even the author can see who voted what.</source>
+				<target>Diese Umfrage ist geheim. Nicht einmal der Umfrageautor kann sehen wer für was abgestimmt hat.</target>
+			</trans-unit>
 			<trans-unit id="label.unpublished">
 				<source>Unpublished</source>
 				<target>Unveröffentlicht</target>
@@ -191,12 +195,20 @@
 				<target>Anzahl Optionen</target>
 			</trans-unit>
 			<trans-unit id="label.secret.title">
-				<source>The vote is secret</source>
-				<target>Die Abstimmung ist geheim</target>
+				<source>The vote is %ssecret</source>
+				<target>Die Abstimmung ist %sgeheim</target>
+			</trans-unit>
+			<trans-unit id="label.super">
+				<source>super</source>
+				<target>super</target>
 			</trans-unit>
 			<trans-unit id="label.secret.all">
 				<source>Information about participants and votes are just visible for poll author.</source>
-				<target>Sowohl die Teilnehmer als auch die abgegebenen Stimmen sind nur für den Autor der Umfrage sichtbar.</target>
+				<target>Sowohl die Teilnehmer, als auch die abgegebenen Stimmen sind nur für den Autor der Umfrage sichtbar.</target>
+			</trans-unit>
+			<trans-unit id="label.secret.superSecretMode">
+				<source>Information about participants and votes are secret, also for the poll author.</source>
+				<target>Sowohl die Teilnehmer, als auch die abgegebenen Stimmen sind geheim. Auch für den Autor der Umfrage.</target>
 			</trans-unit>
 			<trans-unit id="label.secret.votings">
 				<source>The votes of participants are just visible for the poll author.</source>
@@ -463,16 +475,24 @@
 				<target>Verstecke Teilnehmer</target>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretParticipants.description">
-				<source>When this option is enabled, information of each participant is not displayed publicly.</source>
-				<target>Wenn diese Option aktiviert wurde, werden keine Infos der Teilnehmer öffentlich ausgegeben.</target>
+				<source>When this option is enabled, name and mail of each participant is not displayed publicly. The poll author (you) can still see this information.</source>
+				<target>Wenn diese Option aktiviert wurde, werden keine Infos der Teilnehmer öffentlich ausgegeben. Der Umfrageautor (Du) sieht diese Informationen.</target>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretVotings.title">
 				<source>Hide voting result</source>
 				<target>Verstecke Abstimmungsergebnis</target>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretVotings.description">
-				<source>When this option is enabled, the votings and totals are not displayed publicly.</source>
-				<target>Wenn diese Option aktiviert wurde, werden die abgegebenen Stimmen der Teilnehmer und die Anzahl der Stimmen, nicht öffentlich ausgegeben.</target>
+				<source>When this option is enabled, the votings and totals are not displayed publicly. The poll author (you) can still see this information.</source>
+				<target>Wenn diese Option aktiviert wurde, werden die abgegebenen Stimmen der Teilnehmer und die Anzahl der Stimmen nicht öffentlich ausgegeben. Der Umfrageautor (Du) sieht diese Informationen.</target>
+			</trans-unit>
+			<trans-unit id="poll.settingSuperSecretMode.title">
+				<source>Super Secret Mode</source>
+				<target>Super Geheimer Modus</target>
+			</trans-unit>
+			<trans-unit id="poll.settingSuperSecretMode.description">
+				<source>With this option enabled, the poll author (you) also can not see the name and votes of participants.</source>
+				<target>Wenn diese Option aktiviert wurde, kann der Umfrageautor (Du) ebenfalls nicht mehr sehen, wer teilgenommen und wer wie abgestimmt hat.</target>
 			</trans-unit>
 			<trans-unit id="poll.settingMaxVotesPerOption.title">
 				<source>Limit amount of votes per option</source>
@@ -738,6 +758,10 @@
 			<trans-unit id="validation.1593008155">
 				<source>The terms need to get accepted by the author of the new poll!</source>
 				<target>Die Bedingungen müssen vom Autor der neuen Umfrage akzeptiert werden!</target>
+			</trans-unit>
+			<trans-unit id="validation.1599729001">
+				<source>When setting "Super Secret Mode" is enabled, the settings "Secret Participants" and "Secret Votings" must be also enabled!</source>
+				<target>Wenn die Einstellung "Super-Geheimer Modus" aktiviert wurde, müssen die Einstellungen "Verstecke Teilnehmer" and "Verstecke Abstimmungsergebnis" ebenfalls aktiv sein!</target>
 			</trans-unit>
 
 			<!-- For votes -->

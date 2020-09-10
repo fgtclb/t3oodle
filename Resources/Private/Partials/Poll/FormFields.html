@@ -107,17 +107,6 @@
 							<f:translate key="poll.settingTristateCheckbox.description" />
 						</label>
 					</div>
-
-					<div class="form-check mb-3">
-						<f:form.checkbox property="settingOneOptionOnly" value="1" checked="{poll.settingOneOptionOnly} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingOneOptionOnly" />
-						<label class="form-check-label" for="t3oodle-poll-settingOneOptionOnly">
-							<strong><f:translate key="poll.settingOneOptionOnly.title" /></strong>
-							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
-							<br>
-							<f:translate key="poll.settingOneOptionOnly.description" />
-						</label>
-					</div>
-
 					<div class="form-check mb-3">
 						<f:form.checkbox property="settingSecretParticipants" value="1" checked="{poll.settingSecretParticipants} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingSecretParticipants" />
 						<label class="form-check-label" for="t3oodle-poll-settingSecretParticipants">
@@ -132,8 +121,26 @@
 							<f:translate key="poll.settingSecretVotings.description" />
 						</label>
 					</div>
+					<div class="form-check mb-3">
+						<f:form.checkbox property="settingSuperSecretMode" value="1" checked="{poll.settingSuperSecretMode} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingSuperSecretMode" data="{'force-checked':'#t3oodle-poll-settingSecretParticipants, #t3oodle-poll-settingSecretVotings'}" />
+						<label class="form-check-label" for="t3oodle-poll-settingSuperSecretMode">
+							<strong><f:translate key="poll.settingSuperSecretMode.title" /></strong><br>
+							<f:translate key="poll.settingSuperSecretMode.description" />
+
+							<f:render partial="FormFieldErrors" arguments="{for: 'poll.settingSuperSecretMode'}" />
+						</label>
+					</div>
 				</div>
 				<div class="col-md-6">
+					<div class="form-check mb-3">
+						<f:form.checkbox property="settingOneOptionOnly" value="1" checked="{poll.settingOneOptionOnly} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingOneOptionOnly" />
+						<label class="form-check-label" for="t3oodle-poll-settingOneOptionOnly">
+							<strong><f:translate key="poll.settingOneOptionOnly.title" /></strong>
+							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
+							<br>
+							<f:translate key="poll.settingOneOptionOnly.description" />
+						</label>
+					</div>
 					<div class="form-check mb-3">
 						<f:form.checkbox name="enableSettingMaxVotesPerOption" value="1" checked="{poll.settingMaxVotesPerOption} > 0" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingMaxVotesPerOption" />
 						<label class="form-check-label" for="t3oodle-poll-enableSettingMaxVotesPerOption">

@@ -204,6 +204,9 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
 .tx-t3oodle .icon-light {
     color: #888;
 }
+.tx-t3oodle .icon-red {
+    color: var(--red);
+}
 
 .tx-t3oodle .date-group {
     line-height: 1;

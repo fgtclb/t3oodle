@@ -227,6 +227,14 @@ class CustomPollValidator extends AbstractValidator
                 );
             }
         }
+        if ($value->isSettingSuperSecretMode() &&
+            (!$value->isSettingSecretParticipants() || !$value->isSettingSecretVotings())
+        ) {
+            $isValid = false;
+            $this->result->forProperty('settingSuperSecretMode')->addError(
+                new Error(TranslateUtility::translate('validation.1599729001'), 1599729001)
+            );
+        }
         return $isValid;
     }
 }

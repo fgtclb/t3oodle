@@ -50,7 +50,7 @@ return [
         ],
         'settings' => [
             'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_max_votes_per_option, --linebreak--, ' .
-                'setting_one_option_only, --linebreak--, setting_secret_participants, setting_secret_votings, ' .
+                'setting_one_option_only, --linebreak--, setting_secret_participants, setting_secret_votings, setting_super_secret_mode, ' .
                 '--linebreak--, setting_voting_expires_date, setting_voting_expires_time'
         ],
         'publishing' => [
@@ -271,6 +271,7 @@ return [
         'votes' => [
             'exclude' => true,
             'label' => $ll('votes'),
+            'displayCond' => 'FIELD:setting_super_secret_mode:!=:1',
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_t3oodle_domain_model_vote',
@@ -326,6 +327,14 @@ return [
         'setting_secret_votings' => [
             'exclude' => true,
             'label' => $ll('setting_secret_votings'),
+            'config' => [
+                'type' => 'check',
+                'default' => 0
+            ],
+        ],
+        'setting_super_secret_mode' => [
+            'exclude' => true,
+            'label' => $ll('setting_super_secret_mode'),
             'config' => [
                 'type' => 'check',
                 'default' => 0

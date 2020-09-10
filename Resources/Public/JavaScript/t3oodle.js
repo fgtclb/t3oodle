@@ -36,6 +36,7 @@ var tx_t3oodle = {
     this.loadScriptBySelector('confirmation', '*[data-confirm]');
     this.loadScriptBySelector('remember', '*[data-remember]');
     this.loadScriptBySelector('conditional-inputs', 'input[data-bind-disable]');
+    this.loadScriptBySelector('force-checked', 'input[data-force-checked]');
     this.loadScriptBySelector('voting-box', '.t3oodle-voting-checkbox');
     this.loadScriptBySelector('utils-options', '.t3oodle-new-poll-option, .t3oodle-options-per-day', function () {
       tx_t3oodle.loadScriptBySelector('options-simple', '.t3oodle-new-poll-option');

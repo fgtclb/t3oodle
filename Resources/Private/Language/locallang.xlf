@@ -78,6 +78,9 @@
 			<trans-unit id="label.pollSecretNotice">
 				<source>Parts of this poll are not publicly available.</source>
 			</trans-unit>
+			<trans-unit id="label.pollSuperSecretNotice">
+				<source>This poll is secret. Not even the author can see who voted what.</source>
+			</trans-unit>
 			<trans-unit id="label.unpublished">
 				<source>Unpublished</source>
 			</trans-unit>
@@ -145,10 +148,16 @@
 				<source>Amount of options</source>
 			</trans-unit>
 			<trans-unit id="label.secret.title">
-				<source>The vote is secret</source>
+				<source>The vote is %ssecret</source>
+			</trans-unit>
+			<trans-unit id="label.super">
+				<source>super</source>
 			</trans-unit>
 			<trans-unit id="label.secret.all">
 				<source>Information about participants and votes are just visible for poll author.</source>
+			</trans-unit>
+			<trans-unit id="label.secret.superSecretMode">
+				<source>Information about participants and votes are secret, also for the poll author.</source>
 			</trans-unit>
 			<trans-unit id="label.secret.votings">
 				<source>The votes of participants are just visible for the poll author.</source>
@@ -350,13 +359,19 @@
 				<source>Secret Participants</source>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretParticipants.description">
-				<source>When this option is enabled, name and mail of each participant is not displayed.</source>
+				<source>When this option is enabled, name and mail of each participant is not displayed publicly. The poll author (you) can still see this information.</source>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretVotings.title">
 				<source>Secret Votings</source>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretVotings.description">
-				<source>When this option is enabled, the votings and totals are not displayed.</source>
+				<source>When this option is enabled, the votings and totals are not displayed publicly. The poll author (you) can still see this information.</source>
+			</trans-unit>
+			<trans-unit id="poll.settingSuperSecretMode.title">
+				<source>Super Secret Mode</source>
+			</trans-unit>
+			<trans-unit id="poll.settingSuperSecretMode.description">
+				<source>With this option enabled, the poll author (you) also can not see the name and votes of participants.</source>
 			</trans-unit>
 			<trans-unit id="poll.settingMaxVotesPerOption.title">
 				<source>Limit amount of votes per option</source>
@@ -560,6 +575,9 @@
 			</trans-unit>
 			<trans-unit id="validation.1593008155">
 				<source>The terms need to get accepted by the author of the new poll!</source>
+			</trans-unit>
+			<trans-unit id="validation.1599729001">
+				<source>When setting "Super Secret Mode" is enabled, the settings "Secret Participants" and "Secret Votings" must be also enabled!</source>
 			</trans-unit>
 
 			<!-- For votes -->

@@ -109,9 +109,18 @@
                         <t3oodle:svg class="mx-1 icon-light" path="Icons/clock-regular.svg"
                                      title="{f:translate(key:'label.pollExpireNotice', arguments:'{0:\'{poll.settingVotingExpiresAt -> f:format.date(format:\"{settings.dateTimeFormat}\")}\'}')}" />
                     </f:if>
-                    <f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
-                        <t3oodle:svg class="mx-1 icon-light" path="Icons/user-secret-solid.svg"
-                                     title="{f:translate(key:'label.pollSecretNotice')}"/>
+
+                    <f:if condition="{poll.settingSuperSecretMode}">
+                        <f:then>
+                            <t3oodle:svg class="mx-1 icon-red" path="Icons/user-secret-solid.svg"
+                                         title="{f:translate(key:'label.pollSuperSecretNotice')}"/>
+                        </f:then>
+                        <f:else>
+                            <f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
+                                <t3oodle:svg class="mx-1 icon-light" path="Icons/user-secret-solid.svg"
+                                             title="{f:translate(key:'label.pollSecretNotice')}"/>
+                            </f:if>
+                        </f:else>
                     </f:if>
                 </f:section>
             </td>

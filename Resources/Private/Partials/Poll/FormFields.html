@@ -142,8 +142,8 @@
 							<br>
 							<f:translate key="poll.settingMaxVotesPerOption.description" /><br>
 							<f:if condition="{poll.settingMaxVotesPerOption} > 0">
-								<f:then><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{minn:'0'}" /></f:then>
-								<f:else><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" readonly="readonly" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{minn:'0'}" /></f:else>
+								<f:then><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{min:'0'}" /></f:then>
+								<f:else><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" readonly="readonly" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{min:'0'}" /></f:else>
 							</f:if>
 							<f:render partial="FormFieldErrors" arguments="{for: 'poll.settingMaxVotesPerOption'}" />
 						</label>

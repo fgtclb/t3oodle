@@ -529,8 +529,15 @@ class Poll extends AbstractEntity
             }
         }
 
-        // Check related poll settings
-        $attributes = ['settingOneOptionOnly', 'settingMaxVotesPerOption', 'settingTristateCheckbox'];
+        // Check related poll settings (all but expiration date)
+        $attributes = [
+            'settingOneOptionOnly',
+            'settingMaxVotesPerOption',
+            'settingTristateCheckbox',
+            'settingSecretParticipants',
+            'settingSecretVotings',
+            'settingSuperSecretMode'
+        ];
         $cleanProps = $this->_getCleanProperties();
         $props = $this->_getProperties();
         foreach ($attributes as $attribute) {

@@ -29,6 +29,10 @@ all existing votes get removed!
 
 The affected settings and the options section got a "Caution!" label set.
 
+.. image:: Images/poll-settings-during-edit.png
+   :alt: Poll settings with "Caution" label, during editing
+   :scale: 75
+
 
 Finish voting
 ~~~~~~~~~~~~~

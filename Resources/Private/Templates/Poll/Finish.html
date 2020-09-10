@@ -27,11 +27,11 @@
         <div class="{settings.classes.tableResponsive}">
             <table class="{settings.classes.table} table-striped table-borderless">
                 <thead>
-                    <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote}"/>
+                    <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote, isFinishAction: 1}"/>
                 </thead>
                 <tbody>
                 <f:for each="{poll.votes}" as="vote">
-                    <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:vote}"/>
+                    <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:vote, isFinishAction: 1}"/>
                 </f:for>
                 <tr>
                     <td>

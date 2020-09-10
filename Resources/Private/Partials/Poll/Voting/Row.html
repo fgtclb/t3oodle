@@ -16,7 +16,7 @@
                 </f:if>
             </td>
             <f:for each="{vote.poll.options}" as="option" iteration="iterator">
-                <f:if condition="{vote.poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">
+                <f:if condition="{isFinishAction} || {vote.poll.finished} || {vote.poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">
                     <f:then>
                         <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
                         <td class="{f:if(condition:'{vote.poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">

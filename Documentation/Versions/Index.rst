@@ -7,6 +7,18 @@
 Versions
 ========
 
+0.5.0
+-----
+
+- [BUGFIX] Allow poll author to see votings, when finishing poll
+- [BUGFIX] Remove "settingVotingExpiresDate" from query used in list action
+- [DOCS] Improve images in documentation
+- [TASK] Replace "deleteVote" with "resetVotes" action
+- [TASK] When changing "secret" settings, remove existing votes
+- [TASK] Do not allow finishing polls, when expiration date is set and not reached yet
+- [FEATURE] Add new poll setting "Super Secret Mode"
+- [BUGFIX] Fix typo in "min" input parameter (HTML)
+
 
 0.4.3
 -----

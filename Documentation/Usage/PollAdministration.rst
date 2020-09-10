@@ -7,7 +7,7 @@
 Poll administration
 -------------------
 
-As author of a poll (or administrator) you can edit or finish the poll and you can remove votes.
+As author of a poll (or administrator) you can edit or finish the poll and you can reset all existing votes.
 
 Below the voting table, authors see an additional box:
 
@@ -19,6 +19,14 @@ Here you can edit, delete or finish the poll (voting process).
 
 .. note::
    Once the first participant placed its vote, the poll can not get deleted anymore.
+
+
+Instead you can reset all existing votes:
+
+.. image:: Images/poll-admin-box.png
+   :alt: Administration box for polls, when the poll already has got votings.
+   :scale: 75
+
 
 
 Editing published polls

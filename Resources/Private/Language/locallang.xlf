@@ -273,6 +273,12 @@
 			<trans-unit id="label.noteFinishingDisabledByExpireAt">
 				<source>Note: Finish voting has been disabled, till set expire date is reached.</source>
 			</trans-unit>
+			<trans-unit id="label.resetVotes">
+				<source>Reset votes (%d)</source>
+			</trans-unit>
+			<trans-unit id="label.resetConfirmation">
+				<source>Do you really want to reset (remove all exiting votings) this poll?</source>
+			</trans-unit>
 
 
 			<trans-unit id="poll">
@@ -500,8 +506,8 @@
 			<trans-unit id="flash.successfullyDeleted">
 				<source>The poll "%s" has been successfully deleted.</source>
 			</trans-unit>
-			<trans-unit id="flash.voteSuccessfullyDeleted">
-				<source>Voting from user "%s" has been successfully deleted.</source>
+			<trans-unit id="flash.votesSuccessfullyDeleted">
+				<source>All existing votings (%d) have been removed. The poll is resetted.</source>
 			</trans-unit>
 			<trans-unit id="flash.slugChanged">
 				<source>Because title or visibility of this poll has been updated, the URL to this poll has been changed!</source>

@@ -14,11 +14,11 @@ call_user_func(
             'FGTCLB.T3oodle',
             'Main',
             [
-                'Poll' => 'list, show, vote, new, create, edit, update, publish, finish, delete, deleteVote',
+                'Poll' => 'list, show, vote, new, create, edit, update, publish, finish, delete, resetVotes, deleteOwnVote',
             ],
             // non-cacheable actions
             [
-                'Poll' => 'list, show, vote, create, edit, update, publish, finish, delete, deleteVote',
+                'Poll' => 'list, show, vote, create, edit, update, publish, finish, delete, resetVotes, deleteOwnVote',
             ]
         );
 

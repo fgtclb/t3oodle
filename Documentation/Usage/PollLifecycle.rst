@@ -61,7 +61,7 @@ Once a poll is published, participants can see poll details and vote for it.
 During the poll (status) is :ref:`opened <pollStatusOpened>` or :ref:`closed <pollStatusClosed>`, participants can
 **edit** or **delete** their own vote.
 
-Also, the poll author is able to delete (but not edit!) votes. And votes get deleted, when the poll author makes changes
+Also, the poll author is able to reset all votes from poll. And votes get deleted, when the poll author makes changes
 to options or option related settings.
 
 

@@ -6,7 +6,6 @@
     <f:if condition="{vote.uid}">
         <tr class="vote">
             <td class="participant">
-                <f:render section="removeVote" arguments="{vote:vote, hideRemoveLink:hideRemoveLink}"></f:render>
                 <f:if condition="{vote.poll -> t3oodle:permission(action:'seeParticipantsDuringVoting')}">
                     <f:then>
                         <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}"/>
@@ -34,13 +33,4 @@
     </f:if>
 </f:section>
 
-<f:section name="removeVote">
-    <f:if condition="!{hideRemoveLink} && {vote -> t3oodle:permission(action:'deleteVote')}">
-        <f:link.action action="deleteVote" arguments="{vote:vote}"
-                       class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
-                       title="{f:translate(key:'label.removeThisVote')}" data="{confirm:'{f:translate(key:\'label.removeThisVoteConfirmation\')}'}"
-        >x
-        </f:link.action>
-    </f:if>
-</f:section>
 </html>

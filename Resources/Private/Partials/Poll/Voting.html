@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="col-2">
                                             <f:if condition="{vote.uid}">
-                                                <f:link.action action="deleteVote" arguments="{vote:vote}"
+                                                <f:link.action action="deleteOwnVote" arguments="{vote:vote}"
                                                                class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
                                                                title="{f:translate(key:'label.removeYourVote')}" data="{confirm:'{f:translate(key:\'label.removeYourVoteConfirmation\')}'}">
                                                     x

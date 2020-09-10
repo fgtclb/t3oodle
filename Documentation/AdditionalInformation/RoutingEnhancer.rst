@@ -29,6 +29,7 @@ https://domain.com/path/to/page
 - **Show Action:** ``/{poll-slug}``
 - **Edit Action:** ``/{poll-slug}/edit`` or ``/{poll-slug}/bearbeiten``
 - **Delete Action:** ``/{poll-slug}/delete`` or ``/{poll-slug}/loeschen``
+- **Reset Action:** ``/{poll-slug}/reset`` or ``/{poll-slug}/zuruecksetzen``
 - **Finish Action:** ``/{poll-slug}/finish`` or ``/{poll-slug}/fertigstellen``
 
 All static parts of routes are implemented by ``LocaleModifier`` aspect, to provide translations.

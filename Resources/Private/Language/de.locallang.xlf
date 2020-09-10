@@ -362,6 +362,14 @@
 				<source>Note: Finish voting has been disabled, till set expire date is reached.</source>
 				<target>Hinweis: Das Beenden der Abstimmung wurde deaktiviert, bis das gesetzte Ablaufdatum erreicht ist.</target>
 			</trans-unit>
+			<trans-unit id="label.resetVotes">
+				<source>Reset votes (%d)</source>
+				<target>Abstimmung resetten (%d)!</target>
+			</trans-unit>
+			<trans-unit id="label.resetConfirmation">
+				<source>Do you really want to reset (remove all exiting votings) this poll?</source>
+				<target>Möchtest Du diese Umfrage wirklich resetten (alle bereits abgegebenen Stimmen entfernen)?</target>
+			</trans-unit>
 
 			<trans-unit id="poll">
 				<source>Poll</source>
@@ -658,9 +666,9 @@
 				<source>The poll "%s" has been successfully deleted.</source>
 				<target>Die Umfrage "%s" wurde erfolgreich gelöscht.</target>
 			</trans-unit>
-			<trans-unit id="flash.voteSuccessfullyDeleted">
-				<source>Voting from user "%s" has been successfully deleted.</source>
-				<target>Die abgegebenen Stimmen des Benutzers "%s" wurde erfolgreich gelöscht.</target>
+			<trans-unit id="flash.votesSuccessfullyDeleted">
+				<source>All existing votings (%d) have been removed. The poll is resetted.</source>
+				<target>Alle bereits abgegebenen Stimmen wurden entfernt. Die Umfrage ist resettet.</target>
 			</trans-unit>
 			<trans-unit id="flash.slugChanged">
 				<source>Because title or visibility of this poll has been updated, the URL to this poll has been changed!</source>

@@ -48,6 +48,9 @@
         <f:if condition="{poll -> t3oodle:permission(action:'edit')}">
             <f:link.action class="btn btn-secondary mr-1" action="edit" arguments="{poll:poll}"><f:translate key="label.edit" /></f:link.action>
         </f:if>
+        <f:if condition="{poll -> t3oodle:permission(action:'resetVotes')} && {poll.votes -> f:count()} > 0">
+            <f:link.action class="btn btn-warning mr-1" action="resetVotes" arguments="{poll:poll}" data="{confirm:'{f:translate(key:\'label.resetConfirmation\')}'}"><f:translate key="label.resetVotes" arguments="{0:'{poll.votes -> f:count()}'}" /></f:link.action>
+        </f:if>
         <f:if condition="{poll -> t3oodle:permission(action:'delete')}">
             <f:link.action class="btn btn-danger mr-1" action="delete" arguments="{poll:poll}" data="{confirm:'{f:translate(key:\'label.deleteConfirmation\')}'}"><f:translate key="label.delete" /></f:link.action>
         </f:if>

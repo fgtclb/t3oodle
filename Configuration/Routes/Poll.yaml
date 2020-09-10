@@ -39,6 +39,11 @@ routeEnhancers:
               _arguments:
                   poll-title: poll
 
+            - routePath: '/{poll-title}/{label-reset}'
+              _controller: 'Poll::resetVotes'
+              _arguments:
+                  poll-title: poll
+
             - routePath: '/{poll-title}/{label-finish}'
               _controller: 'Poll::finish'
               _arguments:
@@ -87,6 +92,12 @@ routeEnhancers:
                 localeMap:
                     -   locale: 'de_.*'
                         value: 'loeschen'
+            label-reset:
+                type: LocaleModifier
+                default: 'reset'
+                localeMap:
+                    -   locale: 'de_.*'
+                        value: 'zuruecksetzen'
             label-finish:
                 type: LocaleModifier
                 default: 'finish'

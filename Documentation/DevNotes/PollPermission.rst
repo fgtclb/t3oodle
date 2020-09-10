@@ -25,7 +25,8 @@ t3oodle has got a central class controlling poll permission logic.
 - ``isSeeParticipantsDuringVotingAllowed($poll)``
 - ``isSeeVotesDuringVotingAllowed($poll)``
 - ``isAdministrationAllowed($poll)``
-- ``isDeleteVoteAllowed($vote)`` **!!!**
+- ``isResetVotesAllowed($poll)``
+- ``isDeleteOwnVoteAllowed($vote)`` **!!!**
 
 They are used in controller actions, as well as in Fluid templates.
 

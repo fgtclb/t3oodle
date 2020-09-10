@@ -21,7 +21,8 @@ The following signals exist:
 * **list**
 * **show**
 * **vote**
-* **deleteVote**
+* **deleteOwnVote**
+* **resetVotes**
 * **showFinish**
 * **finish**
 * **new**

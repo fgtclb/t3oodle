@@ -6,6 +6,8 @@ namespace FGTCLB\T3oodle\Domain\Permission;
  *  |
  *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
  */
+
+use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\Poll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
@@ -190,14 +192,24 @@ class PollPermission
         return $this->dispatch(__METHOD__, $status, $poll);
     }
 
-    /**
-     * @TODO should be located in a seperate VotePermission class
-     */
-    public function isDeleteVoteAllowed(Vote $vote): bool
+    public function isResetVotesAllowed(Poll $poll): bool
     {
-        $status = $this->controllerSettings['allowNewVotes'] &&
-            !$vote->getPoll()->isFinished() &&
-            ($this->userIsAuthor($vote->getPoll()) || $vote->getParticipantIdent() === $this->currentUserIdent);
+        $status = $poll->isPublished()
+                    && !$poll->isFinished()
+                    && $poll->getStatus()->equals(PollStatus::OPENED)
+                    && $this->userIsAuthor($poll);
+        return $this->dispatch(__METHOD__, $status, $poll);
+    }
+
+    /**
+     * @TODO should be located in a separate VotePermission class
+     */
+    public function isDeleteOwnVoteAllowed(Vote $vote): bool
+    {
+        $status = $this->controllerSettings['allowNewVotes']
+            && !$vote->getPoll()->isFinished()
+            && $vote->getPoll()->getStatus()->equals(PollStatus::OPENED)
+            && $vote->getParticipantIdent() === $this->currentUserIdent;
         return $this->dispatch(__METHOD__, $status, $vote->getPoll(), $vote);
     }
 

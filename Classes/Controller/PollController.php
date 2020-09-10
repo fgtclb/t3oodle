@@ -191,14 +191,41 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
+     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
+     */
+    public function resetVotesAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    {
+        $this->pollPermission->isAllowed($poll, 'resetVotes', true);
+
+        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'resetVotes', [
+            'poll' => $poll,
+            'continue' => true,
+            'settings' => $this->settings,
+            'caller' => $this
+        ]);
+
+        if ($signal['continue']) {
+            $count = count($poll->getVotes());
+            foreach ($poll->getVotes() as $vote) {
+                $this->voteRepository->remove($vote);
+            }
+            $this->addFlashMessage(
+                TranslateUtility::translate('flash.votesSuccessfullyDeleted', [$count])
+            );
+            $this->redirect('show', null, null, ['poll' => $poll]);
+        }
+    }
+
+    /**
      * @param \FGTCLB\T3oodle\Domain\Model\Vote $vote
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("vote")
      */
-    public function deleteVoteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
+    public function deleteOwnVoteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
     {
-        $this->pollPermission->isAllowed($vote, 'deleteVote', true);
+        $this->pollPermission->isAllowed($vote, 'deleteOwnVote', true);
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'deleteVote', [
+        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'deleteOwnVote', [
             'vote' => $vote,
             'participantName' => $vote->getParticipantName(),
             'continue' => true,

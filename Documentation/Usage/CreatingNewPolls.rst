@@ -17,7 +17,7 @@ for scheduled polls.
 
 .. image:: Images/create-new-poll-in-frontend.png
    :alt: Form to create new polls with t3oodle
-   :width: 250px
+   :width: 25%
    :class: with-shadow
 
 General
@@ -109,7 +109,7 @@ Yes, No, Maybe
 
       .. image:: Images/setting-yes-no-maybe.png
         :alt: "Maybe" option state
-        :height: 150px
+        :width: 50%
         :class: with-border
 
 
@@ -191,8 +191,7 @@ You can make changes, before publishing the poll.
 
 .. image:: Images/poll-publish-checkbox.png
    :alt: Publish checkbox for new polls
-   :scale: 75
-
+   :width: 50%
 
 
 Accept terms
@@ -205,4 +204,4 @@ When this option is enabled, the author of a new poll needs to accept the linked
 
 .. image:: Images/poll-accept-terms-checkbox.png
    :alt: Accept terms checkbox for new polls
-   :scale: 75
+   :width: 28%

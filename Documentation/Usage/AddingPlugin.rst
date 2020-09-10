@@ -11,7 +11,7 @@ When t3oodle is successfully installed, you just need to place a plugin on any p
 
 .. image:: Images/new-content-element-wizard.png
    :alt: New Content Element Wizard in page module
-   :scale: 75
+   :width: 75%
    :class: with-border
 
 In plugin settings of t3oodle you need to define where to store new polls and votings.
@@ -19,11 +19,11 @@ If it is empty, they are stored on pid=0 (root).
 
 .. image:: Images/plugin-settings.png
    :alt: t3oodle plugin settings
-   :scale: 50
+   :width: 50%
 
 **Now, in fronend you should get this output:**
 
 .. image:: Images/empty-plugin-in-frontend.png
    :alt: Empty t3oodle plugin in frontend
-   :scale: 75
+   :width: 75%
    :class: with-border

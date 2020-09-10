@@ -84,7 +84,8 @@ When editing the poll **after it has been published**, you should know two thing
 5. Finishing the poll
 =====================
 
-The poll author can finish the poll at any time. S/he have to select a final option for that.
+The poll author can finish the poll at any time, unless the poll's expiration date is set.
+S/he have to select a final option for that.
 
 When a poll is :ref:`finished <pollStatusOpened>`:
 

@@ -358,7 +358,10 @@
 				<source>The voting has been finished at <![CDATA[<span class="font-weight-bold text-info">%s</span>]]>. The final option is:</source>
 				<target>Die Umfrage wurde am <![CDATA[<span class="font-weight-bold text-info">%s</span>]]> beendet. Die finale Option lautet:</target>
 			</trans-unit>
-
+			<trans-unit id="label.noteFinishingDisabledByExpireAt">
+				<source>Note: Finish voting has been disabled, till set expire date is reached.</source>
+				<target>Hinweis: Das Beenden der Abstimmung wurde deaktiviert, bis das gesetzte Ablaufdatum erreicht ist.</target>
+			</trans-unit>
 
 			<trans-unit id="poll">
 				<source>Poll</source>
@@ -507,8 +510,8 @@
 				<target>Ablaufdatum</target>
 			</trans-unit>
 			<trans-unit id="poll.settingVotingExpiresAt.description">
-				<source>Allows votings only until the given date in future.</source>
-				<target>Erlaubt die Abgabe von Stimmen nur bis zu einem gewissen Datum in der Zukunft.</target>
+				<source>Allows voting only until the given date and time. Also, the author can not finish the poll, until the expiration date is reached.</source>
+				<target>Erlaubt die Abgabe von Stimmen nur bis zu einem gewissen Datum in der Zukunft. Zusätzlich kann der die Abstimmung nicht beendet werden, bis das gesetzte Ablaufdatum erreicht ist.</target>
 			</trans-unit>
 			<trans-unit id="poll.publishDirectly.title">
 				<source>Publish direclty</source>

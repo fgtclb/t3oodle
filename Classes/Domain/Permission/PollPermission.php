@@ -138,7 +138,11 @@ class PollPermission
 
     public function isFinishAllowed(Poll $poll): bool
     {
-        $status = $poll->isPublished() && !$poll->isFinished() && $this->userIsAuthor($poll);
+        if ($poll->getSettingVotingExpiresAt() && !$poll->isVotingExpired()) {
+            $status = false;
+        } else {
+            $status = $poll->isPublished() && !$poll->isFinished() && $this->userIsAuthor($poll);
+        }
         return $this->dispatch(__METHOD__, $status, $poll);
     }
 

@@ -33,8 +33,11 @@ The affected settings and the options section got a "Caution!" label set.
 Finish voting
 ~~~~~~~~~~~~~
 
-The poll author can finish a poll anytime he/she want, after the poll has been published. When finishing the poll, you
-need to select a final option.
+The poll author can finish a poll anytime he/she want, after the poll has been published, **unless** an expiration date
+has been set, in settings of the poll. Then, the finish action can only get triggered, when the expiration date is
+reached.
+
+When finishing the poll, you need to select a final option.
 
 .. image:: Images/finish-poll.png
    :alt: The poll author can finish the poll and select a final option.

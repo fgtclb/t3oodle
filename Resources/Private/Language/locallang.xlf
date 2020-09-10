@@ -253,7 +253,7 @@
 				<source>Do you really want to delete this poll?</source>
 			</trans-unit>
 			<trans-unit id="label.noticeAllowNewVotesDisabled">
-				<source>Note: Adding new votes has been disabled by administrator.</source>
+				<source>Note: Adding new votes has been disabled.</source>
 			</trans-unit>
 			<trans-unit id="label.limitPerOptionsReached">
 				<source>The limited amount of votes per option (%d) is reached, for all options.</source>
@@ -269,6 +269,9 @@
 			</trans-unit>
 			<trans-unit id="label.pollFinished">
 				<source>The voting has been finished at <![CDATA[<span class="font-weight-bold text-info">%s</span>]]>. The final option is:</source>
+			</trans-unit>
+			<trans-unit id="label.noteFinishingDisabledByExpireAt">
+				<source>Note: Finish voting has been disabled, till set expire date is reached.</source>
 			</trans-unit>
 
 
@@ -383,7 +386,7 @@
 				<source>Expiration date</source>
 			</trans-unit>
 			<trans-unit id="poll.settingVotingExpiresAt.description">
-				<source>Allows votings only until the given date and time.</source>
+				<source>Allows voting only until the given date and time. Also, the author can not finish the poll, until the expiration date is reached.</source>
 			</trans-unit>
 			<trans-unit id="poll.publishDirectly.title">
 				<source>Publish</source>

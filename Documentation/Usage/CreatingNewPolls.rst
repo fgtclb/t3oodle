@@ -179,6 +179,7 @@ Expiration date
 
    Description
       Allows votings only until the given date and time.
+      Also, the author can not finish the poll, until the expiration date is reached.
 
 
 

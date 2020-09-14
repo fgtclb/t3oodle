@@ -3,7 +3,7 @@
       data-namespace-typo3-fluid="true">
 
     <f:section name="default">
-        <f:if condition="!{poll.finished}">
+        <f:if condition="{poll -> t3oodle:permission(action:'edit')}">
             <div class="alert alert-secondary mb-4">
                 <div class="buttons float-right my-2">
                     <f:render section="buttons" arguments="{poll:poll}" />

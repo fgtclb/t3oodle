@@ -7,6 +7,12 @@
 Versions
 ========
 
+0.5.1
+-----
+
+- [BUGFIX] Do not display administration box for all users
+
+
 0.5.0
 -----
 

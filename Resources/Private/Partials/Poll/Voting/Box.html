@@ -7,7 +7,7 @@
             <f:translate key="label.full" />
         </f:then>
         <f:else>
-            <f:variable name="oneOptionOnlyClass"><f:if condition="{option.poll.settingOneOptionOnly}">one-option-only</f:if></f:variable>
+            <f:variable name="oneOptionOnlyClass"><f:if condition="{option.poll.settingMaxVotesPerParticipant} == 1">one-option-only</f:if></f:variable>
             <f:form.hidden property="optionValues.{key}.option" value="{option}" />
             <f:form.select property="optionValues.{key}.value" options="{option.checkboxStates}" value="{value}" class="t3oodle-voting-checkbox {oneOptionOnlyClass}"></f:form.select>
         </f:else>

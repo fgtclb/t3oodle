@@ -200,7 +200,7 @@ class CustomPollValidator extends AbstractValidator
     protected function checkSettings(Poll $value): bool
     {
         $isValid = true;
-        if ($value->getSettingMaxVotesPerOption() < 0) {
+        if ($value->getSettingMaxVotesPerOption() < 0 || $value->getSettingMaxVotesPerParticipant() < 0) {
             $isValid = false;
             $this->result->forProperty('settingMaxVotesPerOption')->addError(
                 new Error(TranslateUtility::translate('validation.1592143015'), 1592143015)

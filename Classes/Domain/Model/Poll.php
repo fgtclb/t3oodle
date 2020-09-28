@@ -86,9 +86,9 @@ class Poll extends AbstractEntity
     protected $settingMaxVotesPerOption = 0;
 
     /**
-     * @var bool
+     * @var int
      */
-    protected $settingOneOptionOnly = false;
+    protected $settingMaxVotesPerParticipant = 0;
 
     /**
      * @var bool
@@ -317,14 +317,14 @@ class Poll extends AbstractEntity
         $this->settingMaxVotesPerOption = $settingMaxVotesPerOption;
     }
 
-    public function isSettingOneOptionOnly(): bool
+    public function getSettingMaxVotesPerParticipant(): int
     {
-        return $this->settingOneOptionOnly;
+        return $this->settingMaxVotesPerParticipant;
     }
 
-    public function setSettingOneOptionOnly(bool $settingOneOptionOnly): void
+    public function setSettingMaxVotesPerParticipant(int $settingMaxVotesPerParticipant): void
     {
-        $this->settingOneOptionOnly = $settingOneOptionOnly;
+        $this->settingMaxVotesPerParticipant = $settingMaxVotesPerParticipant;
     }
 
     public function isSettingSecretParticipants(): bool
@@ -531,7 +531,7 @@ class Poll extends AbstractEntity
 
         // Check related poll settings (all but expiration date)
         $attributes = [
-            'settingOneOptionOnly',
+            'settingMaxVotesPerParticipant',
             'settingMaxVotesPerOption',
             'settingTristateCheckbox',
             'settingSecretParticipants',

@@ -151,14 +151,14 @@ Super Secret Mode
       in TYPO3 backend, the votes get hidden when this setting is enabled.
 
 
-.. _oneOptionOnly:
+.. _limitAmountOfVotesPerParticipant:
 
-One option only
-"""""""""""""""
+Limit amount of votes per participant
+"""""""""""""""""""""""""""""""""""""
 .. container:: table-row
 
    Description
-      Each participant can only select one option. But one option can get selected by multiple participants.
+      Each participant can only select as much options as defined. But one option can get selected by multiple participants.
 
 
 .. _limitAmountOfVotesPerOption:

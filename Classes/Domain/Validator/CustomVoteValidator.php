@@ -46,18 +46,24 @@ class CustomVoteValidator extends AbstractValidator
         }
 
         // Check poll settings
-        // One option only
-        if ($value->getPoll() && $value->getPoll()->isSettingOneOptionOnly()) {
+        // Max votes per participant
+        if ($value->getPoll() && $value->getPoll()->getSettingMaxVotesPerParticipant()) {
             $amount = 0;
             foreach ($value->getOptionValues() as $optionValue) {
                 if ($optionValue->getValue() !== '0') {
                     $amount++;
                 }
             }
-            if ($amount > 1) {
+            if ($amount > $value->getPoll()->getSettingMaxVotesPerParticipant()) {
                 $isValid = false;
                 $this->result->forProperty('optionValues')->addError(
-                    new Error(TranslateUtility::translate('validation.1592143023'), 1592143023)
+                    new Error(
+                        TranslateUtility::translate(
+                            'validation.1592143023',
+                            [$value->getPoll()->getSettingMaxVotesPerParticipant()]
+                        ),
+                        1592143023
+                    )
                 );
             }
         }

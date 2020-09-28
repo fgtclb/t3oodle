@@ -139,12 +139,17 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-check mb-3">
-						<f:form.checkbox property="settingOneOptionOnly" value="1" checked="{poll.settingOneOptionOnly} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingOneOptionOnly" />
-						<label class="form-check-label" for="t3oodle-poll-settingOneOptionOnly">
-							<strong><f:translate key="poll.settingOneOptionOnly.title" /></strong>
+						<f:form.checkbox name="enableSettingMaxVotesPerParticipant" value="1" checked="{poll.settingMaxVotesPerParticipant} > 0" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingMaxVotesPerParticipant" />
+						<label class="form-check-label" for="t3oodle-poll-enableSettingMaxVotesPerParticipant">
+							<strong><f:translate key="poll.settingMaxVotesPerParticipant.title" /></strong>
 							<f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
 							<br>
-							<f:translate key="poll.settingOneOptionOnly.description" />
+							<f:translate key="poll.settingMaxVotesPerParticipant.description" /><br>
+							<f:if condition="{poll.settingMaxVotesPerParticipant} > 0">
+								<f:then><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerParticipant" class="form-control mt-2" property="settingMaxVotesPerParticipant" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerParticipant'}" additionalAttributes="{min:'0'}" /></f:then>
+								<f:else><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerParticipant" class="form-control mt-2" readonly="readonly" property="settingMaxVotesPerParticipant" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerParticipant'}" additionalAttributes="{min:'0'}" /></f:else>
+							</f:if>
+							<f:render partial="FormFieldErrors" arguments="{for: 'poll.settingMaxVotesPerParticipant'}" />
 						</label>
 					</div>
 					<div class="form-check mb-3">

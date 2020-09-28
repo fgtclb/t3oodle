@@ -262,9 +262,9 @@
 				<source>Are you sure you want to remove this vote?</source>
 				<target>Bist Du sicher diese Stimme entfernen zu wollen?</target>
 			</trans-unit>
-			<trans-unit id="label.oneOptionOnly">
-				<source>Note: Only one option allowed.</source>
-				<target>Hinweis: Es ist nur eine Option erlaubt.</target>
+			<trans-unit id="label.maxVotesPerParticipant">
+				<source>Note: Max %d vote(s) allowed.</source>
+				<target>Hinweis: Max. %d Option(en) erlaubt.</target>
 			</trans-unit>
 			<trans-unit id="label.vote">
 				<source>Vote</source>
@@ -473,13 +473,13 @@
 				<source>When this option is enabled, participants can choose between three options, instead of two (yes/no).</source>
 				<target>Wenn diese Option aktiviert ist, können Teilnehmer zwischen drei statt zwei Optionen wählen.</target>
 			</trans-unit>
-			<trans-unit id="poll.settingOneOptionOnly.title">
-				<source>One option only</source>
-				<target>Nur eine Option</target>
+			<trans-unit id="poll.settingMaxVotesPerParticipant.title">
+				<source>Limit amount of votes per participant</source>
+				<target>Begrenze Anzahl von Stimmen pro Teilnehmer</target>
 			</trans-unit>
-			<trans-unit id="poll.settingOneOptionOnly.description">
-				<source>Each participant can only select one option. But one option can get selected by multiple participants.</source>
-				<target>Bei Aktivierung hat jeder Teilnehmer hat nur eine Stimme. Eine Option kann aber von mehreren Teilnehmern gewählt werden.</target>
+			<trans-unit id="poll.settingMaxVotesPerParticipant.description">
+				<source>When set, each participant can select max as much options as defined. But each option can get selected by multiple participants.</source>
+				<target>Bei Aktivierung hat jeder Teilnehmer nur maximal so viele Stimmen wie angegeben. Eine Option kann aber von mehreren Teilnehmern gewählt werden.</target>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretParticipants.title">
 				<source>Hide participants</source>
@@ -751,8 +751,8 @@
 				<target>Die E-Mail-Adresse hat kein gültiges Format.</target>
 			</trans-unit>
 			<trans-unit id="validation.1592143015">
-				<source>Max votes per option must be a positive number or zero.</source>
-				<target>Die maximale Anzahl an Stimmen pro Option muss eine positive Zahl oder 0 sein.</target>
+				<source>Max votes per option/participant must be a positive number or zero.</source>
+				<target>Die maximale Anzahl an Stimmen pro Option/Teilnehmer muss eine positive Zahl oder 0 sein.</target>
 			</trans-unit>
 			<trans-unit id="validation.1592143016">
 				<source>The expiration date must be located in the future.</source>
@@ -789,8 +789,8 @@
 				<target>Die E-Mail-Adresse hat kein gültiges Format.</target>
 			</trans-unit>
 			<trans-unit id="validation.1592143023">
-				<source>Only one option per participant is allowed!</source>
-				<target>Nur eine Stimme pro Teilnehmer erlaubt!</target>
+				<source>Limit of votes per participant (%d) exceeded!</source>
+				<target>Limit an Stimmen pro Teilnehmer (%d) überschritten!</target>
 			</trans-unit>
 			<trans-unit id="validation.1592143024">
 				<source>Sorry, the option "%s" is already full.</source>

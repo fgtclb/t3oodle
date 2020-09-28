@@ -50,7 +50,7 @@ return [
         ],
         'settings' => [
             'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_max_votes_per_option, --linebreak--, ' .
-                'setting_one_option_only, --linebreak--, setting_secret_participants, setting_secret_votings, setting_super_secret_mode, ' .
+                'setting_max_votes_per_option, --linebreak--, setting_secret_participants, setting_secret_votings, setting_super_secret_mode, ' .
                 '--linebreak--, setting_voting_expires_date, setting_voting_expires_time'
         ],
         'publishing' => [
@@ -308,12 +308,14 @@ return [
                 'size' => 3
             ],
         ],
-        'setting_one_option_only' => [
+        'setting_max_votes_per_participant' => [
             'exclude' => true,
-            'label' => $ll('setting_one_option_only'),
+            'label' => $ll('setting_max_votes_per_participant'),
             'config' => [
-                'type' => 'check',
-                'default' => 0
+                'type' => 'input',
+                'eval' => 'int',
+                'default' => '0',
+                'size' => 3
             ],
         ],
         'setting_secret_participants' => [

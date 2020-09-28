@@ -70,5 +70,9 @@ TS
             \FGTCLB\T3oodle\Slots\UpdatePollSlug::class,
             'beforeUpdate'
         );
+
+        // Register update wizards
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['t3oodleMigrateOneOptionOnlySetting']
+            = \FGTCLB\T3oodle\Updates\MigrateOneOptionOnlySetting::class;
     }
 );

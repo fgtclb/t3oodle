@@ -16,3 +16,4 @@ Dev-Notes
         SlugGeneration
         TemplatesPartials
         Assets
+        UpdateWizards

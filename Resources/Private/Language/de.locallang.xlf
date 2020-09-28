@@ -666,6 +666,10 @@
 				<source>The poll "%s" has been successfully deleted.</source>
 				<target>Die Umfrage "%s" wurde erfolgreich gelöscht.</target>
 			</trans-unit>
+			<trans-unit id="flash.voteSuccessfullyDeleted">
+				<source>Your voting has been successfully deleted.</source>
+				<target>Deine abgegebenen Stimme wurde erfolgreich gelöscht.</target>
+			</trans-unit>
 			<trans-unit id="flash.votesSuccessfullyDeleted">
 				<source>All existing votings (%d) have been removed. The poll is resetted.</source>
 				<target>Alle bereits abgegebenen Stimmen wurden entfernt. Die Umfrage ist resettet.</target>

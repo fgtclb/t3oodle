@@ -506,6 +506,9 @@
 			<trans-unit id="flash.successfullyDeleted">
 				<source>The poll "%s" has been successfully deleted.</source>
 			</trans-unit>
+			<trans-unit id="flash.voteSuccessfullyDeleted">
+				<source>Your voting has been successfully deleted.</source>
+			</trans-unit>
 			<trans-unit id="flash.votesSuccessfullyDeleted">
 				<source>All existing votings (%d) have been removed. The poll is resetted.</source>
 			</trans-unit>

@@ -236,7 +236,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($signal['continue']) {
             $this->voteRepository->remove($vote);
             $this->addFlashMessage(
-                TranslateUtility::translate('flash.voteSuccessfullyDeleted', [$signal['participantName']])
+                TranslateUtility::translate('flash.voteSuccessfullyDeleted')
             );
             $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
         }

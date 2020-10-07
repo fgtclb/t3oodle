@@ -152,6 +152,9 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
     border-right:3px solid #0f5f84 !important;
     font-weight: bold;
 }
+.tx-t3oodle th.title {
+    min-width: 6rem;
+}
 .tx-t3oodle th.title.is-final-option {
     font-weight: bold !important;
     border-top:3px solid #0f5f84 !important;

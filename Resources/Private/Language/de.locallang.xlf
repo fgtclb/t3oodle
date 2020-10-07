@@ -678,6 +678,10 @@
 				<source>Because title or visibility of this poll has been updated, the URL to this poll has been changed!</source>
 				<target>Weil der Titel oder die Sichtbarkeit dieser Umfrage geändert wurde, hat sich die URL zu dieser Umfrage geändert!</target>
 			</trans-unit>
+			<trans-unit id="flash.votingErrorOccurred">
+				<source>An error occurred while voting! Your votings have NOT been saved. Please check error messages below.</source>
+				<target>Fehler bei Abstimmung aufgetreten! Deine abgegebene Stimme wurde NICHT gespeichert. Siehe nachfolgende Fehlermeldung.</target>
+			</trans-unit>
 
 
 			<trans-unit id="exception.1592142348">

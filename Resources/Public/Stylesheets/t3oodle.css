@@ -172,6 +172,10 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
 .tx-t3oodle table tr.vote:last-child .is-final-option {
     border-bottom:3px solid #0f5f84 !important;
 }
+.tx-t3oodle table tr.vote.has-errors {
+    border: 2px solid #f00;
+    border-left-width: 3px;
+}
 .tx-t3oodle .voting-status img {
     width: 1.5rem;
     height: 1.5rem;

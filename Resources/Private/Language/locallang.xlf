@@ -515,6 +515,9 @@
 			<trans-unit id="flash.slugChanged">
 				<source>Because title or visibility of this poll has been updated, the URL to this poll has been changed!</source>
 			</trans-unit>
+			<trans-unit id="flash.votingErrorOccurred">
+				<source>An error occurred while voting! Your votings have NOT been saved. Please check error messages below.</source>
+			</trans-unit>
 
 
 			<trans-unit id="exception.1592142348">

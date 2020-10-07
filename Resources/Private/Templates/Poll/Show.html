@@ -8,7 +8,7 @@
 	<f:flashMessages />
 	<f:render section="header" arguments="{poll:poll}" />
 	<f:render section="info" arguments="{poll:poll}" />
-	<f:render partial="Poll/Voting" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues}" />
+	<f:render partial="Poll/Voting" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting}" />
 	<f:render partial="Poll/Administration" section="default" arguments="{poll:poll}" />
 </f:section>
 

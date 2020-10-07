@@ -120,6 +120,16 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $this->pollPermission->isAllowed($poll, 'show', true);
 
+        if ($this->getControllerContext()->getRequest()->getOriginalRequestMappingResults()->hasErrors()) {
+            $this->addFlashMessage(
+                TranslateUtility::translate('flash.votingErrorOccurred'),
+                '',
+                AbstractMessage::ERROR,
+                false
+            );
+            $this->view->assign('validationErrorsExisting', true);
+        }
+
         $vote = $this->voteRepository->findByPollAndParticipantIdent($poll, $this->currentUserIdent);
         if (!$vote) {
             $vote = GeneralUtility::makeInstance(\FGTCLB\T3oodle\Domain\Model\Vote::class);

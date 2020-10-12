@@ -7,12 +7,20 @@
 Versions
 ========
 
+0.6.1
+-----
+
+- [BUGFIX] Add min-width to option titles in voting table
+- [TASK] Make validation issues during voting more visible
+
+
 0.6.0
 -----
 
 - [FEATURE] Change "settingOneOptionOnly" to "settingMaxVotesPerParticipant"
 - [FEATURE] Add update wizard to migrate old "oneOptionOnly" setting
 - [BUGFIX] Add missing label for flash messages, when own vote has been deleted
+
 
 0.5.1
 -----

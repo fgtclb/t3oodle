@@ -181,6 +181,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $vote->setParticipantIdent($this->currentUserIdent);
         }
 
+        if (!$vote->getUid() &&
+            $this->voteRepository->findByPollAndParticipantIdent($vote->getPoll(), $this->currentUserIdent)
+        ) {
+            $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
+        }
+
         $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'vote', [
             'vote' => $vote,
             'isNew' => !$vote->getUid(),

@@ -23,9 +23,6 @@ return [
         'sortby' => 'sorting',
         'delete' => 'deleted',
         'readOnly' => true,
-        'enablecolumns' => [
-            'disabled' => 'hidden',
-        ],
         'searchFields' => 'name',
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_optionvalue.gif'
     ],

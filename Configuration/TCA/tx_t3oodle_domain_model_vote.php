@@ -20,9 +20,6 @@ return [
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
         'delete' => 'deleted',
-        'enablecolumns' => [
-            'disabled' => 'hidden',
-        ],
         'searchFields' => 'participant, participant_name, participant_mail, participant_ident',
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_vote.gif'
     ],

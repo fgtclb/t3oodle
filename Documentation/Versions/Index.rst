@@ -7,6 +7,14 @@
 Versions
 ========
 
+0.6.2
+-----
+
+- [BUGFIX] Prevent participant from adding more than one vote per poll
+- [BUGFIX] Remove "hidden" field of "option", "optionvalue" and "vote"
+- [BUGFIX] Allow voting expire dates (in DB) to be signed
+
+
 0.6.1
 -----
 

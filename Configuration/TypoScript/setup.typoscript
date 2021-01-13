@@ -73,6 +73,8 @@ plugin.tx_t3oodle {
 
         show {
             showReturnLink = 1
+            showOwnVoteAtTop = 1
+            showAdministrationBoxAboveVotes = 1
         }
 
         form {

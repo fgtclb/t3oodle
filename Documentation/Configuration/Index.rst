@@ -289,19 +289,21 @@ enableFlashMessages
 View related settings
 ---------------------
 
-================================================ ============ ======================================
-Property                                          Type         Default
-================================================ ============ ======================================
-:ref:`list.draft <list_draft>`                    ``bool``     1
-:ref:`list.finished <list_finished>`              ``bool``     1
-:ref:`list.personal <list_personal>`              ``bool``     1
-:ref:`list.itemsPerPage <list_itemsPerPage>`      ``int``      10
-:ref:`list.showTotal <list_showTotal>`            ``bool``     1
-:ref:`list.columns <list_columns>`                ``array``    *see below*
-:ref:`show.showReturnLink <show_showReturnLink>`  ``bool``     1
-:ref:`form.showReturnLink <form_showReturnLink>`  ``bool``     1
-classes_                                          ``array``    *see below*
-================================================ ============ ======================================
+================================================================================== ============ ========================
+Property                                                                            Type         Default
+================================================================================== ============ ========================
+:ref:`list.draft <list_draft>`                                                      ``bool``     1
+:ref:`list.finished <list_finished>`                                                ``bool``     1
+:ref:`list.personal <list_personal>`                                                ``bool``     1
+:ref:`list.itemsPerPage <list_itemsPerPage>`                                        ``int``      10
+:ref:`list.showTotal <list_showTotal>`                                              ``bool``     1
+:ref:`list.columns <list_columns>`                                                  ``array``    *see below*
+:ref:`show.showReturnLink <show_showReturnLink>`                                    ``bool``     1
+:ref:`show.showOwnVoteAtTop <show_showOwnVoteAtTop>`                                ``bool``     1
+:ref:`show.showAdministrationBoxAboveVotes <show_showAdministrationBoxAboveVotes>`  ``bool``     1
+:ref:`form.showReturnLink <form_showReturnLink>`                                    ``bool``     1
+classes_                                                                            ``array``    *see below*
+================================================================================== ============ ========================
 
 
 .. _list_draft:
@@ -425,6 +427,38 @@ show.showReturnLink
       1
    Description
       When enabled, displays a link "back to list view" in detail view of a poll.
+
+.. _show_showOwnVoteAtTop:
+
+show.showOwnVoteAtTop
+"""""""""""""""""""""
+.. container:: table-row
+
+   Property
+      show.showOwnVoteAtTop
+   Data type
+      bool
+   Default
+      1
+   Description
+      When enabled the row with your own vote is displayed at very top.
+      Otherwise it will be displayed below all other votings.
+
+.. _show_showAdministrationBoxAboveVotes:
+
+show.showAdministrationBoxAboveVotes
+""""""""""""""""""""""""""""""""""""
+.. container:: table-row
+
+   Property
+      show.showAdministrationBoxAboveVotes
+   Data type
+      bool
+   Default
+      1
+   Description
+      When enabled the administration box (visible for poll author) is displayed above the voting table.
+      Otherwise it will be displayed at very bottom.
 
 .. _form_showReturnLink:
 

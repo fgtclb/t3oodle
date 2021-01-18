@@ -1,0 +1,56 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<tr>
+    <th class="participant"></th>
+    <f:for each="{poll.options}" as="option" iteration="iterator">
+        <f:render section="tableHeader{poll.partialName}" arguments="{option:option, iterator:iterator, poll:poll}" />
+    </f:for>
+</tr>
+<tr>
+    <th class="participant">
+        {poll.votes -> f:count()}
+        <f:if condition="{poll.votes -> f:count()} == 1">
+            <f:then>{f:translate(key:'label.participant')}</f:then>
+            <f:else>{f:translate(key:'label.participants')}</f:else>
+        </f:if>
+        <f:if condition="{vote.uid}"> <f:translate key="label.inclYou" /></f:if>
+    </th>
+    <f:for each="{poll.options}" as="option" iteration="iterator">
+        <th class="total {f:if(condition:'{poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+            <f:if condition="{isFinishAction} || {vote.poll.finished} || {poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">
+                <f:then>
+                    <f:if condition="{poll.optionTotals.{option.uid}}">
+                        <f:then>{poll.optionTotals.{option.uid}}</f:then>
+                        <f:else>0</f:else>
+                    </f:if>
+                </f:then>
+                <f:else>
+                    <span class="{settings.classes.secret}">?</span>
+                </f:else>
+            </f:if>
+        </th>
+    </f:for>
+</tr>
+
+<f:section name="tableHeaderSimple">
+    <th title="{option.name}" class="title {f:if(condition:'{poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+        {option.name}
+    </th>
+</f:section>
+<f:section name="tableHeaderSchedule">
+    <th title="{option.name}" class="title {f:if(condition:'{poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+        <f:variable name="date">{option.name -> t3oodle:schedule.parseDayOption()}</f:variable>
+        <div class="date-group">
+            <div class="month">{date.dateStart -> f:format.date(format:'M')}</div>
+            <div class="day">{date.dateStart -> f:format.date(format:'d')}</div>
+            <div class="weekday weekday-{date.dateStart -> f:format.date(format:'N')}"><f:translate key="weekday.{date.dateStart -> f:format.date(format:'N')}">{date.dateStart -> f:format.date(format:'D')}</f:translate></div>
+            <div class="mt-2">
+                {date.option}
+            </div>
+        </div>
+    </th>
+</f:section>
+
+</html>

@@ -1,0 +1,14 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="text-center">
+    <p class="mb-1">
+        <f:format.raw>
+            <f:translate key="label.pollFinished" arguments="{0: '{poll.finishDate -> f:format.date(format:\'{settings.dateTimeFormat}\')}'}" />
+        </f:format.raw>
+    </p>
+    <p class="lead"><strong>{poll.finalOption.name}</strong></p>
+</div>
+
+</html>

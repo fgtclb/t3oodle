@@ -28,19 +28,57 @@ Partials
 - **FormFieldErrors.html** Inline validation/error messages for form inputs.
 - **Poll/**
 
-  - **Administration.html** Box below voting. Just visible for the poll author and administrators.
+  - **New/**, **Edit/** and **Finish/** Each action has dedicated partials
+
+    - **Header.html**
+    - **Form.html**
+
+  - **Show/**
+
+    - **Header.html**
+    - **Info.html**
+    - **NoticeExpireDate.html**
+    - **NoticeSecretVoting.html**
+    - **Administration.html** Box with poll actions. Just visible for the poll author and administrators.
+
+      - **Buttons.html**
+      - **LabelPublishStatus.html**
+      - **NoticeVotingDisabled.html**
+      - **WhoYouAre.html**
+
   - **AuthorInfo.html** Username/Mail of poll author.
-  - **FormFields.html** All form fields a poll has (but options).
+  - **FormFields.html** All form fields a poll has.
+
+    - **General.html**
+    - **Author.html**
+    - **Settings.html**
+    - **Type/**
+
+      - **Simple.html** Options section for simple poll
+      - **Schedule.html** Options section (with date picker) for scheduled poll
+
+  - **List/**
+
+    - **Header.html**
+    - **Totals.html**
+    - **Table.html**
+
+      - **Row.html**
+
+    - **NewButton.html**
+
   - **Voting.html** Voting entrance point. Contains poll notes, the vote form and table.
-  - **Voting/**
 
     - **Box.html** A single checkbox in voting row.
     - **ParticipantInfo.html** Username/Mail of participant.
     - **Row.html** A single row in voting table.
     - **Summary.html** Shows submit button for voting or displays final option, when poll is finished.
-    - **TableHead.html** Table head of voting table.
 
-  - **Type/**
+      - **PollFinished.html**
+      - **PollNotFinished.html**
 
-    - **Simple.html** Options section for simple poll
-    - **Schedule.html** Options section (with date picker) for scheduled poll
+    - **Table.html**
+
+      - **Head.html**
+      - **YourVote.html**
+

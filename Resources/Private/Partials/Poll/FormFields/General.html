@@ -1,0 +1,52 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong><f:translate key="header.form.general" /></strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-7 col-md-8 col-lg-9">
+                <div class="form-group">
+                    <label for="t3oodle-poll-title"><f:translate key="poll.title" /><span class="required">*</span></label>
+                    <f:form.textfield id="t3oodle-poll-title" class="form-control" property="title" />
+                    <f:render partial="FormFieldErrors" arguments="{for: 'poll.title'}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="t3oodle-poll-description"><f:translate key="poll.description" /></label>
+                    <f:form.textarea id="t3oodle-poll-description" class="form-control" property="description" />
+                    <f:render partial="FormFieldErrors" arguments="{for: 'poll.description'}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="t3oodle-poll-link"><f:translate key="poll.link" /></label>
+                    <f:form.textfield id="t3oodle-poll-link" class="form-control" property="link" placeholder="{f:translate(key:'label.linkPlaceholder')}" />
+                    <f:render partial="FormFieldErrors" arguments="{for: 'poll.link'}" />
+                </div>
+            </div>
+            <div class="col-sm-5 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <label><f:translate key="poll.visibility" /><span class="required">*</span></label>
+                    <div class="form-check">
+                        <f:form.radio property="visibility" value="listed" class="form-check-input" id="t3oodle-poll-visibility-listed" />
+                        <label class="form-check-label" for="t3oodle-poll-visibility-listed">
+                            <f:translate key="poll.visibility.listed" />
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <f:form.radio property="visibility" value="not_listed" class="form-check-input" id="t3oodle-poll-visibility-not-listed" />
+                        <label class="form-check-label" for="t3oodle-poll-visibility-not-listed">
+                            <f:translate key="poll.visibility.notListed" />
+                        </label>
+                    </div>
+                    <f:render partial="FormFieldErrors" arguments="{for: 'poll.visibility'}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

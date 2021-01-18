@@ -6,52 +6,9 @@
 
 <f:section name="content">
     <f:flashMessages/>
-    <f:render section="header" arguments="{poll:poll}" />
-    <f:render section="form" arguments="{poll:poll}" />
+
+    <f:render partial="Poll/Finish/Header" arguments="{poll:poll}" />
+    <f:render partial="Poll/Finish/Form" arguments="{poll:poll}" />
 </f:section>
 
-<f:section name="header">
-    <f:variable name="header"><f:translate key="header.finish" arguments="{0: poll.title}" /></f:variable>
-    <f:if condition="{header}">
-        <h1>
-            {header}
-            <f:if condition="{settings.form.showReturnLink}">
-                <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link"><f:translate key="label.return" /></f:link.action>
-            </f:if>
-        </h1>
-    </f:if>
-</f:section>
-
-<f:section name="form">
-    <f:form action="finish" name="poll" object="{poll}" class="finishing">
-        <div class="{settings.classes.tableResponsive}">
-            <table class="{settings.classes.table} table-striped table-borderless">
-                <thead>
-                    <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote, isFinishAction: 1}"/>
-                </thead>
-                <tbody>
-                <f:for each="{poll.votes}" as="vote">
-                    <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:vote, isFinishAction: 1}"/>
-                </f:for>
-                <tr>
-                    <td>
-                        <strong><f:translate key="label.selectFinalOption" /></strong>
-                    </td>
-                    <f:for each="{poll.options}" as="option" iteration="iterator">
-                        <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-                            <div class="form-check">
-                                <f:form.radio name="option" checked="0" class="form-check-input position-static larger"
-                                              value="{option.uid}"/>
-                            </div>
-                        </td>
-                    </f:for>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="text-right">
-            <f:form.submit value="{f:translate(key:'label.finishPoll')}" class="btn btn-primary"/>
-        </div>
-    </f:form>
-</f:section>
 </html>

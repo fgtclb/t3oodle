@@ -1,0 +1,9 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:if condition="{poll.published} && !{poll -> t3oodle:permission(action:'voting')}">
+    <br><strong class="text-info"><f:translate key="label.noticeAllowNewVotesDisabled" /></strong>
+</f:if>
+
+</html>

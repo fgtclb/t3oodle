@@ -1,0 +1,105 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong><f:translate key="header.form.settings" /></strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-check mb-3">
+                    <f:form.checkbox property="settingTristateCheckbox" value="1" checked="{poll.settingTristateCheckbox} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingTristateCheckbox" />
+                    <label class="form-check-label" for="t3oodle-poll-settingTristateCheckbox">
+                        <strong><f:translate key="poll.settingTristateCheckbox.title" /></strong>
+                        <f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
+                        <br>
+                        <f:translate key="poll.settingTristateCheckbox.description" />
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <f:form.checkbox property="settingSecretParticipants" value="1" checked="{poll.settingSecretParticipants} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingSecretParticipants" />
+                    <label class="form-check-label" for="t3oodle-poll-settingSecretParticipants">
+                        <strong><f:translate key="poll.settingSecretParticipants.title" /></strong>
+                        <f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
+                        <br>
+                        <f:translate key="poll.settingSecretParticipants.description" />
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <f:form.checkbox property="settingSecretVotings" value="1" checked="{poll.settingSecretVotings} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingSecretVotings" />
+                    <label class="form-check-label" for="t3oodle-poll-settingSecretVotings">
+                        <strong><f:translate key="poll.settingSecretVotings.title" /></strong>
+                        <f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
+                        <br>
+                        <f:translate key="poll.settingSecretVotings.description" />
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <f:form.checkbox property="settingSuperSecretMode" value="1" checked="{poll.settingSuperSecretMode} == 1" class="form-check-input mr-3 larger" id="t3oodle-poll-settingSuperSecretMode" data="{'force-checked':'#t3oodle-poll-settingSecretParticipants, #t3oodle-poll-settingSecretVotings'}" />
+                    <label class="form-check-label" for="t3oodle-poll-settingSuperSecretMode">
+                        <strong><f:translate key="poll.settingSuperSecretMode.title" /></strong>
+                        <f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
+                        <br>
+                        <f:translate key="poll.settingSuperSecretMode.description" />
+
+                        <f:render partial="FormFieldErrors" arguments="{for: 'poll.settingSuperSecretMode'}" />
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-check mb-3">
+                    <f:form.checkbox name="enableSettingMaxVotesPerParticipant" value="1" checked="{poll.settingMaxVotesPerParticipant} > 0" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingMaxVotesPerParticipant" />
+                    <label class="form-check-label" for="t3oodle-poll-enableSettingMaxVotesPerParticipant">
+                        <strong><f:translate key="poll.settingMaxVotesPerParticipant.title" /></strong>
+                        <f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
+                        <br>
+                        <f:translate key="poll.settingMaxVotesPerParticipant.description" /><br>
+                        <f:if condition="{poll.settingMaxVotesPerParticipant} > 0">
+                            <f:then><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerParticipant" class="form-control mt-2" property="settingMaxVotesPerParticipant" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerParticipant'}" additionalAttributes="{min:'0'}" /></f:then>
+                            <f:else><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerParticipant" class="form-control mt-2" readonly="readonly" property="settingMaxVotesPerParticipant" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerParticipant'}" additionalAttributes="{min:'0'}" /></f:else>
+                        </f:if>
+                        <f:render partial="FormFieldErrors" arguments="{for: 'poll.settingMaxVotesPerParticipant'}" />
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <f:form.checkbox name="enableSettingMaxVotesPerOption" value="1" checked="{poll.settingMaxVotesPerOption} > 0" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingMaxVotesPerOption" />
+                    <label class="form-check-label" for="t3oodle-poll-enableSettingMaxVotesPerOption">
+                        <strong><f:translate key="poll.settingMaxVotesPerOption.title" /></strong>
+                        <f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
+                        <br>
+                        <f:translate key="poll.settingMaxVotesPerOption.description" /><br>
+                        <f:if condition="{poll.settingMaxVotesPerOption} > 0">
+                            <f:then><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{min:'0'}" /></f:then>
+                            <f:else><f:form.textfield type="number" id="t3oodle-poll-settingMaxVotesPerOption" class="form-control mt-2" readonly="readonly" property="settingMaxVotesPerOption" data="{bind-disable:'#t3oodle-poll-enableSettingMaxVotesPerOption'}" additionalAttributes="{min:'0'}" /></f:else>
+                        </f:if>
+                        <f:render partial="FormFieldErrors" arguments="{for: 'poll.settingMaxVotesPerOption'}" />
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <f:form.checkbox name="enableSettingVotingExpiresAt" value="1" checked="{poll.settingVotingExpiresAt}" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingVotingExpiresAt" />
+                    <label class="form-check-label" for="t3oodle-poll-enableSettingVotingExpiresAt">
+                        <strong><f:translate key="poll.settingVotingExpiresAt.title" /></strong><br>
+                        <f:translate key="poll.settingVotingExpiresAt.description" /><br>
+
+                        <f:if condition="{poll.settingVotingExpiresAt}">
+                            <f:then>
+                                <f:form.textfield type="date" id="t3oodle-poll-settingVotingExpiresDate" class="form-control input-date mt-2" property="settingVotingExpiresDate" value="{poll.settingVotingExpiresDate -> f:format.date(format:'Y-m-d')}" data="{bind-disable:'#t3oodle-poll-enableSettingVotingExpiresAt'}" />
+                                <f:form.textfield type="time" id="t3oodle-poll-settingVotingExpiresTime" class="form-control input-time mt-2" property="settingVotingExpiresTime" value="{poll.settingVotingExpiresTime -> f:format.date(format:'H:i')}" data="{bind-disable:'#t3oodle-poll-enableSettingVotingExpiresAt'}" />
+                            </f:then>
+                            <f:else>
+                                <f:form.textfield type="date" id="t3oodle-poll-settingVotingExpiresDate" class="form-control input-date mt-2" readonly="readonly" property="settingVotingExpiresDate" value="{poll.settingVotingExpiresDate -> f:format.date(format:'Y-m-d')}" data="{bind-disable:'#t3oodle-poll-enableSettingVotingExpiresAt'}" />
+                                <f:form.textfield type="time" id="t3oodle-poll-settingVotingExpiresTime" class="form-control input-time mt-2" property="settingVotingExpiresTime" value="{poll.settingVotingExpiresTime -> f:format.date(format:'H:i')}" data="{bind-disable:'#t3oodle-poll-enableSettingVotingExpiresAt'}" />
+                            </f:else>
+                        </f:if>
+                        <f:render partial="FormFieldErrors" arguments="{for: 'poll.settingVotingExpiresDate'}" />
+                        <f:render partial="FormFieldErrors" arguments="{for: 'poll.settingVotingExpiresTime'}" />
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

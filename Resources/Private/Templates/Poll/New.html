@@ -7,64 +7,8 @@
 <f:section name="content">
     <f:flashMessages/>
 
-    <f:render section="header" arguments="{poll:poll, contentObject:contentObject}" />
-    <f:render section="form" arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject, publishDirectly:publishDirectly}" />
+    <f:render partial="Poll/New/Header" arguments="{poll:poll, contentObject:contentObject}" />
+    <f:render partial="Poll/New/Form" arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject, publishDirectly:publishDirectly}" />
 </f:section>
 
-<f:section name="header">
-    <f:variable name="header"><f:translate key="header.new.{poll.type}"><f:translate key="header.new" /></f:translate></f:variable>
-    <f:if condition="{header}">
-    <h1>
-        {header}
-        <f:if condition="{settings.form.showReturnLink}">
-            <f:link.action action="list" class="btn btn-link"><f:translate key="label.cancel" /></f:link.action>
-        </f:if>
-    </h1>
-    </f:if>
-</f:section>
-
-<f:section name="form">
-    <f:form action="create" name="poll" object="{poll}" class="my-4">
-        <f:render partial="Poll/FormFields"
-                  arguments="{poll:poll, newOptions:newOptions, contentObject:contentObject}"/>
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check">
-                            <f:form.checkbox name="publishDirectly" value="1" checked="{publishDirectly}"
-                                             class="form-check-input mr-3 larger" id="t3oodle-poll-publish-directly"/>
-                            <label class="form-check-label" for="t3oodle-poll-publish-directly">
-                                <strong>
-                                    <f:translate key="poll.publishDirectly.title"/>
-                                </strong><br>
-                                <f:translate key="poll.publishDirectly.description"/>
-                            </label>
-                        </div>
-                    </div>
-                    <f:if condition="{settings.requireAcceptedTerms}">
-                        <div class="col">
-                            <div class="form-check">
-                                <f:form.checkbox name="acceptTerms" value="1" checked="0"
-                                                 class="form-check-input mr-3 larger" id="t3oodle-poll-accept-terms"/>
-                                <label class="form-check-label" for="t3oodle-poll-accept-terms">
-                                    <strong>
-                                        <f:translate key="poll.acceptTerms.title"/>
-                                    </strong><br>
-                                    <f:format.html parseFuncTSPath="lib.parseFunc"><f:translate key="poll.acceptTerms.description" arguments="{0:'{f:uri.typolink(parameter:\'{settings.termsToAccept}\')}'}" /></f:format.html>
-                                </label>
-
-                                <f:render partial="FormFieldErrors" arguments="{for: 'acceptTerms'}" />
-                            </div>
-                        </div>
-                    </f:if>
-                </div>
-            </div>
-        </div>
-        <f:form.submit class="btn btn-primary" value="{f:translate(key:'label.createNew')}"/>
-        <f:if condition="{settings.form.showReturnLink}">
-            <f:link.action action="list" class="btn btn-link"><f:translate key="label.cancel" /></f:link.action>
-        </f:if>
-    </f:form>
-</f:section>
 </html>

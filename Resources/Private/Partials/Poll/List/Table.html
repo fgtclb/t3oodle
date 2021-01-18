@@ -1,0 +1,47 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="{settings.classes.tableResponsive}">
+    <table class="{settings.classes.table} table-list-action">
+        <thead>
+        <tr>
+            <th><f:translate key="poll.title" /></th>
+            <f:if condition="{settings.list.columns.type}"><th><f:translate key="poll.type" /></th></f:if>
+            <f:if condition="{settings.list.columns.status}"><th><f:translate key="poll.status" /></th></f:if>
+            <f:if condition="{settings.list.columns.options}"><th><f:translate key="poll.options" /></th></f:if>
+            <f:if condition="{settings.list.columns.author}"><th><f:translate key="poll.author" /></th></f:if>
+            <f:if condition="{settings.list.columns.lastChanges}"><th><f:translate key="poll.lastChange" /></th></f:if>
+            <f:if condition="{settings.list.columns.participants}"><th><f:translate key="poll.participants" /></th></f:if>
+        </tr>
+        </thead>
+        <tbody>
+        <f:if condition="{polls -> f:count()} > 0">
+            <f:then>
+                <f:if condition="{settings.list.itemsPerPage} > 0">
+                    <f:then>
+                        <f:widget.paginate objects="{polls}" as="paginatedPolls"
+                                           configuration="{itemsPerPage:settings.list.itemsPerPage, insertBelow: 1, maximumNumberOfLinks: 99}">
+                            <f:for each="{paginatedPolls}" as="poll">
+                                <f:render partial="Poll/List/Table/Row" arguments="{poll:poll}"/>
+                            </f:for>
+                        </f:widget.paginate>
+                    </f:then>
+                    <f:else>
+                        <f:for each="{polls}" as="poll">
+                            <f:render partial="Poll/List/Table/Row" arguments="{poll:poll}"/>
+                        </f:for>
+                    </f:else>
+                </f:if>
+            </f:then>
+            <f:else>
+                <tr>
+                    <td colspan="99"><span class="text-empty"><f:translate key="label.noPollsFound" /></span></td>
+                </tr>
+            </f:else>
+        </f:if>
+        </tbody>
+    </table>
+</div>
+
+</html>

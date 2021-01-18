@@ -1,0 +1,15 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:variable name="header"><f:translate key="header.finish" arguments="{0: poll.title}" /></f:variable>
+<f:if condition="{header}">
+    <h1>
+        {header}
+        <f:if condition="{settings.form.showReturnLink}">
+            <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link"><f:translate key="label.return" /></f:link.action>
+        </f:if>
+    </h1>
+</f:if>
+
+</html>

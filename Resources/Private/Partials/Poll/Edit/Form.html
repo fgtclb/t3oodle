@@ -1,0 +1,13 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:form action="update" name="poll" object="{poll}" class="my-4">
+    <f:render partial="Poll/FormFields" arguments="{poll:poll, contentObject:contentObject}"/>
+    <f:form.submit class="btn btn-primary" value="{f:translate(key:'label.saveChanges')}"/>
+    <f:if condition="{settings.form.showReturnLink}">
+        <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link"><f:translate key="label.return" /></f:link.action>
+    </f:if>
+</f:form>
+
+</html>

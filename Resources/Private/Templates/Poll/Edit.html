@@ -6,29 +6,9 @@
 
 <f:section name="content">
     <f:flashMessages/>
-    <f:render section="header" arguments="{poll:poll, contentObject:contentObject}" />
-    <f:render section="form" arguments="{poll:poll, contentObject:contentObject}" />
+
+    <f:render partial="Poll/Edit/Header" arguments="{poll:poll, contentObject:contentObject}" />
+    <f:render partial="Poll/Edit/Form" arguments="{poll:poll, contentObject:contentObject}" />
 </f:section>
 
-<f:section name="header">
-    <f:variable name="header"><f:translate key="header.edit.{poll.type}" arguments="{0: poll.title}"><f:translate key="header.edit" /></f:translate></f:variable>
-    <f:if condition="{header}">
-        <h1>
-            {header}
-            <f:if condition="{settings.form.showReturnLink}">
-                <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link"><f:translate key="label.return" /></f:link.action>
-            </f:if>
-        </h1>
-    </f:if>
-</f:section>
-
-<f:section name="form">
-    <f:form action="update" name="poll" object="{poll}" class="my-4">
-        <f:render partial="Poll/FormFields" arguments="{poll:poll, contentObject:contentObject}"/>
-        <f:form.submit class="btn btn-primary" value="{f:translate(key:'label.saveChanges')}"/>
-        <f:if condition="{settings.form.showReturnLink}">
-            <f:link.action action="show" arguments="{poll:poll}" class="btn btn-link"><f:translate key="label.return" /></f:link.action>
-        </f:if>
-    </f:form>
-</f:section>
 </html>

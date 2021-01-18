@@ -6,76 +6,21 @@
 
 <f:section name="content">
 	<f:flashMessages />
-	<f:render section="header" arguments="{poll:poll}" />
-	<f:render section="info" arguments="{poll:poll}" />
+
+	<f:render partial="Poll/Show/Header" arguments="{poll:poll}" />
+	<f:render partial="Poll/Show/Info" arguments="{poll:poll}" />
+	<f:render partial="Poll/Show/NoticeSecretVoting" arguments="{poll:poll}" />
+	<f:render partial="Poll/Show/NoticeExpireDate" arguments="{poll:poll}" />
 
 	<f:if condition="{settings.show.showAdministrationBoxAboveVotes}">
-		<f:render partial="Poll/Administration" section="default" arguments="{poll:poll}" />
+		<f:render partial="Poll/Show/Administration" arguments="{poll:poll}" />
 	</f:if>
+
 	<f:render partial="Poll/Voting" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting}" />
 
 	<f:if condition="!{settings.show.showAdministrationBoxAboveVotes}">
-		<f:render partial="Poll/Administration" section="default" arguments="{poll:poll}" />
+		<f:render partial="Poll/Show/Administration" arguments="{poll:poll}" />
 	</f:if>
-</f:section>
-
-<f:section name="header">
-	<f:variable name="header"><f:translate key="header.show.{poll.type}" arguments="{0: poll.title}"><f:translate key="header.show" arguments="{0: poll.title}" /></f:translate></f:variable>
-	<f:if condition="{header}">
-		<h1>
-			{header}
-			<f:if condition="{settings.show.showReturnLink}">
-				<f:link.action action="list" class="btn btn-link"><f:translate key="label.backToList" /></f:link.action>
-			</f:if>
-		</h1>
-	</f:if>
-</f:section>
-
-<f:section name="info">
-	<div class="poll-info mb-4">
-		<f:if condition="{poll.description}">
-			<p class="description lead mb-4">
-				{poll.description -> f:format.nl2br()}
-			</p>
-		</f:if>
-		<f:if condition="{poll.link}">
-			<p class="link lead my-4">
-				<f:translate key="label.moreInfo" />: <f:link.external uri="{poll.link}" target="_blank" class="external">{poll.link -> f:format.crop(maxCharacters:48)}</f:link.external>
-			</p>
-		</f:if>
-		<div class="t3oodle-stats d-inline-block text-left">
-			<ul class="list-unstyled my-0">
-				<li>
-					<strong><f:translate key="poll.type" />:</strong>
-					<span><f:translate key="poll.type.{poll.type}">{poll.type}</f:translate></span>
-				</li>
-				<li>
-					<strong><f:translate key="poll.status" />:</strong>
-					<span><f:translate key="poll.status.{poll.status}">{poll.status}</f:translate></span>
-				</li>
-				<li>
-					<strong><f:translate key="poll.author" />:</strong>
-					<f:render partial="Poll/AuthorInfo" arguments="{poll:poll}" />
-				</li>
-				<li>
-					<strong><f:translate key="label.amountOptions" />:</strong>
-					<span>{poll.options -> f:count()}</span>
-				</li>
-				<f:if condition="{poll.published}">
-					<li>
-						<strong><f:translate key="label.publishedAt" />:</strong>
-						<span class="date">{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
-					</li>
-				</f:if>
-				<f:if condition="{poll.finished}">
-					<li>
-						<strong><f:translate key="label.finishedAt" />:</strong>
-						<span class="date">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
-					</li>
-				</f:if>
-			</ul>
-		</div>
-	</div>
 </f:section>
 
 </html>

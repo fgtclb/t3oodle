@@ -1,0 +1,108 @@
+
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<tr>
+    <td>
+        <f:render section="columnTitle" arguments="{poll:poll}" />
+        <f:section name="columnTitle">
+            <f:link.action action="show" arguments="{poll : poll}" class="font-weight-bold poll-link">{poll.title}</f:link.action>
+            <f:if condition="!{poll -> t3oodle:permission(action:'viewingInGeneral')}">
+                <f:translate key="label.onlyVisibleForYou" />
+            </f:if>
+            <f:if condition="{poll.isCurrentUserAuthor}">
+                <t3oodle:svg class="mx-1 icon-light" path="Icons/crown-solid.svg" title="{f:translate(key:'label.youAreTheAuthor')}"/>
+            </f:if>
+            <f:if condition="{poll.hasCurrentUserVoted}">
+                <t3oodle:svg class="mx-1 icon-light" path="Icons/check-gray.svg" title="{f:translate(key:'label.alreadyVoted')}"/>
+            </f:if>
+        </f:section>
+    </td>
+    <f:if condition="{settings.list.columns.type}">
+        <td>
+            <f:render section="columnType" arguments="{poll:poll}" />
+            <f:section name="columnType">
+                <span><f:translate key="poll.type.{poll.type}">{poll.type}</f:translate></span>
+            </f:section>
+        </td>
+    </f:if>
+    <f:if condition="{settings.list.columns.status}">
+        <td>
+            <f:render section="columnStatus" arguments="{poll:poll}" />
+            <f:section name="columnStatus">
+                <span><f:translate key="poll.status.{poll.status}">{poll.status}</f:translate></span>
+
+                <f:if condition="{poll.settingVotingExpiresAt}">
+                    <t3oodle:svg class="mx-1 icon-light" path="Icons/clock-regular.svg"
+                                 title="{f:translate(key:'label.pollExpireNotice', arguments:'{0:\'{poll.settingVotingExpiresAt -> f:format.date(format:\"{settings.dateTimeFormat}\")}\'}')}" />
+                </f:if>
+
+                <f:if condition="{poll.settingSuperSecretMode}">
+                    <f:then>
+                        <t3oodle:svg class="mx-1 icon-red" path="Icons/user-secret-solid.svg"
+                                     title="{f:translate(key:'label.pollSuperSecretNotice')}"/>
+                    </f:then>
+                    <f:else>
+                        <f:if condition="{poll.settingSecretVotings} || {poll.settingSecretParticipants}">
+                            <t3oodle:svg class="mx-1 icon-light" path="Icons/user-secret-solid.svg"
+                                         title="{f:translate(key:'label.pollSecretNotice')}"/>
+                        </f:if>
+                    </f:else>
+                </f:if>
+            </f:section>
+        </td>
+    </f:if>
+    <f:if condition="{settings.list.columns.options}">
+        <td>
+            <f:render section="columnOptions" arguments="{poll:poll}" />
+            <f:section name="columnOptions">
+                {poll.options -> f:count()}
+            </f:section>
+        </td>
+    </f:if>
+    <f:if condition="{settings.list.columns.author}">
+        <td>
+            <f:render partial="Poll/AuthorInfo" arguments="{poll:poll}"/>
+        </td>
+    </f:if>
+    <f:if condition="{settings.list.columns.lastChanges}">
+        <td>
+            <f:render section="columnLastChanged" arguments="{poll:poll}" />
+            <f:section name="columnLastChanged">
+                <f:if condition="{poll.published}">
+                    <f:then>
+                        <f:spaceless>
+                            <f:if condition="{poll.finished}">
+                                <f:then>
+                                    <t3oodle:svg class="mr-1 icon-light" path="Icons/flag-checkered-solid.svg"
+                                                 title="{f:translate(key:'label.finishedAt')}"/>
+                                    <span class="date">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+                                </f:then>
+                                <f:else>
+                                    <t3oodle:svg class="mr-1 icon-light" path="Icons/clock-regular.svg"
+                                                 title="{f:translate(key:'label.publishedAt')}"/>
+                                    <span class="date">{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+                                </f:else>
+                            </f:if>
+                        </f:spaceless>
+                    </f:then>
+                    <f:else><span class="text-unpublished"><f:translate key="label.unpublished" /></span></f:else>
+                </f:if>
+            </f:section>
+        </td>
+    </f:if>
+    <f:if condition="{settings.list.columns.participants}">
+        <td>
+            <f:render section="columnVotes" arguments="{poll:poll}" />
+            <f:section name="columnVotes">
+                <f:if condition="{poll.published}">
+                    <f:then>{poll.votes -> f:count()}</f:then>
+                    <f:else>-</f:else>
+                </f:if>
+            </f:section>
+        </td>
+    </f:if>
+</tr>
+
+</html>

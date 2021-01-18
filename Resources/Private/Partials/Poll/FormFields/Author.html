@@ -1,0 +1,38 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong><f:translate key="header.form.author" /></strong>
+    </div>
+    <div class="card-body">
+        <f:if condition="{poll.author}">
+            <f:then>
+                <f:form.hidden property="author" />
+                <div>{poll.authorName}</div>
+                <div>{poll.authorMail}</div>
+            </f:then>
+            <f:else>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="t3oodle-poll-author-name"><f:translate key="poll.author_name" /><span class="required">*</span></label>
+                            <f:form.textfield id="t3oodle-poll-author-name" class="form-control" property="authorName" data="{remember:'username'}" />
+                            <f:render partial="FormFieldErrors" arguments="{for: 'poll.authorName'}" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="t3oodle-poll-author-mail"><f:translate key="poll.author_mail" /><span class="required">*</span></label>
+                            <f:form.textfield id="t3oodle-poll-author-mail" class="form-control" property="authorMail" data="{remember:'mail'}" />
+                            <f:render partial="FormFieldErrors" arguments="{for: 'poll.authorMail'}" />
+                        </div>
+                    </div>
+                </div>
+            </f:else>
+        </f:if>
+    </div>
+</div>
+
+</html>

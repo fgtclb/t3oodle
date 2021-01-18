@@ -1,0 +1,11 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:variable name="whoYouAre"><f:translate key="label.theAuthor" /></f:variable>
+<f:if condition="{poll -> t3oodle:permission(action:'administration')}">
+    <f:variable name="whoYouAre"><f:translate key="label.theAuthorOrAdmin" /></f:variable>
+</f:if>
+<f:translate key="label.youAre" /> {whoYouAre}.
+
+</html>

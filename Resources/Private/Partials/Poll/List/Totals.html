@@ -1,0 +1,14 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:variable name="count"><f:count>{polls}</f:count></f:variable>
+<p class="lead">
+    <f:switch expression="{polls -> f:count()}">
+        <f:case value="0"><f:translate key="label.pollsFound.zero" /></f:case>
+        <f:case value="1"><f:translate key="label.pollsFound.one" /></f:case>
+        <f:defaultCase><f:translate key="label.pollsFound.many" arguments="{0: '{polls -> f:count()}'}" /></f:defaultCase>
+    </f:switch>
+</p>
+
+</html>

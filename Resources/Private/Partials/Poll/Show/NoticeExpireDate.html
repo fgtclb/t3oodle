@@ -1,0 +1,28 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:if condition="{poll.settingVotingExpiresAt}">
+    <div class="alert alert-warning">
+        <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
+            <strong>
+                <t3oodle:svg class="mx-1 alert-warning" path="Icons/clock-regular.svg" />
+                <f:translate key="label.caution" />
+            </strong>
+            <f:if condition="{poll.votingExpired}">
+                <f:then>
+                    <f:translate key="label.votingIsExpired.pre" />
+                    <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>
+                    <f:translate key="label.votingIsExpired.post" />
+                </f:then>
+                <f:else>
+                    <f:translate key="label.votingWillExpire.pre" />
+                    <time class="font-weight-bold" datetime="{poll.settingVotingExpiresAt -> f:format.date(format:'%Y-%M-%d %H:%I')}">{poll.settingVotingExpiresAt -> f:format.date(format:'{settings.dateTimeFormat}')}</time>
+                    <f:translate key="label.votingWillExpire.post" />
+                </f:else>
+            </f:if>
+        </td>
+    </div>
+</f:if>
+
+</html>

@@ -1,9 +1,11 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
-<f:render partial="Poll/FormFields/General" arguments="{poll:poll}" />
-<f:render partial="Poll/FormFields/Author" arguments="{poll:poll}" />
-<f:form.hidden property="type" value="{poll.type}" />
-<f:render partial="Poll/FormFields/Type/{poll.partialName}" arguments="{poll:poll,newOptions:newOptions}" />
-<f:render partial="Poll/FormFields/Settings" arguments="{poll:poll}" />
+<div class="poll-form-fields">
+    <f:render partial="Poll/FormFields/General" arguments="{poll:poll}" />
+    <f:render partial="Poll/FormFields/Author" arguments="{poll:poll}" />
+    <f:form.hidden property="type" value="{poll.type}" />
+    <f:render partial="Poll/FormFields/Type/{poll.partialName}" arguments="{poll:poll,newOptions:newOptions}" />
+    <f:render partial="Poll/FormFields/Settings" arguments="{poll:poll}" />
+</div>
 
 </html>

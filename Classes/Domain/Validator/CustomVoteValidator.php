@@ -4,7 +4,7 @@ namespace FGTCLB\T3oodle\Domain\Validator;
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2020 Armin Vieweg <info@v.ieweg.de>
+ *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

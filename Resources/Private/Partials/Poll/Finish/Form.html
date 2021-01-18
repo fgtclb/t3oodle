@@ -6,7 +6,7 @@
     <div class="{settings.classes.tableResponsive}">
         <table class="{settings.classes.table} table-striped table-borderless">
             <thead>
-                <f:render partial="Poll/Voting/TableHead" arguments="{poll:poll, vote:vote, isFinishAction: 1}"/>
+                <f:render partial="Poll/Voting/Table/Head" arguments="{poll:poll, vote:vote, isFinishAction: 1}"/>
             </thead>
             <tbody>
             <f:for each="{poll.votes}" as="vote">

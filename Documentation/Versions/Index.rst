@@ -7,6 +7,13 @@
 Versions
 ========
 
+0.7.1
+-----
+
+- [TASK] Add wrap for poll form fields
+- [BUGFIX] Fix wrong partial references
+
+
 0.7.0
 -----
 

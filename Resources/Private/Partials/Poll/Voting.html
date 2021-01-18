@@ -74,8 +74,10 @@
                             <f:render section="yourVote" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting}" />
                         </f:if>
                         <f:for each="{poll.votes}" as="pollVote">
-                            <f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
-                                <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:pollVote}" />
+                            <f:if condition="!{poll.settingSecretVotings} || !{poll.settingSecretParticipants}">
+                                <f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
+                                    <f:render partial="Poll/Voting/Row" section="default" arguments="{vote:pollVote}" />
+                                </f:if>
                             </f:if>
                         </f:for>
                         <f:if condition="!{settings.show.showOwnVoteAtTop}">

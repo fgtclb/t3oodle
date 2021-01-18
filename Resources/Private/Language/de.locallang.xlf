@@ -370,6 +370,10 @@
 				<source>Do you really want to reset (remove all exiting votings) this poll?</source>
 				<target>Möchtest Du diese Umfrage wirklich resetten (alle bereits abgegebenen Stimmen entfernen)?</target>
 			</trans-unit>
+			<trans-unit id="label.votesLeft">
+				<source>%d vote(s) left</source>
+				<target>%d Abstimmung(en) übrig</target>
+			</trans-unit>
 
 			<trans-unit id="poll">
 				<source>Poll</source>

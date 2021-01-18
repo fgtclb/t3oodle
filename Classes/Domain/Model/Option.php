@@ -60,8 +60,14 @@ class Option extends AbstractEntity
 
     public function isFull(): bool
     {
+        $votesLeft = $this->getAmountOfLeftVotes() ?? 1;
+        return $votesLeft === 0;
+    }
+
+    public function getAmountOfLeftVotes(): ?int
+    {
         if (!$this->getPoll()->getSettingMaxVotesPerOption()) {
-            return false;
+            return null;
         }
 
         $total = 0;
@@ -76,6 +82,6 @@ class Option extends AbstractEntity
                 }
             }
         }
-        return $total >= $this->getPoll()->getSettingMaxVotesPerOption();
+        return $this->getPoll()->getSettingMaxVotesPerOption() - $total;
     }
 }

@@ -10,6 +10,11 @@
             <f:variable name="oneOptionOnlyClass"><f:if condition="{option.poll.settingMaxVotesPerParticipant} == 1">one-option-only</f:if></f:variable>
             <f:form.hidden property="optionValues.{key}.option" value="{option}" />
             <f:form.select property="optionValues.{key}.value" options="{option.checkboxStates}" value="{value}" class="t3oodle-voting-checkbox {oneOptionOnlyClass}"></f:form.select>
+            <f:if condition="{option.poll.settingMaxVotesPerOption}">
+                <div class="votes-left">
+                    <f:translate key="label.votesLeft" arguments="{0: option.amountOfLeftVotes}" />
+                </div>
+            </f:if>
         </f:else>
     </f:if>
 </html>

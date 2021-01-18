@@ -165,6 +165,9 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
 .tx-t3oodle table tr.vote {
     border-bottom: 1px solid #ddd;
 }
+.tx-t3oodle table tr.vote td {
+    position: relative;
+}
 .tx-t3oodle table th.participant,
 .tx-t3oodle table td.participant {
     border-right: 1px solid var(--dark);
@@ -185,21 +188,39 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
 }
 .tx-t3oodle .voting-status-0 {
     background: rgba(243, 17, 17, 0.15) !important;
+    color: #4e2e30 !important;
 }
 .tx-t3oodle .voting-status-0.odd {
     background: rgba(243, 17, 17, 0.25) !important;
+    color: #612a2c !important;
 }
 .tx-t3oodle .voting-status-1 {
     background: rgba(111, 229, 27, 0.25) !important;
+    color: #405f2f !important;
 }
 .tx-t3oodle .voting-status-1.odd {
     background: rgba(111, 229, 27, 0.35) !important;
+    color: #47712c !important;
 }
 .tx-t3oodle .voting-status-2 {
     background: rgba(255, 220, 0, 0.25) !important;
+    color: #645c28 !important;
 }
 .tx-t3oodle .voting-status-2.odd {
     background: rgba(255, 220, 0, 0.35) !important;
+    color: #796e23 !important;
+}
+
+.tx-t3oodle .votes-left {
+    position: absolute;
+    font-size: 0.75rem;
+    width: 100%;
+    left: 0;
+    bottom:0.45rem;
+    white-space: nowrap;
+    padding: 0 0.5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .tx-t3oodle .svg-icon {

@@ -279,6 +279,9 @@
 			<trans-unit id="label.resetConfirmation">
 				<source>Do you really want to reset (remove all exiting votings) this poll?</source>
 			</trans-unit>
+			<trans-unit id="label.votesLeft">
+				<source>%d vote(s) left</source>
+			</trans-unit>
 
 
 			<trans-unit id="poll">

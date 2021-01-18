@@ -2,6 +2,7 @@ name: t3oodle
 type: php
 docroot: ""
 php_version: "7.2"
+composer_version: "2"
 webserver_type: apache-fpm
 router_http_port: "80"
 router_https_port: "443"
@@ -151,9 +152,9 @@ timezone: Europe/Berlin
 # In this case the user must provide all such settings.
 
 # no_project_mount: false
-# (Experimental) If true, ddev will not mount the project into the web container; 
+# (Experimental) If true, ddev will not mount the project into the web container;
 # the user is responsible for mounting it manually or via a script.
-# This is to enable experimentation with alternate file mounting strategies. 
+# This is to enable experimentation with alternate file mounting strategies.
 # For advanced users only!
 
 # provider: default # Currently either "default" or "pantheon"

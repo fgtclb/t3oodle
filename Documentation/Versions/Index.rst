@@ -7,6 +7,17 @@
 Versions
 ========
 
+0.7.0
+-----
+
+- [TASK] Refactor all Fluid partials
+- [TASK] Move finish note inside the administration box
+- [TASK] Do not show empty voting rows
+- [DEVOPS] Set composer to version 2 in DDEV container
+- [FEATURE] Display amount of votes left in voting box
+- [FEATURE] Add new options "show.showOwnVoteAtTop" and "show.showAdministrationBoxAboveVotes"
+
+
 0.6.2
 -----
 

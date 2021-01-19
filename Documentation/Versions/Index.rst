@@ -7,6 +7,15 @@
 Versions
 ========
 
+0.7.2
+-----
+
+- [BUGFIX] Fix typo in Fluid template which prevents output of poll type classname
+- [BUGFIX] Show "Reset votes" button also when poll status is "closed"
+- [TASK] Respect current user's voting when displaying the amount of left votes
+- [BUGFIX] Do not disable voting for users which have already voted
+
+
 0.7.1
 -----
 

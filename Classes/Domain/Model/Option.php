@@ -64,7 +64,7 @@ class Option extends AbstractEntity
         return $votesLeft === 0;
     }
 
-    public function getAmountOfLeftVotes(): ?int
+    public function getAmountOfLeftVotes(bool $respectCurrentUser = false): ?int
     {
         if (!$this->getPoll()->getSettingMaxVotesPerOption()) {
             return null;
@@ -72,7 +72,7 @@ class Option extends AbstractEntity
 
         $total = 0;
         foreach ($this->getPoll()->getVotes() as $vote) {
-            if ($vote->getParticipantIdent() !== UserIdentUtility::getCurrentUserIdent()) {
+            if ($respectCurrentUser || $vote->getParticipantIdent() !== UserIdentUtility::getCurrentUserIdent()) {
                 foreach ($vote->getOptionValues() as $optionValue) {
                     if ($optionValue->getOption() === $this) {
                         if ($optionValue->getValue() === '1') {
@@ -83,5 +83,10 @@ class Option extends AbstractEntity
             }
         }
         return $this->getPoll()->getSettingMaxVotesPerOption() - $total;
+    }
+
+    public function getAmountOfLeftVotesRespectingCurrentUser(): ?int
+    {
+        return $this->getAmountOfLeftVotes(true);
     }
 }

@@ -155,7 +155,7 @@ class PollPermission
                 && $poll->isPublished()
                 && !$poll->isFinished()
                 && !$poll->isVotingExpired()
-                && count($poll->getAvailableOptions()) > 0;
+                && (count($poll->getAvailableOptions()) > 0 || $poll->getHasCurrentUserVoted());
         return $this->dispatch(__METHOD__, $status, $poll);
     }
 

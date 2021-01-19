@@ -196,7 +196,7 @@ class PollPermission
     {
         $status = $poll->isPublished()
                     && !$poll->isFinished()
-                    && $poll->getStatus()->equals(PollStatus::OPENED)
+                    && ($poll->getStatus()->equals(PollStatus::OPENED) || $poll->getStatus()->equals(PollStatus::CLOSED))
                     && $this->userIsAuthor($poll);
         return $this->dispatch(__METHOD__, $status, $poll);
     }

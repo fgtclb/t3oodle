@@ -176,7 +176,7 @@
 			</trans-unit>
 			<trans-unit id="label.totally">
 				<source>Totally</source>
-				<target>Ingesamt</target>
+				<target>Insgesamt</target>
 			</trans-unit>
 			<trans-unit id="label.optionOptions">
 				<source>option/s</source>
@@ -244,7 +244,7 @@
 			</trans-unit>
 			<trans-unit id="label.removeYourVote">
 				<source>Remove your vote</source>
-				<target>Entferne deine abgegebene Stimme</target>
+				<target>Entferne Deine abgegebene Stimme</target>
 			</trans-unit>
 			<trans-unit id="label.removeYourVoteConfirmation">
 				<source>Are you sure you want to remove your own vote?</source>
@@ -523,7 +523,7 @@
 			</trans-unit>
 			<trans-unit id="poll.settingVotingExpiresAt.description">
 				<source>Allows voting only until the given date and time. Also, the author can not finish the poll, until the expiration date is reached.</source>
-				<target>Erlaubt die Abgabe von Stimmen nur bis zu einem gewissen Datum in der Zukunft. Zusätzlich kann der die Abstimmung nicht beendet werden, bis das gesetzte Ablaufdatum erreicht ist.</target>
+				<target>Erlaubt die Abgabe von Stimmen nur bis zu einem gewissen Datum in der Zukunft. Zusätzlich kann die Abstimmung nicht beendet werden, bis das gesetzte Ablaufdatum erreicht ist.</target>
 			</trans-unit>
 			<trans-unit id="poll.publishDirectly.title">
 				<source>Publish direclty</source>
@@ -672,7 +672,7 @@
 			</trans-unit>
 			<trans-unit id="flash.voteSuccessfullyDeleted">
 				<source>Your voting has been successfully deleted.</source>
-				<target>Deine abgegebenen Stimme wurde erfolgreich gelöscht.</target>
+				<target>Deine abgegebene Stimme wurde erfolgreich gelöscht.</target>
 			</trans-unit>
 			<trans-unit id="flash.votesSuccessfullyDeleted">
 				<source>All existing votings (%d) have been removed. The poll is resetted.</source>
@@ -716,7 +716,7 @@
 			</trans-unit>
 			<trans-unit id="validation.1592143003">
 				<source>The schedule option value "%s" is not properly formatted!</source>
-				<target>Die Termin-Option "%s" is nicht korrekt formatiert!</target>
+				<target>Die Termin-Option "%s" ist nicht korrekt formatiert!</target>
 			</trans-unit>
 			<trans-unit id="validation.1592143004">
 				<source>Date format for schedule option is "YYYY-MM-DD". Given value "%s" is not matching!</source>
@@ -724,7 +724,7 @@
 			</trans-unit>
 			<trans-unit id="validation.1592143005">
 				<source>When you define options per day, they are not allowed to be empty!</source>
-				<target>Wenn zusätzlichen Optionen pro Tag definiert werden, dürfen diese nicht leer sein!</target>
+				<target>Wenn zusätzliche Optionen pro Tag definiert werden, dürfen diese nicht leer sein!</target>
 			</trans-unit>
 			<trans-unit id="validation.1592143006">
 				<source>Title is required!</source>
@@ -744,7 +744,7 @@
 			</trans-unit>
 			<trans-unit id="validation.1592143010">
 				<source>Link must start with http:// or (better) https://</source>
-				<target>Der Link muss mit http:// oder (besser) mit https://</target>
+				<target>Der Link muss mit http:// oder (besser) mit https:// beginnen.</target>
 			</trans-unit>
 			<trans-unit id="validation.1592143011">
 				<source>Given value is not allowed for visibility setting of poll.</source>
@@ -764,7 +764,7 @@
 			</trans-unit>
 			<trans-unit id="validation.1592143015">
 				<source>Max votes per option/participant must be a positive number or zero.</source>
-				<target>Die maximale Anzahl an Stimmen pro Option/Teilnehmer muss eine positive Zahl oder 0 sein.</target>
+				<target>Die maximale Anzahl an Stimmen pro Option und Teilnehmer muss eine positive Zahl oder 0 sein.</target>
 			</trans-unit>
 			<trans-unit id="validation.1592143016">
 				<source>The expiration date must be located in the future.</source>

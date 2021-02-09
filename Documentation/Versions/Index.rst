@@ -7,6 +7,12 @@
 Versions
 ========
 
+0.7.3
+-----
+
+- [BUGFIX] Fix small typos in German translations
+
+
 0.7.2
 -----
 

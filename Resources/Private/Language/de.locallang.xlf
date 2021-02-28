@@ -660,7 +660,7 @@
 			</trans-unit>
 			<trans-unit id="flash.noticeRemovedVotes">
 				<source>Because poll options or option related settings has been touched, %i existing votes has been removed.</source>
-				<target>Weil sich Optionen der Umfrage oder optionsrelevante Einstellungen geändert haben, wurden %i der bereits abgegebenen Stimmen entfernt.</target>
+				<target>Weil sich Optionen der Umfrage oder optionsrelevante Einstellungen geändert haben, wurden %d bereits abgegebenen Stimmen entfernt.</target>
 			</trans-unit>
 			<trans-unit id="flash.successfullyFinished">
 				<source>The poll "%s" has been successfully finished with final option "%s" chosen.</source>

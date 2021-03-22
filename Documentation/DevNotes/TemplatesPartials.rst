@@ -52,10 +52,13 @@ Partials
     - **General.html**
     - **Author.html**
     - **Settings.html**
-    - **Type/**
+    - **Options/**
 
-      - **Simple.html** Options section for simple poll
-      - **Schedule.html** Options section (with date picker) for scheduled poll
+      - **Header.html** Used in both types
+      - **Type/**
+
+        - **Simple.html** Options section for simple poll
+        - **Schedule.html** Options section (with date picker) for scheduled poll
 
   - **List/**
 

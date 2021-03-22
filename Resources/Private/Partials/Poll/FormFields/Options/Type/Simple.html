@@ -3,10 +3,7 @@
       data-namespace-typo3-fluid="true">
 
 <div class="card mb-4">
-    <div class="card-header">
-        <strong><f:translate key="header.form.options" /></strong>
-        <f:render partial="FormFieldErrors" arguments="{for: 'poll.options'}" />
-    </div>
+    <f:render partial="Poll/FormFields/Options/Header" arguments="{poll:poll}" />
     <div class="card-body">
         <f:if condition="{poll.votes -> f:count()} > 0">
             <div class="alert alert-warning">

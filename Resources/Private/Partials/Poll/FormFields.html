@@ -4,7 +4,7 @@
     <f:render partial="Poll/FormFields/General" arguments="{poll:poll}" />
     <f:render partial="Poll/FormFields/Author" arguments="{poll:poll}" />
     <f:form.hidden property="type" value="{poll.type}" />
-    <f:render partial="Poll/FormFields/Type/{poll.partialName}" arguments="{poll:poll,newOptions:newOptions}" />
+    <f:render partial="Poll/FormFields/Options/Type/{poll.partialName}" arguments="{poll:poll,newOptions:newOptions}" />
     <f:render partial="Poll/FormFields/Settings" arguments="{poll:poll}" />
 </div>
 

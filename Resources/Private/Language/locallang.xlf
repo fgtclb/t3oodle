@@ -535,7 +535,7 @@
 
 
 			<trans-unit id="validation.1592143000">
-				<source>At least two options are required.</source>
+				<source>At least one option is required.</source>
 			</trans-unit>
 			<trans-unit id="validation.1592143001">
 				<source>The option value "%s" is already used in another option.</source>

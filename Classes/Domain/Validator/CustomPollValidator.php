@@ -56,7 +56,7 @@ class CustomPollValidator extends AbstractValidator
         $options = $value->getOptions(true);
 
         // Check options count
-        if (count($options) < 2) {
+        if (count($options) < 1) {
             $isValid = false;
             $this->result->forProperty('options')->addError(
                 new Error(TranslateUtility::translate('validation.1592143000'), 1592143000)

@@ -21,6 +21,8 @@ t3oodle has got a central class controlling poll permission logic.
 - ``isDeleteAllowed($poll)``
 - ``isPublishAllowed($poll)``
 - ``isFinishAllowed($poll)``
+- ``isFinishSuggestionModeAllowed($poll)``
+- ``isSuggestNewOptionsAllowed($poll)``
 - ``isVotingAllowed($poll)``
 - ``isSeeParticipantsDuringVotingAllowed($poll)``
 - ``isSeeVotesDuringVotingAllowed($poll)``

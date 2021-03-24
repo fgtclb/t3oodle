@@ -5,8 +5,8 @@
 <f:variable name="header"><f:translate key="header.show.{poll.type}" arguments="{0: poll.title}"><f:translate key="header.show" arguments="{0: poll.title}" /></f:translate></f:variable>
 <f:if condition="{header}">
     <h1>
-        {header}
-        <f:if condition="{settings.show.showReturnLink}">
+        <f:if condition="{prepend}">{prepend}</f:if>{header}
+        <f:if condition="{settings.show.showReturnLink} && !{hideBackToList}">
             <f:link.action action="list" class="btn btn-link"><f:translate key="label.backToList" /></f:link.action>
         </f:if>
     </h1>

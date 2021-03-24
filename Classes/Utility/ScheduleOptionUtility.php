@@ -7,6 +7,7 @@ namespace FGTCLB\T3oodle\Utility;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Validation\Error;
 
 class ScheduleOptionUtility
 {
@@ -53,5 +54,22 @@ class ScheduleOptionUtility
             }
         }
         return $result;
+    }
+
+    public static function validateOptionName(string $optionName): array
+    {
+        $errors = [];
+        $parts = GeneralUtility::trimExplode(' - ', $optionName, 2);
+        if (count($parts) < 1) {
+            $isValid = false;
+            $errors[] = new Error(TranslateUtility::translate('validation.1592143003', [$optionName]), 1592143003);
+        }
+        if (isset($parts[0]) && $parts[0] && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $parts[0])) {
+            $errors[] = new Error(TranslateUtility::translate('validation.1592143004', [$optionName]), 1592143004);
+        }
+        if (isset($parts[1]) && empty(trim($parts[1]))) {
+            $errors[] = new Error(TranslateUtility::translate('validation.1592143005'), 1592143005);
+        }
+        return $errors;
     }
 }

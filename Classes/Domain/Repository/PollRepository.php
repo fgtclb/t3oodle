@@ -6,10 +6,11 @@ namespace FGTCLB\T3oodle\Domain\Repository;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Enumeration\PollType;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
-use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
@@ -78,5 +79,20 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function setControllerSettings(array $settings): void
     {
         $this->controllerSettings = $settings;
+    }
+
+    public function getPollTypeByUid(int $poll): string
+    {
+        /** @var ConnectionPool $pool */
+        $pool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $result = $pool->getQueryBuilderForTable('tx_t3oodle_domain_model_poll')
+            ->select('type')
+            ->from('tx_t3oodle_domain_model_poll')
+            ->where('uid = ' . $poll)
+            ->execute()
+            ->fetch();
+
+        $type = new PollType($result['type']);
+        return (string) $type;
     }
 }

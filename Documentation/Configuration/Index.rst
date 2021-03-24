@@ -31,6 +31,7 @@ adminUserGroupUids_                    ``string``
 countMaybeVotes_                       ``bool``     0
 allowNewSimplePolls_                   ``bool``     1
 allowNewSchedulePolls_                 ``bool``     1
+allowSuggestionMode_                   ``bool``     1
 requireAcceptedTerms_                  ``bool``     0
 termsToAccept_                         ``string``
 allowNewVotes_                         ``bool``     1
@@ -219,6 +220,21 @@ allowNewSchedulePolls
    Description
       Enables/disables creation of new scheduled polls.
 
+
+.. _allowSuggestionMode:
+
+allowSuggestionMode
+"""""""""""""""""""
+.. container:: table-row
+
+   Property
+      allowSuggestionMode
+   Data type
+      bool
+   Default
+      1
+   Description
+      Enables/disables suggestion mode setting, when creating new polls.
 
 
 .. _requireAcceptedTerms:

@@ -3,15 +3,18 @@
       data-namespace-typo3-fluid="true">
 
     <f:if condition="{poll -> t3oodle:permission(action:'edit')}">
-        <div class="alert alert-secondary mb-4">
-            <div class="buttons float-right my-2">
-                <f:render partial="Poll/Show/Administration/Buttons" arguments="{poll:poll}" />
+        <div class="alert alert-secondary mb-4 pr-2 py-1">
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="my-3">
+                    <f:render partial="Poll/Show/Administration/WhoYouAre" arguments="{poll:poll}" />
+                    <f:render partial="Poll/Show/Administration/LabelPublishStatus" arguments="{poll:poll}" />
+                    <f:render partial="Poll/Show/Administration/NoticeVotingDisabled" arguments="{poll:poll}" />
+                </p>
+
+                <div class="buttons text-right my-2">
+                    <f:render partial="Poll/Show/Administration/Buttons" arguments="{poll:poll}" />
+                </div>
             </div>
-            <p class="my-3">
-                <f:render partial="Poll/Show/Administration/WhoYouAre" arguments="{poll:poll}" />
-                <f:render partial="Poll/Show/Administration/LabelPublishStatus" arguments="{poll:poll}" />
-                <f:render partial="Poll/Show/Administration/NoticeVotingDisabled" arguments="{poll:poll}" />
-            </p>
         </div>
     </f:if>
 </html>

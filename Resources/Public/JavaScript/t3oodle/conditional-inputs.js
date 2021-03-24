@@ -6,7 +6,7 @@ tx_t3oodle._applyConditionalInputs = function (checkbox, disabledInputs, isInit)
     var disabledInput = disabledInputs[i];
     if (checkbox.checked) {
       disabledInput.readOnly = false;
-      if (!isInit && !disabledInput.previousElementSibling.type) {
+      if (!isInit && (!disabledInput.previousElementSibling || !disabledInput.previousElementSibling.type)) {
         disabledInput.focus();
       }
     } else {

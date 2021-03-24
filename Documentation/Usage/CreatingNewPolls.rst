@@ -9,8 +9,8 @@ Creating new polls
 
 There are two types of polls:
 
-- simple and
-- scheduled
+* simple and
+* scheduled
 
 Both are absolute identically, the only difference is the **new action**, which provides a date picker
 for scheduled polls.
@@ -90,6 +90,39 @@ The time is optional. You can also use any text here.
 
 .. tip::
    There is not limit of options you can add, but at some point it doesn't make fun anymore to vote for the poll.
+
+
+Suggestion mode
+~~~~~~~~~~~~~~~
+
+Since t3oodle 0.8 you can enable the suggestion mode, which allows your participants to submit own options,
+before voting.
+
+.. image:: Images/enable-suggest-mode.png
+   :alt: Enabled suggest mode
+   :width: 75%
+   :class: with-border
+
+.. note::
+   You can not disable the suggestion mode (when editing poll), after the poll is published.
+
+
+When it's enabled, and the poll author did not finish the suggestion mode yet, the poll looks like this:
+
+.. image:: Images/poll-open-for-suggestions.png
+   :alt: t3oodle poll, when status is "open for suggestions"
+   :width: 75%
+   :class: with-border
+
+
+The poll author can finish the suggestion mode in the administration box:
+
+.. image:: Images/poll-admin-box-suggestion-mode-active.png
+   :alt: Administration box, when suggestion mode is enabled and active
+   :width: 75%
+   :class: with-border
+
+After the suggestion mode is finished, the voting begins.
 
 
 Settings

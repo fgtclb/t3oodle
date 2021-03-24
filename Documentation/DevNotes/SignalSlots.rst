@@ -33,6 +33,14 @@ The following signals exist:
 * **updateBefore**
 * **updateAfter**
 * **delete**
+* **finishSuggestionMode**
+* **newSuggestion**
+* **createSuggestionBefore**
+* **createSuggestionAfter**
+* **editSuggestion**
+* **updateSuggestionBefore**
+* **updateSuggestionAfter**
+* **deleteSuggestion**
 
 
 ``\FGTCLB\T3oodle\Domain\Permission\PollPermission``

@@ -7,4 +7,32 @@
     <f:render partial="FormFieldErrors" arguments="{for: 'poll.options'}" />
 </div>
 
+<f:if condition="{settings.allowSuggestionMode} && !{poll.suggestModeFinished}">
+    <div id="suggestion-mode-toggle" class="card-body border-bottom bg-light mb-3">
+        <div class="d-flex row mx-1">
+            <div class="form-check col-lg-12">
+                <f:if condition="{poll.suggestModeEnabled} && {poll.uid} && {poll.published}">
+                    <f:then><input class="form-check-input mr-3 larger" type="checkbox" id="" checked="checked" disabled="disabled" /></f:then>
+                    <f:else>
+                        <f:form.checkbox property="suggestModeEnabled" value="1" checked="{poll.suggestModeEnabled}" class="form-check-input mr-3 larger" id="t3oodle-poll-suggestModeEnabled" />
+                    </f:else>
+                </f:if>
+                <label class="form-check-label" for="t3oodle-poll-suggestModeEnabled">
+                    <strong><f:translate key="poll.suggestModeEnabled.title" /></strong><br>
+                    <f:translate key="poll.suggestModeEnabled.description" />
+                </label>
+            </div>
+        </div>
+    </div>
+    <f:if condition="{poll.suggestModeEnabled} && {poll.uid} && {poll.published}">
+        <f:else>
+            <div data-toggle-display="#t3oodle-poll-suggestModeEnabled">
+                <div class="card-body pt-1 pb-0">
+                    <strong><f:translate key="label.suggestModeAddFirstOptions" /></strong>
+                </div>
+            </div>
+        </f:else>
+    </f:if>
+</f:if>
+
 </html>

@@ -28,6 +28,16 @@ Instead you can reset all existing votes, until the poll status is "closed":
    :width: 75%
 
 
+With enabled suggestion mode
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the suggestion mode has been enabled and is not finished yet, you can finish the suggest mode:
+
+.. image:: Images/poll-admin-box-suggestion-mode-active.png
+   :alt: Administration box, when suggestion mode is enabled and active
+   :width: 75%
+   :class: with-border
+
 
 Editing published polls
 ~~~~~~~~~~~~~~~~~~~~~~~

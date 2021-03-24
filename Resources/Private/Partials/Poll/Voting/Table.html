@@ -8,19 +8,21 @@
             <f:render partial="Poll/Voting/Table/Head" arguments="{poll:poll, vote:vote}" />
         </thead>
         <tbody>
-        <f:if condition="{settings.show.showOwnVoteAtTop}">
-            <f:render partial="Poll/Voting/Table/YourVote" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting}" />
-        </f:if>
-        <f:for each="{poll.votes}" as="pollVote">
-            <f:if condition="!{poll.settingSecretVotings} || !{poll.settingSecretParticipants}">
-                <f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
-                    <f:render partial="Poll/Voting/Row" arguments="{vote:pollVote}" />
+            <f:if condition="!{poll -> t3oodle:permission(action:'suggestNewOptions')}">
+                <f:if condition="{settings.show.showOwnVoteAtTop}">
+                    <f:render partial="Poll/Voting/Table/YourVote" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting}" />
+                </f:if>
+                <f:for each="{poll.votes}" as="pollVote">
+                    <f:if condition="!{poll.settingSecretVotings} || !{poll.settingSecretParticipants}">
+                        <f:if condition="{settings._currentUserIdent} !== {pollVote.participantIdent}">
+                            <f:render partial="Poll/Voting/Row" arguments="{vote:pollVote}" />
+                        </f:if>
+                    </f:if>
+                </f:for>
+                <f:if condition="!{settings.show.showOwnVoteAtTop}">
+                    <f:render partial="Poll/Voting/Table/YourVote" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting}" />
                 </f:if>
             </f:if>
-        </f:for>
-        <f:if condition="!{settings.show.showOwnVoteAtTop}">
-            <f:render partial="Poll/Voting/Table/YourVote" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting}" />
-        </f:if>
         </tbody>
     </table>
     <f:render partial="FormFieldErrors" arguments="{for: 'vote.optionValues'}" />

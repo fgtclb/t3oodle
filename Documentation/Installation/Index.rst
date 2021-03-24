@@ -45,7 +45,7 @@ Make sure to include the TypoScript **t3oodle Main (required)** to your template
 
 In :ref:`configuration` chapter, you see all TypoScript settings and its defaults.
 
-Because t3oodle is based on **Bootstrap CSS framework**, there is an optional TypoScript for this:
+Because t3oodle is based on **Bootstrap CSS framework v4**, there is an optional TypoScript for this:
 **t3oodle Custom Bootstrap Styles (optional)**
 
 .. note::

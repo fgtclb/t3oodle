@@ -7,8 +7,10 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
+use FGTCLB\T3oodle\Domain\Enumeration\PollType;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
+use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
@@ -18,6 +20,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 class Poll extends AbstractEntity
 {
     use DynamicUserProperties;
+    use RecordDatePropertiesTrait;
 
     /**
      * @var string
@@ -42,7 +45,7 @@ class Poll extends AbstractEntity
     /**
      * @var string
      */
-    protected $type = \FGTCLB\T3oodle\Domain\Enumeration\PollType::SIMPLE;
+    protected $type = PollType::SIMPLE;
 
     /**
      * @var string
@@ -78,6 +81,16 @@ class Poll extends AbstractEntity
     /**
      * @var bool
      */
+    protected $suggestModeEnabled = false;
+
+    /**
+     * @var bool
+     */
+    protected $isSuggestModeFinished = false;
+
+    /**
+     * @var bool
+     */
     protected $settingTristateCheckbox = false;
 
     /**
@@ -109,6 +122,7 @@ class Poll extends AbstractEntity
      * @var \DateTime|null
      */
     protected $settingVotingExpiresDate;
+
     /**
      * @var \DateTime|null
      */
@@ -295,6 +309,26 @@ class Poll extends AbstractEntity
     public function setOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $options): void
     {
         $this->options = $options;
+    }
+
+    public function isSuggestModeEnabled(): bool
+    {
+        return $this->suggestModeEnabled;
+    }
+
+    public function setSuggestModeEnabled(bool $suggestModeEnabled): void
+    {
+        $this->suggestModeEnabled = $suggestModeEnabled;
+    }
+
+    public function isSuggestModeFinished(): bool
+    {
+        return $this->isSuggestModeFinished;
+    }
+
+    public function setIsSuggestModeFinished(bool $isSuggestModeFinished): void
+    {
+        $this->isSuggestModeFinished = $isSuggestModeFinished;
     }
 
     public function isSettingTristateCheckbox(): bool
@@ -518,7 +552,7 @@ class Poll extends AbstractEntity
     public function areOptionsModified(): bool
     {
         // Check options for changes
-        $attributes = ['name', 'markToDelete', 'uid'];
+        $attributes = ['name', 'sorting', 'markToDelete', 'uid'];
         foreach ($this->getOptions() as $option) {
             $cleanProps = $option->_getCleanProperties();
             $props = $option->_getProperties();
@@ -591,6 +625,9 @@ class Poll extends AbstractEntity
         if ($this->isFinished()) {
             return new PollStatus(PollStatus::FINISHED);
         }
+        if ($this->isSuggestModeEnabled() && !$this->isSuggestModeFinished()) {
+            return new PollStatus(PollStatus::OPENED_FOR_SUGGESTIONS);
+        }
 
         $pollPermission = GeneralUtility::makeInstance(PollPermission::class);
         if ($pollPermission->isVotingAllowed($this) && count($this->getAvailableOptions()) > 0) {
@@ -602,5 +639,15 @@ class Poll extends AbstractEntity
     public function getPartialName(): string
     {
         return ucfirst($this->getType());
+    }
+
+    public function isSimplePoll(): bool
+    {
+        return $this->getType() === PollType::SIMPLE;
+    }
+
+    public function isSchedulePoll(): bool
+    {
+        return $this->getType() === PollType::SCHEDULE;
     }
 }

@@ -38,9 +38,12 @@ var tx_t3oodle = {
     this.loadScriptBySelector('conditional-inputs', 'input[data-bind-disable]');
     this.loadScriptBySelector('force-checked', 'input[data-force-checked]');
     this.loadScriptBySelector('voting-box', '.t3oodle-voting-checkbox');
+    this.loadScriptBySelector('toggle-display', '*[data-toggle-display]');
     this.loadScriptBySelector('utils-options', '.t3oodle-new-poll-option, .t3oodle-options-per-day', function () {
       tx_t3oodle.loadScriptBySelector('options-simple', '.t3oodle-new-poll-option');
       tx_t3oodle.loadScriptBySelector('options-schedule', '.t3oodle-options-per-day');
     });
+    this.loadScriptBySelector('date-picker', '*[data-date-picker]');
+    this.loadScriptBySelector('sortable-list', '*[data-sortable-list]');
   }
 };

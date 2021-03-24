@@ -47,11 +47,14 @@
                                 <f:then>
                                     <f:for each="{newOptions}" as="option" key="key" iteration="iterator">
                                         <f:form.hidden name="poll[options][{iterator.index}][name]" value="{option.name}"></f:form.hidden>
+                                        <f:form.hidden name="poll[options][{iterator.index}][sorting]" value=""></f:form.hidden>
                                     </f:for>
                                 </f:then>
                                 <f:else>
                                     <f:form.hidden name="poll[options][0][name]" value=""></f:form.hidden>
+                                    <f:form.hidden name="poll[options][0][sorting]" value=""></f:form.hidden>
                                     <f:form.hidden name="poll[options][1][name]" value=""></f:form.hidden>
+                                    <f:form.hidden name="poll[options][1][sorting]" value=""></f:form.hidden>
                                 </f:else>
                             </f:if>
                         </f:else>
@@ -61,7 +64,7 @@
         </div>
     </f:else>
     <f:then>
-        <f:render partial="Poll/FormFields/Type/Simple" arguments="{poll:poll,newOptions:newOptions}" />
+        <f:render partial="Poll/FormFields/Options/Type/Simple" arguments="{poll:poll,newOptions:newOptions}" />
     </f:then>
 </f:if>
 

@@ -6,19 +6,28 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Traits\Model\CreatorTrait;
 use FGTCLB\T3oodle\Traits\Model\MarkToDeleteTrait;
+use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Option extends AbstractEntity
 {
     use MarkToDeleteTrait;
+    use RecordDatePropertiesTrait;
+    use CreatorTrait;
 
     /**
      * @var string
      * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $name = '';
+
+    /**
+     * @var int
+     */
+    protected $sorting = 0;
 
     /**
      * @var \FGTCLB\T3oodle\Domain\Model\Poll
@@ -33,6 +42,16 @@ class Option extends AbstractEntity
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getSorting(): int
+    {
+        return $this->sorting;
+    }
+
+    public function setSorting(?int $sorting): void
+    {
+        $this->sorting = (int)$sorting;
     }
 
     public function getPoll(): ?Poll

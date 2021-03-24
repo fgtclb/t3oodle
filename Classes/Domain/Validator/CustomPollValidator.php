@@ -10,6 +10,7 @@ use FGTCLB\T3oodle\Domain\Enumeration\PollType;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\Poll;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
+use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -92,22 +93,9 @@ class CustomPollValidator extends AbstractValidator
         $isValid = true;
         $options = $value->getOptions(true);
         foreach ($options as $key => $option) {
-            $parts = GeneralUtility::trimExplode(' - ', $option->getName(), 2);
-            if (count($parts) < 1) {
-                $isValid = false;
-                $this->result->forProperty('options')->addError(
-                    new Error(TranslateUtility::translate('validation.1592143003', [$option->getName()]), 1592143003)
-                );
-            }
-            if (isset($parts[0]) && $parts[0] && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $parts[0])) {
-                $this->result->forProperty('options')->addError(
-                    new Error(TranslateUtility::translate('validation.1592143004', [$option->getName()]), 1592143004)
-                );
-            }
-            if (isset($parts[1]) && empty(trim($parts[1]))) {
-                $this->result->forProperty('options')->addError(
-                    new Error(TranslateUtility::translate('validation.1592143005'), 1592143005)
-                );
+            $validationErrors = ScheduleOptionUtility::validateOptionName($option->getName());
+            foreach ($validationErrors as $validationError) {
+                $this->result->forProperty('options')->addError($validationError);
             }
         }
         return $isValid;

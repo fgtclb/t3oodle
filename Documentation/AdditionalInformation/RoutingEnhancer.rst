@@ -24,13 +24,15 @@ The following routes are defined by t3oodle, you can define your own, if you wan
 
 https://domain.com/path/to/page
 
-- **List Action:** ``/`` or ``/123`` (when paginated)
-- **New Action:** ``/create`` or ``/create-schedule`` or ``/erstellen`` or ``/erstellen-terminfindung``
-- **Show Action:** ``/{poll-slug}``
-- **Edit Action:** ``/{poll-slug}/edit`` or ``/{poll-slug}/bearbeiten``
-- **Delete Action:** ``/{poll-slug}/delete`` or ``/{poll-slug}/loeschen``
-- **Reset Action:** ``/{poll-slug}/reset`` or ``/{poll-slug}/zuruecksetzen``
-- **Finish Action:** ``/{poll-slug}/finish`` or ``/{poll-slug}/fertigstellen``
+* **List Action:** ``/`` or ``/123`` (when paginated)
+* **New Action:** ``/create`` or ``/create-schedule`` or ``/erstellen`` or ``/erstellen-terminfindung``
+* **Show Action:** ``/{poll-slug}``
+* **Edit Action:** ``/{poll-slug}/edit`` or ``/{poll-slug}/bearbeiten``
+* **Delete Action:** ``/{poll-slug}/delete`` or ``/{poll-slug}/loeschen``
+* **Reset Action:** ``/{poll-slug}/reset`` or ``/{poll-slug}/zuruecksetzen``
+* **Finish Action:** ``/{poll-slug}/finish`` or ``/{poll-slug}/fertigstellen``
+* **Finish Suggestion Mode Action:** ``/{poll-slug}/finish-suggestion-mode`` or ``/{poll-slug}/vorschlagen-modus-beenden``
+* **Add Suggestion Action:** ``/{poll-slug}/add-suggestion`` or ``/{poll-slug}/vorschlag-erstellen``
 
 All static parts of routes are implemented by ``LocaleModifier`` aspect, to provide translations.
 

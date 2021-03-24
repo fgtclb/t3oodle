@@ -11,15 +11,17 @@
                 <f:translate key="label.editWarningForExistingVotes" arguments="{0: '{poll.votes -> f:count()}'}" />
             </div>
         </f:if>
-        <ol class="t3oodle-poll-options">
+        <ol class="t3oodle-poll-options" data-sortable-list>
             <f:variable name="lastIndex">2</f:variable>
             <f:if condition="{poll.options -> f:count()}">
                 <f:then>
                     <!-- used in edit action -->
                     <f:for each="{poll.options}" as="option" key="key" iteration="iterator">
                         <li class="t3oodle-poll-option" style="{f:if(condition:'{option.markToDelete}', then:'display: none;')}">
+                            <div class="handle"></div>
                             <f:form.hidden property="options.{key}.__identity" value="{option.uid}" />
                             <f:form.textfield class="t3oodle-new-poll-option form-control" property="options.{key}.name" value="{option.name}" placeholder="{f:translate(key:'poll.options.add')}"></f:form.textfield>
+                            <f:form.hidden property="options.{key}.sorting" value="{option.sorting}"></f:form.hidden>
                             <f:form.hidden property="options.{key}.markToDelete" value="{option.markToDelete}"></f:form.hidden>
                             <f:render section="removeButton" />
                             <f:render partial="FormFieldErrors" arguments="{for: 'poll.options.{key}.name'}" />
@@ -33,7 +35,9 @@
                         <f:then>
                             <f:for each="{newOptions}" as="option" key="key" iteration="iterator">
                                 <li>
+                                    <div class="handle"></div>
                                     <f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][{iterator.index}][name]" value="{option.name}"></f:form.textfield>
+                                    <f:form.hidden name="poll[options][{iterator.index}][sorting]" value="" />
                                     <f:render section="removeButton" />
                                     <f:render partial="FormFieldErrors" arguments="{for: 'poll.options.{iterator.index}.name'}" />
                                 </li>
@@ -42,11 +46,15 @@
                         </f:then>
                         <f:else>
                             <li>
+                                <div class="handle"></div>
                                 <f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][0][name]" value="" placeholder="{f:translate(key:'poll.options.add')}"></f:form.textfield>
+                                <f:form.hidden name="poll[options][0][sorting]" value="" />
                                 <f:render section="removeButton" />
                             </li>
                             <li>
+                                <div class="handle"></div>
                                 <f:form.textfield class="t3oodle-new-poll-option form-control" name="poll[options][1][name]" value="" placeholder="{f:translate(key:'poll.options.add')}"></f:form.textfield>
+                                <f:form.hidden name="poll[options][1][sorting]" value="" />
                                 <f:render section="removeButton" />
                             </li>
                         </f:else>

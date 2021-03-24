@@ -116,7 +116,7 @@ tx_t3oodle['options-schedule'] = function (selector) {
         for (var i2 = 0; i2 < sortedDates.length; i2++) {
           var selectedDate = sortedDates[i2];
           var li = document.createElement('li');
-          li.textContent = instance.formatDate(selectedDate, 'Y-m-d'); // TODO: Output date
+          li.textContent = instance.formatDate(selectedDate, 'Y-m-d');
           li.textContent += ' (' + instance.formatDate(selectedDate, 'D') + ')'
           ul.appendChild(li);
         }

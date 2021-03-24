@@ -1,0 +1,38 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong><f:translate key="header.form.creator" /></strong>
+    </div>
+    <div class="card-body">
+        <f:if condition="{suggestionDto.creator}">
+            <f:then>
+                <f:form.hidden property="creator" />
+                <div>{suggestionDto.creatorName}</div>
+                <div>{suggestionDto.creatorMail}</div>
+            </f:then>
+            <f:else>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="t3oodle-poll-suggestion-creator-name"><f:translate key="suggestionDto.creator_name" /><span class="required">*</span></label>
+                            <f:form.textfield id="t3oodle-poll-suggestion-creator-name" class="form-control" property="creatorName" data="{remember:'username'}" />
+                            <f:render partial="FormFieldErrors" arguments="{for: 'suggestionDto.creatorName'}" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="t3oodle-poll-suggestion-creator-mail"><f:translate key="suggestionDto.creator_mail" /><span class="required">*</span></label>
+                            <f:form.textfield id="t3oodle-poll-suggestion-creator-mail" class="form-control" property="creatorMail" data="{remember:'mail'}" />
+                            <f:render partial="FormFieldErrors" arguments="{for: 'suggestionDto.creatorMail'}" />
+                        </div>
+                    </div>
+                </div>
+            </f:else>
+        </f:if>
+    </div>
+</div>
+
+</html>

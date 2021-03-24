@@ -6,7 +6,52 @@ namespace FGTCLB\T3oodle\Domain\Repository;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\Option;
+use FGTCLB\T3oodle\Domain\Model\Poll;
+use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 
-class OptionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class OptionRepository extends Repository
 {
+    protected $defaultOrderings = ['sorting' => 'ASC'];
+
+    /**
+     * @param Poll $poll
+     * @param string $creatorIdent
+     * @return QueryResultInterface|Option[]|null
+     */
+    public function findByPollAndCreatorIdent(Poll $poll, string $creatorIdent): ?QueryResultInterface
+    {
+        if (empty($creatorIdent)) {
+            return null;
+        }
+        $query = $this->createQuery();
+        $query->matching($query->logicalAnd([
+            $query->equals('poll', $poll),
+            $query->equals('creatorIdent', $creatorIdent)
+        ]));
+        return $query->execute();
+    }
+
+    public function sortOptionsByDateTime(Poll $poll)
+    {
+        $options = $poll->getOptions()->toArray();
+        usort($options, function(Option $a, Option $b) {
+            $a2 = ScheduleOptionUtility::parseOptionName($a->getName())['dateStart'];
+            $b2 = ScheduleOptionUtility::parseOptionName($b->getName())['dateStart'];
+            if ($a2 > $b2) {
+                return 1;
+            }
+            return -1;
+        });
+
+        $i = 1;
+        /** @var Option $option */
+        foreach ($options as $option) {
+            $option->setSorting($i);
+            $option->getUid() ? $this->update($option) : $this->add($option);
+            $i *= 2;
+        }
+    }
 }

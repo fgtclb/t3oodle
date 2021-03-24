@@ -13,7 +13,12 @@ CREATE TABLE tx_t3oodle_domain_model_poll (
 	author_name varchar(255) DEFAULT '' NOT NULL,
 	author_mail varchar(255) DEFAULT '' NOT NULL,
 	author_ident varchar(128) DEFAULT '' NOT NULL,
+
 	options int(11) unsigned DEFAULT '0' NOT NULL,
+
+    suggest_mode_enabled smallint(5) unsigned DEFAULT '0' NOT NULL,
+    is_suggest_mode_finished smallint(5) unsigned DEFAULT '0' NOT NULL,
+
     is_published smallint(5) unsigned DEFAULT '0' NOT NULL,
     publish_date int(10) unsigned DEFAULT '0',
 	votes int(11) unsigned DEFAULT '0' NOT NULL,
@@ -39,7 +44,11 @@ CREATE TABLE tx_t3oodle_domain_model_option (
 
 	poll int(11) unsigned DEFAULT '0' NOT NULL,
 
-	name varchar(255) DEFAULT '' NOT NULL
+	name varchar(255) DEFAULT '' NOT NULL,
+    creator varchar(255) DEFAULT '' NOT NULL,
+    creator_name varchar(255) DEFAULT '' NOT NULL,
+    creator_mail varchar(255) DEFAULT '' NOT NULL,
+    creator_ident varchar(128) DEFAULT '' NOT NULL
 
 );
 

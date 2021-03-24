@@ -12,6 +12,7 @@ final class PollStatus extends Enumeration
 {
     const UNKNOWN = 'unknown';
     const DRAFT = 'draft';
+    const OPENED_FOR_SUGGESTIONS = 'openedForSuggestions';
     const OPENED = 'opened';
     const CLOSED = 'closed';
     const FINISHED = 'finished';

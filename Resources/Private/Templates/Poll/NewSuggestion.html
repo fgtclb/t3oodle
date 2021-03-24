@@ -1,0 +1,26 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Default"/>
+
+<f:section name="content">
+    <f:flashMessages/>
+
+    <f:render partial="Poll/Show/Header" arguments="{poll:suggestionDto.poll, hideBackToList:'1', prepend:'{f:translate(key:\'label.submitNewSuggestionForPoll\')}'}" />
+    <f:render partial="Poll/Show/Info" arguments="{poll:suggestionDto.poll}" />
+
+
+    <f:form action="createSuggestion" name="suggestionDto" object="{suggestionDto}">
+        <f:render partial="Poll/SuggestionMode/Form/Creator" arguments="{suggestionDto:suggestionDto}" />
+        <f:render partial="Poll/SuggestionMode/Form/Suggestion" arguments="{suggestionDto:suggestionDto, placeholder:'{f:translate(key:\'poll.options.add\')}'}" />
+
+        <div class="text-right">
+            <f:link.action action="show" arguments="{poll:suggestionDto.poll}" class="btn btn-link"><f:translate key="label.cancel" /></f:link.action>
+            <f:form.submit value="{f:translate(key:'label.submit')}" class="btn btn-primary" />
+        </div>
+    </f:form>
+
+</f:section>
+
+</html>

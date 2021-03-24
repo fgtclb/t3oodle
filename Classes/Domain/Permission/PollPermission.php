@@ -143,8 +143,27 @@ class PollPermission
         if ($poll->getSettingVotingExpiresAt() && !$poll->isVotingExpired()) {
             $status = false;
         } else {
-            $status = $poll->isPublished() && !$poll->isFinished() && $this->userIsAuthor($poll);
+            $status = $poll->isPublished()
+                && !$poll->isFinished()
+                && !$this->isSuggestNewOptionsAllowed($poll)
+                && $this->userIsAuthor($poll);
         }
+        return $this->dispatch(__METHOD__, $status, $poll);
+    }
+
+    public function isFinishSuggestionModeAllowed(Poll $poll): bool
+    {
+        $status = $this->isSuggestNewOptionsAllowed($poll) && $this->userIsAuthor($poll);
+        return $this->dispatch(__METHOD__, $status, $poll);
+    }
+
+    public function isSuggestNewOptionsAllowed(Poll $poll): bool
+    {
+        $status = (bool) $this->controllerSettings['allowSuggestionMode']
+            && $poll->isPublished()
+            && !$poll->isFinished()
+            && $poll->isSuggestModeEnabled()
+            && !$poll->isSuggestModeFinished();
         return $this->dispatch(__METHOD__, $status, $poll);
     }
 
@@ -154,6 +173,7 @@ class PollPermission
         $status = (empty($this->controllerSettings) || $this->controllerSettings['allowNewVotes'])
                 && $poll->isPublished()
                 && !$poll->isFinished()
+                && !$this->isSuggestNewOptionsAllowed($poll)
                 && !$poll->isVotingExpired()
                 && (count($poll->getAvailableOptions()) > 0 || $poll->getHasCurrentUserVoted());
         return $this->dispatch(__METHOD__, $status, $poll);

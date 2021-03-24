@@ -53,7 +53,20 @@ Same as for draft polls, only the poll author and administrators can see the pol
 The publish date is recorded in poll record.
 
 
-3. Voting for the poll
+3a. Open for suggestions
+========================
+
+During this phase, the participants can submit own option suggestions.
+
+.. image:: Images/poll-open-for-suggestions.png
+   :alt: t3oodle poll, when status is "open for suggestions"
+   :width: 75%
+   :class: with-border
+
+When the poll author finished the suggestion mode or the mode has not been enabled, the voting begins.
+
+
+3b. Voting for the poll
 ======================
 
 Once a poll is published, participants can see poll details and vote for it.

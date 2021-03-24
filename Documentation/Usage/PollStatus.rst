@@ -32,6 +32,19 @@ Finished
       A poll is finished, when the poll author selected a final option.
 
 
+.. _pollStatusOpenedForSuggestions:
+
+Opened for suggestions
+~~~~~~~~~~~~~~~~~~~~~~
+.. container:: table-row
+
+   Description
+      This mode is only available, when the suggestion mode has been enabled and the poll author did not finished
+      the suggestion mode, yet. During this period participants can submit own option suggestions. The poll author can
+      edit them, before finishing the suggestion mode.
+
+
+
 .. _pollStatusOpened:
 
 Opened

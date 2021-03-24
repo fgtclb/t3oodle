@@ -43,6 +43,12 @@
 			<trans-unit id="header.form.author">
 				<source>Author</source>
 			</trans-unit>
+			<trans-unit id="header.form.creator">
+				<source>Creator</source>
+			</trans-unit>
+			<trans-unit id="header.form.suggestion">
+				<source>Your suggestion</source>
+			</trans-unit>
 			<trans-unit id="header.form.options">
 				<source>Options</source>
 			</trans-unit>
@@ -243,17 +249,26 @@
 			<trans-unit id="label.finishVoting">
 				<source>Finish voting</source>
 			</trans-unit>
+			<trans-unit id="label.finishSuggestionMode">
+				<source>Finish suggestion mode</source>
+			</trans-unit>
 			<trans-unit id="label.edit">
 				<source>Edit</source>
 			</trans-unit>
 			<trans-unit id="label.delete">
 				<source>Delete</source>
 			</trans-unit>
+			<trans-unit id="label.remove">
+				<source>Remove</source>
+			</trans-unit>
 			<trans-unit id="label.deleteConfirmation">
 				<source>Do you really want to delete this poll?</source>
 			</trans-unit>
 			<trans-unit id="label.noticeAllowNewVotesDisabled">
-				<source>Note: Adding new votes has been disabled.</source>
+				<source>Note: Voting is disabled.</source>
+			</trans-unit>
+			<trans-unit id="label.becauseOfEnabledSuggestionMode">
+				<source>Because of enabled suggestion mode.</source>
 			</trans-unit>
 			<trans-unit id="label.limitPerOptionsReached">
 				<source>The limited amount of votes per option (%d) is reached, for all options.</source>
@@ -282,7 +297,57 @@
 			<trans-unit id="label.votesLeft">
 				<source>%d vote(s) left</source>
 			</trans-unit>
-
+			<trans-unit id="label.suggestModeHeadline">
+				<source>Submit suggestions</source>
+			</trans-unit>
+			<trans-unit id="label.suggestModeDescription">
+				<source>Before voting for this poll is enabled, you are able to submit option suggestions. Once the poll author finished the suggestion mode, voting begins.</source>
+			</trans-unit>
+			<trans-unit id="label.yourSuggestions">
+				<source>Your suggestions</source>
+			</trans-unit>
+			<trans-unit id="label.youSubmittedNoSuggestions">
+				<source>You have submitted no suggestion, yet.</source>
+			</trans-unit>
+			<trans-unit id="label.youSubmittedNSuggestions">
+				<source>You have submitted %d suggestions</source>
+			</trans-unit>
+			<trans-unit id="label.youSubmittedNSuggestionsSingular">
+				<source>You have submitted one suggestions</source>
+			</trans-unit>
+			<trans-unit id="label.addNewSuggestion">
+				<source>Add new suggestion</source>
+			</trans-unit>
+			<trans-unit id="label.addNewScheduledSuggestion">
+				<source>Add new schedule suggestion</source>
+			</trans-unit>
+			<trans-unit id="label.suggestModeAddFirstOptions">
+				<source>Add some first suggestions as inspiration for your participants:</source>
+			</trans-unit>
+			<trans-unit id="label.submit">
+				<source>Submit</source>
+			</trans-unit>
+			<trans-unit id="label.update">
+				<source>Update</source>
+			</trans-unit>
+			<trans-unit id="label.submitNewSuggestionForPoll">
+				<source>Submit new suggestion for poll: </source>
+			</trans-unit>
+			<trans-unit id="label.editSuggestionForPoll">
+				<source>Edit suggestion for poll: </source>
+			</trans-unit>
+			<trans-unit id="label.removeSuggestionConfirmation">
+				<source>Do you really want to remove your suggestion "%s"?</source>
+			</trans-unit>
+			<trans-unit id="label.suggestModeEnabled">
+				<source>Suggestion mode is enabled.</source>
+			</trans-unit>
+			<trans-unit id="label.noticeScheduleSuggestion">
+				<source>Note: A date is expected (e.g.: 2030-12-24). You can also append the time or custom text (e.g.: 2030-12-24 - 15:00)</source>
+			</trans-unit>
+			<trans-unit id="label.selectDate">
+				<source>Select date</source>
+			</trans-unit>
 
 			<trans-unit id="poll">
 				<source>Poll</source>
@@ -307,6 +372,9 @@
 			</trans-unit>
 			<trans-unit id="poll.status.opened">
 				<source>Opened</source>
+			</trans-unit>
+			<trans-unit id="poll.status.openedForSuggestions">
+				<source>Opened for suggestions</source>
 			</trans-unit>
 			<trans-unit id="poll.status.closed">
 				<source>Closed</source>
@@ -354,6 +422,18 @@
 				<source>Hide in lists</source>
 			</trans-unit>
 
+			<trans-unit id="poll.suggestModeEnabled.title">
+				<source>Enable suggest mode</source>
+			</trans-unit>
+			<trans-unit id="poll.suggestModeEnabled.description">
+				<source>Allows participants to submit option suggestions, before voting. Can not get disabled, once the poll is published.</source>
+			</trans-unit>
+			<trans-unit id="suggestionDto.creator_name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="suggestionDto.creator_mail">
+				<source>Mail address</source>
+			</trans-unit>
 
 			<trans-unit id="poll.settingTristateCheckbox.title">
 				<source>Yes, No, Maybe</source>
@@ -415,6 +495,9 @@
 				<source>Wk</source>
 			</trans-unit>
 			<trans-unit id="firstDayOfWeek">
+				<source>0</source>
+			</trans-unit>
+			<trans-unit id="time24hr">
 				<source>0</source>
 			</trans-unit>
 			<trans-unit id="weekday.1">
@@ -506,6 +589,9 @@
 			<trans-unit id="flash.successfullyFinished">
 				<source>The poll "%s" has been successfully finished with final option "%s" chosen.</source>
 			</trans-unit>
+			<trans-unit id="flash.successfullyFinishedSuggestionMode">
+				<source>Suggestion mode of poll "%s" has been successfully finished. Now, the poll is open for voting.</source>
+			</trans-unit>
 			<trans-unit id="flash.successfullyDeleted">
 				<source>The poll "%s" has been successfully deleted.</source>
 			</trans-unit>
@@ -520,6 +606,15 @@
 			</trans-unit>
 			<trans-unit id="flash.votingErrorOccurred">
 				<source>An error occurred while voting! Your votings have NOT been saved. Please check error messages below.</source>
+			</trans-unit>
+			<trans-unit id="flash.successfullyCreatedSuggestion">
+				<source>You suggestion "%s" has been successfully added to the poll.</source>
+			</trans-unit>
+			<trans-unit id="flash.successfullyUpdatedSuggestion">
+				<source>You suggestion "%s" has been successfully updated.</source>
+			</trans-unit>
+			<trans-unit id="flash.successfullyDeletedSuggestion">
+				<source>You suggestion "%s" has been successfully deleted.</source>
 			</trans-unit>
 
 
@@ -613,6 +708,24 @@
 			</trans-unit>
 			<trans-unit id="validation.1592143024">
 				<source>Sorry, the option "%s" is already full.</source>
+			</trans-unit>
+
+			<!-- For suggestions -->
+			<trans-unit id="validation.1616516640">
+				<source>Suggestion may not be empty</source>
+			</trans-unit>
+			<trans-unit id="validation.1616516641">
+				<source>The suggestion "%s" already exists</source>
+			</trans-unit>
+
+			<trans-unit id="validation.1616519320">
+				<source>Creator name is required!</source>
+			</trans-unit>
+			<trans-unit id="validation.1616519321">
+				<source>Creator mail is required!</source>
+			</trans-unit>
+			<trans-unit id="validation.1616519322">
+				<source>Creator mail is no valid mail address!</source>
 			</trans-unit>
 		</body>
 	</file>

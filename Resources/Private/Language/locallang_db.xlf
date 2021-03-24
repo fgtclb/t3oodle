@@ -48,6 +48,12 @@
 			<trans-unit id="tx_t3oodle_domain_model_poll.options">
 				<source>Options</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.suggest_mode_enabled">
+				<source>Enable suggest mode</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.is_suggest_mode_finished">
+				<source>Is suggest mode finished?</source>
+			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.votes">
 				<source>Votes</source>
 			</trans-unit>
@@ -99,6 +105,18 @@
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_option.name">
 				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_option.creator">
+				<source>Creator</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_option.creator_name">
+				<source>Creator Name</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_option.creator_mail">
+				<source>Creator Mail</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_option.creator_ident">
+				<source>Creator Ident</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_option.votes">
 				<source>Votes</source>

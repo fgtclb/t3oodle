@@ -33,7 +33,7 @@ return [
             'is_finished, finish_date, final_option',
     ],
     'types' => [
-        '1' => ['showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, ' .
+        '1' => ['showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, --palette--;;suggestmode, ' .
                               '--div--;' . $ll('tab.status') . ', --palette--;;publishing, --palette--;;finishing, ' .
                               '--div--;' . $ll('tab.settings') . ',--palette--;Settings;settings, ' .
                               '--div--;' . $ll('tab.votes') . ', votes, ' .
@@ -58,6 +58,9 @@ return [
         ],
         'finishing' => [
             'showitem' => 'is_finished, finish_date, final_option'
+        ],
+        'suggestmode' => [
+            'showitem' => 'suggest_mode_enabled, is_suggest_mode_finished'
         ],
     ],
     'columns' => [
@@ -133,6 +136,20 @@ return [
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
                 'enableMultiSelectFilterTextfield' => true
             ]
+        ],
+        'crdate' => [
+            'exclude' => true,
+            'label' => '',
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
+        'tstamp' => [
+            'exclude' => true,
+            'label' => '',
+            'config' => [
+                'type' => 'passthrough',
+            ],
         ],
         'title' => [
             'exclude' => true,
@@ -257,6 +274,7 @@ return [
                 'type' => 'inline',
                 'foreign_table' => 'tx_t3oodle_domain_model_option',
                 'foreign_field' => 'poll',
+                'foreign_sortby' => 'sorting',
                 'maxitems' => 9999,
                 'appearance' => [
                     'collapseAll' => 1,
@@ -266,7 +284,22 @@ return [
                     'showAllLocalizationLink' => 1
                 ],
             ],
-
+        ],
+        'suggest_mode_enabled' => [
+            'exclude' => true,
+            'label' => $ll('suggest_mode_enabled'),
+            'config' => [
+                'type' => 'check',
+                'default' => 0
+            ],
+        ],
+        'is_suggest_mode_finished' => [
+            'exclude' => true,
+            'label' => $ll('is_suggest_mode_finished'),
+            'config' => [
+                'type' => 'check',
+                'default' => 0
+            ],
         ],
         'votes' => [
             'exclude' => true,

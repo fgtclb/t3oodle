@@ -1,0 +1,28 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong><f:translate key="header.form.suggestion" /></strong>
+    </div>
+    <div class="card-body">
+        <f:form.hidden property="poll" value="{suggestionDto.poll}" />
+        <f:if condition="{suggestionDto.poll.schedulePoll}">
+            <f:then>
+                <p class="text-dark small"><f:translate key="label.noticeScheduleSuggestion" /></p>
+                <div class="d-flex t3oodle-date-picker" data-locales="{settings._calendarLocale}">
+                    <button type="button" class="btn btn-secondary mr-1 text-nowrap" data-date-picker="#poll-option-suggestion" data-toggle><f:translate key="label.selectDate" /></button>
+                    <f:form.textfield property="suggestion" class="form-control" id="poll-option-suggestion" placeholder="{placeholder}" data="{input: ''}" additionalAttributes="{autocomplete:'off'}" />
+                </div>
+                <f:render partial="FormFieldErrors" arguments="{for: 'suggestionDto.suggestion'}" />
+            </f:then>
+            <f:else>
+                <f:form.textfield property="suggestion" class="form-control" id="poll-option-suggestion" placeholder="{placeholder}" additionalAttributes="{autocomplete:'off'}" />
+                <f:render partial="FormFieldErrors" arguments="{for: 'suggestionDto.suggestion'}" />
+            </f:else>
+        </f:if>
+    </div>
+</div>
+
+</html>

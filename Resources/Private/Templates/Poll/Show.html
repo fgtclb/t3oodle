@@ -16,7 +16,7 @@
 		<f:render partial="Poll/Show/Administration" arguments="{poll:poll}" />
 	</f:if>
 
-	<f:render partial="Poll/Voting" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting}" />
+	<f:render partial="Poll/Voting" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting, mySuggestions:mySuggestions}" />
 
 	<f:if condition="!{settings.show.showAdministrationBoxAboveVotes}">
 		<f:render partial="Poll/Show/Administration" arguments="{poll:poll}" />

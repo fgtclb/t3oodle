@@ -1,0 +1,51 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="row mx-0">
+    <div class="col-md-10 col-lg-8">
+        <h2 class="h4"><f:translate key="label.suggestModeHeadline" /></h2>
+        <p><f:translate key="label.suggestModeDescription" /></p>
+
+        <h3 class="h5"><f:translate key="label.yourSuggestions" /></h3>
+        <f:if condition="{mySuggestions -> f:count()} == 0">
+            <f:then><p><f:translate key="label.youSubmittedNoSuggestions"/></p></f:then>
+            <f:else>
+                <p>
+                    <f:if condition="{mySuggestions -> f:count()} == 1">
+                        <f:then><f:translate key="label.youSubmittedNSuggestionsSingular"/></f:then>
+                        <f:else><f:translate key="label.youSubmittedNSuggestions" arguments="{0: '{mySuggestions -> f:count()}'}"/></f:else>
+                    </f:if>
+                </p>
+                <ol class="list-unstyled">
+                    <f:for each="{mySuggestions}" as="suggestedOption" iteration="iterator">
+                        <li class="p-2 {f:if(condition:'!{iterator.isEven}', then: ' bg-light')}">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="p-1 d-flex align-items-center">
+                                    <span class="pr-3 text-dark">{iterator.cycle}.</span>
+                                    <strong>{suggestedOption.name}</strong>
+                                </div>
+                                <div class="p-1 text-right">
+                                    <f:link.action class="btn btn-sm btn-secondary" action="editSuggestion" arguments="{option: suggestedOption}"><f:translate key="label.edit" /></f:link.action>
+                                    <f:variable name="deleteSuggestionConfirmationText"><f:translate key="label.removeSuggestionConfirmation" arguments="{0: '{suggestedOption.name}'}" /></f:variable>
+                                    <f:link.action class="btn btn-sm btn-danger" action="deleteSuggestion" arguments="{option: suggestedOption}" data="{confirm:'{deleteSuggestionConfirmationText}'}"><f:translate key="label.remove" /></f:link.action>
+                                </div>
+                            </div>
+                        </li>
+                    </f:for>
+                </ol>
+            </f:else>
+        </f:if>
+
+        <p>
+            <f:link.action action="newSuggestion" arguments="{poll:poll}" class="btn btn-primary">
+                <f:if condition="{poll.simplePoll}">
+                    <f:then><f:translate key="label.addNewSuggestion" /></f:then>
+                    <f:else><f:translate key="label.addNewScheduledSuggestion" /></f:else>
+                </f:if>
+            </f:link.action>
+        </p>
+    </div>
+</div>
+
+</html>

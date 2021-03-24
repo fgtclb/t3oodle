@@ -8,6 +8,7 @@ namespace FGTCLB\T3oodle\Controller;
  */
 use FGTCLB\T3oodle\Domain\Enumeration\PollType;
 use FGTCLB\T3oodle\Domain\Validator\CustomPollValidator;
+use FGTCLB\T3oodle\Exception\AccessDeniedException;
 use FGTCLB\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use FGTCLB\T3oodle\Utility\CookieUtility;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
@@ -160,6 +161,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if (!empty($newOptionValues)) {
             $this->view->assign('newOptionValues', $signal['newOptionValues']);
         }
+
+        if ($this->pollPermission->isAllowed($poll, 'suggestNewOptions')) {
+            $this->view->assign(
+                'mySuggestions',
+                $this->optionRepository->findByPollAndCreatorIdent($poll, $this->currentUserIdent) ?? []
+            );
+        }
     }
 
     /**
@@ -300,6 +308,239 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             ]);
         }
         $this->view->assign('poll', $poll);
+    }
+
+    /**
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
+     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
+     */
+    public function finishSuggestionModeAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    {
+        $this->pollPermission->isAllowed($poll, 'finishSuggestionMode', true);
+
+        $poll->setIsSuggestModeFinished(true);
+
+        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'finishSuggestionMode', [
+            'poll' => $poll,
+            'continue' => true,
+            'settings' => $this->settings,
+            'view' => $this->view,
+            'caller' => $this
+        ]);
+
+        if ($signal['continue']) {
+            $this->pollRepository->update($poll);
+            $this->addFlashMessage(
+                TranslateUtility::translate('flash.successfullyFinishedSuggestionMode', [$poll->getTitle()])
+            );
+            $this->redirect('show', null, null, ['poll' => $poll]);
+        }
+    }
+
+    /**
+     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
+     * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto
+     */
+    public function newSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll, \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null)
+    {
+        $this->pollPermission->isAllowed($poll, 'suggestNewOptions', true);
+
+        if (!$suggestionDto) {
+            $suggestionDto = GeneralUtility::makeInstance(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto::class, $poll);
+        }
+        if ($this->currentUser) {
+            $suggestionDto->setCreator($this->currentUser);
+        }
+        $this->signalSlotDispatcher->dispatch(__CLASS__, 'newSuggestion', [
+            'poll' => $poll,
+            'suggestionDto' => $suggestionDto,
+            'settings' => $this->settings,
+            'view' => $this->view,
+            'caller' => $this
+        ]);
+        $this->view->assign('suggestionDto', $suggestionDto);
+    }
+
+    /**
+     * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto
+     * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
+     */
+    public function createSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto)
+    {
+        $this->pollPermission->isAllowed($suggestionDto->getPoll(), 'suggestNewOptions', true);
+
+        if (!$this->currentUser) {
+            if (!$this->currentUserIdent) {
+                $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
+            }
+            $suggestionDto->setCreatorIdent($this->currentUserIdent);
+            CookieUtility::set('userIdent', $this->currentUserIdent);
+        } else {
+            $suggestionDto->setCreator($this->currentUser);
+            $suggestionDto->setCreatorIdent($this->currentUserIdent);
+        }
+
+        $newSuggestedOption = $suggestionDto->makeOption();
+
+        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createSuggestionBefore', [
+            'suggestionDto' => $suggestionDto,
+            'continue' => true,
+            'settings' => $this->settings,
+            'caller' => $this
+        ]);
+
+        if ($signalBefore['continue']) {
+            $this->optionRepository->add($newSuggestedOption);
+
+            if ($suggestionDto->getPoll()->isSchedulePoll()) {
+                $this->optionRepository->sortOptionsByDateTime($suggestionDto->getPoll());
+            }
+
+            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
+            $persistenceManager->persistAll();
+
+            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createSuggestionAfter', [
+                'suggestionDto' => $suggestionDto,
+                'continue' => true,
+                'settings' => $this->settings,
+                'caller' => $this
+            ]);
+
+            if ($signalAfter['continue']) {
+                $this->addFlashMessage(
+                    TranslateUtility::translate('flash.successfullyCreatedSuggestion', [$suggestionDto->getSuggestion(), $suggestionDto->getPoll()->getTitle()]),
+                    '',
+                    AbstractMessage::OK
+                );
+                $this->redirect('show', null, null, ['poll' => $suggestionDto->getPoll()->getUid()]);
+            }
+        }
+    }
+
+    /**
+     * @param \FGTCLB\T3oodle\Domain\Model\Option $option
+     * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto|null $suggestionDto
+     */
+    public function editSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Option $option, \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null)
+    {
+        $this->pollPermission->isAllowed($option->getPoll(), 'suggestNewOptions', true);
+        if ($option->getCreatorIdent() !== $this->currentUserIdent) {
+            throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
+        }
+        if (!$suggestionDto) {
+            /** @var \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto */
+            $suggestionDto = GeneralUtility::makeInstance(
+                \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto::class,
+                $option->getPoll(),
+                $option->getName(),
+                $option->getCreator(),
+                $option->getCreatorName(),
+                $option->getCreatorMail(),
+                $option->getCreatorIdent()
+            );
+        }
+
+        $this->signalSlotDispatcher->dispatch(__CLASS__, 'editSuggestion', [
+            'option' => $option,
+            'suggestionDto' => $suggestionDto,
+            'settings' => $this->settings,
+            'view' => $this->view,
+            'caller' => $this
+        ]);
+
+        $this->view->assign('suggestionDto', $suggestionDto);
+        $this->view->assign('option', $option);
+    }
+
+    /**
+     * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto
+     * @param \FGTCLB\T3oodle\Domain\Model\Option $option
+     * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
+     */
+    public function updateSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto, \FGTCLB\T3oodle\Domain\Model\Option $option)
+    {
+        $this->pollPermission->isAllowed($suggestionDto->getPoll(), 'suggestNewOptions', true);
+
+        if (!$this->currentUser) {
+            if (!$this->currentUserIdent) {
+                $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
+            }
+            CookieUtility::set('userIdent', $this->currentUserIdent);
+        }
+
+        if ($option->getCreatorIdent() !== $this->currentUserIdent) {
+            throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
+        }
+
+        $option->setName(trim($suggestionDto->getSuggestion()));
+
+        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateSuggestionBefore', [
+            'suggestionDto' => $suggestionDto,
+            'continue' => true,
+            'settings' => $this->settings,
+            'caller' => $this
+        ]);
+
+        if ($signalBefore['continue']) {
+            $this->optionRepository->update($option);
+
+            if ($suggestionDto->getPoll()->isSchedulePoll()) {
+                $this->optionRepository->sortOptionsByDateTime($suggestionDto->getPoll());
+                $this->pollRepository->update($suggestionDto->getPoll());
+            }
+
+            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
+            $persistenceManager->persistAll();
+
+            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateSuggestionAfter', [
+                'suggestionDto' => $suggestionDto,
+                'continue' => true,
+                'settings' => $this->settings,
+                'caller' => $this
+            ]);
+
+            if ($signalAfter['continue']) {
+                $this->addFlashMessage(
+                    TranslateUtility::translate('flash.successfullyUpdatedSuggestion', [$suggestionDto->getSuggestion(), $suggestionDto->getPoll()->getTitle()]),
+                    '',
+                    AbstractMessage::OK
+                );
+                $this->redirect('show', null, null, ['poll' => $suggestionDto->getPoll()->getUid()]);
+            }
+        }
+    }
+
+    /**
+     * @param \FGTCLB\T3oodle\Domain\Model\Option $option
+     */
+    public function deleteSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Option $option)
+    {
+        $poll = $option->getPoll();
+        $this->pollPermission->isAllowed($poll, 'suggestNewOptions', true);
+
+        if (!$this->currentUser) {
+            if (!$this->currentUserIdent) {
+                $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
+            }
+            CookieUtility::set('userIdent', $this->currentUserIdent);
+        }
+
+        if ($option->getCreatorIdent() !== $this->currentUserIdent) {
+            throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
+        }
+
+        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'deleteSuggestion', [
+            'option' => $option,
+            'continue' => true,
+            'settings' => $this->settings,
+            'caller' => $this
+        ]);
+
+        if ($signal['continue']) {
+            $this->optionRepository->remove($option);
+            $this->addFlashMessage(TranslateUtility::translate('flash.successfullyDeletedSuggestion', [$option->getName()]));
+            $this->redirect('show', null, null, ['poll' => $poll->getUid()]);
+        }
     }
 
     /**
@@ -548,6 +789,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     protected function removeMarkedPollOptions(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
     {
+        /** @var PersistenceManager $persistenceManager */
         $persistenceManager = $this->objectManager->get(PersistenceManager::class);
 
         foreach ($poll->getOptions()->toArray() as $option) {
@@ -555,6 +797,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             if ($option->isMarkToDelete()) {
                 $poll->removeOption($option);
                 $persistenceManager->remove($option);
+            } else {
+                $option->getUid() ? $persistenceManager->update($option) : $persistenceManager->add($option);
             }
         }
     }
@@ -575,7 +819,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $prop = $this->arguments->getArgument('poll')->getPropertyMappingConfiguration();
             $prop->allowAllProperties();
             $prop->allowProperties('options');
-            $prop->forProperty('options.*')->allowProperties('name', 'markToDelete');
+            $prop->forProperty('options.*')->allowProperties('name', 'sorting', 'markToDelete');
             $prop->allowCreationForSubProperty('options.*');
             $prop->allowModificationForSubProperty('options.*');
         }
@@ -585,29 +829,22 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $poll = $this->request->getArgument('poll');
             $pollOptions = $poll['options'];
             if ($pollOptions) {
+                $lastSorting = 0;
                 foreach ($pollOptions as $index => $pollOption) {
                     if (empty($pollOption['name'])) {
                         unset($poll['options'][$index]); // remove
                     } else {
                         $poll['options'][$index]['name'] = trim($pollOption['name']); // trim
+
+                        if (empty($pollOption['sorting'])) {
+                            $lastSorting = $lastSorting * 2;
+                            $poll['options'][$index]['sorting'] = (string)$lastSorting;
+                        } else {
+                            $lastSorting = $pollOption['sorting'];
+                        }
                     }
                     if ($pollOption['__identity'] === '') {
                         unset($poll['options'][$index]['__identity']);
-                    }
-                }
-                if ($poll['type'] === PollType::SCHEDULE) {
-                    $pollOptions = [];
-                    foreach ($poll['options'] as $option) {
-                        // Search for times with single hour digit
-                        $option['name'] = preg_replace('/(\D)(\d\:\d\d)/', '${1}0${2}', $option['name']);
-                        $pollOptions[] = $option;
-                    }
-                    // Order options alphabetically
-                    $status = usort($pollOptions, function (array $a, array $b) {
-                        return strcmp($a['name'], $b['name']);
-                    });
-                    if ($status) {
-                        $poll['options'] = $pollOptions;
                     }
                 }
             }
@@ -650,13 +887,27 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     private function addCalendarLabelsToSettings()
     {
-        if ($this->arguments->hasArgument('poll')) {
+        $poll = null;
+        if ($this->arguments->hasArgument('option') && $this->request->hasArgument('option')) {
+            $option = $this->request->getArgument('option');
+            if (is_numeric($option) && $this->arguments->hasArgument('suggestionDto')) {
+                /** @var \FGTCLB\T3oodle\Domain\Model\Option $option */
+                $option = $this->optionRepository->findByUid($option);
+                $poll = $option->getPoll()->getUid();
+            }
+        }
+        if ($this->arguments->hasArgument('poll') || $poll) {
             $pollType = $this->request->hasArgument('pollType')
                 ? $this->request->getArgument('pollType')
                 : null;
+            if (!$poll && $this->request->hasArgument('poll')) {
+                $poll = $this->request->getArgument('poll');
+            }
+            if (is_numeric($poll) && $this->arguments->hasArgument('suggestionDto')) {
+                $pollType = $this->pollRepository->getPollTypeByUid($poll);
+            }
 
             if (!$pollType) {
-                $poll = $this->request->getArgument('poll');
                 if (!is_array($poll) && !is_object($poll)) {
                     return;
                 }
@@ -697,7 +948,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                         ],
                     ],
                     'weekAbbreviation' => LocalizationUtility::translate('week', 'T3oodle'),
-                    'firstDayOfWeek' => LocalizationUtility::translate('firstDayOfWeek', 'T3oodle'),
+                    'firstDayOfWeek' => (int)LocalizationUtility::translate('firstDayOfWeek', 'T3oodle'),
+                    'time_24hr' => (bool) LocalizationUtility::translate('time24hr', 'T3oodle'),
                 ]);
             }
         }

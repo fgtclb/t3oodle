@@ -5,6 +5,7 @@
 <f:if condition="{poll -> t3oodle:permission(action:'publish')}">
     <f:then>
         <f:translate key="label.pollNotPublishedYet" />
+        <f:if condition="{poll.suggestModeEnabled}"> <f:translate key="label.suggestModeEnabled" /></f:if>
     </f:then>
     <f:else>
         <strong><f:translate key="label.pollPublished" /><f:if condition="{poll.visibility} == 'not_listed'"><f:translate key="label.butNotListed" /></f:if>.</strong>

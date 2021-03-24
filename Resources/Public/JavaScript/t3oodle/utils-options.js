@@ -49,5 +49,8 @@ tx_t3oodle._buildDynamicOptionInputs = function (newOptionFields, inputClassName
       },
       false
     );
+    var event = new Event('addedNewInputs');
+    event.newInput = clone;
+    window.dispatchEvent(event);
   }
 };

@@ -16,31 +16,25 @@
     <div class="t3oodle-stats d-inline-block text-left">
         <ul class="list-unstyled my-0">
             <li>
-                <strong><f:translate key="poll.type" />:</strong>
-                <span><f:translate key="poll.type.{poll.type}">{poll.type}</f:translate></span>
+                <strong><f:translate key="poll.type" />: </strong><span><f:translate key="poll.type.{poll.type}">{poll.type}</f:translate></span>
             </li>
             <li>
-                <strong><f:translate key="poll.status" />:</strong>
-                <span><f:translate key="poll.status.{poll.status}">{poll.status}</f:translate></span>
+                <strong><f:translate key="poll.status" />: </strong><span><f:translate key="poll.status.{poll.status}">{poll.status}</f:translate></span>
             </li>
             <li>
-                <strong><f:translate key="poll.author" />:</strong>
-                <f:render partial="Poll/AuthorInfo" arguments="{poll:poll}" />
+                <strong><f:translate key="poll.author" />: </strong><f:render partial="Poll/AuthorInfo" arguments="{poll:poll}" />
             </li>
             <li>
-                <strong><f:translate key="label.amountOptions" />:</strong>
-                <span>{poll.options -> f:count()}</span>
+                <strong><f:translate key="label.amountOptions" />: </strong><span>{poll.options -> f:count()}</span>
             </li>
             <f:if condition="{poll.published}">
                 <li>
-                    <strong><f:translate key="label.publishedAt" />:</strong>
-                    <span class="date">{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+                    <strong><f:translate key="label.publishedAt" />: </strong><span class="date">{poll.publishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
                 </li>
             </f:if>
             <f:if condition="{poll.finished}">
                 <li>
-                    <strong><f:translate key="label.finishedAt" />:</strong>
-                    <span class="date">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
+                    <strong><f:translate key="label.finishedAt" />: </strong><span class="date">{poll.finishDate -> f:format.date(format:'{settings.dateTimeFormat}')}</span>
                 </li>
             </f:if>
         </ul>

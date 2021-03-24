@@ -28,11 +28,37 @@ return [
     ],
     'types' => [
         '1' => [
-            'showitem' => 'name, poll, ' .
+            'showitem' => 'name, --palette--;;creator, poll, ' .
                           '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access'
         ],
     ],
+    'palettes' => [
+        'creator' => [
+            'showitem' => 'creator,--linebreak--,creator_name,creator_mail,creator_ident'
+        ],
+    ],
     'columns' => [
+        'crdate' => [
+            'exclude' => true,
+            'label' => '',
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
+        'tstamp' => [
+            'exclude' => true,
+            'label' => '',
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
+        'sorting' => [
+            'exclude' => true,
+            'label' => '',
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
         'name' => [
             'exclude' => true,
             'label' => $ll('name'),
@@ -40,6 +66,50 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required'
+            ],
+        ],
+        'creator' => [
+            'exclude' => true,
+            'label' => $ll('creator'),
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'fe_users',
+                'maxitems' => 1,
+                'readOnly' => true,
+                'items' => [
+                    ['', 0]
+                ],
+            ],
+        ],
+        'creator_name' => [
+            'exclude' => true,
+            'label' => $ll('creator_name'),
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+                'readOnly' => true,
+            ],
+        ],
+        'creator_mail' => [
+            'exclude' => true,
+            'label' => $ll('creator_mail'),
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim,email',
+                'readOnly' => true,
+            ],
+        ],
+        'creator_ident' => [
+            'exclude' => true,
+            'label' => $ll('creator_ident'),
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+                'readOnly' => true
             ],
         ],
         'poll' => [

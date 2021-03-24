@@ -2,10 +2,14 @@
       xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<f:form action="vote" name="vote" object="{vote}" class="voting mb-5">
+<f:form action="vote" name="vote" object="{vote}" class="voting mb-3">
     <f:form.hidden property="poll" value="{poll}" />
     <f:render partial="Poll/Voting/Table" arguments="{poll:poll, vote:vote, newOptionValues:newOptionValues, validationErrorsExisting:validationErrorsExisting}" />
     <f:render partial="Poll/Voting/Summary" arguments="{poll:poll, vote:vote}" />
 </f:form>
+
+<f:if condition="{poll -> t3oodle:permission(action:'suggestNewOptions')}">
+    <f:render partial="Poll/SuggestionMode/Overview" arguments="{poll:poll, mySuggestions:mySuggestions}" />
+</f:if>
 
 </html>

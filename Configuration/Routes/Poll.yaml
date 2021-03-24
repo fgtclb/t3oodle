@@ -48,6 +48,14 @@ routeEnhancers:
               _controller: 'Poll::finish'
               _arguments:
                   poll-title: poll
+            - routePath: '/{poll-title}/{label-finish-suggestion-mode}'
+              _controller: 'Poll::finishSuggestionMode'
+              _arguments:
+                  poll-title: poll
+            - routePath: '/{poll-title}/{label-add-suggestion}'
+              _controller: 'Poll::newSuggestion'
+              _arguments:
+                  poll-title: poll
 
         defaultController: 'Poll::list'
         defaults:
@@ -104,3 +112,15 @@ routeEnhancers:
                 localeMap:
                     -   locale: 'de_.*'
                         value: 'fertigstellen'
+            label-finish-suggestion-mode:
+                type: LocaleModifier
+                default: 'finish-suggestion-mode'
+                localeMap:
+                    -   locale: 'de_.*'
+                        value: 'vorschlagen-modus-beenden'
+            label-add-suggestion:
+                type: LocaleModifier
+                default: 'add-suggestion'
+                localeMap:
+                    -   locale: 'de_.*'
+                        value: 'vorschlag-erstellen'

@@ -6,4 +6,8 @@
     <br><strong class="text-info"><f:translate key="label.noticeAllowNewVotesDisabled" /></strong>
 </f:if>
 
+<f:if condition="{poll -> t3oodle:permission(action:'suggestNewOptions')}">
+    <br><strong class="text-info"><f:translate key="label.becauseOfEnabledSuggestionMode" /></strong>
+</f:if>
+
 </html>

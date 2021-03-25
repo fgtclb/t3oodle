@@ -7,6 +7,34 @@
 Versions
 ========
 
+0.8.0
+-----
+
+- [TASK][!] Rename "findByPollAndParticipantIdent" to "findOneByPollAndParticipantIdent"
+- [DEVOPS] Add and apply phpstan (fixes)
+- [DEVOPS] Add and apply php-cs-fixer
+- [DEVOPS] Provide local .Build and add .editorconfig
+- [DEVOPS] Fix deprecated "composer init" usage in DDEV install commands
+- [FEATURE][!!!] Suggestion mode
+
+  - added new actions for suggestion mode to PollController
+  - added new PollStatus value "openedForSuggestions"
+  - added "sorting" to option model and use in TCA and repo as default ordering
+  - make options sortable using drag&drop (using new js library "html5sortable")
+  - add new poll permissions:
+
+    - isFinishSuggestionModeAllowed
+    - isSuggestNewOptionsAllowed
+
+  - provide JS drag & drop to reorder options
+  - provide toggle-display JS functionality
+  - bugfixes and markup improvements
+
+- [TASK] Add "Poll/FormFields/Options/Header.html" partial
+- [TASK] Allow polls with just one option
+- [BUGFIX] Fixed typo
+
+
 0.7.3
 -----
 

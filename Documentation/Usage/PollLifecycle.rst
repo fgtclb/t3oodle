@@ -67,7 +67,7 @@ When the poll author finished the suggestion mode or the mode has not been enabl
 
 
 3b. Voting for the poll
-======================
+=======================
 
 Once a poll is published, participants can see poll details and vote for it.
 

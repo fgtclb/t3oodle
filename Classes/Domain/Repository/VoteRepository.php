@@ -12,7 +12,7 @@ use FGTCLB\T3oodle\Domain\Model\Vote;
 
 class VoteRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-    public function findByPollAndParticipantIdent(Poll $poll, string $participantIdent): ?Vote
+    public function findOneByPollAndParticipantIdent(Poll $poll, string $participantIdent): ?Vote
     {
         if (empty($participantIdent)) {
             return null;

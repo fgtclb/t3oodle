@@ -135,7 +135,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->view->assign('validationErrorsExisting', true);
         }
 
-        $vote = $this->voteRepository->findByPollAndParticipantIdent($poll, $this->currentUserIdent);
+        $vote = $this->voteRepository->findOneByPollAndParticipantIdent($poll, $this->currentUserIdent);
         if (!$vote) {
             $vote = GeneralUtility::makeInstance(\FGTCLB\T3oodle\Domain\Model\Vote::class);
             $vote->setPoll($poll);
@@ -195,7 +195,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
 
         if (!$vote->getUid() &&
-            $this->voteRepository->findByPollAndParticipantIdent($vote->getPoll(), $this->currentUserIdent)
+            $this->voteRepository->findOneByPollAndParticipantIdent($vote->getPoll(), $this->currentUserIdent)
         ) {
             $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
         }

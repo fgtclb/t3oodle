@@ -38,4 +38,3 @@ All static parts of routes are implemented by ``LocaleModifier`` aspect, to prov
 
 .. note::
    Caution when editing the site configuration ``config.yaml`` proper indention is required!
-

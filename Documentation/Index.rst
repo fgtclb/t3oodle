@@ -1,4 +1,4 @@
-﻿.. include:: Includes.txt
+.. include:: Includes.txt
 
 
 .. _start:
@@ -9,40 +9,40 @@ t3oodle
 
 .. only:: html
 
-	:Classification:
-		t3oodle
+    :Classification:
+        t3oodle
 
-	:Version:
-		|release|
+    :Version:
+        |release|
 
-	:Language:
-		en
+    :Language:
+        en
 
-	:Description:
-		Simple poll extension for TYPO3 CMS. t3oodle allows your frontend users to create new polls and vote for existing ones.
+    :Description:
+        Simple poll extension for TYPO3 CMS. t3oodle allows your frontend users to create new polls and vote for existing ones.
 
-	:Keywords:
-		TYPO3 CMS, poll, doodle, vote
+    :Keywords:
+        TYPO3 CMS, poll, doodle, vote
 
-	:Copyright:
-		2020-2021
+    :Copyright:
+        2020-2021
 
-	:Author:
-		Armin Vieweg
+    :Author:
+        Armin Vieweg
 
-	:Email:
-		info@v.ieweg.de
+    :Email:
+        info@v.ieweg.de
 
-	:License:
-		This document is published under the Open Content License available from http://www.opencontent.org/opl.shtml
+    :License:
+        This document is published under the Open Content License available from http://www.opencontent.org/opl.shtml
 
-	:Rendered:
-		|today|
+    :Rendered:
+        |today|
 
-	The content of this document is related to TYPO3, a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
+    The content of this document is related to TYPO3, a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
 
 
-	**Table of Contents**
+    **Table of Contents**
 
 .. toctree::
         :maxdepth: 2
@@ -74,4 +74,3 @@ t3oodle
       :width: 40%
       :target: https://www.fes.de/
       :alt: Friedrich-Ebert-Stiftung e. V.
-

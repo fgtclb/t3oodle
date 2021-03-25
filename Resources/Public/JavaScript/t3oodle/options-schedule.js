@@ -156,4 +156,3 @@ tx_t3oodle['options-schedule'] = function (selector) {
   });
 
 };
-

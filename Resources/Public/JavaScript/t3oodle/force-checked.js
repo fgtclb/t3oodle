@@ -31,4 +31,3 @@ tx_t3oodle['force-checked'] = function (selector) {
     }
   }
 };
-

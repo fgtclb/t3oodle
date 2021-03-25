@@ -96,4 +96,3 @@ Partials
 
       * **Head.html**
       * **YourVote.html**
-

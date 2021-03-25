@@ -26,4 +26,3 @@ tx_t3oodle['sortable-list'] = function (selector) {
         });
     });
 };
-

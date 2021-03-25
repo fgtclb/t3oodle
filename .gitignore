@@ -3,3 +3,7 @@
 /Documentation.tmpl/
 /gource*
 /TODO*
+/.Build/
+/*.cache
+/*.zip
+/composer.lock

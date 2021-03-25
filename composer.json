@@ -17,6 +17,9 @@
         "ext-json": "*",
         "typo3/cms-core": "^9.5.20 || ^10.4.6"
     },
+    "require-dev": {
+        "armin/editorconfig-cli": "^1.0"
+    },
     "autoload": {
         "psr-4": {
             "FGTCLB\\T3oodle\\": "Classes"
@@ -24,5 +27,26 @@
     },
     "replace": {
         "typo3-ter/t3oodle": "self.version"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "t3oodle",
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/public",
+            "app-dir": ".Build"
+        }
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor"
+    },
+    "scripts": {
+        "check": [
+            "@ec"
+        ],
+        "fix": [
+            "@ec:fix"
+        ],
+        "ec": "ec -n -e Documentation-GENERATED -e .Build",
+        "ec:fix": "ec -n -e Documentation-GENERATED -e .Build --fix"
     }
 }

@@ -74,4 +74,3 @@ tx_t3oodle['date-picker'] = function (selector) {
         });
     });
 };
-

@@ -515,5 +515,3 @@ classes
               tableResponsive = table-responsive
               secret = secret
           }
-
-

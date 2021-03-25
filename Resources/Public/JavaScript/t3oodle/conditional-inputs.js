@@ -46,4 +46,3 @@ tx_t3oodle['conditional-inputs'] = function (selector) {
     tx_t3oodle._applyConditionalInputs(relatedElement, relatedElement.related, true);
   }
 };
-

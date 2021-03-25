@@ -27,7 +27,7 @@ class UpdatePollSlug
         bool $continue,
         array $settings,
         PollController $caller
-    ) {
+    ): void {
         $this->updatePollSlug($poll);
     }
 
@@ -38,7 +38,7 @@ class UpdatePollSlug
         bool $continue,
         array $settings,
         PollController $caller
-    ) {
+    ): void {
         $visibilityBefore = $poll->_getCleanProperty('visibility');
         $visibilityAfter = $poll->getVisibility();
         $titleBefore = $poll->_getCleanProperty('title');

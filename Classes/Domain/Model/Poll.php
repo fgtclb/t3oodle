@@ -236,7 +236,7 @@ class Poll extends AbstractEntity
         return $this->author;
     }
 
-    public function setAuthor(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $author)
+    public function setAuthor(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $author): void
     {
         $this->author = $author;
     }
@@ -293,11 +293,12 @@ class Poll extends AbstractEntity
     /**
      * @param bool $skipMarkedToDeleted When true, only options are returned, which are not marked to get deleted
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Option> $options
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options
      */
     public function getOptions($skipMarkedToDeleted = false): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         if ($skipMarkedToDeleted) {
+            /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options */
             $options = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Persistence\ObjectStorage::class);
             foreach ($this->options as $option) {
                 if (!$option->isMarkToDelete()) {
@@ -451,6 +452,9 @@ class Poll extends AbstractEntity
         $this->votes->detach($voteToRemove);
     }
 
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage|Vote[]
+     */
     public function getVotes(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         return $this->votes;
@@ -471,6 +475,7 @@ class Poll extends AbstractEntity
 
     public function getHasCurrentUserVoted(): bool
     {
+        /** @var Vote $vote */
         foreach ($this->getVotes() as $vote) {
             if ($vote->getParticipantIdent() === UserIdentUtility::getCurrentUserIdent()) {
                 return true;
@@ -537,6 +542,7 @@ class Poll extends AbstractEntity
     {
         $settings = SettingsUtility::getTypoScriptSettings();
         $optionTotals = [];
+        /** @var Vote $vote */
         foreach ($this->getVotes() as $vote) {
             foreach ($vote->getOptionValues() as $optionValue) {
                 if ($optionValue->getOption()) {
@@ -559,6 +565,7 @@ class Poll extends AbstractEntity
     {
         // Check options for changes
         $attributes = ['name', 'sorting', 'markToDelete', 'uid'];
+        /** @var Option $option */
         foreach ($this->getOptions() as $option) {
             $cleanProps = $option->_getCleanProperties();
             $props = $option->_getProperties();
@@ -605,6 +612,7 @@ class Poll extends AbstractEntity
                 $usedOptionCounts[$option->getUid()] = 0;
             }
 
+            /** @var Vote $vote */
             foreach ($this->getVotes() as $vote) {
                 foreach ($vote->getOptionValues() as $optionValue) {
                     if ('1' === $optionValue->getValue() || ($countMaybeVotes && '2' === $optionValue->getValue())) {

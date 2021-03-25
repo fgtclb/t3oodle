@@ -36,7 +36,7 @@ final class CookieUtility
      * @param string $key
      * @param string $value
      */
-    public static function set($key, $value)
+    public static function set($key, $value): void
     {
         $cookieExpireDate = time() + self::COOKIE_LIFETIME_DAYS * 24 * 60 * 60;
         setcookie(
@@ -60,8 +60,8 @@ final class CookieUtility
     {
         $result = '';
         $cookieDomain = $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieDomain'];
-        if (!empty($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['cookieDomain'])) {
-            $cookieDomain = $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['cookieDomain'];
+        if (!empty($GLOBALS['TYPO3_CONF_VARS']['FE']['cookieDomain'])) {
+            $cookieDomain = $GLOBALS['TYPO3_CONF_VARS']['FE']['cookieDomain'];
         }
         if ($cookieDomain) {
             if ('/' === $cookieDomain[0]) {

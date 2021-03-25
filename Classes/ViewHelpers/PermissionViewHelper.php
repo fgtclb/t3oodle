@@ -41,7 +41,7 @@ class PermissionViewHelper extends AbstractViewHelper
         $this->registerArgument('negate', 'bool', 'Negates the result, when true', false, false);
     }
 
-    private static function init(array $arguments, RenderingContextInterface $renderingContext)
+    private static function init(array $arguments, RenderingContextInterface $renderingContext): void
     {
         $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
         self::$permission = GeneralUtility::makeInstance(

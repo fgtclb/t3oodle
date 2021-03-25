@@ -16,7 +16,7 @@ trait MarkToDeleteTrait
      */
     protected $markToDelete = false;
 
-    public function setMarkToDelete(bool $value = true)
+    public function setMarkToDelete(bool $value = true): void
     {
         $this->markToDelete = $value;
     }

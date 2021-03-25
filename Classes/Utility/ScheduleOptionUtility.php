@@ -60,7 +60,7 @@ class ScheduleOptionUtility
     public static function validateOptionName(string $optionName): array
     {
         $errors = [];
-        $parts = GeneralUtility::trimExplode(' - ', $optionName, 2);
+        $parts = GeneralUtility::trimExplode(' - ', $optionName, true, 2);
         if (count($parts) < 1) {
             $isValid = false;
             $errors[] = new Error(TranslateUtility::translate('validation.1592143003', [$optionName]), 1592143003);

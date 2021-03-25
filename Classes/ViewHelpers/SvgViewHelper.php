@@ -23,6 +23,9 @@ class SvgViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 
+    /**
+     * @var array
+     */
     protected static $cache = [];
 
     public function initializeArguments()

@@ -25,6 +25,9 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         'publishDate' => 'DESC',
     ];
 
+    /**
+     * @var array
+     */
     private $controllerSettings = [];
 
     public function findPolls(

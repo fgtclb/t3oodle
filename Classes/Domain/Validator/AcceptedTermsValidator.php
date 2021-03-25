@@ -12,6 +12,11 @@ class AcceptedTermsValidator extends AbstractValidator
 {
     protected $acceptsEmptyValues = false;
 
+    /**
+     * @param bool|null $value
+     *
+     * @return bool
+     */
     protected function isValid($value)
     {
         $settings = SettingsUtility::getTypoScriptSettings();

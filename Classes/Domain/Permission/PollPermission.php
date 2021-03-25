@@ -47,6 +47,11 @@ class PollPermission
         $this->signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
     }
 
+    /**
+     * @param mixed $subject Is almost always Poll, but can also be Vote (see self::isDeleteOwnVoteAllowed)
+     *
+     * @throws AccessDeniedException
+     */
     public function isAllowed($subject, string $action, bool $throwException = false): bool
     {
         $getter = 'is' . ucfirst($action) . 'Allowed';

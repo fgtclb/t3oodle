@@ -29,7 +29,7 @@ class CustomPollValidator extends AbstractValidator
     ];
 
     /**
-     * @param Poll $value
+     * @param Poll|null $value
      *
      * @return bool
      */
@@ -93,6 +93,7 @@ class CustomPollValidator extends AbstractValidator
     protected function checkScheduleOptions(Poll $value): bool
     {
         $isValid = true;
+        /** @var \FGTCLB\T3oodle\Domain\Model\Option[] $options */
         $options = $value->getOptions(true);
         foreach ($options as $key => $option) {
             $validationErrors = ScheduleOptionUtility::validateOptionName($option->getName());

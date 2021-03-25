@@ -34,10 +34,10 @@ class OptionRepository extends Repository
         return $query->execute();
     }
 
-    public function sortOptionsByDateTime(Poll $poll)
+    public function updateSortingOfOptionsByDateTime(Poll $poll): void
     {
         $options = $poll->getOptions()->toArray();
-        usort($options, function (Option $a, Option $b) {
+        usort($options, static function (Option $a, Option $b) {
             $a2 = ScheduleOptionUtility::parseOptionName($a->getName())['dateStart'];
             $b2 = ScheduleOptionUtility::parseOptionName($b->getName())['dateStart'];
             if ($a2 > $b2) {

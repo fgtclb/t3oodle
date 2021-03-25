@@ -31,7 +31,7 @@ class Option extends AbstractEntity
     protected $sorting = 0;
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\Poll
+     * @var \FGTCLB\T3oodle\Domain\Model\Poll|null
      */
     protected $poll;
 
@@ -72,7 +72,7 @@ class Option extends AbstractEntity
             0 => 'no',
             1 => 'yes',
         ];
-        if ($this->poll && $this->poll->isSettingTristateCheckbox()) {
+        if ($this->getPoll() && $this->poll->isSettingTristateCheckbox()) {
             $states[2] = 'maybe';
         }
 

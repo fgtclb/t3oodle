@@ -15,6 +15,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UserIdentUtility
 {
+    /**
+     * @var string|null
+     */
     private static $currentUserIdent;
 
     public static function getCurrentUserIdent(): ?string
@@ -41,7 +44,9 @@ class UserIdentUtility
     public static function getCurrentUserAspect(): UserAspect
     {
         $context = GeneralUtility::makeInstance(Context::class);
+        /** @var UserAspect $userAspect */
+        $userAspect = $context->getAspect('frontend.user');
 
-        return $context->getAspect('frontend.user');
+        return $userAspect;
     }
 }

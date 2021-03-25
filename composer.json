@@ -19,7 +19,10 @@
     },
     "require-dev": {
         "armin/editorconfig-cli": "^1.0",
-        "friendsofphp/php-cs-fixer": "^2.18"
+        "friendsofphp/php-cs-fixer": "^2.18",
+        "phpstan/phpstan": "^0.12.80",
+        "jangregor/phpstan-prophecy": "^0.8",
+        "saschaegerer/phpstan-typo3": "^0.13"
     },
     "autoload": {
         "psr-4": {
@@ -43,7 +46,8 @@
     "scripts": {
         "check": [
             "@ec",
-            "@phpcs"
+            "@phpcs",
+            "@phpstan"
         ],
         "fix": [
             "@ec:fix",
@@ -51,6 +55,7 @@
         ],
         "phpcs": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi --verbose --diff --dry-run",
         "phpcs:fix": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi",
+        "phpstan": "phpstan analyse -c Resources/Private/Build/phpstan.neon",
         "ec": "ec -n -e Documentation-GENERATED -e .Build",
         "ec:fix": "ec -n -e Documentation-GENERATED -e .Build --fix"
     }

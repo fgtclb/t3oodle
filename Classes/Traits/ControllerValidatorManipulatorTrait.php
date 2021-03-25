@@ -13,15 +13,16 @@ use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
 
 trait ControllerValidatorManipulatorTrait
 {
-    private function disableValidator(string $argument, string $validatorToRemove)
+    private function disableValidator(string $argument, string $validatorToRemove): void
     {
         if ($this->arguments->hasArgument($argument)) {
+            /** @var ConjunctionValidator $argumentValidator */
             $argumentValidator = $this->arguments->getArgument($argument)->getValidator();
             $this->removeValidatorRecursively($argumentValidator, $validatorToRemove);
         }
     }
 
-    private function removeValidatorRecursively(ConjunctionValidator $validator, string $validatorToRemove)
+    private function removeValidatorRecursively(ConjunctionValidator $validator, string $validatorToRemove): void
     {
         $markToRemove = [];
         foreach ($validator->getValidators() as $subValidator) {

@@ -14,9 +14,12 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 
 class SettingsUtility
 {
+    /**
+     * @var array|null
+     */
     private static $settings;
 
-    public static function getTypoScriptSettings()
+    public static function getTypoScriptSettings(): array
     {
         if (self::$settings) {
             return self::$settings;

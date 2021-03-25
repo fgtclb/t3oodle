@@ -17,6 +17,8 @@ use FGTCLB\T3oodle\Utility\TranslateUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Request;
+use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -70,7 +72,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected $signalSlotDispatcher;
 
-    public function initializeAction()
+    public function initializeAction(): void
     {
         $this->initializeCurrentUserOrUserIdent();
 
@@ -86,17 +88,20 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->settings['_dynamic'] = new \stdClass();
     }
 
-    public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
+    public function initializeView(ViewInterface $view): void
     {
         $view->assign('contentObject', $this->configurationManager->getContentObject()->data);
     }
 
+    /**
+     * @return string|bool
+     */
     protected function getErrorFlashMessage()
     {
         return false;
     }
 
-    public function listAction()
+    public function listAction(): void
     {
         $this->pollRepository->setControllerSettings($this->settings);
         $polls = $this->pollRepository->findPolls(
@@ -114,10 +119,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Vote|null $vote
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function showAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    public function showAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
     {
         $this->pollPermission->isAllowed($poll, 'show', true);
 
@@ -141,7 +145,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
 
         $newOptionValues = [];
-        if ($this->request->getOriginalRequest()) {
+        /** @var Request|null $originalRequest */
+        $originalRequest = $this->request->getOriginalRequest();
+        if ($originalRequest) {
             foreach ($this->request->getOriginalRequest()->getArgument('vote')['optionValues'] as $optionValue) {
                 $newOptionValues[$optionValue['option']['__identity']] = $optionValue['value'];
             }
@@ -173,7 +179,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator", param="vote")
      */
-    public function voteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
+    public function voteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote): void
     {
         $this->pollPermission->isAllowed($vote->getPoll(), 'voting', true);
 
@@ -216,7 +222,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function resetVotesAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    public function resetVotesAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
     {
         $this->pollPermission->isAllowed($poll, 'resetVotes', true);
 
@@ -242,7 +248,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("vote")
      */
-    public function deleteOwnVoteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
+    public function deleteOwnVoteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote): void
     {
         $this->pollPermission->isAllowed($vote, 'deleteOwnVote', true);
 
@@ -267,7 +273,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param int $option uid to finish
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function finishAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll, int $option = 0)
+    public function finishAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll, int $option = 0): void
     {
         $this->pollPermission->isAllowed($poll, 'finish', true);
         if ($option > 0) {
@@ -309,7 +315,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function finishSuggestionModeAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    public function finishSuggestionModeAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
     {
         $this->pollPermission->isAllowed($poll, 'finishSuggestionMode', true);
 
@@ -335,8 +341,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto
      */
-    public function newSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll, \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null)
-    {
+    public function newSuggestionAction(
+        \FGTCLB\T3oodle\Domain\Model\Poll $poll,
+        \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null
+    ): void {
         $this->pollPermission->isAllowed($poll, 'suggestNewOptions', true);
 
         if (!$suggestionDto) {
@@ -358,7 +366,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
      */
-    public function createSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto)
+    public function createSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto): void
     {
         $this->pollPermission->isAllowed($suggestionDto->getPoll(), 'suggestNewOptions', true);
 
@@ -386,7 +394,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->optionRepository->add($newSuggestedOption);
 
             if ($suggestionDto->getPoll()->isSchedulePoll()) {
-                $this->optionRepository->sortOptionsByDateTime($suggestionDto->getPoll());
+                $this->optionRepository->updateSortingOfOptionsByDateTime($suggestionDto->getPoll());
             }
 
             $persistenceManager = $this->objectManager->get(PersistenceManager::class);
@@ -410,8 +418,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
     }
 
-    public function editSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Option $option, \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null)
-    {
+    public function editSuggestionAction(
+        \FGTCLB\T3oodle\Domain\Model\Option $option,
+        \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null
+    ): void {
         $this->pollPermission->isAllowed($option->getPoll(), 'suggestNewOptions', true);
         if ($option->getCreatorIdent() !== $this->currentUserIdent) {
             throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
@@ -444,8 +454,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
      */
-    public function updateSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto, \FGTCLB\T3oodle\Domain\Model\Option $option)
-    {
+    public function updateSuggestionAction(
+        \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto,
+        \FGTCLB\T3oodle\Domain\Model\Option $option
+    ): void {
         $this->pollPermission->isAllowed($suggestionDto->getPoll(), 'suggestNewOptions', true);
 
         if (!$this->currentUser) {
@@ -472,7 +484,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->optionRepository->update($option);
 
             if ($suggestionDto->getPoll()->isSchedulePoll()) {
-                $this->optionRepository->sortOptionsByDateTime($suggestionDto->getPoll());
+                $this->optionRepository->updateSortingOfOptionsByDateTime($suggestionDto->getPoll());
                 $this->pollRepository->update($suggestionDto->getPoll());
             }
 
@@ -497,7 +509,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
     }
 
-    public function deleteSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Option $option)
+    public function deleteSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Option $option): void
     {
         $poll = $option->getPoll();
         $this->pollPermission->isAllowed($poll, 'suggestNewOptions', true);
@@ -534,7 +546,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         \FGTCLB\T3oodle\Domain\Model\Poll $poll = null,
         bool $publishDirectly = true,
         string $pollType = PollType::SIMPLE
-    ) {
+    ): void {
         if (!$poll) {
             $poll = GeneralUtility::makeInstance(\FGTCLB\T3oodle\Domain\Model\Poll::class);
             if ($this->currentUser) {
@@ -550,7 +562,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
 
         $newOptions = [];
-        if ($this->request->getOriginalRequest()) {
+        /** @var Request|null $originalRequest */
+        $originalRequest = $this->request->getOriginalRequest();
+        if ($originalRequest) {
             $newOptions = $this->request->getOriginalRequest()->getArgument('poll')['options'];
         }
 
@@ -570,10 +584,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
     }
 
-    public function initializeCreateAction()
+    public function initializeCreateAction(): void
     {
         $this->disableValidator('poll', CustomPollValidator::class);
-        $this->arguments->getArgument('poll')->getValidator()->addValidator(new CustomPollValidator(['action' => 'create']));
+        /** @var \TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator $validator */
+        $validator = $this->arguments->getArgument('poll')->getValidator();
+        $validator->addValidator(new CustomPollValidator(['action' => 'create']));
     }
 
     /**
@@ -584,7 +600,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         \FGTCLB\T3oodle\Domain\Model\Poll $poll,
         bool $publishDirectly,
         bool $acceptTerms = false
-    ) {
+    ): void {
         if (PollType::SIMPLE === $poll->getType()) {
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
         } else {
@@ -640,7 +656,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function publishAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    public function publishAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
     {
         $this->pollPermission->isAllowed($poll, 'publish', true);
         $poll->setPublishDate(DateTimeUtility::now());
@@ -667,7 +683,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function editAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    public function editAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
     {
         $this->pollPermission->isAllowed($poll, 'edit', true);
 
@@ -684,7 +700,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
-    public function updateAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    public function updateAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
     {
         $this->pollPermission->isAllowed($poll, 'edit', true);
 
@@ -738,7 +754,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
-    public function deleteAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    public function deleteAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
     {
         $this->pollPermission->isAllowed($poll, 'delete', true);
 
@@ -761,7 +777,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         return $this->configurationManager->getContentObject()->data;
     }
 
-    protected function removeMarkedPollOptions(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
+    protected function removeMarkedPollOptions(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
     {
         /** @var PersistenceManager $persistenceManager */
         $persistenceManager = $this->objectManager->get(PersistenceManager::class);
@@ -780,7 +796,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     private function initializeCurrentUserOrUserIdent(): void
     {
         $this->currentUserIdent = UserIdentUtility::getCurrentUserIdent();
-        $this->currentUser = $this->userRepository->findByUid($this->currentUserIdent);
+        if (is_numeric($this->currentUserIdent)) {
+            $this->currentUser = $this->userRepository->findByUid((int)$this->currentUserIdent);
+        }
 
         $this->settings['_currentUser'] = $this->currentUser;
         $this->settings['_currentUserIdent'] = $this->currentUserIdent;
@@ -859,14 +877,14 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * Only used when current poll has type "schedule".
      */
-    private function addCalendarLabelsToSettings()
+    private function addCalendarLabelsToSettings(): void
     {
         $poll = null;
         if ($this->arguments->hasArgument('option') && $this->request->hasArgument('option')) {
             $option = $this->request->getArgument('option');
             if (is_numeric($option) && $this->arguments->hasArgument('suggestionDto')) {
                 /** @var \FGTCLB\T3oodle\Domain\Model\Option $option */
-                $option = $this->optionRepository->findByUid($option);
+                $option = $this->optionRepository->findByUid((int)$option);
                 $poll = $option->getPoll()->getUid();
             }
         }
@@ -882,14 +900,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
 
             if (!$pollType) {
-                if (!is_array($poll) && !is_object($poll)) {
+                if (!is_array($poll)) {
                     return;
                 }
-                if (is_array($poll)) {
-                    $pollType = $poll['type'];
-                } else {
-                    $pollType = $poll->getType();
-                }
+                $pollType = $poll['type'];
             }
 
             if (PollType::SCHEDULE === $pollType) {
@@ -929,12 +943,18 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
     }
 
+    /**
+     * @param string $messageBody
+     * @param string $messageTitle
+     * @param int    $severity
+     * @param bool   $storeInSession
+     */
     public function addFlashMessage(
         $messageBody,
         $messageTitle = '',
         $severity = AbstractMessage::OK,
         $storeInSession = true
-    ) {
+    ): void {
         if ($this->settings['enableFlashMessages']) {
             parent::addFlashMessage($messageBody, $messageTitle, $severity, $storeInSession);
         }

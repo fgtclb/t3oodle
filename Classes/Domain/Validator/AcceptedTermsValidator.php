@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Domain\Validator;
 
 use FGTCLB\T3oodle\Utility\SettingsUtility;
@@ -12,10 +15,11 @@ class AcceptedTermsValidator extends AbstractValidator
     protected function isValid($value)
     {
         $settings = SettingsUtility::getTypoScriptSettings();
-        $isValid = $value === true || $settings['requireAcceptedTerms'] === '0';
+        $isValid = true === $value || '0' === $settings['requireAcceptedTerms'];
         if (!$isValid) {
             $this->addError(TranslateUtility::translate('validation.1593008155', []), 1593008155);
         }
+
         return $isValid;
     }
 }

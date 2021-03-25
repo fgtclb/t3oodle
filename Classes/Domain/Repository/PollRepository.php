@@ -1,4 +1,5 @@
 <?php
+
 namespace FGTCLB\T3oodle\Domain\Repository;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -21,7 +22,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected $defaultOrderings = [
         'isPublished' => 'ASC',
-        'publishDate' => 'DESC'
+        'publishDate' => 'DESC',
     ];
 
     private $controllerSettings = [];
@@ -59,7 +60,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                         $query->equals('visibility', Visibility::LISTED),
                         $query->equals('isPublished', true),
                     ]),
-                    $query->equals('authorIdent', UserIdentUtility::getCurrentUserIdent())
+                    $query->equals('authorIdent', UserIdentUtility::getCurrentUserIdent()),
                 ]);
             }
         } else {
@@ -73,6 +74,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $andConstraints[] = $query->logicalNot($query->equals('slug', ''));
         $query->matching($query->logicalAnd($andConstraints));
+
         return $query->execute();
     }
 
@@ -93,6 +95,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             ->fetch();
 
         $type = new PollType($result['type']);
-        return (string) $type;
+
+        return (string)$type;
     }
 }

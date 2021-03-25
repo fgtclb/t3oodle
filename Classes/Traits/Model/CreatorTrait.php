@@ -1,4 +1,7 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Traits\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -46,6 +49,7 @@ trait CreatorTrait
         if ($this->getCreator()) {
             return $this->getPropertyDynamically($this->getCreator(), 'name');
         }
+
         return $this->creatorName;
     }
 
@@ -59,6 +63,7 @@ trait CreatorTrait
         if ($this->getCreator()) {
             return $this->getPropertyDynamically($this->getCreator(), 'mail', false);
         }
+
         return $this->creatorMail;
     }
 

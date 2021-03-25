@@ -1,4 +1,5 @@
 <?php
+
 namespace FGTCLB\T3oodle\Domain\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -59,7 +60,7 @@ class Option extends AbstractEntity
         return $this->poll;
     }
 
-    public function setPoll(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
+    public function setPoll(Poll $poll): void
     {
         $this->poll = $poll;
     }
@@ -69,18 +70,20 @@ class Option extends AbstractEntity
         $states = [
             -1 => '',
             0 => 'no',
-            1 => 'yes'
+            1 => 'yes',
         ];
         if ($this->poll && $this->poll->isSettingTristateCheckbox()) {
             $states[2] = 'maybe';
         }
+
         return $states;
     }
 
     public function isFull(): bool
     {
         $votesLeft = $this->getAmountOfLeftVotes() ?? 1;
-        return $votesLeft === 0;
+
+        return 0 === $votesLeft;
     }
 
     public function getAmountOfLeftVotes(bool $respectCurrentUser = false): ?int
@@ -94,13 +97,14 @@ class Option extends AbstractEntity
             if ($respectCurrentUser || $vote->getParticipantIdent() !== UserIdentUtility::getCurrentUserIdent()) {
                 foreach ($vote->getOptionValues() as $optionValue) {
                     if ($optionValue->getOption() === $this) {
-                        if ($optionValue->getValue() === '1') {
-                            $total++;
+                        if ('1' === $optionValue->getValue()) {
+                            ++$total;
                         }
                     }
                 }
             }
         }
+
         return $this->getPoll()->getSettingMaxVotesPerOption() - $total;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace FGTCLB\T3oodle\Domain\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -43,7 +44,6 @@ class Vote extends AbstractEntity
      */
     protected $poll;
 
-
     public function __construct()
     {
         $this->optionValues = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
@@ -64,6 +64,7 @@ class Vote extends AbstractEntity
         if ($this->getParticipant()) {
             return $this->getPropertyDynamically($this->getParticipant(), 'name');
         }
+
         return $this->participantName;
     }
 
@@ -77,6 +78,7 @@ class Vote extends AbstractEntity
         if ($this->getParticipant()) {
             return $this->getPropertyDynamically($this->getParticipant(), 'mail', false);
         }
+
         return $this->participantMail;
     }
 
@@ -123,7 +125,7 @@ class Vote extends AbstractEntity
         return $this->poll;
     }
 
-    public function setPoll(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
+    public function setPoll(Poll $poll): void
     {
         $this->poll = $poll;
     }

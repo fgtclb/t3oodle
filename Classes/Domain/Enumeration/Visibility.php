@@ -1,4 +1,5 @@
 <?php
+
 namespace FGTCLB\T3oodle\Domain\Enumeration;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -10,6 +11,6 @@ use TYPO3\CMS\Core\Type\Enumeration;
 
 final class Visibility extends Enumeration
 {
-    const LISTED = 'listed';
-    const NOT_LISTED = 'not_listed';
+    public const LISTED = 'listed';
+    public const NOT_LISTED = 'not_listed';
 }

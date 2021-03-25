@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\ViewHelpers\Schedule;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -38,18 +41,19 @@ class SplitDayOptionsViewHelper extends AbstractViewHelper
         foreach ($options as $option) {
             $name = is_array($option) ? $option['name'] : $option->getName();
             $parts = GeneralUtility::trimExplode(ScheduleOptionUtility::DAY_OPTION_DELIMITER, $name, true, 2);
-            if (count($parts) === 2) {
-                if ($arguments['get'] === 'options') {
+            if (2 === count($parts)) {
+                if ('options' === $arguments['get']) {
                     $items[] = $parts[1];
                 } else {
                     $items[] = $parts[0];
                 }
             } else {
-                if ($arguments['get'] !== 'options') {
+                if ('options' !== $arguments['get']) {
                     $items[] = $name;
                 }
             }
         }
+
         return array_unique($items);
     }
 }

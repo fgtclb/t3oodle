@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Utility;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -22,10 +25,11 @@ class UserIdentUtility
 
         $userAspect = self::getCurrentUserAspect();
         if ($userAspect->isLoggedIn()) {
-            self::$currentUserIdent = (string) $userAspect->get('id');
+            self::$currentUserIdent = (string)$userAspect->get('id');
         } else {
             self::$currentUserIdent = CookieUtility::get('userIdent') ?? '';
         }
+
         return self::$currentUserIdent;
     }
 
@@ -37,6 +41,7 @@ class UserIdentUtility
     public static function getCurrentUserAspect(): UserAspect
     {
         $context = GeneralUtility::makeInstance(Context::class);
+
         return $context->getAspect('frontend.user');
     }
 }

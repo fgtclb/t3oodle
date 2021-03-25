@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Utility;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -18,6 +21,7 @@ final class TranslateUtility
         if (!$translation || empty($translation)) {
             return $default;
         }
+
         return $translation;
     }
 }

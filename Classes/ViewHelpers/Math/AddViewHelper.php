@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\ViewHelpers\Math;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -26,6 +29,7 @@ class AddViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $subject = $arguments['subject'] ?? $renderChildrenClosure();
-        return (int) $subject + (int) $arguments['number'];
+
+        return (int)$subject + (int)$arguments['number'];
     }
 }

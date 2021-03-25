@@ -1,4 +1,5 @@
 <?php
+
 namespace FGTCLB\T3oodle\Domain\Repository;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -17,8 +18,6 @@ class OptionRepository extends Repository
     protected $defaultOrderings = ['sorting' => 'ASC'];
 
     /**
-     * @param Poll $poll
-     * @param string $creatorIdent
      * @return QueryResultInterface|Option[]|null
      */
     public function findByPollAndCreatorIdent(Poll $poll, string $creatorIdent): ?QueryResultInterface
@@ -29,20 +28,22 @@ class OptionRepository extends Repository
         $query = $this->createQuery();
         $query->matching($query->logicalAnd([
             $query->equals('poll', $poll),
-            $query->equals('creatorIdent', $creatorIdent)
+            $query->equals('creatorIdent', $creatorIdent),
         ]));
+
         return $query->execute();
     }
 
     public function sortOptionsByDateTime(Poll $poll)
     {
         $options = $poll->getOptions()->toArray();
-        usort($options, function(Option $a, Option $b) {
+        usort($options, function (Option $a, Option $b) {
             $a2 = ScheduleOptionUtility::parseOptionName($a->getName())['dateStart'];
             $b2 = ScheduleOptionUtility::parseOptionName($b->getName())['dateStart'];
             if ($a2 > $b2) {
                 return 1;
             }
+
             return -1;
         });
 

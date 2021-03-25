@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Traits\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -23,10 +26,7 @@ trait DynamicUserProperties
     protected static $userRowCache = [];
 
     /**
-     * @param FrontendUser $user
      * @param string $pluginSetting "name" or "mail"
-     * @param bool $showHintWhenEmpty
-     * @return string
      */
     public function getPropertyDynamically(
         FrontendUser $user,
@@ -39,18 +39,19 @@ trait DynamicUserProperties
         if (!self::$typoscriptSettings) {
             self::$typoscriptSettings = SettingsUtility::getTypoScriptSettings();
         }
-        $fieldName = self::$typoscriptSettings['frontendUser'. ucfirst($pluginSetting) . 'Field'];
+        $fieldName = self::$typoscriptSettings['frontendUser' . ucfirst($pluginSetting) . 'Field'];
         $getter = $fieldName ?? 'name';
         $getter = 'get' . ucfirst($getter);
         if (method_exists($user, $getter)) {
             if ($showHintWhenEmpty) {
                 return $user->$getter() ?: '<no ' . $pluginSetting . '>';
             }
+
             return $user->$getter() ?: '';
-        } else {
-            $userRow = $this->getUserRow($user->getUid());
-            return $userRow[$fieldName];
         }
+        $userRow = $this->getUserRow($user->getUid());
+
+        return $userRow[$fieldName];
     }
 
     private function getUserRow(int $uid): ?array
@@ -67,6 +68,7 @@ trait DynamicUserProperties
             ->from('fe_users')
             ->where($queryBuilder->expr()->eq('uid', $uid))
             ->execute()->fetch(\PDO::FETCH_ASSOC);
+
         return self::$userRowCache[$uid];
     }
 }

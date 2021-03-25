@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Utility;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -20,6 +23,7 @@ class SettingsUtility
         }
         $configManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $ts = $configManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+
         return self::$settings = $ts['plugin.']['tx_t3oodle.']['settings.'] ?? [];
     }
 }

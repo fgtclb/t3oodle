@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Domain\Permission;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed

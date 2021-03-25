@@ -18,7 +18,8 @@
         "typo3/cms-core": "^9.5.20 || ^10.4.6"
     },
     "require-dev": {
-        "armin/editorconfig-cli": "^1.0"
+        "armin/editorconfig-cli": "^1.0",
+        "friendsofphp/php-cs-fixer": "^2.18"
     },
     "autoload": {
         "psr-4": {
@@ -41,11 +42,15 @@
     },
     "scripts": {
         "check": [
-            "@ec"
+            "@ec",
+            "@phpcs"
         ],
         "fix": [
-            "@ec:fix"
+            "@ec:fix",
+            "@phpcs:fix"
         ],
+        "phpcs": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi --verbose --diff --dry-run",
+        "phpcs:fix": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi",
         "ec": "ec -n -e Documentation-GENERATED -e .Build",
         "ec:fix": "ec -n -e Documentation-GENERATED -e .Build --fix"
     }

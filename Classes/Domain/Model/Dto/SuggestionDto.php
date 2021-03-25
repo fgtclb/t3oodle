@@ -1,4 +1,7 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Domain\Model\Dto;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -81,6 +84,7 @@ class SuggestionDto
         }
 
         $this->getPoll()->addOption($newOption);
+
         return $newOption;
     }
 }

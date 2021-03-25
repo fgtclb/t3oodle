@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Traits\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -8,7 +11,7 @@ namespace FGTCLB\T3oodle\Traits\Model;
  */
 
 /**
- * Note: It is also required to add "crdate" and "tstamp" columns to TCA of target record
+ * Note: It is also required to add "crdate" and "tstamp" columns to TCA of target record.
  */
 trait RecordDatePropertiesTrait
 {

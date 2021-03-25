@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Domain\Validator;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -27,6 +30,7 @@ class CustomPollValidator extends AbstractValidator
 
     /**
      * @param Poll $value
+     *
      * @return bool
      */
     protected function isValid($value)
@@ -35,19 +39,16 @@ class CustomPollValidator extends AbstractValidator
             return true;
         }
         $statusOptions = $this->checkOptions($value);
-        if ($value->getType() === PollType::SCHEDULE) {
+        if (PollType::SCHEDULE === $value->getType()) {
             $statusOptions = $statusOptions && $this->checkScheduleOptions($value);
         }
         $statusInfo = $this->checkInfo($value);
         $statusAuthor = $this->checkAuthor($value);
         $statusSettings = $this->checkSettings($value);
+
         return $statusOptions && $statusInfo && $statusAuthor && $statusSettings;
     }
 
-    /**
-     * @param Poll $value
-     * @return bool
-     */
     protected function checkOptions(Poll $value): bool
     {
         $isValid = true;
@@ -68,7 +69,7 @@ class CustomPollValidator extends AbstractValidator
         $i = 0;
         /** @var \FGTCLB\T3oodle\Domain\Model\Option $option */
         foreach ($options as $key => $option) {
-            if ($this->options['action'] === 'create') {
+            if ('create' === $this->options['action']) {
                 $key = $i++;
             }
             if (in_array($option->getName(), $optionValues)) {
@@ -85,6 +86,7 @@ class CustomPollValidator extends AbstractValidator
                 new Error(TranslateUtility::translate('validation.1592143002'), 1592143002)
             );
         }
+
         return $isValid;
     }
 
@@ -98,13 +100,10 @@ class CustomPollValidator extends AbstractValidator
                 $this->result->forProperty('options')->addError($validationError);
             }
         }
+
         return $isValid;
     }
 
-    /**
-     * @param Poll $value
-     * @return bool
-     */
     protected function checkInfo(Poll $value): bool
     {
         $isValid = true;
@@ -128,13 +127,13 @@ class CustomPollValidator extends AbstractValidator
             );
         }
 
-        if ($value->getLink() && filter_var($value->getLink(), FILTER_VALIDATE_URL) === false) {
+        if ($value->getLink() && false === filter_var($value->getLink(), FILTER_VALIDATE_URL)) {
             $isValid = false;
             $this->result->forProperty('link')->addError(
                 new Error(TranslateUtility::translate('validation.1592143009'), 1592143009)
             );
         }
-        if ($value->getLink() && strpos($value->getLink(), 'http') !== 0) {
+        if ($value->getLink() && 0 !== strpos($value->getLink(), 'http')) {
             $isValid = false;
             $this->result->forProperty('link')->addError(
                 new Error(TranslateUtility::translate('validation.1592143010'), 1592143010)
@@ -148,13 +147,10 @@ class CustomPollValidator extends AbstractValidator
                 new Error(TranslateUtility::translate('validation.1592143011'), 1592143011)
             );
         }
+
         return $isValid;
     }
 
-    /**
-     * @param Poll $value
-     * @return bool
-     */
     protected function checkAuthor(Poll $value): bool
     {
         $isValid = true;
@@ -178,13 +174,10 @@ class CustomPollValidator extends AbstractValidator
                 );
             }
         }
+
         return $isValid;
     }
 
-    /**
-     * @param Poll $value
-     * @return bool
-     */
     protected function checkSettings(Poll $value): bool
     {
         $isValid = true;
@@ -223,6 +216,7 @@ class CustomPollValidator extends AbstractValidator
                 new Error(TranslateUtility::translate('validation.1599729001'), 1599729001)
             );
         }
+
         return $isValid;
     }
 }

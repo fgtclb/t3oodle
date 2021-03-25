@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\ViewHelpers;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -11,7 +14,7 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Font Awesome SVG ViewHelper
+ * Font Awesome SVG ViewHelper.
  *
  * Usage examples:
  * <t3oodle:svg path="Icons/clock-regular.svg" />
@@ -46,9 +49,9 @@ class SvgViewHelper extends AbstractViewHelper
         }
 
         // Prepare view helper arguments
-        $size = (string) $arguments['size'];
-        $color = (string) $arguments['color'];
-        $title = (string) $arguments['title'];
+        $size = (string)$arguments['size'];
+        $color = (string)$arguments['color'];
+        $title = (string)$arguments['title'];
         $class = 'svg-icon';
         if (!empty($arguments['class'])) {
             $class .= ' ' . $arguments['class'];
@@ -57,6 +60,7 @@ class SvgViewHelper extends AbstractViewHelper
         // If the same icon is requested a second time, use a reference to symbol instead
         if (array_key_exists($path, self::$cache)) {
             $id = self::$cache[$path];
+
             return self::buildSvgSymbolReference($id, $size, $class, $color, $title);
         }
 
@@ -80,6 +84,7 @@ class SvgViewHelper extends AbstractViewHelper
         if (!empty($title)) {
             $title = '<title>' . $title . '</title>';
         }
+
         return '<svg' . $size . $color . ' class="' . $class . '">'
             . $title . '<use xlink:href="#' . $id . '"></use>' .
             '</svg>';
@@ -91,7 +96,7 @@ class SvgViewHelper extends AbstractViewHelper
         string $class,
         string $color,
         string $title
-    ) : string {
+    ): string {
         $svgContents = file_get_contents($path);
         $svgDocument = new \DOMDocument();
         $svgDocument->loadXML($svgContents);
@@ -125,6 +130,7 @@ class SvgViewHelper extends AbstractViewHelper
 
         // Add cache item and return the output
         self::$cache[$path] = $id;
+
         return $result;
     }
 }

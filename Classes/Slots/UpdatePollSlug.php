@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Slots;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -56,8 +59,6 @@ class UpdatePollSlug
      * When visibility is not listed a random slug is generated.
      * Otherwise the slug utility takes the poll title to generate the slug.
      * If the generated slug is not unique, the uid of the poll is appended.
-     *
-     * @param Poll $poll
      */
     protected function updatePollSlug(Poll $poll): void
     {
@@ -66,7 +67,7 @@ class UpdatePollSlug
         $pollRepo = $objectManager->get(PollRepository::class);
 
         // Create slug and update created entity
-        if ($poll->getVisibility() === \FGTCLB\T3oodle\Domain\Enumeration\Visibility::NOT_LISTED) {
+        if (\FGTCLB\T3oodle\Domain\Enumeration\Visibility::NOT_LISTED === $poll->getVisibility()) {
             $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
         } else {
             $newSlug = $slugUtility->sanitize($poll->getTitle());

@@ -1,4 +1,7 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Utility;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -11,13 +14,9 @@ final class TcaGeneratorUtility
     /**
      * Returns a ready to use array, for TCA (e.g for "items" property, in type select), based on defined constants.
      *
-     * @param string $enumeration
-     * @param bool $showEmptyValue
      * @param mixed|int|string $emptyValue
-     * @param string $emptyLabel
-     * @param string $labelPrefix If empty, getHumanReadableName() is called, otherwise this label prefix (e.g.
-     *                            "LLL:EXT:../locallang.xlf:") is used together with the name of the constant.
-     * @return array
+     * @param string           $labelPrefix If empty, getHumanReadableName() is called, otherwise this label prefix (e.g.
+     *                                      "LLL:EXT:../locallang.xlf:") is used together with the name of the constant.
      */
     public static function getItemListForEnumeration(
         string $enumeration,
@@ -36,6 +35,7 @@ final class TcaGeneratorUtility
                         : $labelPrefix . call_user_func([$enumeration, 'getName'], $value);
             $items[] = [$label, $value];
         }
+
         return $items;
     }
 
@@ -54,13 +54,10 @@ final class TcaGeneratorUtility
      *     'label' => $ll('pages.tx_rooms_version'),
      *     'config' => [...]
      * ]
-     *
-     * @param string $prefix
-     * @return \Closure
      */
     public static function getLocallangClosureFunction(string $prefix): \Closure
     {
-        /**
+        /*
          * Prepends given prefix to key.
          *
          * @param string $key

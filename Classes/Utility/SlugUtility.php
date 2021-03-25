@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Utility;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -42,6 +45,7 @@ class SlugUtility
     {
         $slug = str_replace('/', ' ', $slug);
         $slug = preg_replace('/ {2,}/', ' ', $slug);
+
         return $this->slugHelper->sanitize($slug);
     }
 }

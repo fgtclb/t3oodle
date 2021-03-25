@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Utility;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -14,7 +17,7 @@ class ScheduleOptionUtility
     public const DAY_OPTION_DELIMITER = ' - ';
 
     /**
-     * Converts "2020-06-13 - 13:00-15:00" to
+     * Converts "2020-06-13 - 13:00-15:00" to.
      *
      * array
      *   original => '2020-06-13 - 13:00-15:00'
@@ -22,15 +25,12 @@ class ScheduleOptionUtility
      *   option => '13:00-15:00'
      *   dateStart => DateTime (2020-06-13T13:00:00+02:00, 1592046000)
      *   dateEnd => DateTime (2020-06-13T15:00:00+02:00, 1592053200)
-     *
-     * @param string $optionName
-     * @return array
      */
     public static function parseOptionName(string $optionName): array
     {
         $parts = GeneralUtility::trimExplode(self::DAY_OPTION_DELIMITER, $optionName, true, 2);
         $result = [
-            'original' => $optionName
+            'original' => $optionName,
         ];
 
         $result['day'] = $parts[0];
@@ -53,6 +53,7 @@ class ScheduleOptionUtility
                 }
             }
         }
+
         return $result;
     }
 
@@ -70,6 +71,7 @@ class ScheduleOptionUtility
         if (isset($parts[1]) && empty(trim($parts[1]))) {
             $errors[] = new Error(TranslateUtility::translate('validation.1592143005'), 1592143005);
         }
+
         return $errors;
     }
 }

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\ViewHelpers;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -61,6 +64,7 @@ class PermissionViewHelper extends AbstractViewHelper
         if ($arguments['negate']) {
             return !$status;
         }
+
         return $status;
     }
 }

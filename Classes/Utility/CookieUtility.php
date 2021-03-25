@@ -1,4 +1,7 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Utility;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -12,9 +15,10 @@ final class CookieUtility
     private const COOKIE_LIFETIME_DAYS = 365;
 
     /**
-     * Get cookie value
+     * Get cookie value.
      *
      * @param string $key
+     *
      * @return string|null
      */
     public static function get($key)
@@ -22,15 +26,15 @@ final class CookieUtility
         if (isset($_COOKIE[self::COOKIE_PREFIX . $key])) {
             return $_COOKIE[self::COOKIE_PREFIX . $key];
         }
+
         return null;
     }
 
     /**
-     * Set cookie value
+     * Set cookie value.
      *
      * @param string $key
      * @param string $value
-     * @return void
      */
     public static function set($key, $value)
     {
@@ -42,13 +46,13 @@ final class CookieUtility
             '/',
             self::getCookieDomain(),
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] > 0,
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieHttpOnly'] == 1
+            1 == $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieHttpOnly']
         );
     }
 
     /**
      * Gets the domain to be used on setting cookies. The information is
-     * taken from the value in $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieDomain']
+     * taken from the value in $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieDomain'].
      *
      * @return string The domain to be used on setting cookies
      */
@@ -60,20 +64,21 @@ final class CookieUtility
             $cookieDomain = $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['cookieDomain'];
         }
         if ($cookieDomain) {
-            if ($cookieDomain[0] === '/') {
+            if ('/' === $cookieDomain[0]) {
                 $match = [];
                 $matchCnt = @preg_match(
                     $cookieDomain,
                     \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY'),
                     $match
                 );
-                if ($matchCnt !== false) {
+                if (false !== $matchCnt) {
                     $result = $match[0];
                 }
             } else {
                 $result = $cookieDomain;
             }
         }
+
         return $result;
     }
 }

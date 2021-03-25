@@ -1,4 +1,5 @@
 <?php
+
 namespace FGTCLB\T3oodle\Domain\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -164,7 +165,6 @@ class Poll extends AbstractEntity
      */
     protected static $availableOptionsCache;
 
-
     public function __construct()
     {
         $this->options = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
@@ -246,6 +246,7 @@ class Poll extends AbstractEntity
         if ($this->getAuthor()) {
             return $this->getPropertyDynamically($this->getAuthor(), 'name');
         }
+
         return $this->authorName;
     }
 
@@ -259,6 +260,7 @@ class Poll extends AbstractEntity
         if ($this->getAuthor()) {
             return $this->getPropertyDynamically($this->getAuthor(), 'mail', false);
         }
+
         return $this->authorMail;
     }
 
@@ -277,19 +279,20 @@ class Poll extends AbstractEntity
         $this->authorIdent = $authorIdent;
     }
 
-    public function addOption(\FGTCLB\T3oodle\Domain\Model\Option $option): void
+    public function addOption(Option $option): void
     {
         $option->setPoll($this);
         $this->options->attach($option);
     }
 
-    public function removeOption(\FGTCLB\T3oodle\Domain\Model\Option $optionToRemove): void
+    public function removeOption(Option $optionToRemove): void
     {
         $this->options->detach($optionToRemove);
     }
 
     /**
      * @param bool $skipMarkedToDeleted When true, only options are returned, which are not marked to get deleted
+     *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Option> $options
      */
     public function getOptions($skipMarkedToDeleted = false): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
@@ -301,8 +304,10 @@ class Poll extends AbstractEntity
                     $options->attach($option);
                 }
             }
+
             return $options;
         }
+
         return $this->options;
     }
 
@@ -415,15 +420,14 @@ class Poll extends AbstractEntity
     }
 
     /**
-     * Combines date and time field
-     *
-     * @return \DateTime|null
+     * Combines date and time field.
      */
     public function getSettingVotingExpiresAt(): ?\DateTime
     {
         if ($this->getSettingVotingExpiresDate() && $this->getSettingVotingExpiresTime()) {
             return $this->getSettingVotingExpiresDate()->modify($this->getSettingVotingExpiresTime()->format('H:i:s'));
         }
+
         return null;
     }
 
@@ -432,16 +436,17 @@ class Poll extends AbstractEntity
         if (!$this->getSettingVotingExpiresAt()) {
             return false;
         }
+
         return DateTimeUtility::now()->getTimestamp() > $this->getSettingVotingExpiresAt()->getTimestamp();
     }
 
-    public function addVote(\FGTCLB\T3oodle\Domain\Model\Vote $vote): void
+    public function addVote(Vote $vote): void
     {
         $vote->setPoll($this);
         $this->votes->attach($vote);
     }
 
-    public function removeVote(\FGTCLB\T3oodle\Domain\Model\Vote $voteToRemove): void
+    public function removeVote(Vote $voteToRemove): void
     {
         $this->votes->detach($voteToRemove);
     }
@@ -453,7 +458,6 @@ class Poll extends AbstractEntity
 
     /**
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Vote> $votes
-     * @return void
      */
     public function setVotes(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $votes): void
     {
@@ -472,6 +476,7 @@ class Poll extends AbstractEntity
                 return true;
             }
         }
+
         return false;
     }
 
@@ -538,14 +543,15 @@ class Poll extends AbstractEntity
                     if (!array_key_exists($optionValue->getOption()->getUid(), $optionTotals)) {
                         $optionTotals[$optionValue->getOption()->getUid()] = 0;
                     }
-                    if ($optionValue->getValue() === '1' ||
-                        ($settings['countMaybeVotes'] && $optionValue->getValue() === '2')
+                    if ('1' === $optionValue->getValue() ||
+                        ($settings['countMaybeVotes'] && '2' === $optionValue->getValue())
                     ) {
-                        $optionTotals[$optionValue->getOption()->getUid()]++;
+                        ++$optionTotals[$optionValue->getOption()->getUid()];
                     }
                 }
             }
         }
+
         return $optionTotals;
     }
 
@@ -570,7 +576,7 @@ class Poll extends AbstractEntity
             'settingTristateCheckbox',
             'settingSecretParticipants',
             'settingSecretVotings',
-            'settingSuperSecretMode'
+            'settingSuperSecretMode',
         ];
         $cleanProps = $this->_getCleanProperties();
         $props = $this->_getProperties();
@@ -579,6 +585,7 @@ class Poll extends AbstractEntity
                 return true;
             }
         }
+
         return false;
     }
 
@@ -587,9 +594,9 @@ class Poll extends AbstractEntity
         if (!$this->getSettingMaxVotesPerOption()) {
             return $this->getOptions()->toArray();
         }
-        if (self::$availableOptionsCache === null) {
+        if (null === self::$availableOptionsCache) {
             $settings = SettingsUtility::getTypoScriptSettings();
-            $countMaybeVotes = (bool) $settings['countMaybeVotes'];
+            $countMaybeVotes = (bool)$settings['countMaybeVotes'];
 
             $usedOptions = [];
             $usedOptionCounts = [];
@@ -600,8 +607,8 @@ class Poll extends AbstractEntity
 
             foreach ($this->getVotes() as $vote) {
                 foreach ($vote->getOptionValues() as $optionValue) {
-                    if ($optionValue->getValue() === '1' || ($countMaybeVotes && $optionValue->getValue() === '2')) {
-                        $usedOptionCounts[$optionValue->getOption()->getUid()]++;
+                    if ('1' === $optionValue->getValue() || ($countMaybeVotes && '2' === $optionValue->getValue())) {
+                        ++$usedOptionCounts[$optionValue->getOption()->getUid()];
                     }
                 }
             }
@@ -614,6 +621,7 @@ class Poll extends AbstractEntity
             }
             self::$availableOptionsCache = $availableOptions;
         }
+
         return self::$availableOptionsCache;
     }
 
@@ -633,6 +641,7 @@ class Poll extends AbstractEntity
         if ($pollPermission->isVotingAllowed($this) && count($this->getAvailableOptions()) > 0) {
             return new PollStatus(PollStatus::OPENED);
         }
+
         return new PollStatus(PollStatus::CLOSED);
     }
 
@@ -643,11 +652,11 @@ class Poll extends AbstractEntity
 
     public function isSimplePoll(): bool
     {
-        return $this->getType() === PollType::SIMPLE;
+        return PollType::SIMPLE === $this->getType();
     }
 
     public function isSchedulePoll(): bool
     {
-        return $this->getType() === PollType::SCHEDULE;
+        return PollType::SCHEDULE === $this->getType();
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace FGTCLB\T3oodle\Controller;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -99,21 +100,20 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $this->pollRepository->setControllerSettings($this->settings);
         $polls = $this->pollRepository->findPolls(
-            (bool) $this->settings['list']['draft'],
-            (bool) $this->settings['list']['finished'],
-            (bool) $this->settings['list']['personal']
+            (bool)$this->settings['list']['draft'],
+            (bool)$this->settings['list']['finished'],
+            (bool)$this->settings['list']['personal']
         );
         $this->signalSlotDispatcher->dispatch(__CLASS__, 'list', [
             'polls' => $polls,
             'settings' => $this->settings,
             'view' => $this->view,
-            'caller' => $this
+            'caller' => $this,
         ]);
         $this->view->assign('polls', $polls);
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @param \FGTCLB\T3oodle\Domain\Model\Vote|null $vote
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
@@ -153,7 +153,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'newOptionValues' => $newOptionValues,
             'settings' => $this->settings,
             'view' => $this->view,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         $this->view->assign('poll', $poll);
@@ -171,7 +171,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Vote $vote
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator", param="vote")
      */
     public function voteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
@@ -200,7 +199,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'isNew' => !$vote->getUid(),
             'settings' => $this->settings,
             'continue' => true,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signal['continue']) {
@@ -215,7 +214,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function resetVotesAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
@@ -226,7 +224,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'poll' => $poll,
             'continue' => true,
             'settings' => $this->settings,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signal['continue']) {
@@ -242,7 +240,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Vote $vote
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("vote")
      */
     public function deleteOwnVoteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote)
@@ -254,7 +251,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'participantName' => $vote->getParticipantName(),
             'continue' => true,
             'settings' => $this->settings,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signal['continue']) {
@@ -267,7 +264,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @param int $option uid to finish
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
@@ -288,7 +284,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 'continue' => true,
                 'settings' => $this->settings,
                 'view' => $this->view,
-                'caller' => $this
+                'caller' => $this,
             ]);
 
             if ($signal['continue']) {
@@ -304,14 +300,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 'poll' => $poll,
                 'settings' => $this->settings,
                 'view' => $this->view,
-                'caller' => $this
+                'caller' => $this,
             ]);
         }
         $this->view->assign('poll', $poll);
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function finishSuggestionModeAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
@@ -325,7 +320,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'continue' => true,
             'settings' => $this->settings,
             'view' => $this->view,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signal['continue']) {
@@ -338,7 +333,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto
      */
     public function newSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll, \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null)
@@ -356,13 +350,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'suggestionDto' => $suggestionDto,
             'settings' => $this->settings,
             'view' => $this->view,
-            'caller' => $this
+            'caller' => $this,
         ]);
         $this->view->assign('suggestionDto', $suggestionDto);
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
      */
     public function createSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto)
@@ -386,7 +379,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'suggestionDto' => $suggestionDto,
             'continue' => true,
             'settings' => $this->settings,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signalBefore['continue']) {
@@ -403,7 +396,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 'suggestionDto' => $suggestionDto,
                 'continue' => true,
                 'settings' => $this->settings,
-                'caller' => $this
+                'caller' => $this,
             ]);
 
             if ($signalAfter['continue']) {
@@ -417,10 +410,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
     }
 
-    /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Option $option
-     * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto|null $suggestionDto
-     */
     public function editSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Option $option, \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null)
     {
         $this->pollPermission->isAllowed($option->getPoll(), 'suggestNewOptions', true);
@@ -445,7 +434,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'suggestionDto' => $suggestionDto,
             'settings' => $this->settings,
             'view' => $this->view,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         $this->view->assign('suggestionDto', $suggestionDto);
@@ -453,8 +442,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto
-     * @param \FGTCLB\T3oodle\Domain\Model\Option $option
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
      */
     public function updateSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto, \FGTCLB\T3oodle\Domain\Model\Option $option)
@@ -478,7 +465,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'suggestionDto' => $suggestionDto,
             'continue' => true,
             'settings' => $this->settings,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signalBefore['continue']) {
@@ -496,7 +483,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 'suggestionDto' => $suggestionDto,
                 'continue' => true,
                 'settings' => $this->settings,
-                'caller' => $this
+                'caller' => $this,
             ]);
 
             if ($signalAfter['continue']) {
@@ -510,9 +497,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
     }
 
-    /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Option $option
-     */
     public function deleteSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Option $option)
     {
         $poll = $option->getPoll();
@@ -533,7 +517,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'option' => $option,
             'continue' => true,
             'settings' => $this->settings,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signal['continue']) {
@@ -544,9 +528,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll|null $poll
-     * @param bool $publishDirectly
-     * @param string $pollType
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function newAction(
@@ -562,7 +543,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
         $poll->setType($pollType);
 
-        if ($pollType === PollType::SIMPLE) {
+        if (PollType::SIMPLE === $pollType) {
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
         } else {
             $this->pollPermission->isAllowed($poll, 'newSchedulePoll', true);
@@ -579,7 +560,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'newOptions' => $newOptions,
             'settings' => $this->settings,
             'view' => $this->view,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         $this->view->assign('poll', $poll);
@@ -596,9 +577,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
-     * @param bool $publishDirectly
-     * @param bool $acceptTerms
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator", param="acceptTerms")
      */
@@ -607,7 +585,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         bool $publishDirectly,
         bool $acceptTerms = false
     ) {
-        if ($poll->getType() === PollType::SIMPLE) {
+        if (PollType::SIMPLE === $poll->getType()) {
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
         } else {
             $this->pollPermission->isAllowed($poll, 'newSchedulePoll', true);
@@ -628,7 +606,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'publishDirectly' => $publishDirectly,
             'continue' => true,
             'settings' => $this->settings,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signalBefore['continue']) {
@@ -642,7 +620,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 'publishDirectly' => $publishDirectly,
                 'continue' => true,
                 'settings' => $this->settings,
-                'caller' => $this
+                'caller' => $this,
             ]);
 
             if ($signalAfter['continue']) {
@@ -660,7 +638,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function publishAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
@@ -673,7 +650,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'poll' => $poll,
             'continue' => true,
             'settings' => $this->settings,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signal['continue']) {
@@ -688,7 +665,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function editAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
@@ -699,14 +675,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'poll' => $poll,
             'settings' => $this->settings,
             'view' => $this->view,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         $this->view->assign('poll', $poll);
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
     public function updateAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
@@ -722,7 +697,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'areOptionsModified' => $optionsModified,
             'continue' => true,
             'settings' => $this->settings,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signalBefore['continue']) {
@@ -743,7 +718,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 'areOptionsModified' => $optionsModified,
                 'continue' => true,
                 'settings' => $this->settings,
-                'caller' => $this
+                'caller' => $this,
             ]);
 
             if ($signalAfter['continue']) {
@@ -761,7 +736,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Poll $poll
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
     public function deleteAction(\FGTCLB\T3oodle\Domain\Model\Poll $poll)
@@ -772,7 +746,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'poll' => $poll,
             'continue' => true,
             'settings' => $this->settings,
-            'caller' => $this
+            'caller' => $this,
         ]);
 
         if ($signal['continue']) {
@@ -843,7 +817,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                             $lastSorting = $pollOption['sorting'];
                         }
                     }
-                    if ($pollOption['__identity'] === '') {
+                    if ('' === $pollOption['__identity']) {
                         unset($poll['options'][$index]['__identity']);
                     }
                 }
@@ -883,7 +857,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * Only used when current poll has type "schedule"
+     * Only used when current poll has type "schedule".
      */
     private function addCalendarLabelsToSettings()
     {
@@ -918,7 +892,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 }
             }
 
-            if ($pollType === PollType::SCHEDULE) {
+            if (PollType::SCHEDULE === $pollType) {
                 $this->settings['_calendarLocale'] = json_encode([
                     'weekdays' => [
                         'shorthand' => [
@@ -949,7 +923,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                     ],
                     'weekAbbreviation' => LocalizationUtility::translate('week', 'T3oodle'),
                     'firstDayOfWeek' => (int)LocalizationUtility::translate('firstDayOfWeek', 'T3oodle'),
-                    'time_24hr' => (bool) LocalizationUtility::translate('time24hr', 'T3oodle'),
+                    'time_24hr' => (bool)LocalizationUtility::translate('time24hr', 'T3oodle'),
                 ]);
             }
         }

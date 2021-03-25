@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Domain\Validator;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -21,6 +24,7 @@ class SuggestionDtoValidator extends AbstractValidator
 
     /**
      * @param SuggestionDto $value
+     *
      * @return bool
      */
     protected function isValid($value)
@@ -69,7 +73,7 @@ class SuggestionDtoValidator extends AbstractValidator
             }
         }
 
-        if ($value->getPoll()->getType() === PollType::SCHEDULE) {
+        if (PollType::SCHEDULE === $value->getPoll()->getType()) {
             $validationErrors = ScheduleOptionUtility::validateOptionName($suggestion);
             foreach ($validationErrors as $validationError) {
                 $this->result->forProperty('suggestion')->addError($validationError);

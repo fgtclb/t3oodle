@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Updates;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -20,7 +23,6 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
 
     protected $affectedRows = 0;
 
-
     public function getIdentifier(): string
     {
         return 't3oodleMigrateOneOptionOnlySetting';
@@ -39,6 +41,7 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
         if ($this->affectedRows) {
             $desc .= ' ' . $this->affectedRows . ' row(s) affected.';
         }
+
         return $desc;
     }
 
@@ -55,6 +58,7 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
                                    ->andWhere('poll.' . $oldColumnName . ' = 1')
                                    ->execute()
                                    ->rowCount();
+
         return $this->affectedRows > 0;
     }
 
@@ -70,6 +74,7 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
                              ->where('poll.' . self::DESTINATION_COLUMN_NAME . ' = 0')
                              ->andWhere('poll.' . $oldColumnName . ' = 1')
                              ->execute();
+
         return $affectedRows > 0;
     }
 
@@ -85,6 +90,7 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(self::TABLE_NAME);
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+
         return $queryBuilder;
     }
 
@@ -97,6 +103,7 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
                 return null;
             }
         }
+
         return $columnName;
     }
 
@@ -104,6 +111,7 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(self::TABLE_NAME);
         $columns = $connection->getSchemaManager()->listTableColumns(self::TABLE_NAME);
+
         return array_key_exists($columnName, $columns);
     }
 }

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace FGTCLB\T3oodle\Domain\Validator;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -17,6 +20,7 @@ class CustomVoteValidator extends AbstractValidator
 
     /**
      * @param \FGTCLB\T3oodle\Domain\Model\Vote $value
+     *
      * @return bool
      */
     protected function isValid($value)
@@ -50,8 +54,8 @@ class CustomVoteValidator extends AbstractValidator
         if ($value->getPoll() && $value->getPoll()->getSettingMaxVotesPerParticipant()) {
             $amount = 0;
             foreach ($value->getOptionValues() as $optionValue) {
-                if ($optionValue->getValue() !== '0') {
-                    $amount++;
+                if ('0' !== $optionValue->getValue()) {
+                    ++$amount;
                 }
             }
             if ($amount > $value->getPoll()->getSettingMaxVotesPerParticipant()) {
@@ -71,7 +75,7 @@ class CustomVoteValidator extends AbstractValidator
         // Max votes per option
         if ($value->getPoll() && $value->getPoll()->getSettingMaxVotesPerOption() > 0) {
             foreach ($value->getOptionValues() as $optionValue) {
-                if ($optionValue->getValue() !== '0' &&
+                if ('0' !== $optionValue->getValue() &&
                     $optionValue->getOption() &&
                     $optionValue->getOption()->isFull()
                 ) {
@@ -88,6 +92,7 @@ class CustomVoteValidator extends AbstractValidator
                 }
             }
         }
+
         return $isValid;
     }
 }

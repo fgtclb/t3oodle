@@ -7,6 +7,13 @@
 Versions
 ========
 
+0.8.1
+-----
+
+- [TASK] Improve german translations
+- [BUGFIX] Do not pass unused view to "finishSuggestionMode" signal
+
+
 0.8.0
 -----
 

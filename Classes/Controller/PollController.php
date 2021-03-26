@@ -325,7 +325,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'poll' => $poll,
             'continue' => true,
             'settings' => $this->settings,
-            'view' => $this->view,
             'caller' => $this,
         ]);
 

@@ -396,7 +396,7 @@
 			</trans-unit>
 			<trans-unit id="label.suggestModeHeadline">
 				<source>Submit suggestions</source>
-				<target>Sende Vorschläge ein</target>
+				<target>Reiche Vorschläge ein</target>
 			</trans-unit>
 			<trans-unit id="label.suggestModeDescription">
 				<source>Before voting for this poll is enabled, you are able to submit option suggestions. Once the poll author finished the suggestion mode, voting begins.</source>
@@ -408,15 +408,15 @@
 			</trans-unit>
 			<trans-unit id="label.youSubmittedNoSuggestions">
 				<source>You have submitted no suggestion, yet.</source>
-				<target>Du hast noch keinen Vorschlag eingesendet bisher.</target>
+				<target>Du hast noch keinen Vorschlag eingereicht bisher.</target>
 			</trans-unit>
 			<trans-unit id="label.youSubmittedNSuggestions">
 				<source>You have submitted %d suggestions:</source>
-				<target>Du hast %d Vorschläge eingesendet:</target>
+				<target>Du hast %d Vorschläge eingereicht:</target>
 			</trans-unit>
 			<trans-unit id="label.youSubmittedNSuggestionsSingular">
 				<source>You have submitted one suggestions:</source>
-				<target>Du hast einen Vorschlag eingesendet:</target>
+				<target>Du hast einen Vorschlag eingereicht:</target>
 			</trans-unit>
 			<trans-unit id="label.addNewSuggestion">
 				<source>Add new suggestion</source>

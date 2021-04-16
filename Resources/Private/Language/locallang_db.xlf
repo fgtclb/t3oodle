@@ -18,6 +18,15 @@
 			<trans-unit id="tx_t3oodle_domain_model_poll.type">
 				<source>Type</source>
 			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.type.undefined">
+				<source>No type selected</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.type.simple">
+				<source>Simple poll</source>
+			</trans-unit>
+			<trans-unit id="tx_t3oodle_domain_model_poll.type.schedule">
+				<source>Schedule poll</source>
+			</trans-unit>
 			<trans-unit id="tx_t3oodle_domain_model_poll.slug">
 				<source>Slug</source>
 			</trans-unit>

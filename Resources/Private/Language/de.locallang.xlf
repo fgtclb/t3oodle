@@ -11,11 +11,11 @@
 				<source>Create new poll</source>
 				<target>Neue Umfrage erstellen</target>
 			</trans-unit>
-			<trans-unit id="header.new.simple">
+			<trans-unit id="header.new.Simple">
 				<source>Create new poll</source>
 				<target>Neue Umfrage erstellen</target>
 			</trans-unit>
-			<trans-unit id="header.new.schedule">
+			<trans-unit id="header.new.Schedule">
 				<source>Create new schedule poll</source>
 				<target>Neue Termin-Umfrage erstellen</target>
 			</trans-unit>
@@ -23,11 +23,11 @@
 				<source>Edit poll</source>
 				<target>Umfrage bearbeiten</target>
 			</trans-unit>
-			<trans-unit id="header.edit.simple">
+			<trans-unit id="header.edit.Simple">
 				<source>Edit poll "%s"</source>
 				<target>Umfrage "%s" bearbeiten</target>
 			</trans-unit>
-			<trans-unit id="header.edit.schedule">
+			<trans-unit id="header.edit.Schedule">
 				<source>Edit schedule poll "%s"</source>
 				<target>Termin-Umfrage "%s" bearbeiten</target>
 			</trans-unit>
@@ -35,11 +35,11 @@
 				<source>Displaying poll</source>
 				<target>Umfrage anzeigen</target>
 			</trans-unit>
-			<trans-unit id="header.show.simple">
+			<trans-unit id="header.show.Simple">
 				<source>%s</source>
 				<target>%s</target>
 			</trans-unit>
-			<trans-unit id="header.show.schedule">
+			<trans-unit id="header.show.Schedule">
 				<source>%s</source>
 				<target>%s</target>
 			</trans-unit>
@@ -483,11 +483,11 @@
 				<source>Type</source>
 				<target>Typ</target>
 			</trans-unit>
-			<trans-unit id="poll.type.simple">
+			<trans-unit id="poll.type.Simple">
 				<source>Poll</source>
 				<target>Umfrage</target>
 			</trans-unit>
-			<trans-unit id="poll.type.schedule">
+			<trans-unit id="poll.type.Schedule">
 				<source>Schedule</source>
 				<target>Termin-Umfrage</target>
 			</trans-unit>

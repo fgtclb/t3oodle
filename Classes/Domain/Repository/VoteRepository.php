@@ -7,12 +7,12 @@ namespace FGTCLB\T3oodle\Domain\Repository;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-use FGTCLB\T3oodle\Domain\Model\Poll;
+use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
 
 class VoteRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-    public function findOneByPollAndParticipantIdent(Poll $poll, string $participantIdent): ?Vote
+    public function findOneByPollAndParticipantIdent(BasePoll $poll, string $participantIdent): ?Vote
     {
         if (empty($participantIdent)) {
             return null;

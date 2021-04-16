@@ -7,12 +7,13 @@ namespace FGTCLB\T3oodle\Domain\Repository;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-use FGTCLB\T3oodle\Domain\Enumeration\PollType;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
+use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
@@ -24,6 +25,12 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         'isPublished' => 'ASC',
         'publishDate' => 'DESC',
     ];
+
+    public function __construct(ObjectManagerInterface $objectManager)
+    {
+        parent::__construct($objectManager);
+        $this->objectType = BasePoll::class;
+    }
 
     /**
      * @var array
@@ -97,8 +104,6 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             ->execute()
             ->fetch();
 
-        $type = new PollType($result['type']);
-
-        return (string)$type;
+        return $result['type'];
     }
 }

@@ -10,7 +10,7 @@ namespace FGTCLB\T3oodle\Slots;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Controller\PollController;
-use FGTCLB\T3oodle\Domain\Model\Poll;
+use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Repository\PollRepository;
 use FGTCLB\T3oodle\Utility\SlugUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
@@ -22,7 +22,7 @@ use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 class UpdatePollSlug
 {
     public function afterCreate(
-        Poll $poll,
+        BasePoll $poll,
         bool $publishDirectly,
         bool $continue,
         array $settings,
@@ -32,7 +32,7 @@ class UpdatePollSlug
     }
 
     public function beforeUpdate(
-        Poll $poll,
+        BasePoll $poll,
         int $voteCount,
         bool $areOptionsModified,
         bool $continue,
@@ -60,7 +60,7 @@ class UpdatePollSlug
      * Otherwise the slug utility takes the poll title to generate the slug.
      * If the generated slug is not unique, the uid of the poll is appended.
      */
-    protected function updatePollSlug(Poll $poll): void
+    protected function updatePollSlug(BasePoll $poll): void
     {
         $slugUtility = GeneralUtility::makeInstance(SlugUtility::class, 'tx_t3oodle_domain_model_poll', 'slug');
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);

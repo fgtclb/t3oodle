@@ -5,7 +5,7 @@
 <tr>
     <th class="participant"></th>
     <f:for each="{poll.options}" as="option" iteration="iterator">
-        <f:render section="tableHeader{poll.partialName}" arguments="{option:option, iterator:iterator, poll:poll}" />
+        <f:render section="tableHeader{poll.typeName}" arguments="{option:option, iterator:iterator, poll:poll}" />
     </f:for>
 </tr>
 <tr>

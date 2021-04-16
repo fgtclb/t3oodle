@@ -78,5 +78,19 @@ TS
         // Register update wizards
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['t3oodleMigrateOneOptionOnlySetting']
             = \FGTCLB\T3oodle\Updates\MigrateOneOptionOnlySetting::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['t3oodleMigrateOldPollTypes']
+            = \FGTCLB\T3oodle\Updates\MigrateOldPollTypes::class;
+
+        // Register Extbase Type Converter
+        if (\FGTCLB\T3oodle\Utility\Typo3VersionUtility::isTypo3Version()) {
+            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter(
+                \FGTCLB\T3oodle\Extbase\TypeConverter\BasePollObjectConverter::class
+            );
+        } else {
+            // Required because of different method signatures
+            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter(
+                \FGTCLB\T3oodle\Extbase\TypeConverter\BasePollObjectConverterV9::class
+            );
+        }
     }
 );

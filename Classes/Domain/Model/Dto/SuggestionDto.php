@@ -18,7 +18,7 @@ class SuggestionDto
     use CreatorTrait;
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\Poll|null
+     * @var \FGTCLB\T3oodle\Domain\Model\BasePoll|null
      */
     private $poll;
 
@@ -28,7 +28,7 @@ class SuggestionDto
     private $suggestion;
 
     public function __construct(
-        \FGTCLB\T3oodle\Domain\Model\Poll $poll = null,
+        \FGTCLB\T3oodle\Domain\Model\BasePoll $poll = null,
         string $suggestion = '',
         \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $creator = null,
         string $creatorName = '',
@@ -43,12 +43,12 @@ class SuggestionDto
         $this->creatorIdent = $creatorIdent;
     }
 
-    public function getPoll(): \FGTCLB\T3oodle\Domain\Model\Poll
+    public function getPoll(): \FGTCLB\T3oodle\Domain\Model\BasePoll
     {
         return $this->poll;
     }
 
-    public function setPoll(\FGTCLB\T3oodle\Domain\Model\Poll $poll): void
+    public function setPoll(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
     {
         $this->poll = $poll;
     }

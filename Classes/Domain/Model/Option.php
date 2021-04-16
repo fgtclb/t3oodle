@@ -31,7 +31,7 @@ class Option extends AbstractEntity
     protected $sorting = 0;
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\Poll|null
+     * @var \FGTCLB\T3oodle\Domain\Model\BasePoll|null
      */
     protected $poll;
 
@@ -55,12 +55,12 @@ class Option extends AbstractEntity
         $this->sorting = (int)$sorting;
     }
 
-    public function getPoll(): ?Poll
+    public function getPoll(): ?BasePoll
     {
         return $this->poll;
     }
 
-    public function setPoll(Poll $poll): void
+    public function setPoll(BasePoll $poll): void
     {
         $this->poll = $poll;
     }

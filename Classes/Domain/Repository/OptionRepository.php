@@ -7,8 +7,8 @@ namespace FGTCLB\T3oodle\Domain\Repository;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Option;
-use FGTCLB\T3oodle\Domain\Model\Poll;
 use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
@@ -20,7 +20,7 @@ class OptionRepository extends Repository
     /**
      * @return QueryResultInterface|Option[]|null
      */
-    public function findByPollAndCreatorIdent(Poll $poll, string $creatorIdent): ?QueryResultInterface
+    public function findByPollAndCreatorIdent(BasePoll $poll, string $creatorIdent): ?QueryResultInterface
     {
         if (empty($creatorIdent)) {
             return null;
@@ -34,7 +34,7 @@ class OptionRepository extends Repository
         return $query->execute();
     }
 
-    public function updateSortingOfOptionsByDateTime(Poll $poll): void
+    public function updateSortingOfOptionsByDateTime(BasePoll $poll): void
     {
         $options = $poll->getOptions()->toArray();
         usort($options, static function (Option $a, Option $b) {

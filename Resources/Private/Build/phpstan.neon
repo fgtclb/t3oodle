@@ -8,7 +8,9 @@ parameters:
         - ../../../Classes
     excludePaths:
         # Compatibility issue v9 vs. v10
+        - ../../../Classes/Extbase/TypeConverter/BasePollObjectConverterV9.php
         - ../../../Classes/Updates/MigrateOneOptionOnlySetting.php
+        - ../../../Classes/Updates/MigrateOldPollTypes.php
     checkMissingIterableValueType: false
     ignoreErrors:
         - '/Property.+does not accept TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage/'

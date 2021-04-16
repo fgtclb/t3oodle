@@ -9,7 +9,6 @@ namespace FGTCLB\T3oodle\Domain\Validator;
  *  |
  *  | (c) 2021 Armin Vieweg <info@v.ieweg.de>
  */
-use FGTCLB\T3oodle\Domain\Enumeration\PollType;
 use FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto;
 use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
@@ -73,7 +72,7 @@ class SuggestionDtoValidator extends AbstractValidator
             }
         }
 
-        if (PollType::SCHEDULE === $value->getPoll()->getType()) {
+        if ($value->getPoll()->isSchedulePoll()) {
             $validationErrors = ScheduleOptionUtility::validateOptionName($suggestion);
             foreach ($validationErrors as $validationError) {
                 $this->result->forProperty('suggestion')->addError($validationError);

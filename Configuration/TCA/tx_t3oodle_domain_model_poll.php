@@ -18,6 +18,7 @@ return [
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
         'delete' => 'deleted',
+        'type' => 'type',
         'enablecolumns' => [
             'disabled' => 'hidden',
             'starttime' => 'starttime',
@@ -33,12 +34,24 @@ return [
             'is_finished, finish_date, final_option',
     ],
     'types' => [
-        '1' => ['showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, --palette--;;suggestmode, ' .
+        '0' => [
+            'showitem' => 'type'
+        ],
+        \FGTCLB\T3oodle\Domain\Model\SimplePoll::class => [
+            'showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, --palette--;;suggestmode, ' .
                               '--div--;' . $ll('tab.status') . ', --palette--;;publishing, --palette--;;finishing, ' .
                               '--div--;' . $ll('tab.settings') . ',--palette--;Settings;settings, ' .
                               '--div--;' . $ll('tab.votes') . ', votes, ' .
                               '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, ' .
                               'hidden, starttime, endtime, fe_group'
+        ],
+        \FGTCLB\T3oodle\Domain\Model\SchedulePoll::class => [
+            'showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, --palette--;;suggestmode, ' .
+                          '--div--;' . $ll('tab.status') . ', --palette--;;publishing, --palette--;;finishing, ' .
+                          '--div--;' . $ll('tab.settings') . ',--palette--;Settings;settings, ' .
+                          '--div--;' . $ll('tab.votes') . ', votes, ' .
+                          '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, ' .
+                          'hidden, starttime, endtime, fe_group'
         ],
     ],
     'palettes' => [
@@ -151,6 +164,23 @@ return [
                 'type' => 'passthrough',
             ],
         ],
+        'type' => [
+            'exclude' => true,
+            'label' => $ll('type'),
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [$ll('type.undefined'), '0'],
+                    [$ll('type.simple'), \FGTCLB\T3oodle\Domain\Model\SimplePoll::class],
+                    [$ll('type.schedule'), \FGTCLB\T3oodle\Domain\Model\SchedulePoll::class],
+                ],
+                'default' => \FGTCLB\T3oodle\Domain\Model\SimplePoll::class,
+                'size' => 1,
+                'maxitems' => 1,
+                'eval' => 'required'
+            ],
+        ],
         'title' => [
             'exclude' => true,
             'label' => $ll('title'),
@@ -194,21 +224,6 @@ return [
                 'fallbackCharacter' => '-',
                 'eval' => 'uniqueInPid',
                 'default' => ''
-            ],
-        ],
-        'type' => [
-            'exclude' => true,
-            'label' => $ll('type'),
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'items' => \FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getItemListForEnumeration(
-                    FGTCLB\T3oodle\Domain\Enumeration\PollType::class
-                ),
-                'default' => FGTCLB\T3oodle\Domain\Enumeration\PollType::SIMPLE,
-                'size' => 1,
-                'maxitems' => 1,
-                'eval' => 'required'
             ],
         ],
         'visibility' => [

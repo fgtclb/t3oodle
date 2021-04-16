@@ -8,7 +8,6 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
-use FGTCLB\T3oodle\Domain\Enumeration\PollType;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
 use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
@@ -18,10 +17,20 @@ use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-class Poll extends AbstractEntity
+abstract class BasePoll extends AbstractEntity
 {
     use DynamicUserProperties;
     use RecordDatePropertiesTrait;
+
+    /**
+     * @var string
+     */
+    protected $type = '';
+
+    /**
+     * @var string
+     */
+    protected $typeName = '';
 
     /**
      * @var string
@@ -42,11 +51,6 @@ class Poll extends AbstractEntity
      * @var string
      */
     protected $slug = '';
-
-    /**
-     * @var string
-     */
-    protected $type = PollType::SIMPLE;
 
     /**
      * @var string
@@ -172,8 +176,28 @@ class Poll extends AbstractEntity
 
     public function __construct()
     {
+        $this->type = get_class($this);
         $this->options = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $this->votes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * Formerly known as getPartialName()
+     * Now, the typeName is set in extending entity class. It must be written in UpperCamelCase.
+     */
+    public function getTypeName(): string
+    {
+        return ucfirst($this->typeName);
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 
     public function getTitle(): string
@@ -214,16 +238,6 @@ class Poll extends AbstractEntity
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): void
-    {
-        $this->type = $type;
     }
 
     public function getVisibility(): string
@@ -669,18 +683,13 @@ class Poll extends AbstractEntity
         return new PollStatus(PollStatus::CLOSED);
     }
 
-    public function getPartialName(): string
-    {
-        return ucfirst($this->getType());
-    }
-
     public function isSimplePoll(): bool
     {
-        return PollType::SIMPLE === $this->getType();
+        return SimplePoll::class === get_class($this);
     }
 
     public function isSchedulePoll(): bool
     {
-        return PollType::SCHEDULE === $this->getType();
+        return SchedulePoll::class === get_class($this);
     }
 }

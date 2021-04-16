@@ -9,28 +9,28 @@
 			<trans-unit id="header.new">
 				<source>Create new poll</source>
 			</trans-unit>
-			<trans-unit id="header.new.simple">
+			<trans-unit id="header.new.Simple">
 				<source>Create new poll</source>
 			</trans-unit>
-			<trans-unit id="header.new.schedule">
+			<trans-unit id="header.new.Schedule">
 				<source>Create new schedule poll</source>
 			</trans-unit>
 			<trans-unit id="header.edit">
 				<source>Edit poll</source>
 			</trans-unit>
-			<trans-unit id="header.edit.simple">
+			<trans-unit id="header.edit.Simple">
 				<source>Edit poll "%s"</source>
 			</trans-unit>
-			<trans-unit id="header.edit.schedule">
+			<trans-unit id="header.edit.Schedule">
 				<source>Edit schedule poll "%s"</source>
 			</trans-unit>
 			<trans-unit id="header.show">
 				<source>Displaying poll</source>
 			</trans-unit>
-			<trans-unit id="header.show.simple">
+			<trans-unit id="header.show.Simple">
 				<source>%s</source>
 			</trans-unit>
-			<trans-unit id="header.show.schedule">
+			<trans-unit id="header.show.Schedule">
 				<source>%s</source>
 			</trans-unit>
 			<trans-unit id="header.finish">
@@ -364,10 +364,10 @@
 			<trans-unit id="poll.type">
 				<source>Type</source>
 			</trans-unit>
-			<trans-unit id="poll.type.simple">
+			<trans-unit id="poll.type.Simple">
 				<source>Simple poll</source>
 			</trans-unit>
-			<trans-unit id="poll.type.schedule">
+			<trans-unit id="poll.type.Schedule">
 				<source>Schedule</source>
 			</trans-unit>
 			<trans-unit id="poll.status">

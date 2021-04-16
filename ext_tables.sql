@@ -3,11 +3,12 @@
 #
 CREATE TABLE tx_t3oodle_domain_model_poll (
 
+    type varchar(255) DEFAULT '' NOT NULL,
+
     title varchar(255) DEFAULT '' NOT NULL,
     description text,
     link text,
     slug varchar(255) DEFAULT '' NOT NULL,
-    type varchar(255) DEFAULT 'simple' NOT NULL,
     visibility varchar(255) DEFAULT 'public' NOT NULL,
     author varchar(255) DEFAULT '' NOT NULL,
     author_name varchar(255) DEFAULT '' NOT NULL,

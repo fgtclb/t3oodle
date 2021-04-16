@@ -7,8 +7,10 @@ namespace FGTCLB\T3oodle\Updates;
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
+ *  | (c) 2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\SchedulePoll;
+use FGTCLB\T3oodle\Domain\Model\SimplePoll;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
@@ -16,27 +18,28 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
-class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
+class MigrateOldPollTypes implements UpgradeWizardInterface
 {
     private const TABLE_NAME = 'tx_t3oodle_domain_model_poll';
-    private const DESTINATION_COLUMN_NAME = 'setting_max_votes_per_participant';
+    private const DESTINATION_COLUMN_NAME = 'type';
 
     protected $affectedRows = 0;
 
     public function getIdentifier(): string
     {
-        return 't3oodleMigrateOneOptionOnlySetting';
+        return 't3oodleMigrateOldPollTypes';
     }
 
     public function getTitle(): string
     {
-        return 'EXT:t3oodle - Migrate old "One option only" setting';
+        return 'EXT:t3oodle - Migrate old poll types';
     }
 
     public function getDescription(): string
     {
-        $desc = 'In t3oodle 0.6 the poll setting "oneOptionOnly" has been changed to "maxVotesPerParticipant". ' .
-                'This update wizard checks "tx_t3oodle_domain_model_poll" table for old setting set and migrates it.';
+        $desc = 'Since t3oodle 0.9 the poll types are using Single Table Inheritance. In order to make this pattern ' .
+                'to work in Extbase, the type field must contain the FQCN of the entity model to be used. ' .
+                'This migration, converts "simple" and "schedule" to corresponding class names.';
 
         if ($this->affectedRows) {
             $desc .= ' ' . $this->affectedRows . ' row(s) affected.';
@@ -47,15 +50,11 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
 
     public function updateNecessary(): bool
     {
-        $oldColumnName = $this->determineColumnName();
-        if (!$oldColumnName) {
-            return false;
-        }
         $this->affectedRows = $this->getPreparedQueryBuilder()
                                    ->select('*')
                                    ->from(self::TABLE_NAME, 'poll')
-                                   ->where('poll.' . self::DESTINATION_COLUMN_NAME . ' = 0')
-                                   ->andWhere('poll.' . $oldColumnName . ' = 1')
+                                   ->where('poll.' . self::DESTINATION_COLUMN_NAME . ' = "simple"')
+                                   ->orWhere('poll.' . self::DESTINATION_COLUMN_NAME . ' = "schedule"')
                                    ->execute()
                                    ->rowCount();
 
@@ -64,16 +63,17 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
 
     public function executeUpdate(): bool
     {
-        $oldColumnName = $this->determineColumnName();
-        if (!$oldColumnName) {
-            return false;
-        }
         $affectedRows = $this->getPreparedQueryBuilder()
                              ->update(self::TABLE_NAME, 'poll')
-                             ->set('poll.' . self::DESTINATION_COLUMN_NAME, '1')
-                             ->where('poll.' . self::DESTINATION_COLUMN_NAME . ' = 0')
-                             ->andWhere('poll.' . $oldColumnName . ' = 1')
+                             ->set('poll.' . self::DESTINATION_COLUMN_NAME, SimplePoll::class)
+                             ->where('poll.' . self::DESTINATION_COLUMN_NAME . ' = "simple"')
                              ->execute();
+
+        $affectedRows += $this->getPreparedQueryBuilder()
+                              ->update(self::TABLE_NAME, 'poll')
+                              ->set('poll.' . self::DESTINATION_COLUMN_NAME, SchedulePoll::class)
+                              ->where('poll.' . self::DESTINATION_COLUMN_NAME . ' = "schedule"')
+                              ->execute();
 
         return $affectedRows > 0;
     }
@@ -92,26 +92,5 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 
         return $queryBuilder;
-    }
-
-    private function determineColumnName(): ?string
-    {
-        $columnName = 'setting_one_option_only';
-        if (!$this->doesColumnExist($columnName)) {
-            $columnName = 'zzz_deleted_setting_one_option_only';
-            if (!$this->doesColumnExist($columnName)) {
-                return null;
-            }
-        }
-
-        return $columnName;
-    }
-
-    private function doesColumnExist(string $columnName): bool
-    {
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(self::TABLE_NAME);
-        $columns = $connection->getSchemaManager()->listTableColumns(self::TABLE_NAME);
-
-        return array_key_exists($columnName, $columns);
     }
 }

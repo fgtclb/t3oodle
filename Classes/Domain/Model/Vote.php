@@ -40,7 +40,7 @@ class Vote extends AbstractEntity
     protected $optionValues;
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\Poll
+     * @var \FGTCLB\T3oodle\Domain\Model\BasePoll
      */
     protected $poll;
 
@@ -120,12 +120,12 @@ class Vote extends AbstractEntity
         $this->optionValues->detach($optionValue);
     }
 
-    public function getPoll(): ?Poll
+    public function getPoll(): ?BasePoll
     {
         return $this->poll;
     }
 
-    public function setPoll(Poll $poll): void
+    public function setPoll(BasePoll $poll): void
     {
         $this->poll = $poll;
     }

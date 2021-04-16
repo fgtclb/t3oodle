@@ -17,3 +17,4 @@ Dev-Notes
         TemplatesPartials
         Assets
         UpdateWizards
+        SingleTableInheritance

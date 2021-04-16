@@ -3,11 +3,11 @@
       data-namespace-typo3-fluid="true">
 
 <f:if condition="{t3oodle:permission(action:'newSimplePoll')}">
-    <f:link.action action="new" arguments="{pollType:'simple'}" class="btn btn-primary"><f:translate key="label.newPollSimple" /></f:link.action>
+    <f:link.action action="new" arguments="{pollType:'FGTCLB\T3oodle\Domain\Model\SimplePoll'}" class="btn btn-primary"><f:translate key="label.newPollSimple" /></f:link.action>
 </f:if>
 
 <f:if condition="{t3oodle:permission(action:'newSchedulePoll')}">
-    <f:link.action action="new" arguments="{pollType:'schedule'}" class="btn btn-primary"><f:translate key="label.newPollSchedule" /></f:link.action>
+    <f:link.action action="new" arguments="{pollType:'FGTCLB\T3oodle\Domain\Model\SchedulePoll'}" class="btn btn-primary"><f:translate key="label.newPollSchedule" /></f:link.action>
 </f:if>
 
 </html>

@@ -60,7 +60,7 @@ routeEnhancers:
         defaultController: 'Poll::list'
         defaults:
             page: '1'
-            poll-type: 'simple'
+            poll-type: 'FGTCLB\T3oodle\Domain\Model\SimplePoll'
         requirements:
             page: '\d+'
         aspects:
@@ -71,13 +71,14 @@ routeEnhancers:
             poll-type:
                 type: StaticValueMapper
                 map:
-                    '': 'simple'
-                    '-schedule': 'schedule'
+                    '': 'FGTCLB\T3oodle\Domain\Model\SimplePoll'
+                    '-schedule': 'FGTCLB\T3oodle\Domain\Model\SchedulePoll'
                 localeMap:
-                    - locale: 'de_.*'
+                    de:
+                      locale: 'de_.*'
                       map:
-                          '': 'simple'
-                          '-terminfindung': 'schedule'
+                          '': 'FGTCLB\T3oodle\Domain\Model\SimplePoll'
+                          '-terminfindung': 'FGTCLB\T3oodle\Domain\Model\SchedulePoll'
             page:
                 type: StaticRangeMapper
                 start: '1'

@@ -2,7 +2,7 @@
       xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<f:variable name="header"><f:translate key="header.show.{poll.type}" arguments="{0: poll.title}"><f:translate key="header.show" arguments="{0: poll.title}" /></f:translate></f:variable>
+<f:variable name="header"><f:translate key="header.show.{poll.typeName}" arguments="{0: poll.title}"><f:translate key="header.show" arguments="{0: poll.title}" /></f:translate></f:variable>
 <f:if condition="{header}">
     <h1>
         <f:if condition="{prepend}">{prepend}</f:if>{header}

@@ -194,6 +194,16 @@ Limit amount of votes per participant
       Each participant can only select as much options as defined. But one option can get selected by multiple participants.
 
 
+.. _minimumAmountOfVotesPerParticipant:
+
+Minimum amount of votes per participant
+"""""""""""""""""""""""""""""""""""""""
+.. container:: table-row
+
+   Description
+      Each participant must select at least as much options as defined.
+
+
 .. _limitAmountOfVotesPerOption:
 
 Limit amount of votes per option

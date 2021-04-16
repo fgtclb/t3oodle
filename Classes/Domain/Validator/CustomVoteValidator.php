@@ -72,6 +72,28 @@ class CustomVoteValidator extends AbstractValidator
             }
         }
 
+        // Min votes per participant
+        if ($value->getPoll() && $value->getPoll()->getSettingMinVotesPerParticipant()) {
+            $amount = 0;
+            foreach ($value->getOptionValues() as $optionValue) {
+                if ('0' !== $optionValue->getValue()) {
+                    ++$amount;
+                }
+            }
+            if ($amount < $value->getPoll()->getSettingMinVotesPerParticipant()) {
+                $isValid = false;
+                $this->result->forProperty('optionValues')->addError(
+                    new Error(
+                        TranslateUtility::translate(
+                            'validation.1618568039',
+                            [$value->getPoll()->getSettingMinVotesPerParticipant()]
+                        ),
+                        1618568039
+                    )
+                );
+            }
+        }
+
         // Max votes per option
         if ($value->getPoll() && $value->getPoll()->getSettingMaxVotesPerOption() > 0) {
             foreach ($value->getOptionValues() as $optionValue) {

@@ -70,7 +70,7 @@
 				<source>You've already voted.</source>
 			</trans-unit>
 			<trans-unit id="label.youveVoted">
-				<source>You've voted.</source>
+				<source>You've voted</source>
 			</trans-unit>
 			<trans-unit id="label.newPollSimple">
 				<source>New poll</source>
@@ -204,8 +204,14 @@
 			<trans-unit id="label.removeThisVoteConfirmation">
 				<source>Are you sure you want to remove this vote?</source>
 			</trans-unit>
+			<trans-unit id="label.notes">
+				<source>Notes</source>
+			</trans-unit>
+			<trans-unit id="label.minVotesPerParticipant">
+				<source>Min %d vote(s) required</source>
+			</trans-unit>
 			<trans-unit id="label.maxVotesPerParticipant">
-				<source>Note: Max %d vote(s) allowed.</source>
+				<source>Max %d vote(s) allowed</source>
 			</trans-unit>
 			<trans-unit id="label.vote">
 				<source>Vote</source>
@@ -446,6 +452,12 @@
 			</trans-unit>
 			<trans-unit id="poll.settingMaxVotesPerParticipant.description">
 				<source>When set, each participant can select max as much options as defined. But each option can get selected by multiple participants.</source>
+			</trans-unit>
+			<trans-unit id="poll.settingMinVotesPerParticipant.title">
+				<source>Minimum amount of votes per participant</source>
+			</trans-unit>
+			<trans-unit id="poll.settingMinVotesPerParticipant.description">
+				<source>When set, each participant has to select at least as much options with "Yes" (or "Maybe"), as defined.</source>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretParticipants.title">
 				<source>Secret Participants</source>
@@ -705,6 +717,9 @@
 			</trans-unit>
 			<trans-unit id="validation.1592143023">
 				<source>Limit of votes per participant (%d) exceeded!</source>
+			</trans-unit>
+			<trans-unit id="validation.1618568039">
+				<source>Not enough options chosen. Minimum required: %d</source>
 			</trans-unit>
 			<trans-unit id="validation.1592143024">
 				<source>Sorry, the option "%s" is already full.</source>

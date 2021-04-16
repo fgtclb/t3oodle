@@ -28,6 +28,7 @@ CREATE TABLE tx_t3oodle_domain_model_poll (
 
     setting_tristate_checkbox smallint(5) unsigned DEFAULT '0' NOT NULL,
     setting_max_votes_per_option int(11) unsigned DEFAULT '0',
+    setting_min_votes_per_participant int(11) unsigned DEFAULT '0',
     setting_max_votes_per_participant int(11) unsigned DEFAULT '0',
     setting_secret_participants smallint(5) unsigned DEFAULT '0' NOT NULL,
     setting_secret_votings smallint(5) unsigned DEFAULT '0' NOT NULL,

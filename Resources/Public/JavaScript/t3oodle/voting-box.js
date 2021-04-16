@@ -10,6 +10,9 @@ tx_t3oodle._buildVotingBox = function (checkbox) {
   image.alt = checkbox.value;
   image.tabIndex = 2
   image.classList.add('t3oodle-voting-image');
+  if (checkbox.classList.contains('one-option-only')) {
+    image.classList.add('one-option-only');
+  }
 
   var event = function (event) {
     if (event.key && event.keyCode !== 32) { // Space

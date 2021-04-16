@@ -105,6 +105,11 @@ class Poll extends AbstractEntity
     protected $settingMaxVotesPerParticipant = 0;
 
     /**
+     * @var int
+     */
+    protected $settingMinVotesPerParticipant = 0;
+
+    /**
      * @var bool
      */
     protected $settingSecretParticipants = false;
@@ -367,6 +372,16 @@ class Poll extends AbstractEntity
         $this->settingMaxVotesPerParticipant = $settingMaxVotesPerParticipant;
     }
 
+    public function getSettingMinVotesPerParticipant(): int
+    {
+        return $this->settingMinVotesPerParticipant;
+    }
+
+    public function setSettingMinVotesPerParticipant(int $settingMinVotesPerParticipant): void
+    {
+        $this->settingMinVotesPerParticipant = $settingMinVotesPerParticipant;
+    }
+
     public function isSettingSecretParticipants(): bool
     {
         return $this->settingSecretParticipants;
@@ -579,6 +594,7 @@ class Poll extends AbstractEntity
         // Check related poll settings (all but expiration date)
         $attributes = [
             'settingMaxVotesPerParticipant',
+            'settingMinVotesPerParticipant',
             'settingMaxVotesPerOption',
             'settingTristateCheckbox',
             'settingSecretParticipants',

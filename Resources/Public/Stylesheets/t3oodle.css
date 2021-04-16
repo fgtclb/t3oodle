@@ -139,6 +139,10 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
     padding: 2px;
 }
 
+.tx-t3oodle .t3oodle-voting-image.one-option-only {
+    border-radius: 999rem;
+}
+
 .tx-t3oodle .t3oodle-voting-image:hover {
     border-color: rgba(0, 0, 0, 0.4);
     -webkit-transition: border-color 0.25s;
@@ -286,4 +290,13 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
     bottom: 0.1rem;
     font-size: 0.8rem;
     color: var(--secondary);
+}
+
+.tx-t3oodle .badge.badge-outline-success {
+    border: 1px solid var(--success);
+    color: var(--success);
+}
+
+.tx-t3oodle .badge.badge-outline-dark {
+    border: 1px solid var(--gray);
 }

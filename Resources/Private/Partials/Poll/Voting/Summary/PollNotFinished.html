@@ -3,13 +3,25 @@
       data-namespace-typo3-fluid="true">
 
 <div class="text-right mt-2">
+    <f:if condition="{poll.settingMaxVotesPerParticipant} > 0 || {poll.settingMinVotesPerParticipant} > 0">
+        <span class="text-dark mr-1">
+            <f:translate key="label.notes" />:
+        </span>
+    </f:if>
+
+    <f:if condition="{poll.settingMinVotesPerParticipant} > 0">
+        <span class="text-dark mr-1 badge badge-outline-dark px-3 py-2 font-weight-normal">
+            <f:translate key="label.minVotesPerParticipant" arguments="{0: '{poll.settingMinVotesPerParticipant}'}" />
+        </span>
+    </f:if>
+
     <f:if condition="{poll.settingMaxVotesPerParticipant} > 0">
         <f:then>
-            <span class="text-dark mr-2">
+            <span class="text-dark mr-1 badge badge-outline-dark px-3 py-2 font-weight-normal">
                 <f:translate key="label.maxVotesPerParticipant" arguments="{0: '{poll.settingMaxVotesPerParticipant}'}" />
             </span>
             <f:if condition="{vote.uid}">
-                <span class="text-already-voted mr-2"><f:translate key="label.youveVoted" /></span>
+                <span class="text-already-voted mr-2 badge badge-outline-success px-3 py-2 font-weight-normal"><f:translate key="label.youveVoted" /></span>
             </f:if>
             <f:if condition="{poll.settingMaxVotesPerParticipant} > 1">
                 <span id="t3oodle-votes-summary"></span>
@@ -17,7 +29,7 @@
         </f:then>
         <f:else>
             <f:if condition="{vote.uid}">
-                <span class="text-already-voted mr-2"><f:translate key="label.youveVoted" /></span>
+                <span class="text-already-voted mr-2 badge badge-outline-success px-3 py-2 font-weight-normal"><f:translate key="label.youveVoted" /></span>
             </f:if>
             <span id="t3oodle-votes-summary"></span>
         </f:else>
@@ -31,9 +43,9 @@
         </f:then>
         <f:else>
             <f:if condition="{poll.availableOptions -> f:count()} == 0">
-                            <span class="my-5">
-                                <f:translate key="label.limitPerOptionsReached" arguments="{0: '{poll.settingMaxVotesPerOption}'}" />
-                            </span>
+                <span class="my-5">
+                    <f:translate key="label.limitPerOptionsReached" arguments="{0: '{poll.settingMaxVotesPerOption}'}" />
+                </span>
             </f:if>
             <f:form.submit class="btn btn-light button-vote" value="{f:translate(key:'label.votingDisabled')}" disabled="disabled" />
         </f:else>

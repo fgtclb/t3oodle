@@ -91,8 +91,8 @@
 				<target>Du hast bereits abgestimmt.</target>
 			</trans-unit>
 			<trans-unit id="label.youveVoted">
-				<source>You've voted.</source>
-				<target>Du hast abgestimmt.</target>
+				<source>You've voted</source>
+				<target>Du hast abgestimmt</target>
 			</trans-unit>
 			<trans-unit id="label.newPollSimple">
 				<source>New poll</source>
@@ -270,9 +270,17 @@
 				<source>Are you sure you want to remove this vote?</source>
 				<target>Bist Du sicher diese Stimme entfernen zu wollen?</target>
 			</trans-unit>
+			<trans-unit id="label.notes">
+				<source>Notes</source>
+				<target>Hinweise</target>
+			</trans-unit>
+			<trans-unit id="label.minVotesPerParticipant">
+				<source>Min %d vote(s) required</source>
+				<target>Min. %d Option(en) benötigt</target>
+			</trans-unit>
 			<trans-unit id="label.maxVotesPerParticipant">
-				<source>Note: Max %d vote(s) allowed.</source>
-				<target>Hinweis: Max. %d Option(en) erlaubt.</target>
+				<source>Max %d vote(s) allowed</source>
+				<target>Max. %d Option(en) erlaubt</target>
 			</trans-unit>
 			<trans-unit id="label.vote">
 				<source>Vote</source>
@@ -592,6 +600,14 @@
 			<trans-unit id="poll.settingMaxVotesPerParticipant.description">
 				<source>When set, each participant can select max as much options as defined. But each option can get selected by multiple participants.</source>
 				<target>Bei Aktivierung hat jeder Teilnehmer nur maximal so viele Stimmen wie angegeben. Eine Option kann aber von mehreren Teilnehmern gewählt werden.</target>
+			</trans-unit>
+			<trans-unit id="poll.settingMinVotesPerParticipant.title">
+				<source>Minimum amount of votes per participant</source>
+				<target>Minimale Anzahl an Stimmen pro Teilnehmer</target>
+			</trans-unit>
+			<trans-unit id="poll.settingMinVotesPerParticipant.description">
+				<source>When set, each participant has to select at least as much options with "Yes" (or "Maybe"), as defined.</source>
+				<target>Bei Aktivierung muss jeder Teilnehmer mindestens so viele "Ja" (oder "Vielleicht") Stimmen abgeben, wie angegeben.</target>
 			</trans-unit>
 			<trans-unit id="poll.settingSecretParticipants.title">
 				<source>Hide participants</source>
@@ -931,6 +947,10 @@
 			<trans-unit id="validation.1592143023">
 				<source>Limit of votes per participant (%d) exceeded!</source>
 				<target>Limit an Stimmen pro Teilnehmer (%d) überschritten!</target>
+			</trans-unit>
+			<trans-unit id="validation.1618568039">
+				<source>Not enough options chosen. Minimum required: %d</source>
+				<target>Es wurden zu wenig Optionen gewählt. Mindestanzahl: %d</target>
 			</trans-unit>
 			<trans-unit id="validation.1592143024">
 				<source>Sorry, the option "%s" is already full.</source>

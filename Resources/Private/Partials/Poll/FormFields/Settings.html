@@ -64,6 +64,20 @@
                     </label>
                 </div>
                 <div class="form-check mb-3">
+                    <f:form.checkbox name="enableSettingMinVotesPerParticipant" value="1" checked="{poll.settingMinVotesPerParticipant} > 0" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingMinVotesPerParticipant" />
+                    <label class="form-check-label" for="t3oodle-poll-enableSettingMinVotesPerParticipant">
+                        <strong><f:translate key="poll.settingMinVotesPerParticipant.title" /></strong>
+                        <f:if condition="{poll.votes -> f:count()} > 0"> <span class="badge badge-warning mx-2 text-uppercase"><f:translate key="label.caution" /></span></f:if>
+                        <br>
+                        <f:translate key="poll.settingMinVotesPerParticipant.description" /><br>
+                        <f:if condition="{poll.settingMinVotesPerParticipant} > 0">
+                            <f:then><f:form.textfield type="number" id="t3oodle-poll-settingMinVotesPerParticipant" class="form-control mt-2" property="settingMinVotesPerParticipant" data="{bind-disable:'#t3oodle-poll-enableSettingMinVotesPerParticipant'}" additionalAttributes="{min:'0'}" /></f:then>
+                            <f:else><f:form.textfield type="number" id="t3oodle-poll-settingMinVotesPerParticipant" class="form-control mt-2" readonly="readonly" property="settingMinVotesPerParticipant" data="{bind-disable:'#t3oodle-poll-enableSettingMinVotesPerParticipant'}" additionalAttributes="{min:'0'}" /></f:else>
+                        </f:if>
+                        <f:render partial="FormFieldErrors" arguments="{for: 'poll.settingMinVotesPerParticipant'}" />
+                    </label>
+                </div>
+                <div class="form-check mb-3">
                     <f:form.checkbox name="enableSettingMaxVotesPerOption" value="1" checked="{poll.settingMaxVotesPerOption} > 0" class="form-check-input mr-3 larger" id="t3oodle-poll-enableSettingMaxVotesPerOption" />
                     <label class="form-check-label" for="t3oodle-poll-enableSettingMaxVotesPerOption">
                         <strong><f:translate key="poll.settingMaxVotesPerOption.title" /></strong>

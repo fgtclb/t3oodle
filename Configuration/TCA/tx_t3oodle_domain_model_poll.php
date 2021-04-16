@@ -49,7 +49,7 @@ return [
             'showitem' => 'author,--linebreak--,author_name,author_mail,author_ident'
         ],
         'settings' => [
-            'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_max_votes_per_option, --linebreak--, ' .
+            'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_min_votes_per_participant,setting_max_votes_per_participant, --linebreak--, ' .
                 'setting_max_votes_per_option, --linebreak--, setting_secret_participants, setting_secret_votings, setting_super_secret_mode, ' .
                 '--linebreak--, setting_voting_expires_date, setting_voting_expires_time'
         ],
@@ -344,6 +344,16 @@ return [
         'setting_max_votes_per_participant' => [
             'exclude' => true,
             'label' => $ll('setting_max_votes_per_participant'),
+            'config' => [
+                'type' => 'input',
+                'eval' => 'int',
+                'default' => '0',
+                'size' => 3
+            ],
+        ],
+        'setting_min_votes_per_participant' => [
+            'exclude' => true,
+            'label' => $ll('setting_min_votes_per_participant'),
             'config' => [
                 'type' => 'input',
                 'eval' => 'int',

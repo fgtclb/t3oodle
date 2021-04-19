@@ -48,6 +48,11 @@ The following signals exist:
 * Also all permissions defined in :ref:`pollPermission` dispatch an own signal
 
 
+``\FGTCLB\T3oodle\Domain\Repository\PollRepository``
+
+* **findPolls** Allows you to modify query constraints
+
+
 Register a slot
 ---------------
 

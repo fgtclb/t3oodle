@@ -15,6 +15,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
@@ -83,6 +84,16 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         $andConstraints[] = $query->logicalNot($query->equals('slug', ''));
+
+        /** @var Dispatcher $signalSlotDispatcher */
+        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+        $slot = $signalSlotDispatcher->dispatch(__CLASS__, 'findPolls', [
+            'constraints' => $andConstraints,
+            'query' => $query,
+            'caller' => $this,
+        ]);
+        $andConstraints = $slot['constraints'];
+
         $query->matching($query->logicalAnd($andConstraints));
 
         return $query->execute();

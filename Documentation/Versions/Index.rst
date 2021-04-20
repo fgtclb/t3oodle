@@ -7,11 +7,13 @@
 Versions
 ========
 
-0.8.1
+0.9.0
 -----
 
-- [TASK] Improve german translations
-- [BUGFIX] Do not pass unused view to "finishSuggestionMode" signal
+- [BUGFIX] Check for vote argument, before using a non-existing one
+- [TASK] Provide new signal, to modify "findPolls" query constraints
+- [TASK][!!!] Replace PollType enumeration with :ref:`Single Table Inheritance <singleTableInheritance>`
+- [FEATURE] New poll setting "settingMinVotesPerParticipant"
 
 
 0.8.0

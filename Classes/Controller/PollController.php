@@ -146,8 +146,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $newOptionValues = [];
         /** @var Request|null $originalRequest */
         $originalRequest = $this->request->getOriginalRequest();
-        if ($originalRequest) {
-            foreach ($this->request->getOriginalRequest()->getArgument('vote')['optionValues'] as $optionValue) {
+        if ($originalRequest && $originalRequest->hasArgument('vote')) {
+            foreach ($originalRequest->getArgument('vote')['optionValues'] as $optionValue) {
                 $newOptionValues[$optionValue['option']['__identity']] = $optionValue['value'];
             }
         }

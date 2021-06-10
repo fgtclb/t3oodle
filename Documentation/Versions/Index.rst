@@ -7,6 +7,12 @@
 Versions
 ========
 
+0.9.1
+-----
+
+- [BUGFIX] Do not check for FQCN when including _calendarLocale
+
+
 0.9.0
 -----
 

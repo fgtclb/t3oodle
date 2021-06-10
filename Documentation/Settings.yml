@@ -8,7 +8,7 @@ conf.py:
   copyright: 2020-2021
   project: t3oodle
   version: 0.9
-  release: 0.9.0
+  release: 0.9.1
   latex_documents:
   - - Index
     - t3oodle.tex

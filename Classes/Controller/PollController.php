@@ -552,7 +552,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
         }
 
-        if ($poll instanceof \FGTCLB\T3oodle\Domain\Model\SimplePoll) {
+        if ($poll->isSimplePoll()) {
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
         } else {
             $this->pollPermission->isAllowed($poll, 'newSchedulePoll', true);

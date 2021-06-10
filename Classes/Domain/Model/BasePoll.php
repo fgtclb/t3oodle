@@ -685,11 +685,11 @@ abstract class BasePoll extends AbstractEntity
 
     public function isSimplePoll(): bool
     {
-        return SimplePoll::class === get_class($this);
+        return false !== stripos(get_class($this), 'simple');
     }
 
     public function isSchedulePoll(): bool
     {
-        return SchedulePoll::class === get_class($this);
+        return false !== stripos(get_class($this), 'schedule');
     }
 }

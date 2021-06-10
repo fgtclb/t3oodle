@@ -7,6 +7,12 @@
 Versions
 ========
 
+0.9.2
+-----
+
+- [BUGFIX] Always use string comparison to identify "simple" and "schedule" polls
+
+
 0.9.1
 -----
 

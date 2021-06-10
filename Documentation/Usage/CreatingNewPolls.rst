@@ -91,6 +91,10 @@ The time is optional. You can also use any text here.
 .. tip::
    There is not limit of options you can add, but at some point it doesn't make fun anymore to vote for the poll.
 
+.. note::
+   The required translations of date picker are only passed to view, when the poll classname contains the string
+   `schedule`.
+
 
 Suggestion mode
 ~~~~~~~~~~~~~~~

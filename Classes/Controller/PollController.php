@@ -903,7 +903,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 $pollType = $poll['type'];
             }
 
-            if (\FGTCLB\T3oodle\Domain\Model\SchedulePoll::class === $pollType) {
+            if (false !== stripos($pollType, 'schedule')) {
                 $this->settings['_calendarLocale'] = json_encode([
                     'weekdays' => [
                         'shorthand' => [

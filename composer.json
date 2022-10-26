@@ -20,9 +20,9 @@
     "require-dev": {
         "armin/editorconfig-cli": "^1.0",
         "friendsofphp/php-cs-fixer": "^2.18",
-        "phpstan/phpstan": "^0.12.80",
-        "jangregor/phpstan-prophecy": "^0.8",
-        "saschaegerer/phpstan-typo3": "^0.13"
+        "phpstan/phpstan": "^1.8",
+        "jangregor/phpstan-prophecy": "^1.0",
+        "saschaegerer/phpstan-typo3": "^1.1"
     },
     "autoload": {
         "psr-4": {

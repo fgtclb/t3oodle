@@ -9,9 +9,8 @@ router_https_port: "443"
 xdebug_enabled: false
 no_project_mount: true
 additional_hostnames:
-- v8.t3oodle
-- v9.t3oodle
 - v10.t3oodle
+- v11.t3oodle
 additional_fqdns: []
 provider: default
 omit_containers: [dba]

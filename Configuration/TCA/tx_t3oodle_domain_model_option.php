@@ -23,9 +23,6 @@ return [
         'searchFields' => 'name',
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_option.gif'
     ],
-    'interface' => [
-        'showRecordFieldList' => 'name, poll',
-    ],
     'types' => [
         '1' => [
             'showitem' => 'name, --palette--;;creator, poll, ' .

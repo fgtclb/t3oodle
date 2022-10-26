@@ -23,9 +23,6 @@ return [
         'searchFields' => 'participant, participant_name, participant_mail, participant_ident',
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_vote.gif'
     ],
-    'interface' => [
-        'showRecordFieldList' => 'participant, participant_name, participant_mail, participant_ident, poll',
-    ],
     'types' => [
         '1' => ['showitem' => '--palette--;;participant, option_values, poll'],
     ],

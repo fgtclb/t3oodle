@@ -18,7 +18,7 @@ class BasePollObjectConverterV9 extends PersistentObjectConverter
 
     protected $priority = 2;
 
-    public function getTargetTypeForSource($source, $originalTargetType, \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration = null)
+    public function getTargetTypeForSource($source, $originalTargetType, \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration = null): string
     {
         $targetType = parent::getTargetTypeForSource($source, $originalTargetType, $configuration);
         if (BasePoll::class === $targetType && is_array($source) && isset($source['type'])) {

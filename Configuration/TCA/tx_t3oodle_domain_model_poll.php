@@ -28,11 +28,6 @@ return [
         'searchFields' => 'title,description,link,slug,author,author_name,author_mail',
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_poll.gif'
     ],
-    'interface' => [
-        'showRecordFieldList' => 'hidden, title, type, slug, visibility, is_published, publish_date, ' .
-            'author, author_name, author_mail, author_ident, options, fe_group, votes, ' .
-            'is_finished, finish_date, final_option',
-    ],
     'types' => [
         '0' => [
             'showitem' => 'type'
@@ -146,8 +141,7 @@ return [
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
-                'foreign_table_where' => 'ORDER BY fe_groups.title',
-                'enableMultiSelectFilterTextfield' => true
+                'foreign_table_where' => 'ORDER BY fe_groups.title'
             ]
         ],
         'crdate' => [

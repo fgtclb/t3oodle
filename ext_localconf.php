@@ -11,16 +11,16 @@ call_user_func(
     function () {
         // Configure plugins
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'FGTCLB.T3oodle',
+            'T3oodle',
             'Main',
             [
-                'Poll' => 'list, show, vote, new, create, edit, update, publish, finish, finishSuggestionMode, ' .
+                \FGTCLB\T3oodle\Controller\PollController::class => 'list, show, vote, new, create, edit, update, publish, finish, finishSuggestionMode, ' .
                           'newSuggestion, createSuggestion, editSuggestion, updateSuggestion, deleteSuggestion, ' .
                           'delete, resetVotes, deleteOwnVote',
             ],
             // non-cacheable actions
             [
-                'Poll' => 'list, show, vote, create, edit, update, publish, finish, finishSuggestionMode, ' .
+                \FGTCLB\T3oodle\Controller\PollController::class => 'list, show, vote, create, edit, update, publish, finish, finishSuggestionMode, ' .
                           'createSuggestion, editSuggestion, updateSuggestion, deleteSuggestion, ' .
                           'delete, resetVotes, deleteOwnVote',
             ]

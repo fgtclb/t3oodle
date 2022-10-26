@@ -43,31 +43,26 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @var \FGTCLB\T3oodle\Domain\Repository\PollRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $pollRepository;
 
     /**
      * @var \FGTCLB\T3oodle\Domain\Repository\OptionRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $optionRepository;
 
     /**
      * @var \FGTCLB\T3oodle\Domain\Repository\VoteRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $voteRepository;
 
     /**
      * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $userRepository;
 
     /**
      * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $signalSlotDispatcher;
 
@@ -100,7 +95,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         return false;
     }
 
-    public function listAction(): void
+    public function listAction(): \Psr\Http\Message\ResponseInterface
     {
         $this->pollRepository->setControllerSettings($this->settings);
         $polls = $this->pollRepository->findPolls(
@@ -115,12 +110,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'caller' => $this,
         ]);
         $this->view->assign('polls', $polls);
+        return $this->htmlResponse();
     }
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function showAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function showAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): \Psr\Http\Message\ResponseInterface
     {
         $this->pollPermission->isAllowed($poll, 'show', true);
 
@@ -173,6 +169,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 $this->optionRepository->findByPollAndCreatorIdent($poll, $this->currentUserIdent) ?? []
             );
         }
+        return $this->htmlResponse();
     }
 
     /**
@@ -342,7 +339,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function newSuggestionAction(
         \FGTCLB\T3oodle\Domain\Model\BasePoll $poll,
         \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null
-    ): void {
+    ): \Psr\Http\Message\ResponseInterface {
         $this->pollPermission->isAllowed($poll, 'suggestNewOptions', true);
 
         if (!$suggestionDto) {
@@ -359,6 +356,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'caller' => $this,
         ]);
         $this->view->assign('suggestionDto', $suggestionDto);
+        return $this->htmlResponse();
     }
 
     /**
@@ -419,7 +417,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function editSuggestionAction(
         \FGTCLB\T3oodle\Domain\Model\Option $option,
         \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null
-    ): void {
+    ): \Psr\Http\Message\ResponseInterface {
         $this->pollPermission->isAllowed($option->getPoll(), 'suggestNewOptions', true);
         if ($option->getCreatorIdent() !== $this->currentUserIdent) {
             throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
@@ -447,6 +445,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $this->view->assign('suggestionDto', $suggestionDto);
         $this->view->assign('option', $option);
+        return $this->htmlResponse();
     }
 
     /**
@@ -544,7 +543,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         \FGTCLB\T3oodle\Domain\Model\BasePoll $poll = null,
         bool $publishDirectly = true,
         string $pollType = \FGTCLB\T3oodle\Domain\Model\SimplePoll::class
-    ): void {
+    ): \Psr\Http\Message\ResponseInterface {
         if (!$poll) {
             $poll = GeneralUtility::makeInstance($pollType);
             if ($this->currentUser) {
@@ -579,6 +578,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if (!empty($signal['newOptions'])) {
             $this->view->assign('newOptions', $signal['newOptions']);
         }
+        return $this->htmlResponse();
     }
 
     public function initializeCreateAction(): void
@@ -597,7 +597,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         \FGTCLB\T3oodle\Domain\Model\BasePoll $poll,
         bool $publishDirectly,
         bool $acceptTerms = false
-    ): void {
+    ) {
         if ($poll->isSimplePoll()) {
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
         } else {
@@ -643,7 +643,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                     AbstractMessage::OK
                 );
                 if ($publishDirectly) {
-                    $this->forward('publish', null, null, ['poll' => $poll]);
+                    return (new \TYPO3\CMS\Extbase\Http\ForwardResponse('publish'))->withArguments(['poll' => $poll]);
                 }
                 $this->redirect('show', null, null, ['poll' => $poll->getUid()]);
             }
@@ -680,7 +680,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function editAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function editAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): \Psr\Http\Message\ResponseInterface
     {
         $this->pollPermission->isAllowed($poll, 'edit', true);
 
@@ -692,6 +692,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         ]);
 
         $this->view->assign('poll', $poll);
+        return $this->htmlResponse();
     }
 
     /**
@@ -955,5 +956,30 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($this->settings['enableFlashMessages']) {
             parent::addFlashMessage($messageBody, $messageTitle, $severity, $storeInSession);
         }
+    }
+
+    public function injectPollRepository(\FGTCLB\T3oodle\Domain\Repository\PollRepository $pollRepository): void
+    {
+        $this->pollRepository = $pollRepository;
+    }
+
+    public function injectOptionRepository(\FGTCLB\T3oodle\Domain\Repository\OptionRepository $optionRepository): void
+    {
+        $this->optionRepository = $optionRepository;
+    }
+
+    public function injectVoteRepository(\FGTCLB\T3oodle\Domain\Repository\VoteRepository $voteRepository): void
+    {
+        $this->voteRepository = $voteRepository;
+    }
+
+    public function injectUserRepository(\TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $userRepository): void
+    {
+        $this->userRepository = $userRepository;
+    }
+
+    public function injectSignalSlotDispatcher(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher): void
+    {
+        $this->signalSlotDispatcher = $signalSlotDispatcher;
     }
 }

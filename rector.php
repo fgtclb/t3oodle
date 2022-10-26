@@ -14,7 +14,7 @@ use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
-        Typo3LevelSetList::UP_TO_TYPO3_10
+        Typo3LevelSetList::UP_TO_TYPO3_11
     ]);
 
     // In order to have a better analysis from phpstan we teach it here some more things

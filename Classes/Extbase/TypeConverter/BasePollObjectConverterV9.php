@@ -33,7 +33,7 @@ class BasePollObjectConverterV9 extends PersistentObjectConverter
      *
      * @return object
      */
-    protected function buildObject(array &$possibleConstructorArgumentValues, $objectType)
+    protected function buildObject(array &$possibleConstructorArgumentValues, $objectType): object
     {
         $type = $possibleConstructorArgumentValues['type'] ?? null;
         if ($type) {

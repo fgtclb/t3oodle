@@ -478,6 +478,7 @@ return [
             'exclude' => true,
             'label' => $ll('final_option'),
             'config' => [
+                'default' => 0,
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_t3oodle_domain_model_option',

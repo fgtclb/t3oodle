@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  FGTCLB\T3oodle\Extbase\TypeConverter:
+    public: true
+
+  FGTCLB\T3oodle\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*'

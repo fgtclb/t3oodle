@@ -1,0 +1,31 @@
+base: 'https://v11.t3oodle.ddev.site/'
+languages:
+  -
+    title: English
+    enabled: true
+    languageId: 0
+    base: /
+    typo3Language: default
+    locale: en_US.UTF-8
+    iso-639-1: en
+    navigationTitle: English
+    hreflang: en-us
+    direction: ltr
+    flag: us
+  -
+    title: Deutsch
+    enabled: true
+    base: /de/
+    typo3Language: de
+    locale: de_DE.UTF-8
+    iso-639-1: de
+    websiteTitle: ''
+    navigationTitle: Deutsch
+    hreflang: de-DE
+    direction: ltr
+    fallbackType: strict
+    fallbacks: ''
+    flag: de
+    languageId: 1
+rootPageId: 1
+websiteTitle: 'T3oodle'

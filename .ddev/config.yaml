@@ -1,15 +1,12 @@
 name: t3oodle
-type: php
-docroot: ""
-php_version: "7.4"
-webserver_type: apache-fpm
+type: typo3
+docroot: .Build/public
+php_version: "8.1"
+webserver_type: nginx-fpm
 router_http_port: "80"
 router_https_port: "443"
 xdebug_enabled: false
-no_project_mount: true
-additional_hostnames:
-    - v10.t3oodle
-    - v11.t3oodle
+additional_hostnames: []
 additional_fqdns: []
 database:
     type: mariadb
@@ -18,9 +15,30 @@ performance_mode: none
 use_dns_when_possible: true
 timezone: Europe/Berlin
 composer_version: "2"
-web_environment: []
+web_environment:
+    - EXTENSION_KEY=t3oodle
+    - PACKAGE_NAME=fgtclb/t3oodle
+    - TYPO3_CONTEXT=Development
+    - TYPO3_INSTALL_DB_DRIVER=mysqli
+    - TYPO3_INSTALL_DB_USER=db
+    - TYPO3_INSTALL_DB_PASSWORD=db
+    - TYPO3_INSTALL_DB_HOST=db
+    - TYPO3_INSTALL_DB_PORT=3306
+    - TYPO3_INSTALL_DB_UNIX_SOCKET=
+    - TYPO3_INSTALL_DB_USE_EXISTING=1
+    - TYPO3_INSTALL_DB_DBNAME=db
+    - TYPO3_INSTALL_ADMIN_USER=admin
+    - TYPO3_INSTALL_ADMIN_PASSWORD=password
+    - TYPO3_INSTALL_SITE_NAME=t3oodle
+    - TYPO3_INSTALL_SITE_SETUP_TYPE=no
+    - TYPO3_INSTALL_SITE_BASE_URL=https://t3oodle.ddev.site
+    - TYPO3_INSTALL_WEB_SERVER_CONFIG=none
+    - typo3DatabaseName=functional
+    - typo3DatabaseHost=db
+    - typo3DatabaseUsername=root
+    - typo3DatabasePassword=root
+
 nodejs_version: "18"
-disable_upload_dirs_warning: true
 
 # Key features of DDEV's config.yaml:
 
@@ -269,3 +287,5 @@ disable_upload_dirs_warning: true
 # information on the commands that can be extended and the tasks you can define
 # for them. Example:
 #hooks:
+#  post-start:
+#    - exec: composer install -d /var/www/html

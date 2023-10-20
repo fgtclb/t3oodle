@@ -38,11 +38,6 @@ You will find a demonstration of the extension on https://t3oodle.com
 Development
 -----------
 
-.ddev Environment
-~~~~~~~~~~~~~~~~~
-
-See https://github.com/a-r-m-i-n/ddev-for-typo3-extensions
-
 First start
 ^^^^^^^^^^^
 

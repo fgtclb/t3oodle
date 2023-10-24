@@ -9,6 +9,7 @@
 rm -rf var/cache || true
 ddev composer install
 echo "DROP DATABASE db; CREATE DATABASE db;" | ddev mysql
+ddev import-db --file=seeds/db.sql.gz
 ddev typo3cms install:setup --skip-integrity-check
 
 ddev typo3cms configuration:set 'BE/debug' 1

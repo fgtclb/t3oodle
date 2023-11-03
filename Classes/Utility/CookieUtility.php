@@ -44,9 +44,7 @@ final class CookieUtility
             $value,
             $cookieExpireDate,
             '/',
-            self::getCookieDomain(),
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] > 0,
-            1 == $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieHttpOnly']
+            self::getCookieDomain()
         );
     }
 

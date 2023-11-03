@@ -169,6 +169,10 @@ class PollPermission
 
     public function isSuggestNewOptionsAllowed(BasePoll $poll): bool
     {
+        if (empty($this->controllerSettings)) {
+            return false;
+        }
+
         $status = (bool)$this->controllerSettings['allowSuggestionMode']
             && $poll->isPublished()
             && !$poll->isFinished()

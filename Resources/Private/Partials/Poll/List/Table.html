@@ -20,12 +20,13 @@
             <f:then>
                 <f:if condition="{settings.list.itemsPerPage} > 0">
                     <f:then>
-                        <f:widget.paginate objects="{polls}" as="paginatedPolls"
-                                           configuration="{itemsPerPage:settings.list.itemsPerPage, insertBelow: 1, maximumNumberOfLinks: 99}">
-                            <f:for each="{paginatedPolls}" as="poll">
-                                <f:render partial="Poll/List/Table/Row" arguments="{poll:poll}"/>
-                            </f:for>
-                        </f:widget.paginate>
+
+
+											<f:for each="{paginatorForPolls.paginatedItems}" as="poll">
+												<f:render partial="Poll/List/Table/Row" arguments="{poll:poll}"/>
+											</f:for>
+											<f:render partial="Pagination" arguments="{pagination: paginationForPolls, paginator: paginatorForPolls, actionName: 'list'}" />
+
                     </f:then>
                     <f:else>
                         <f:for each="{polls}" as="poll">

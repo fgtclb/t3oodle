@@ -21,6 +21,8 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use GeorgRinger\NumberedPagination\NumberedPagination;
+use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 
 class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -97,19 +99,33 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     public function listAction(): \Psr\Http\Message\ResponseInterface
     {
+
         $this->pollRepository->setControllerSettings($this->settings);
         $polls = $this->pollRepository->findPolls(
             (bool)$this->settings['list']['draft'],
             (bool)$this->settings['list']['finished'],
             (bool)$this->settings['list']['personal']
         );
+
+        $itemsPerPage = 10;
+        $maximumLinks = 5;
+        $currentPage = $this->request->hasArgument('currentPage') ? (int)$this->request->getArgument('currentPage') : 1;
+        $paginatorForPolls = new QueryResultPaginator($polls, $currentPage, $itemsPerPage);
+        $paginationForPolls = new NumberedPagination($paginatorForPolls, $maximumLinks);
+
+
+
         $this->signalSlotDispatcher->dispatch(__CLASS__, 'list', [
             'polls' => $polls,
             'settings' => $this->settings,
             'view' => $this->view,
             'caller' => $this,
         ]);
-        $this->view->assign('polls', $polls);
+        $this->view->assignMultiple([
+            'polls' => $polls,
+            'paginatorForPolls' => $paginatorForPolls,
+            'paginationForPolls' => $paginationForPolls,
+        ]);
         return $this->htmlResponse();
     }
 

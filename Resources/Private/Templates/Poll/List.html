@@ -3,12 +3,11 @@
       data-namespace-typo3-fluid="true">
 
 <f:layout name="Default"/>
-
 <f:section name="content">
     <f:flashMessages/>
-    <f:render partial="Poll/List/Header" arguments="{polls:polls}"/>
-    <f:render partial="Poll/List/Totals" arguments="{polls:polls}"/>
-    <f:render partial="Poll/List/Table" arguments="{polls:polls}"/>
+    <f:render partial="Poll/List/Header" arguments="{_all}"/>
+    <f:render partial="Poll/List/Totals" arguments="{_all}"/>
+    <f:render partial="Poll/List/Table" arguments="{_all}"/>
     <f:render partial="Poll/List/NewButton"/>
 </f:section>
 

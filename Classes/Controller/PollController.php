@@ -8,6 +8,29 @@ namespace FGTCLB\T3oodle\Controller;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Domain\Validator\CustomPollValidator;
+use FGTCLB\T3oodle\Event\CreateAfterEvent;
+use FGTCLB\T3oodle\Event\CreateBeforeEvent;
+use FGTCLB\T3oodle\Event\CreateSuggestionAfterEvent;
+use FGTCLB\T3oodle\Event\CreateSuggestionBeforeEvent;
+use FGTCLB\T3oodle\Event\DeleteOwnVoteEvent;
+use FGTCLB\T3oodle\Event\DeletePollEvent;
+use FGTCLB\T3oodle\Event\DeleteSuggestionEvent;
+use FGTCLB\T3oodle\Event\EditPollEvent;
+use FGTCLB\T3oodle\Event\EditSuggestionEvent;
+use FGTCLB\T3oodle\Event\FinishPollEvent;
+use FGTCLB\T3oodle\Event\FinishSuggestionModeEvent;
+use FGTCLB\T3oodle\Event\NewPollEvent;
+use FGTCLB\T3oodle\Event\NewSuggestionEvent;
+use FGTCLB\T3oodle\Event\PublishPollEvent;
+use FGTCLB\T3oodle\Event\ResetVotesEvent;
+use FGTCLB\T3oodle\Event\ShowPollEvent;
+use FGTCLB\T3oodle\Event\ListPollEvent;
+use FGTCLB\T3oodle\Event\UpdateAfterEvent;
+use FGTCLB\T3oodle\Event\UpdateBeforeEvent;
+use FGTCLB\T3oodle\Event\UpdateSuggestionAfterEvent;
+use FGTCLB\T3oodle\Event\UpdateSuggestionBeforeEvent;
+use FGTCLB\T3oodle\Event\VotePollEvent;
+use FGTCLB\T3oodle\Event\ShowFinishEvent;
 use FGTCLB\T3oodle\Exception\AccessDeniedException;
 use FGTCLB\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use FGTCLB\T3oodle\Utility\CookieUtility;
@@ -114,13 +137,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $paginationForPolls = new NumberedPagination($paginatorForPolls, $maximumLinks);
 
 
+        $event = new ListPollEvent($polls, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($event);
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'list', [
-            'polls' => $polls,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
         $this->view->assignMultiple([
             'polls' => $polls,
             'paginatorForPolls' => $paginatorForPolls,
@@ -164,19 +183,14 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
         }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'show', [
-            'poll' => $poll,
-            'vote' => $vote,
-            'newOptionValues' => $newOptionValues,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+        $event = new ShowPollEvent($poll, $vote, $this->view, $newOptionValues, $this->settings, $this);
+        $this->eventDispatcher->dispatch($event);
 
         $this->view->assign('poll', $poll);
         $this->view->assign('vote', $vote);
+
         if (!empty($newOptionValues)) {
-            $this->view->assign('newOptionValues', $signal['newOptionValues']);
+            $this->view->assign('newOptionValues', $event->getNewOptionValues());
         }
 
         if ($this->pollPermission->isAllowed($poll, 'suggestNewOptions')) {
@@ -212,18 +226,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
         }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'vote', [
-            'vote' => $vote,
-            'isNew' => !$vote->getUid(),
-            'settings' => $this->settings,
-            'continue' => true,
-            'caller' => $this,
-        ]);
+        $votePollEvent = new VotePollEvent($vote, !$vote->getUid(), $this->settings, true, $this);
+        $this->eventDispatcher->dispatch($votePollEvent);
 
-        if ($signal['continue']) {
+        if ($votePollEvent->shouldContinue()) {
             $this->voteRepository->add($vote);
             $this->addFlashMessage(
-                TranslateUtility::translate($signal['isNew'] ? 'flash.votingSaved' : 'flash.votingUpdated'),
+                TranslateUtility::translate($votePollEvent->getIsNew() ? 'flash.votingSaved' : 'flash.votingUpdated'),
                 '',
                 AbstractMessage::OK
             );
@@ -238,14 +247,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $this->pollPermission->isAllowed($poll, 'resetVotes', true);
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'resetVotes', [
-            'poll' => $poll,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $resetVotesEvent = new ResetVotesEvent($poll, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($resetVotesEvent);
 
-        if ($signal['continue']) {
+        if ($resetVotesEvent->getContinue()) {
             $count = count($poll->getVotes());
             foreach ($poll->getVotes() as $vote) {
                 $this->voteRepository->remove($vote);
@@ -264,15 +269,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $this->pollPermission->isAllowed($vote, 'deleteOwnVote', true);
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'deleteOwnVote', [
-            'vote' => $vote,
-            'participantName' => $vote->getParticipantName(),
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $deleteOwnVoteEvent = new DeleteOwnVoteEvent($vote, $vote->getParticipantName(), true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($deleteOwnVoteEvent);
 
-        if ($signal['continue']) {
+        if ($deleteOwnVoteEvent->getContinue()) {
             $this->voteRepository->remove($vote);
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.voteSuccessfullyDeleted')
@@ -296,16 +296,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $poll->setFinishDate(DateTimeUtility::now());
             $poll->setIsFinished(true);
 
-            $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'finish', [
-                'poll' => $poll,
-                'finalOption' => $option,
-                'continue' => true,
-                'settings' => $this->settings,
-                'view' => $this->view,
-                'caller' => $this,
-            ]);
+            $finishPollEvent = new FinishPollEvent($poll, $option, true, $this->settings, $this->view, $this);
+            $this->eventDispatcher->dispatch($finishPollEvent);
 
-            if ($signal['continue']) {
+            if ($finishPollEvent->getContinue()) {
                 $this->pollRepository->update($poll);
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyFinished', [$poll->getTitle(), $option->getName()])
@@ -314,12 +308,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
         } else {
             // Display options to choose final one
-            $this->signalSlotDispatcher->dispatch(__CLASS__, 'showFinish', [
-                'poll' => $poll,
-                'settings' => $this->settings,
-                'view' => $this->view,
-                'caller' => $this,
-            ]);
+            $showFinishEvent = new ShowFinishEvent($poll, $this->settings, $this->view, $this);
+            $this->eventDispatcher->dispatch($showFinishEvent);
         }
         $this->view->assign('poll', $poll);
     }
@@ -333,14 +323,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $poll->setIsSuggestModeFinished(true);
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'finishSuggestionMode', [
-            'poll' => $poll,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $finishSuggestionModeEvent = new FinishSuggestionModeEvent($poll, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($finishSuggestionModeEvent);
 
-        if ($signal['continue']) {
+        if ($finishSuggestionModeEvent->getContinue()) {
             $this->pollRepository->update($poll);
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.successfullyFinishedSuggestionMode', [$poll->getTitle()])
@@ -364,13 +350,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($this->currentUser) {
             $suggestionDto->setCreator($this->currentUser);
         }
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'newSuggestion', [
-            'poll' => $poll,
-            'suggestionDto' => $suggestionDto,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+
+        $newSuggestionEvent = new NewSuggestionEvent($poll, $suggestionDto, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($newSuggestionEvent);
+
         $this->view->assign('suggestionDto', $suggestionDto);
         return $this->htmlResponse();
     }
@@ -395,14 +378,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $newSuggestedOption = $suggestionDto->makeOption();
 
-        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createSuggestionBefore', [
-            'suggestionDto' => $suggestionDto,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $createSuggestionBeforeEvent = new CreateSuggestionBeforeEvent($suggestionDto, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($createSuggestionBeforeEvent);
 
-        if ($signalBefore['continue']) {
+        if ($createSuggestionBeforeEvent->getContinue()) {
             $this->optionRepository->add($newSuggestedOption);
 
             if ($suggestionDto->getPoll()->isSchedulePoll()) {
@@ -412,14 +391,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $persistenceManager = $this->objectManager->get(PersistenceManager::class);
             $persistenceManager->persistAll();
 
-            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createSuggestionAfter', [
-                'suggestionDto' => $suggestionDto,
-                'continue' => true,
-                'settings' => $this->settings,
-                'caller' => $this,
-            ]);
+            $createSuggestionAfterEvent = new CreateSuggestionAfterEvent($suggestionDto, true, $this->settings, $this);
+            $this->eventDispatcher->dispatch($createSuggestionAfterEvent);
 
-            if ($signalAfter['continue']) {
+            if ($createSuggestionAfterEvent->getContinue()) {
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyCreatedSuggestion', [$suggestionDto->getSuggestion(), $suggestionDto->getPoll()->getTitle()]),
                     '',
@@ -451,13 +426,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             );
         }
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'editSuggestion', [
-            'option' => $option,
-            'suggestionDto' => $suggestionDto,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+        $editSuggestionEvent = new EditSuggestionEvent($option, $suggestionDto, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($editSuggestionEvent);
 
         $this->view->assign('suggestionDto', $suggestionDto);
         $this->view->assign('option', $option);
@@ -486,14 +456,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $option->setName(trim($suggestionDto->getSuggestion()));
 
-        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateSuggestionBefore', [
-            'suggestionDto' => $suggestionDto,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $updateSuggestionBeforeEvent = new UpdateSuggestionBeforeEvent($suggestionDto, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($updateSuggestionBeforeEvent);
 
-        if ($signalBefore['continue']) {
+        if ($updateSuggestionBeforeEvent->getContinue()) {
             $this->optionRepository->update($option);
 
             if ($suggestionDto->getPoll()->isSchedulePoll()) {
@@ -504,14 +470,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $persistenceManager = $this->objectManager->get(PersistenceManager::class);
             $persistenceManager->persistAll();
 
-            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateSuggestionAfter', [
-                'suggestionDto' => $suggestionDto,
-                'continue' => true,
-                'settings' => $this->settings,
-                'caller' => $this,
-            ]);
+            $updateSuggestionAfterEvent = new UpdateSuggestionAfterEvent($suggestionDto, true, $this->settings, $this);
+            $this->eventDispatcher->dispatch($updateSuggestionAfterEvent);
 
-            if ($signalAfter['continue']) {
+            if ($updateSuggestionAfterEvent->getContinue()) {
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyUpdatedSuggestion', [$suggestionDto->getSuggestion(), $suggestionDto->getPoll()->getTitle()]),
                     '',
@@ -538,14 +500,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
         }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'deleteSuggestion', [
-            'option' => $option,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $deleteSuggestionEvent = new DeleteSuggestionEvent($option, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($deleteSuggestionEvent);
 
-        if ($signal['continue']) {
+
+        if ($deleteSuggestionEvent->getContinue()) {
             $this->optionRepository->remove($option);
             $this->addFlashMessage(TranslateUtility::translate('flash.successfullyDeletedSuggestion', [$option->getName()]));
             $this->redirect('show', null, null, ['poll' => $poll->getUid()]);
@@ -580,19 +539,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $newOptions = $this->request->getOriginalRequest()->getArgument('poll')['options'];
         }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'new', [
-            'poll' => $poll,
-            'publishDirectly' => $publishDirectly,
-            'newOptions' => $newOptions,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+        $newPollEvent = new NewPollEvent($poll, $publishDirectly, $newOptions, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($newPollEvent);
 
         $this->view->assign('poll', $poll);
-        $this->view->assign('publishDirectly', $signal['publishDirectly']);
-        if (!empty($signal['newOptions'])) {
-            $this->view->assign('newOptions', $signal['newOptions']);
+        $this->view->assign('publishDirectly', $newPollEvent->getPublishDirectly());
+        if (!empty($newPollEvent->getNewOptions())) {
+            $this->view->assign('newOptions', $newPollEvent->getNewOptions());
         }
         return $this->htmlResponse();
     }
@@ -629,30 +582,19 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $poll->setAuthor($this->currentUser);
             $poll->setAuthorIdent($this->currentUserIdent);
         }
+        $createBeforeEvent = new CreateBeforeEvent($poll, $publishDirectly, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($createBeforeEvent);
 
-        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createBefore', [
-            'poll' => $poll,
-            'publishDirectly' => $publishDirectly,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
-
-        if ($signalBefore['continue']) {
+        if ($createBeforeEvent->getContinue()) {
             $this->pollRepository->add($poll);
 
             $persistenceManager = $this->objectManager->get(PersistenceManager::class);
             $persistenceManager->persistAll();
 
-            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createAfter', [
-                'poll' => $poll,
-                'publishDirectly' => $publishDirectly,
-                'continue' => true,
-                'settings' => $this->settings,
-                'caller' => $this,
-            ]);
+            $createAfterEvent = new CreateAfterEvent($poll, $publishDirectly, true, $this->settings, $this);
+            $this->eventDispatcher->dispatch($createAfterEvent);
 
-            if ($signalAfter['continue']) {
+            if ($createAfterEvent->getContinue()) {
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyCreated', [$poll->getTitle()]),
                     '',
@@ -675,14 +617,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $poll->setPublishDate(DateTimeUtility::now());
         $poll->setIsPublished(true);
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'publish', [
-            'poll' => $poll,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $publishPollEvent = new PublishPollEvent($poll, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($publishPollEvent);
 
-        if ($signal['continue']) {
+        if ($publishPollEvent->getContinue()) {
             $this->pollRepository->update($poll);
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.successfullyPublished', [$poll->getTitle()]),
@@ -700,12 +638,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $this->pollPermission->isAllowed($poll, 'edit', true);
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'edit', [
-            'poll' => $poll,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+        $editPollEvent = new EditPollEvent($poll, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($editPollEvent);
 
         $this->view->assign('poll', $poll);
         return $this->htmlResponse();
@@ -721,16 +655,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $voteCount = count($poll->getVotes());
         $optionsModified = $poll->areOptionsModified();
 
-        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateBefore', [
-            'poll' => $poll,
-            'voteCount' => $voteCount,
-            'areOptionsModified' => $optionsModified,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $updateBeforeEvent = new UpdateBeforeEvent($poll, $voteCount, $optionsModified, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($updateBeforeEvent);
 
-        if ($signalBefore['continue']) {
+        if ($updateBeforeEvent->getContinue()) {
             if ($voteCount > 0 && $optionsModified) {
                 foreach ($poll->getVotes() as $vote) {
                     $this->voteRepository->remove($vote);
@@ -742,20 +670,14 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $persistenceManager = $this->objectManager->get(PersistenceManager::class);
             $persistenceManager->persistAll();
 
-            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateAfter', [
-                'poll' => $poll,
-                'voteCount' => $voteCount,
-                'areOptionsModified' => $optionsModified,
-                'continue' => true,
-                'settings' => $this->settings,
-                'caller' => $this,
-            ]);
+            $updateAfterEvent = new UpdateAfterEvent($poll, $voteCount, $optionsModified, true, $this->settings, $this);
+            $this->eventDispatcher->dispatch($updateAfterEvent);
 
-            if ($signalAfter['continue']) {
+            if ($updateAfterEvent->getContinue()) {
                 $this->addFlashMessage(TranslateUtility::translate('flash.successfullyUpdated', [$poll->getTitle()]));
-                if ($signalAfter['voteCount'] > 0 && $signalAfter['areOptionsModified']) {
+                if ($updateAfterEvent->getVoteCount() > 0 && $updateAfterEvent->getOptionsModified()) {
                     $this->addFlashMessage(
-                        TranslateUtility::translate('flash.noticeRemovedVotes', [$signalAfter['voteCount']]),
+                        TranslateUtility::translate('flash.noticeRemovedVotes', [$updateAfterEvent->getVoteCount()]),
                         '',
                         AbstractMessage::WARNING
                     );
@@ -772,14 +694,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $this->pollPermission->isAllowed($poll, 'delete', true);
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'delete', [
-            'poll' => $poll,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $deletePollEvent = new DeletePollEvent($poll, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($deletePollEvent);
 
-        if ($signal['continue']) {
+        if ($deletePollEvent->getContinue()) {
             $this->pollRepository->remove($poll);
             $this->addFlashMessage(TranslateUtility::translate('flash.successfullyDeleted', [$poll->getTitle()]));
             $this->redirect('list');

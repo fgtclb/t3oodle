@@ -833,7 +833,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         // Remove empty option entries and trim non-empty ones
         if ($this->request->hasArgument('poll') && is_array($this->request->getArgument('poll'))) {
             $poll = $this->request->getArgument('poll');
-            $pollOptions = $poll['options'];
+            $pollOptions = $poll['options'] ?? [];
             if ($pollOptions) {
                 $lastSorting = 0;
                 foreach ($pollOptions as $index => $pollOption) {
@@ -849,7 +849,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                             $lastSorting = $pollOption['sorting'];
                         }
                     }
-                    if ('' === $pollOption['__identity']) {
+                    $__identity = $pollOption['__identity'] ?? '';
+                    if ('' === $__identity) {
                         unset($poll['options'][$index]['__identity']);
                     }
                 }

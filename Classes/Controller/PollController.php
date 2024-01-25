@@ -536,7 +536,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         /** @var Request|null $originalRequest */
         $originalRequest = $this->request->getOriginalRequest();
         if ($originalRequest) {
-            $newOptions = $this->request->getOriginalRequest()->getArgument('poll')['options'];
+            $newOptions = $this->request->getOriginalRequest()->getArgument('poll')['options'] ?? [];
         }
 
         $newPollEvent = new NewPollEvent($poll, $publishDirectly, $newOptions, $this->settings, $this->view, $this);
@@ -675,7 +675,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
             if ($updateAfterEvent->getContinue()) {
                 $this->addFlashMessage(TranslateUtility::translate('flash.successfullyUpdated', [$poll->getTitle()]));
-                if ($updateAfterEvent->getVoteCount() > 0 && $updateAfterEvent->getOptionsModified()) {
+                if ($updateAfterEvent->getVoteCount() > 0 && $updateAfterEvent->getAreOptionsModified()) {
                     $this->addFlashMessage(
                         TranslateUtility::translate('flash.noticeRemovedVotes', [$updateAfterEvent->getVoteCount()]),
                         '',
@@ -773,7 +773,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                     }
                 }
             }
-            if (is_array($poll['options'])) {
+            if (isset($poll['options']) && is_array($poll['options'])) {
                 $poll['options'] = array_values($poll['options']);
             }
             $this->request->setArgument('poll', $poll);
@@ -836,7 +836,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 if (!is_array($poll)) {
                     return;
                 }
-                $pollType = $poll['type'];
+                $pollType = $poll['type'] ?? false;
             }
 
             if (false !== stripos($pollType, 'schedule')) {

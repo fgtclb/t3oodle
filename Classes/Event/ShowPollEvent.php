@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace FGTCLB\T3oodle\Event;
 
 use FGTCLB\T3oodle\Controller\PollController;
+use FGTCLB\T3oodle\Domain\Model\SchedulePoll;
 use FGTCLB\T3oodle\Domain\Model\SimplePoll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 final class ShowPollEvent
 {
-    private SimplePoll $poll;
+    private SimplePoll|SchedulePoll $poll;
 
     private Vote $vote;
 
@@ -21,7 +22,7 @@ final class ShowPollEvent
 
     private PollController $caller;
 
-    public function __construct(SimplePoll $poll, Vote $vote, ViewInterface $view, array $newOptionValues, array $settings, PollController $caller)
+    public function __construct(SimplePoll|SchedulePoll $poll, Vote $vote, ViewInterface $view, array $newOptionValues, array $settings, PollController $caller)
     {
         $this->poll = $poll;
         $this->vote = $vote;
@@ -31,12 +32,12 @@ final class ShowPollEvent
         $this->caller = $caller;
     }
 
-    public function getPoll(): SimplePoll
+    public function getPoll(): SimplePoll|SchedulePoll
     {
         return $this->poll;
     }
 
-    public function setPoll(SimplePoll $poll): void
+    public function setPoll(SimplePoll|SchedulePoll $poll): void
     {
         $this->poll = $poll;
     }

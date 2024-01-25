@@ -130,11 +130,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             (bool)$this->settings['list']['personal']
         );
 
-        $itemsPerPage = 10;
+        $itemsPerPage = $this->settings['list']['itemsPerPage'];
         $maximumLinks = 5;
+
         $currentPage = $this->request->hasArgument('currentPage') ? (int)$this->request->getArgument('currentPage') : 1;
-        $paginatorForPolls = new QueryResultPaginator($polls, $currentPage, $itemsPerPage);
-        $paginationForPolls = new NumberedPagination($paginatorForPolls, $maximumLinks);
+        $paginator = new QueryResultPaginator($polls, $currentPage, $itemsPerPage);
+        $pagination = new NumberedPagination($paginator, $maximumLinks);
 
 
         $event = new ListPollEvent($polls, $this->settings, $this->view, $this);
@@ -142,8 +143,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $this->view->assignMultiple([
             'polls' => $polls,
-            'paginatorForPolls' => $paginatorForPolls,
-            'paginationForPolls' => $paginationForPolls,
+            'paginator' => $paginator,
+            'pagination' => $pagination,
         ]);
         return $this->htmlResponse();
     }

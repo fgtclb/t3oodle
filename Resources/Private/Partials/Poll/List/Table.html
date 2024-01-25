@@ -1,7 +1,6 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
-
 <div class="{settings.classes.tableResponsive}">
     <table class="{settings.classes.table} table-list-action">
         <thead>
@@ -16,16 +15,18 @@
         </tr>
         </thead>
         <tbody>
-        <f:if condition="{polls -> f:count()} > 0">
+
+        <f:if condition="{pagination.paginator.paginatedItems -> f:count()} > 1">
             <f:then>
                 <f:if condition="{settings.list.itemsPerPage} > 0">
                     <f:then>
 
+											<f:debug>{_all}</f:debug>
+											<f:for each="{paginator.paginatedItems}" as="poll">
 
-											<f:for each="{paginatorForPolls.paginatedItems}" as="poll">
 												<f:render partial="Poll/List/Table/Row" arguments="{poll:poll}"/>
 											</f:for>
-											<f:render partial="Pagination" arguments="{pagination: paginationForPolls, paginator: paginatorForPolls, actionName: 'list'}" />
+											<f:render partial="Pagination" arguments="{pagination: pagination, paginator: paginator, actionName: 'list'}" />
 
                     </f:then>
                     <f:else>

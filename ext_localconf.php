@@ -58,23 +58,6 @@ TS
             ['source' => 'EXT:t3oodle/Resources/Public/Icons/Extension.svg']
         );
 
-        // Register t3oodle's slots
-        $dispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
-        );
-        $dispatcher->connect(
-            \FGTCLB\T3oodle\Controller\PollController::class,
-            'createAfter',
-            \FGTCLB\T3oodle\Slots\UpdatePollSlug::class,
-            'afterCreate'
-        );
-        $dispatcher->connect(
-            \FGTCLB\T3oodle\Controller\PollController::class,
-            'updateBefore',
-            \FGTCLB\T3oodle\Slots\UpdatePollSlug::class,
-            'beforeUpdate'
-        );
-
         // Register update wizards
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['t3oodleMigrateOneOptionOnlySetting']
             = \FGTCLB\T3oodle\Updates\MigrateOneOptionOnlySetting::class;

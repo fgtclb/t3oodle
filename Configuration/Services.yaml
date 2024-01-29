@@ -10,3 +10,14 @@ services:
   FGTCLB\T3oodle\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
+
+  FGTCLB\T3oodle\EventListener\UpdatePollSlugListener:
+    tags:
+      - name: event.listener
+        identifier: update-slug-before-update-poll
+        method: updateBeforeEvent
+        event: FGTCLB\T3oodle\Event\UpdateBeforeEvent
+      - name: event.listener
+        identifier: update-slug-create-after-poll
+        method: createAfterEvent
+        event: FGTCLB\T3oodle\Event\CreateAfterEvent

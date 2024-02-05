@@ -47,7 +47,7 @@ trait ControllerValidatorManipulatorTrait
 
             if ($validator ===  null) {
                 GeneralUtility::makeInstance(LogManager::class)
-                    ->getLogger(__CLASS__)->debug("No validator found for argument $argumentName");
+                    ->getLogger(__CLASS__)->warning("No validator found for argument $argumentName");
                 return;
             }
 

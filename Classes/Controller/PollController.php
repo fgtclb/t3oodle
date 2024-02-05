@@ -139,7 +139,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $paginator = new QueryResultPaginator($polls, $currentPage, $itemsPerPage);
         $pagination = new NumberedPagination($paginator, $maximumLinks);
 
-
         $event = new ListPollEvent($polls, $this->settings, $this->view, $this);
         $this->eventDispatcher->dispatch($event);
 

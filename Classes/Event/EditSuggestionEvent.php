@@ -15,7 +15,7 @@ class EditSuggestionEvent {
     private array $settings;
     private PollController $caller;
 
-    public function __construct(Option $option, SuggestionDto $suggestionDto, ViewInterface $view, array $settings, PollController $caller) {
+    public function __construct(Option $option, SuggestionDto $suggestionDto, array $settings, ViewInterface $view, PollController $caller) {
         $this->option = $option;
         $this->suggestionDto = $suggestionDto;
         $this->view = $view;

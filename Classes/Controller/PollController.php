@@ -41,11 +41,11 @@ use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
-use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use GeorgRinger\NumberedPagination\NumberedPagination;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -86,10 +86,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected $userRepository;
 
-    /**
-     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-     */
-    protected $signalSlotDispatcher;
+    protected PersistenceManagerInterface $persistenceManager;
+
+    public function injectPersistenceManager(PersistenceManagerInterface $persistenceManager)
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
 
     public function initializeAction(): void
     {
@@ -389,8 +391,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 $this->optionRepository->updateSortingOfOptionsByDateTime($suggestionDto->getPoll());
             }
 
-            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-            $persistenceManager->persistAll();
+            $this->persistenceManager->persistAll();
 
             $createSuggestionAfterEvent = new CreateSuggestionAfterEvent($suggestionDto, true, $this->settings, $this);
             $this->eventDispatcher->dispatch($createSuggestionAfterEvent);
@@ -468,8 +469,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 $this->pollRepository->update($suggestionDto->getPoll());
             }
 
-            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-            $persistenceManager->persistAll();
+            $this->persistenceManager->persistAll();
 
             $updateSuggestionAfterEvent = new UpdateSuggestionAfterEvent($suggestionDto, true, $this->settings, $this);
             $this->eventDispatcher->dispatch($updateSuggestionAfterEvent);
@@ -589,8 +589,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($createBeforeEvent->getContinue()) {
             $this->pollRepository->add($poll);
 
-            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-            $persistenceManager->persistAll();
+            $this->persistenceManager->persistAll();
 
             $createAfterEvent = new CreateAfterEvent($poll, $publishDirectly, true, $this->settings, $this);
             $this->eventDispatcher->dispatch($createAfterEvent);
@@ -668,8 +667,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->removeMarkedPollOptions($poll);
             $this->pollRepository->update($poll);
 
-            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-            $persistenceManager->persistAll();
+            $this->persistenceManager->persistAll();
 
             $updateAfterEvent = new UpdateAfterEvent($poll, $voteCount, $optionsModified, true, $this->settings, $this);
             $this->eventDispatcher->dispatch($updateAfterEvent);
@@ -712,16 +710,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     protected function removeMarkedPollOptions(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
     {
-        /** @var PersistenceManager $persistenceManager */
-        $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-
         foreach ($poll->getOptions()->toArray() as $option) {
             // ->toArray() was necessary, because otherwise $poll->getOptions() did not return all items properly.
             if ($option->isMarkToDelete()) {
                 $poll->removeOption($option);
-                $persistenceManager->remove($option);
+                $this->persistenceManager->remove($option);
             } else {
-                $option->getUid() ? $persistenceManager->update($option) : $persistenceManager->add($option);
+                $option->getUid() ? $this->persistenceManager->update($option) : $this->persistenceManager->add($option);
             }
         }
     }
@@ -912,10 +907,5 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function injectUserRepository(\TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $userRepository): void
     {
         $this->userRepository = $userRepository;
-    }
-
-    public function injectSignalSlotDispatcher(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher): void
-    {
-        $this->signalSlotDispatcher = $signalSlotDispatcher;
     }
 }

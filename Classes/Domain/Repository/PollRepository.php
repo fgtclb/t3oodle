@@ -10,6 +10,7 @@ namespace FGTCLB\T3oodle\Domain\Repository;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
+use FGTCLB\T3oodle\Event\PollRepository\FindPollsEvent;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -93,14 +94,10 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $andConstraints[] = $query->logicalNot($query->equals('slug', ''));
 
-        /** @var Dispatcher $signalSlotDispatcher */
-        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-        $slot = $signalSlotDispatcher->dispatch(__CLASS__, 'findPolls', [
-            'constraints' => $andConstraints,
-            'query' => $query,
-            'caller' => $this,
-        ]);
-        $andConstraints = $slot['constraints'];
+        $event = new FindPollsEvent($andConstraints, $query, $this);
+        $this->eventDispatcher->dispatch($event);
+
+        $andConstraints = $event->getConstraints();
 
         $query->matching($query->logicalAnd($andConstraints));
 

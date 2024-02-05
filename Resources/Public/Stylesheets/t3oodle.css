@@ -300,3 +300,32 @@ ol.t3oodle-options-per-day > li:last-child button.t3oodle-poll-option-remove {
 .tx-t3oodle .badge.badge-outline-dark {
     border: 1px solid var(--gray);
 }
+
+.f3-widget-paginator {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+.f3-widget-paginator li {
+    margin: 0.5rem;
+    color: white;
+    border:#47712c 1px solid;
+}
+
+.f3-widget-paginator a {
+    display: block;
+    padding: 0.5rem 1rem;
+}
+
+.f3-widget-paginator li.current {
+    margin: 0.5rem;
+    color: white;
+    background-color: #47712c;
+}
+
+.f3-widget-paginator li.current a {
+    color: white;
+    font-weight: bold;
+}

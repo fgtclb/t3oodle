@@ -21,11 +21,10 @@
                 <f:if condition="{settings.list.itemsPerPage} > 0">
                     <f:then>
 
-											<f:debug>{_all}</f:debug>
 											<f:for each="{paginator.paginatedItems}" as="poll">
-
 												<f:render partial="Poll/List/Table/Row" arguments="{poll:poll}"/>
 											</f:for>
+
 											<f:render partial="Pagination" arguments="{pagination: pagination, paginator: paginator, actionName: 'list'}" />
 
                     </f:then>

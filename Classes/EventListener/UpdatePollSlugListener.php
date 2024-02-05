@@ -18,11 +18,21 @@ use FGTCLB\T3oodle\Utility\SlugUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 class UpdatePollSlugListener
 {
+    public function injectPollRepository(PollRepository $pollRepository): void
+    {
+        $this->pollRepository = $pollRepository;
+    }
+
+    protected PersistenceManager $persistenceManager;
+
+    public function __construct() {
+        $this->persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
+    }
+
 
     public function createAfterEvent(CreateAfterEvent $event): void
     {
@@ -72,8 +82,6 @@ class UpdatePollSlugListener
     protected function updatePollSlug(BasePoll $poll): void
     {
         $slugUtility = GeneralUtility::makeInstance(SlugUtility::class, 'tx_t3oodle_domain_model_poll', 'slug');
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $pollRepo = $objectManager->get(PollRepository::class);
 
         // Create slug and update created entity
         if (\FGTCLB\T3oodle\Domain\Enumeration\Visibility::NOT_LISTED === $poll->getVisibility()) {
@@ -83,15 +91,14 @@ class UpdatePollSlugListener
             if (empty($newSlug)) {
                 $newSlug = 'poll-' . $poll->getUid();
             } else {
-                if ($pollRepo->countBySlug($newSlug) > 0) {
+                if ($this->pollRepository->countBySlug($newSlug) > 0) {
                     $newSlug .= '-' . $poll->getUid();
                 }
             }
             $poll->setSlug($newSlug);
         }
 
-        $pollRepo->update($poll);
-        $persistenceManager = $objectManager->get(PersistenceManager::class);
-        $persistenceManager->persistAll();
+        $this->pollRepository->update($poll);
+        $this->persistenceManager->persistAll();
     }
 }

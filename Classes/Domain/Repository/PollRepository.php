@@ -16,9 +16,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
     /**
      * @var string[] Show unpublished first, then order by publishDate
      */
@@ -31,6 +38,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         parent::__construct($objectManager);
         $this->objectType = BasePoll::class;
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
     }
 
     /**

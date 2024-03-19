@@ -4,7 +4,6 @@ plugin.tx_t3oodle {
         templateRootPaths.1 = {$plugin.tx_t3oodle_main.view.templateRootPath}
         partialRootPaths.0 = EXT:t3oodle/Resources/Private/Partials/
         partialRootPaths.1 = {$plugin.tx_t3oodle_main.view.partialRootPath}
-        partialRootPaths.10 = EXT:numbered_pagination/Resources/Private/Partials/
         layoutRootPaths.0 = EXT:tx_t3oodle/Resources/Private/Layouts/
         layoutRootPaths.1 = {$plugin.tx_t3oodle_main.view.layoutRootPath}
     }

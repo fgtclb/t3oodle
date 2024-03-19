@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 final class ShowPollEvent
 {
-    private SimplePoll|SchedulePoll $poll;
+    private mixed $poll;
 
     private Vote $vote;
 
@@ -22,7 +22,7 @@ final class ShowPollEvent
 
     private PollController $caller;
 
-    public function __construct(SimplePoll|SchedulePoll $poll, Vote $vote, ViewInterface $view, array $newOptionValues, array $settings, PollController $caller)
+    public function __construct(mixed $poll, Vote $vote, ViewInterface $view, array $newOptionValues, array $settings, PollController $caller)
     {
         $this->poll = $poll;
         $this->vote = $vote;
@@ -32,12 +32,12 @@ final class ShowPollEvent
         $this->caller = $caller;
     }
 
-    public function getPoll(): SimplePoll|SchedulePoll
+    public function getPoll(): mixed
     {
         return $this->poll;
     }
 
-    public function setPoll(SimplePoll|SchedulePoll $poll): void
+    public function setPoll(mixed $poll): void
     {
         $this->poll = $poll;
     }

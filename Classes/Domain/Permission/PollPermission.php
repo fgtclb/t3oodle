@@ -288,7 +288,7 @@ class PollPermission
      *
      * @param  BasePoll|Vote|null $caller
      */
-    private function dispatch(bool $currentStatus, BasePoll|Vote|null $caller = null): bool
+    private function dispatch(bool $currentStatus, mixed $caller = null): bool
     {
         $arguments = [
             'currentStatus' => $currentStatus,

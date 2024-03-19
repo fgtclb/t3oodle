@@ -14,3 +14,5 @@
 /Migrations export-ignore
 /patches export-ignore
 /Tests export-ignore
+/seeds export-ignore
+/config export-ignore

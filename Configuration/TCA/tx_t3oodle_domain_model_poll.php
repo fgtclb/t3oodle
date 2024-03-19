@@ -30,7 +30,7 @@ return [
     ],
     'types' => [
         '0' => [
-            'showitem' => 'type'
+            'showitem' => 'type, slug'
         ],
         \FGTCLB\T3oodle\Domain\Model\SimplePoll::class => [
             'showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, --palette--;;suggestmode, ' .
@@ -204,7 +204,7 @@ return [
             ],
         ],
         'slug' => [
-            'exclude' => true,
+            'exclude' => false,
             'label' => $ll('slug'),
             'config' => [
                 'type' => 'slug',
@@ -217,7 +217,7 @@ return [
                 ],
                 'fallbackCharacter' => '-',
                 'eval' => 'uniqueInPid',
-                'default' => ''
+                'default' => 'q'
             ],
         ],
         'visibility' => [

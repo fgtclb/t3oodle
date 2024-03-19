@@ -46,6 +46,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use GeorgRinger\NumberedPagination\NumberedPagination;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 
 class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -132,7 +133,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             (bool)$this->settings['list']['personal']
         );
 
-        $itemsPerPage = $this->settings['list']['itemsPerPage'];
+        $itemsPerPage = 3;
         $maximumLinks = 5;
 
         $currentPage = $this->request->hasArgument('currentPage') ? (int)$this->request->getArgument('currentPage') : 1;
@@ -600,8 +601,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                     AbstractMessage::OK
                 );
                 if ($publishDirectly) {
-                    return (new \TYPO3\CMS\Extbase\Http\ForwardResponse('publish'))->withArguments(['poll' => $poll]);
+                    return (new ForwardResponse('publish'))
+                        ->withControllerName('Poll')
+                        ->withExtensionName('t3oodle')
+                        ->withArguments(['poll' => $poll]);
                 }
+
                 $this->redirect('show', null, null, ['poll' => $poll->getUid()]);
             }
         }

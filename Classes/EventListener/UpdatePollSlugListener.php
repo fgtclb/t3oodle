@@ -22,6 +22,9 @@ use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 class UpdatePollSlugListener
 {
+
+    protected PollRepository $pollRepository ;
+
     public function injectPollRepository(PollRepository $pollRepository): void
     {
         $this->pollRepository = $pollRepository;

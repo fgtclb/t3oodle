@@ -15,7 +15,7 @@ use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
 use FGTCLB\T3oodle\Event\Permission\PermissionCheckEvent;
-use FGTCLB\T3oodle\Utility\SettingsUtility;
+use FGTCLB\T3oodle\Service\UserService;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -38,6 +38,8 @@ class PollPermission
      */
     private $controllerSettings;
 
+    private UserService $userService;
+
     public function __construct(string $currentUserIdent = null, array $controllerSettings = [])
     {
         if (!$currentUserIdent) {
@@ -46,6 +48,7 @@ class PollPermission
         $this->currentUserIdent = $currentUserIdent;
         $this->controllerSettings = $controllerSettings;
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+        $this->userService = GeneralUtility::makeInstance(UserService::class);
     }
 
     /**
@@ -217,7 +220,7 @@ class PollPermission
 
     public function isAdministrationAllowed(BasePoll $poll = null): bool
     {
-        $status = $this->userIsAdmin();
+        $status = $this->userService->userIsAdmin();
         if ($poll) {
             return $this->dispatch($status, $poll);
         }
@@ -227,7 +230,7 @@ class PollPermission
 
     private function userIsAuthor(BasePoll $poll): bool
     {
-        $status = $poll->getAuthorIdent() === $this->currentUserIdent || $this->userIsAdmin();
+        $status = $poll->getAuthorIdent() === $this->currentUserIdent || $this->userService->userIsAdmin();
 
         return $this->dispatch($status, $poll);
     }
@@ -253,34 +256,6 @@ class PollPermission
             && $vote->getParticipantIdent() === $this->currentUserIdent;
 
         return $this->dispatch($status, $vote);
-    }
-
-    /**
-     * @TODO Move this to own class. This is not poll related
-     */
-    public function userIsAdmin(): bool
-    {
-        $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
-        if (is_numeric($currentUserIdent)) {
-            $frontendUserUid = (int)$currentUserIdent;
-            $settings = SettingsUtility::getTypoScriptSettings();
-            if (!empty($settings['adminUserUids'])) {
-                $adminUserUids = GeneralUtility::intExplode(',', $settings['adminUserUids'], true);
-                if (in_array($frontendUserUid, $adminUserUids, true)) {
-                    return true;
-                }
-            }
-            if (!empty($settings['adminUserGroupUids'])) {
-                $adminUserGroupUids = GeneralUtility::intExplode(',', $settings['adminUserGroupUids'], true);
-                $userAspect = UserIdentUtility::getCurrentUserAspect();
-                $setAdminGroups = array_intersect($userAspect->getGroupIds(), $adminUserGroupUids);
-                if (count($setAdminGroups) > 0) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     /**

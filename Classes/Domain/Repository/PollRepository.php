@@ -9,14 +9,13 @@ namespace FGTCLB\T3oodle\Domain\Repository;
  */
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
-use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Event\PollRepository\FindPollsEvent;
+use FGTCLB\T3oodle\Service\UserService;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
@@ -27,6 +26,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected $eventDispatcher;
 
+    private UserService $userService;
     /**
      * @var string[] Show unpublished first, then order by publishDate
      */
@@ -40,6 +40,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         parent::__construct($objectManager);
         $this->objectType = BasePoll::class;
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+        $this->userService = GeneralUtility::makeInstance(UserService::class);
     }
 
     /**
@@ -62,19 +63,14 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $query->equals('isPublished', true),
             $query->equals('isFinished', false),
         ]);
-        $orConstraints[] = $query->logicalAnd([
-            $query->equals('isPublished', true),
-            $query->equals('isFinished', false),
-        ]);
         if ($finished) {
             $orConstraints[] = $query->equals('isFinished', true);
         }
 
         $andConstraints = [];
 
-        $pollPermission = GeneralUtility::makeInstance(PollPermission::class, null, $this->controllerSettings);
         if ($personal) {
-            if (!$pollPermission->userIsAdmin()) {
+            if (!$this->userService->userIsAdmin()) {
                 $andConstraints[] = $query->logicalOr([
                     $query->logicalAnd([
                         $query->equals('visibility', Visibility::LISTED),

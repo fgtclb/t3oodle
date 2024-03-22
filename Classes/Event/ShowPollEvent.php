@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace FGTCLB\T3oodle\Event;
 
 use FGTCLB\T3oodle\Controller\PollController;
-use FGTCLB\T3oodle\Domain\Model\SchedulePoll;
-use FGTCLB\T3oodle\Domain\Model\SimplePoll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 

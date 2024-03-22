@@ -16,7 +16,7 @@
         </thead>
         <tbody>
 
-        <f:if condition="{pagination.paginator.paginatedItems -> f:count()} > 1">
+        <f:if condition="{pagination.paginator.paginatedItems -> f:count()} > 0">
             <f:then>
                 <f:if condition="{settings.list.itemsPerPage} > 0">
                     <f:then>

@@ -31,6 +31,10 @@ class FindPollsEvent
     {
         return $this->query;
     }
+    public function setConstraints($constraints): void
+    {
+        $this->constraints = $constraints;
+    }
 
     public function getCaller(): PollRepository
     {

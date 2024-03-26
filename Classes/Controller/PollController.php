@@ -127,28 +127,37 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
 
         $this->pollRepository->setControllerSettings($this->settings);
+        // Retrieve polls based on settings
         $polls = $this->pollRepository->findPolls(
             (bool)$this->settings['list']['draft'],
             (bool)$this->settings['list']['finished'],
             (bool)$this->settings['list']['personal']
         );
 
-        $itemsPerPage = 3;
-        $maximumLinks = 5;
-
-        $currentPage = $this->request->hasArgument('currentPage') ? (int)$this->request->getArgument('currentPage') : 1;
-        $paginator = new QueryResultPaginator($polls, $currentPage, $itemsPerPage);
-        $pagination = new NumberedPagination($paginator, $maximumLinks);
-
         $event = new ListPollEvent($polls, $this->settings, $this->view, $this);
         $this->eventDispatcher->dispatch($event);
 
-        $this->view->assignMultiple([
-            'polls' => $polls,
-            'paginator' => $paginator,
-            'pagination' => $pagination,
-        ]);
+        if ($this->settings['list']['itemsPerPage'] > 0) {
+            $itemsPerPage = $this->settings['list']['itemsPerPage'];
+            $maximumLinks = $this->settings['list']['maximumLinks'];
+
+            $currentPage = $this->request->hasArgument('currentPage') ? (int)$this->request->getArgument('currentPage') : 1;
+            $paginator = new QueryResultPaginator($polls, $currentPage, $itemsPerPage);
+            $pagination = new NumberedPagination($paginator, $maximumLinks);
+
+            $this->view->assignMultiple(
+               [
+                'polls' => $polls,
+                'paginator' => $paginator,
+                'pagination'=> $pagination,
+               ]
+            );
+            return $this->htmlResponse();
+        }
+
+        $this->view->assign('polls', $polls);
         return $this->htmlResponse();
+
     }
 
     /**

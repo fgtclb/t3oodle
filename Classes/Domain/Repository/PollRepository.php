@@ -21,7 +21,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-    protected EventDispatcherInterface $eventDispatcher;
+        protected EventDispatcherInterface $eventDispatcher;
 
     private UserService $userService;
 

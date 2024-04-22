@@ -19,11 +19,13 @@
         "georgringer/numbered-pagination": "^2.0"
     },
     "require-dev": {
-        "armin/editorconfig-cli": "^1.0",
-        "bk2k/bootstrap-package": "^14.0",
-        "friendsofphp/php-cs-fixer": "^3.64",
+		"typo3/cms-composer-installers": "^4.0.0-RC1",
+        "typo3/minimal": "^11.5",
+        "typo3/cms-felogin": "^11.5",
         "helhum/typo3-console": "^7.1",
-        "helmich/typo3-typoscript-lint": "^3.2",
+        "armin/editorconfig-cli": "^1.0",
+        "friendsofphp/php-cs-fixer": "^2.18",
+        "phpstan/phpstan": "^1.8",
         "jangregor/phpstan-prophecy": "^1.0",
         "phpstan/phpstan": "^1.12",
         "phpstan/phpstan-phpunit": "^1.4",

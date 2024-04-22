@@ -5,7 +5,7 @@
 /.php-cs-fixer.dist.php export-ignore
 /FunctionalTests.xml export-ignore
 /phpstan.neon export-ignore
-/readme.md export-ignore
+/rector.php
 /UnitTests.xml export-ignore
 
 /.ddev export-ignore

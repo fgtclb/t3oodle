@@ -168,6 +168,9 @@ class PollController extends ActionController
         $event = new ListPollEvent($polls, $this->settings, $this->view, $this);
         $this->eventDispatcher->dispatch($event);
 
+        $assignedValues = [
+            'polls' => $polls,
+        ];
         if ($this->settings['list']['itemsPerPage'] > 0) {
             $itemsPerPage = $this->settings['list']['itemsPerPage'];
             $maximumLinks = $this->settings['list']['maximumLinks'];
@@ -176,17 +179,11 @@ class PollController extends ActionController
             $paginator = new QueryResultPaginator($polls, $currentPage, $itemsPerPage);
             $pagination = new NumberedPagination($paginator, $maximumLinks);
 
-            $this->view->assignMultiple(
-               [
-                'polls' => $polls,
-                'paginator' => $paginator,
-                'pagination'=> $pagination,
-               ]
-            );
-            return $this->htmlResponse();
+            $assignedValues['paginator'] = $paginator;
+            $assignedValues['pagination'] = $pagination;
         }
 
-        $this->view->assign('polls', $polls);
+        $this->view->assignMultiple($assignedValues);
         return $this->htmlResponse();
 
     }

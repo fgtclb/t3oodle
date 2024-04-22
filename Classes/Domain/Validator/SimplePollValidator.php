@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Domain\Validator;
 
@@ -30,7 +30,7 @@ class SimplePollValidator extends AbstractValidator
     public function __construct(array $options = [], Result $result = null)
     {
         parent::__construct($options);
-        if (null === $result) {
+        if ($result === null) {
             throw new \InvalidArgumentException('SimplePollValidator requires result constructor argument, from parent validator');
         }
         $this->result = $result;
@@ -38,7 +38,7 @@ class SimplePollValidator extends AbstractValidator
 
     public function validate($value)
     {
-        if (false === $this->acceptsEmptyValues || false === $this->isEmpty($value)) {
+        if ($this->acceptsEmptyValues === false || $this->isEmpty($value) === false) {
             $this->isValid($value);
         }
 
@@ -83,7 +83,7 @@ class SimplePollValidator extends AbstractValidator
         $i = 0;
         /** @var \FGTCLB\T3oodle\Domain\Model\Option $option */
         foreach ($options as $key => $option) {
-            if ('create' === $this->options['action']) {
+            if ($this->options['action'] === 'create') {
                 $key = $i++;
             }
             if (in_array($option->getName(), $optionValues)) {
@@ -127,13 +127,13 @@ class SimplePollValidator extends AbstractValidator
             );
         }
 
-        if ($value->getLink() && false === filter_var($value->getLink(), FILTER_VALIDATE_URL)) {
+        if ($value->getLink() && filter_var($value->getLink(), FILTER_VALIDATE_URL) === false) {
             $isValid = false;
             $this->result->forProperty('link')->addError(
                 new Error(TranslateUtility::translate('validation.1592143009'), 1592143009)
             );
         }
-        if ($value->getLink() && 0 !== strpos($value->getLink(), 'http')) {
+        if ($value->getLink() &&   !str_starts_with($value->getLink(), 'http')) {
             $isValid = false;
             $this->result->forProperty('link')->addError(
                 new Error(TranslateUtility::translate('validation.1592143010'), 1592143010)

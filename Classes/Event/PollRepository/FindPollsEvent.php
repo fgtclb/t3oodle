@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Event\PollRepository;
 
-use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use FGTCLB\T3oodle\Domain\Repository\PollRepository;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
-class FindPollsEvent
+final class FindPollsEvent
 {
     private $constraints;
     private $query;

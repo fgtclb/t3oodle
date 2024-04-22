@@ -1,14 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Event;
 
 use FGTCLB\T3oodle\Controller\PollController;
-use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
+use FGTCLB\T3oodle\Domain\Model\Option;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
-class FinishPollEvent {
+final class FinishPollEvent
+{
     private Poll $poll;
     private Option $finalOption;
     private bool $continue;
@@ -16,7 +18,8 @@ class FinishPollEvent {
     private ViewInterface $view;
     private PollController $caller;
 
-    public function __construct(Poll $poll, Option $finalOption, bool $continue, array $settings, ViewInterface $view, PollController $caller) {
+    public function __construct(Poll $poll, Option $finalOption, bool $continue, array $settings, ViewInterface $view, PollController $caller)
+    {
         $this->poll = $poll;
         $this->finalOption = $finalOption;
         $this->continue = $continue;
@@ -25,31 +28,38 @@ class FinishPollEvent {
         $this->caller = $caller;
     }
 
-    public function getPoll(): Poll {
+    public function getPoll(): Poll
+    {
         return $this->poll;
     }
 
-    public function getFinalOption(): Option {
+    public function getFinalOption(): Option
+    {
         return $this->finalOption;
     }
 
-    public function getContinue(): bool {
+    public function getContinue(): bool
+    {
         return $this->continue;
     }
 
-    public function getSettings(): array {
+    public function getSettings(): array
+    {
         return $this->settings;
     }
 
-    public function getView(): ViewInterface {
+    public function getView(): ViewInterface
+    {
         return $this->view;
     }
 
-    public function getCaller(): PollController {
+    public function getCaller(): PollController
+    {
         return $this->caller;
     }
 
-    public function setContinue(bool $continue): void {
+    public function setContinue(bool $continue): void
+    {
         $this->continue = $continue;
     }
 }

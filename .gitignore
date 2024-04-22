@@ -6,7 +6,8 @@
 /vendor
 /.php-cs-fixer.cachede
 /composer.lock
-
+/composer.json.testing
+/composer.json.orig
 /Documentation-GENERATED-temp
 
 /.cache/

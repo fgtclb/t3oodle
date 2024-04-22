@@ -27,37 +27,37 @@ use FGTCLB\T3oodle\Event\EditPollEvent;
 use FGTCLB\T3oodle\Event\EditSuggestionEvent;
 use FGTCLB\T3oodle\Event\FinishPollEvent;
 use FGTCLB\T3oodle\Event\FinishSuggestionModeEvent;
+use FGTCLB\T3oodle\Event\ListPollEvent;
 use FGTCLB\T3oodle\Event\NewPollEvent;
 use FGTCLB\T3oodle\Event\NewSuggestionEvent;
 use FGTCLB\T3oodle\Event\PublishPollEvent;
 use FGTCLB\T3oodle\Event\ResetVotesEvent;
+use FGTCLB\T3oodle\Event\ShowFinishEvent;
 use FGTCLB\T3oodle\Event\ShowPollEvent;
-use FGTCLB\T3oodle\Event\ListPollEvent;
 use FGTCLB\T3oodle\Event\UpdateAfterEvent;
 use FGTCLB\T3oodle\Event\UpdateBeforeEvent;
 use FGTCLB\T3oodle\Event\UpdateSuggestionAfterEvent;
 use FGTCLB\T3oodle\Event\UpdateSuggestionBeforeEvent;
 use FGTCLB\T3oodle\Event\VotePollEvent;
-use FGTCLB\T3oodle\Event\ShowFinishEvent;
 use FGTCLB\T3oodle\Exception\AccessDeniedException;
 use FGTCLB\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use FGTCLB\T3oodle\Utility\CookieUtility;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
+use GeorgRinger\NumberedPagination\NumberedPagination;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
-use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use GeorgRinger\NumberedPagination\NumberedPagination;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
-use TYPO3\CMS\Extbase\Http\ForwardResponse;
+use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class PollController extends ActionController
 {
@@ -545,7 +545,6 @@ class PollController extends ActionController
         $deleteSuggestionEvent = new DeleteSuggestionEvent($option, true, $this->settings, $this);
         $this->eventDispatcher->dispatch($deleteSuggestionEvent);
 
-
         if ($deleteSuggestionEvent->getContinue()) {
             $this->optionRepository->remove($option);
             $this->addFlashMessage(TranslateUtility::translate('flash.successfullyDeletedSuggestion', [$option->getName()]));
@@ -809,7 +808,7 @@ class PollController extends ActionController
                         }
                     }
                     $__identity = $pollOption['__identity'] ?? '';
-                    if ('' === $__identity) {
+                    if ($__identity === '') {
                         unset($poll['options'][$index]['__identity']);
                     }
                 }
@@ -880,7 +879,7 @@ class PollController extends ActionController
                 $pollType = $poll['type'] ?? false;
             }
 
-            if (false !== stripos($pollType, 'schedule')) {
+            if (stripos($pollType, 'schedule') !== false) {
                 $this->settings['_calendarLocale'] = json_encode([
                     'weekdays' => [
                         'shorthand' => [

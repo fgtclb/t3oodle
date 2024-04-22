@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Service;
 
-use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
+use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UserService

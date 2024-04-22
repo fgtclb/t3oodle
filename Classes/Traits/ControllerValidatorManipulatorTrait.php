@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Traits;
 
@@ -50,7 +50,6 @@ trait ControllerValidatorManipulatorTrait
                     ->getLogger(__CLASS__)->warning("No validator found for argument $argumentName");
                 return;
             }
-
 
             if (method_exists($validator, 'getValidators')) {
                 foreach ($validator->getValidators() as $subValidator) {

@@ -105,6 +105,26 @@ class PollController extends ActionController
         $this->persistenceManager = $persistenceManager;
     }
 
+    public function injectPollRepository(PollRepository $pollRepository): void
+    {
+        $this->pollRepository = $pollRepository;
+    }
+
+    public function injectOptionRepository(OptionRepository $optionRepository): void
+    {
+        $this->optionRepository = $optionRepository;
+    }
+
+    public function injectVoteRepository(VoteRepository $voteRepository): void
+    {
+        $this->voteRepository = $voteRepository;
+    }
+
+    public function injectUserRepository(FrontendUserRepository $userRepository): void
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function initializeAction(): void
     {
         $this->initializeCurrentUserOrUserIdent();
@@ -915,25 +935,5 @@ class PollController extends ActionController
         if ($this->settings['enableFlashMessages']) {
             parent::addFlashMessage($messageBody, $messageTitle, $severity, $storeInSession);
         }
-    }
-
-    public function injectPollRepository(\FGTCLB\T3oodle\Domain\Repository\PollRepository $pollRepository): void
-    {
-        $this->pollRepository = $pollRepository;
-    }
-
-    public function injectOptionRepository(\FGTCLB\T3oodle\Domain\Repository\OptionRepository $optionRepository): void
-    {
-        $this->optionRepository = $optionRepository;
-    }
-
-    public function injectVoteRepository(\FGTCLB\T3oodle\Domain\Repository\VoteRepository $voteRepository): void
-    {
-        $this->voteRepository = $voteRepository;
-    }
-
-    public function injectUserRepository(\TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $userRepository): void
-    {
-        $this->userRepository = $userRepository;
     }
 }

@@ -217,7 +217,7 @@ return [
                 ],
                 'fallbackCharacter' => '-',
                 'eval' => 'uniqueInPid',
-                'default' => 'q',
+                'default' => '',
             ],
         ],
         'visibility' => [

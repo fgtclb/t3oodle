@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\ViewHelpers\Schedule;
 
@@ -41,14 +41,14 @@ class SplitDayOptionsViewHelper extends AbstractViewHelper
         foreach ($options as $option) {
             $name = is_array($option) ? $option['name'] : $option->getName();
             $parts = GeneralUtility::trimExplode(ScheduleOptionUtility::DAY_OPTION_DELIMITER, $name, true, 2);
-            if (2 === count($parts)) {
-                if ('options' === $arguments['get']) {
+            if (count($parts) === 2) {
+                if ($arguments['get'] === 'options') {
                     $items[] = $parts[1];
                 } else {
                     $items[] = $parts[0];
                 }
             } else {
-                if ('options' !== $arguments['get']) {
+                if ($arguments['get'] !== 'options') {
                     $items[] = $name;
                 }
             }

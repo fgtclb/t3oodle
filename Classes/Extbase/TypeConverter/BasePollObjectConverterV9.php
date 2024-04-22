@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Extbase\TypeConverter;
 
@@ -21,7 +21,7 @@ class BasePollObjectConverterV9 extends PersistentObjectConverter
     public function getTargetTypeForSource($source, $originalTargetType, \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration = null): string
     {
         $targetType = parent::getTargetTypeForSource($source, $originalTargetType, $configuration);
-        if (BasePoll::class === $targetType && is_array($source) && isset($source['type'])) {
+        if ($targetType === BasePoll::class && is_array($source) && isset($source['type'])) {
             return $source['type'];
         }
 

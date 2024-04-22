@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
-use FGTCLB\T3oodle\Domain\Model\SimplePoll;
 use FGTCLB\T3oodle\Domain\Model\SchedulePoll;
+use FGTCLB\T3oodle\Domain\Model\SimplePoll;
 
 return [
     BasePoll::class => [

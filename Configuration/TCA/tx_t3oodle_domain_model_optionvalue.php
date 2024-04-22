@@ -24,7 +24,7 @@ return [
         'delete' => 'deleted',
         'readOnly' => true,
         'searchFields' => 'name',
-        'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_optionvalue.gif'
+        'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_optionvalue.gif',
     ],
     'types' => [
         '1' => ['showitem' => 'option, value, vote'],

@@ -14,7 +14,7 @@ use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
-        Typo3LevelSetList::UP_TO_TYPO3_11
+        Typo3LevelSetList::UP_TO_TYPO3_11,
     ]);
 
     // In order to have a better analysis from phpstan we teach it here some more things
@@ -33,7 +33,7 @@ return static function (RectorConfig $rectorConfig): void {
     // To fully support you we added some warnings. So watch out for them.
 
     $rectorConfig->paths([
-        __DIR__
+        __DIR__,
     ]);
 
     $rectorConfig->skip([
@@ -48,10 +48,10 @@ return static function (RectorConfig $rectorConfig): void {
     // Add some general TYPO3 rules
     $rectorConfig->rule(ConvertImplicitVariablesToExplicitGlobalsRector::class);
     $rectorConfig->ruleWithConfiguration(ExtEmConfRector::class, [
-        ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => []
+        ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => [],
     ]);
     $rectorConfig->ruleWithConfiguration(ExtensionComposerRector::class, [
-        ExtensionComposerRector::TYPO3_VERSION_CONSTRAINT => ''
+        ExtensionComposerRector::TYPO3_VERSION_CONSTRAINT => '',
     ]);
 
     // Modernize your TypoScript include statements for files and move from <INCLUDE /> to @import use the FileIncludeToImportStatementVisitor (introduced with TYPO3 9.0)

@@ -21,17 +21,17 @@ return [
         'sortby' => 'sorting',
         'delete' => 'deleted',
         'searchFields' => 'name',
-        'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_option.gif'
+        'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_option.gif',
     ],
     'types' => [
         '1' => [
             'showitem' => 'name, --palette--;;creator, poll, ' .
-                          '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access'
+                          '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access',
         ],
     ],
     'palettes' => [
         'creator' => [
-            'showitem' => 'creator,--linebreak--,creator_name,creator_mail,creator_ident'
+            'showitem' => 'creator,--linebreak--,creator_name,creator_mail,creator_ident',
         ],
     ],
     'columns' => [
@@ -62,7 +62,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required'
+                'eval' => 'trim,required',
             ],
         ],
         'creator' => [
@@ -75,7 +75,7 @@ return [
                 'maxitems' => 1,
                 'readOnly' => true,
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
             ],
         ],
@@ -106,7 +106,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
         'poll' => [

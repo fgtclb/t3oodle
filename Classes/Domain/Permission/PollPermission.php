@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Domain\Permission;
 
@@ -63,7 +63,7 @@ class PollPermission
             $available = [];
             foreach (get_class_methods(self::class) as $method) {
                 $methodPart = substr($method, 2, -7);
-                if (!empty($methodPart) && 0 === strpos($method, 'is')) {
+                if (!empty($methodPart) &&   str_starts_with($method, 'is')) {
                     $available[] = lcfirst($methodPart);
                 }
             }
@@ -87,7 +87,7 @@ class PollPermission
      */
     public function isViewingInGeneralAllowed(BasePoll $poll): bool
     {
-        return Visibility::NOT_LISTED !== $poll->getVisibility() && $poll->isPublished();
+        return $poll->getVisibility() !== Visibility::NOT_LISTED && $poll->isPublished();
     }
 
     /**
@@ -137,7 +137,7 @@ class PollPermission
 
     public function isDeleteAllowed(BasePoll $poll): bool
     {
-        $status = $this->isEditAllowed($poll) && 0 === count($poll->getVotes());
+        $status = $this->isEditAllowed($poll) && count($poll->getVotes()) === 0;
 
         return $this->dispatch($status, $poll);
     }

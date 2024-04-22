@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\EventListener;
 
@@ -22,8 +22,7 @@ use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 class UpdatePollSlugListener
 {
-
-    protected PollRepository $pollRepository ;
+    protected PollRepository $pollRepository;
 
     public function injectPollRepository(PollRepository $pollRepository): void
     {
@@ -32,10 +31,10 @@ class UpdatePollSlugListener
 
     protected PersistenceManager $persistenceManager;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
     }
-
 
     public function createAfterEvent(CreateAfterEvent $event): void
     {
@@ -87,7 +86,7 @@ class UpdatePollSlugListener
         $slugUtility = GeneralUtility::makeInstance(SlugUtility::class, 'tx_t3oodle_domain_model_poll', 'slug');
 
         // Create slug and update created entity
-        if (\FGTCLB\T3oodle\Domain\Enumeration\Visibility::NOT_LISTED === $poll->getVisibility()) {
+        if ($poll->getVisibility() === \FGTCLB\T3oodle\Domain\Enumeration\Visibility::NOT_LISTED) {
             $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
         } else {
             $newSlug = $slugUtility->sanitize($poll->getTitle());

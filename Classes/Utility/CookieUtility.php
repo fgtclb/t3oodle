@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Utility;
 
@@ -62,14 +62,14 @@ final class CookieUtility
             $cookieDomain = $GLOBALS['TYPO3_CONF_VARS']['FE']['cookieDomain'];
         }
         if ($cookieDomain) {
-            if ('/' === $cookieDomain[0]) {
+            if ($cookieDomain[0] === '/') {
                 $match = [];
                 $matchCnt = @preg_match(
                     $cookieDomain,
                     \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY'),
                     $match
                 );
-                if (false !== $matchCnt) {
+                if ($matchCnt !== false) {
                     $result = $match[0];
                 }
             } else {

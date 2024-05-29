@@ -11,8 +11,7 @@ The t3oodle extension provides several settings.
 
 ::
 
-    plugin.tx_t3oodle.settings.
-
+    plugin.tx_t3oodle.settings.[PROPERTY]
 
 General
 -------

@@ -68,8 +68,8 @@ Partials
     * **Overview.html** Displayed in show action of poll, when suggest mode is active.
     * **Form/**
 
-       * **Creator.html**
-       * **Suggestion.html** The actual suggestion (supporting date picker for scheduled polls)
+      * **Creator.html**
+      * **Suggestion.html** The actual suggestion (supporting date picker for scheduled polls)
 
   * **List/**
 

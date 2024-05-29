@@ -25,7 +25,7 @@ t3oodle
         TYPO3 CMS, poll, doodle, vote
 
     :Copyright:
-        2020-2021
+        2020-2024
 
     :Author:
         Armin Vieweg

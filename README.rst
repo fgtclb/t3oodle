@@ -12,7 +12,7 @@ This extension has been brought to you by **FGTCLB** and has been supported by *
   :alt: FGTCLB
 
 .. image:: Documentation/Welcome/Images/Spacer.svg
-  :width: 50
+  :width: 39%
   :target: #
 
 .. image:: Documentation/Welcome/Images/FES.svg
@@ -43,13 +43,5 @@ First start
 
 ::
 
-    ddev install-all
+    ddev composer install && ddev setup11
 
-
-Reset Environment
-^^^^^^^^^^^^^^^^^
-
-::
-
-    ddev rm -O -R
-    docker volume rm t3oodle-v8-data t3oodle-v9-data t3oodle-v10-data

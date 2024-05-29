@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<guides xmlns="https://www.phpdoc.org/guides"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://www.phpdoc.org/guides ../vendor/phpdocumentor/guides-cli/resources/schema/guides.xsd"
+        links-are-relative="true">
+    <extension class="\T3Docs\Typo3DocsTheme\DependencyInjection\Typo3DocsThemeExtension"
+               project-home="https://extensions.typo3.org/extension/t3oodle"
+               project-repository="https://github.com/fgtclb/t3oodle"
+               project-issues="https://github.com/fgtclb/t3oodle/issues"
+               edit-on-github-branch="master"
+               edit-on-github="fgtclb/t3oodle"
+               typo3-core-preferred="11.5"
+               interlink-shortcode="fgtclb/t3oodle"
+    />
+    <project title="t3oodle"
+             release="main (development)"
+             version="main (development)"
+    />
+    <inventory id="t3coreapi-latest"
+               url="https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/"
+    />
+</guides>

@@ -6,7 +6,6 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Ssch\TYPO3Rector\Configuration\Typo3Option;
-use Ssch\TYPO3Rector\FileProcessor\Composer\Rector\ExtensionComposerRector;
 use Ssch\TYPO3Rector\FileProcessor\TypoScript\Rector\v10\v0\ExtbasePersistenceTypoScriptRector;
 use Ssch\TYPO3Rector\Rector\General\ConvertImplicitVariablesToExplicitGlobalsRector;
 use Ssch\TYPO3Rector\Rector\General\ExtEmConfRector;
@@ -50,8 +49,8 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->ruleWithConfiguration(ExtEmConfRector::class, [
         ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => [],
     ]);
-    $rectorConfig->ruleWithConfiguration(ExtensionComposerRector::class, [
-        ExtensionComposerRector::TYPO3_VERSION_CONSTRAINT => '',
+    $rectorConfig->ruleWithConfiguration(ExtEmConfRector::class, [
+        ExtEmConfRector::TYPO3_VERSION_CONSTRAINT => '',
     ]);
 
     // Modernize your TypoScript include statements for files and move from <INCLUDE /> to @import use the FileIncludeToImportStatementVisitor (introduced with TYPO3 9.0)

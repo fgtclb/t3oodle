@@ -654,6 +654,7 @@ class PollController extends ActionController
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
+     * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
      */
     public function publishAction(BasePoll $poll): void
     {

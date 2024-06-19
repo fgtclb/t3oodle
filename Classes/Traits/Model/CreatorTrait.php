@@ -9,15 +9,16 @@ namespace FGTCLB\T3oodle\Traits\Model;
  *  |
  *  | (c) 2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\FrontendUser;
 
 trait CreatorTrait
 {
     use DynamicUserProperties;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     * @var FrontendUser
      */
-    protected $creator;
+    protected ?FrontendUser $creator;
 
     /**
      * @var string
@@ -34,12 +35,12 @@ trait CreatorTrait
      */
     protected $creatorIdent = '';
 
-    public function getCreator(): ?\TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+    public function getCreator(): ?FrontendUser
     {
         return $this->creator;
     }
 
-    public function setCreator(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $creator): void
+    public function setCreator(FrontendUser $creator): void
     {
         $this->creator = $creator;
     }

@@ -9,9 +9,9 @@ namespace FGTCLB\T3oodle\Traits\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\FrontendUser;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 
 trait DynamicUserProperties
 {

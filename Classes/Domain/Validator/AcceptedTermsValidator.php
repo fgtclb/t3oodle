@@ -17,14 +17,12 @@ class AcceptedTermsValidator extends AbstractValidator
      *
      * @return bool
      */
-    protected function isValid($value)
+    protected function isValid($value): void
     {
         $settings = SettingsUtility::getTypoScriptSettings();
         $isValid = $value === true || $settings['requireAcceptedTerms'] === '0';
         if (!$isValid) {
             $this->addError(TranslateUtility::translate('validation.1593008155', []), 1593008155);
         }
-
-        return $isValid;
     }
 }

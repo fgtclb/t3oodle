@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Event;
 
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 final class ListPollEvent

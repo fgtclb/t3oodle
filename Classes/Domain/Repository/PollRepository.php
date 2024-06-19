@@ -15,7 +15,6 @@ use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
@@ -26,6 +25,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected $eventDispatcher;
 
     private UserService $userService;
+
     /**
      * @var string[] Show unpublished first, then order by publishDate
      */
@@ -34,10 +34,12 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         'publishDate' => 'DESC',
     ];
 
-    public function __construct(ObjectManagerInterface $objectManager)
+    public function __construct()
     {
-        parent::__construct($objectManager);
+        parent::__construct();
+
         $this->objectType = BasePoll::class;
+
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
         $this->userService = GeneralUtility::makeInstance(UserService::class);
     }
@@ -58,10 +60,10 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         if ($draft) {
             $orConstraints[] = $query->equals('isPublished', false);
         }
-        $orConstraints[] = $query->logicalAnd([
+        $orConstraints[] = $query->logicalAnd(
             $query->equals('isPublished', true),
-            $query->equals('isFinished', false),
-        ]);
+            $query->equals('isFinished', false)
+        );
         if ($finished) {
             $orConstraints[] = $query->equals('isFinished', true);
         }
@@ -70,13 +72,13 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         if ($personal) {
             if (!$this->userService->userIsAdmin()) {
-                $andConstraints[] = $query->logicalOr([
-                    $query->logicalAnd([
+                $andConstraints[] = $query->logicalOr(
+                    $query->logicalAnd(
                         $query->equals('visibility', Visibility::LISTED),
-                        $query->equals('isPublished', true),
-                    ]),
-                    $query->equals('authorIdent', UserIdentUtility::getCurrentUserIdent()),
-                ]);
+                        $query->equals('isPublished', true)
+                    ),
+                    $query->equals('authorIdent', UserIdentUtility::getCurrentUserIdent())
+                );
             }
         } else {
             $andConstraints[] = $query->equals('visibility', Visibility::LISTED);
@@ -84,7 +86,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         if (!empty($orConstraints)) {
-            $andConstraints[] = $query->logicalOr($orConstraints);
+            $andConstraints[] = $query->logicalOr(...$orConstraints);
         }
 
         $andConstraints[] = $query->logicalNot($query->equals('slug', ''));
@@ -94,7 +96,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $andConstraints = $event->getConstraints();
 
-        $query->matching($query->logicalAnd($andConstraints));
+        $query->matching($query->logicalAnd(...$andConstraints));
 
         return $query->execute();
     }

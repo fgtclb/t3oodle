@@ -24,7 +24,7 @@ class SchedulePollValidator extends SimplePollValidator
         $this->result = $result;
     }
 
-    public function validate($value)
+    public function validate(mixed $value): Result
     {
         if ($this->acceptsEmptyValues === false || $this->isEmpty($value) === false) {
             $this->isValid($value);
@@ -38,17 +38,21 @@ class SchedulePollValidator extends SimplePollValidator
      *
      * @return bool
      */
-    protected function isValid($value)
+    protected function isValid($value): void
     {
         if (!$value) {
-            return true;
+            return;
         }
-        $statusOptions = $this->checkOptions($value) && $this->checkScheduleOptions($value);
-        $statusInfo = $this->checkInfo($value);
-        $statusAuthor = $this->checkAuthor($value);
-        $statusSettings = $this->checkSettings($value);
+        $isValid = $this->checkOptions($value)
+                   && $this->checkInfo($value)
+                   && $this->checkAuthor($value)
+                   && $this->checkSettings($value);
 
-        return $statusOptions && $statusInfo && $statusAuthor && $statusSettings;
+        if (!$isValid) {
+            $this->result->addError(
+                new Error(TranslateUtility::translate('validation.generalError'), 1592143019)
+            );
+        }
     }
 
     protected function checkScheduleOptions(BasePoll $value): bool

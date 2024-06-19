@@ -23,7 +23,7 @@ class CustomVoteValidator extends AbstractValidator
      *
      * @return bool
      */
-    protected function isValid($value)
+    protected function isValid($value): void
     {
         $isValid = true;
 
@@ -114,7 +114,5 @@ class CustomVoteValidator extends AbstractValidator
                 }
             }
         }
-
-        return $isValid;
     }
 }

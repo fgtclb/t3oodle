@@ -11,6 +11,7 @@ use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
 use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
+use FGTCLB\T3oodle\Domain\Model\FrontendUser;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
@@ -57,10 +58,8 @@ abstract class BasePoll extends AbstractEntity
      */
     protected $visibility = \FGTCLB\T3oodle\Domain\Enumeration\Visibility::LISTED;
 
-    /**
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
-     */
-    protected $author;
+    protected ?FrontendUser $author = null;
+
 
     /**
      * @var string
@@ -250,12 +249,12 @@ abstract class BasePoll extends AbstractEntity
         $this->visibility = $visibility;
     }
 
-    public function getAuthor(): ?\TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+    public function getAuthor(): ?FrontendUser
     {
         return $this->author;
     }
 
-    public function setAuthor(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $author): void
+    public function setAuthor(FrontendUser $author): void
     {
         $this->author = $author;
     }

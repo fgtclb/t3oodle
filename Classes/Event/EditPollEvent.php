@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace FGTCLB\T3oodle\Event;
 
 use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface;
 
 final class EditPollEvent
 {

@@ -23,23 +23,24 @@ class CustomPollValidator extends AbstractValidator
 
     /**
      * @param BasePoll|null $value
-     *
-     * @return bool
      */
-    protected function isValid($value)
+    protected function isValid($value): void
     {
         if (!$value) {
-            return true;
+            return;
         }
 
         $validatorFQCN = str_replace('\\Domain\\Model\\', '\\Domain\\Validator\\', get_class($value)) . 'Validator';
         if (!class_exists($validatorFQCN)) {
-            return false; // no validator, no validation
+            $this->addError('No validator found.', 1623948293);
+            return; // no validator, no validation
         }
 
         $validator = GeneralUtility::makeInstance($validatorFQCN, $this->getOptions(), $this->result);
         $validator->validate($value);
 
-        return !$this->result->hasMessages();
+        if ($this->result->hasMessages()) {
+            $this->addError('Validation errors found.', 1623948294);
+        }
     }
 }

@@ -26,7 +26,7 @@ class SuggestionDtoValidator extends AbstractValidator
      *
      * @return bool
      */
-    protected function isValid($value)
+    protected function isValid($value): void
     {
         $isValid = true;
         $suggestion = trim($value->getSuggestion());
@@ -78,7 +78,5 @@ class SuggestionDtoValidator extends AbstractValidator
                 $this->result->forProperty('suggestion')->addError($validationError);
             }
         }
-
-        return $isValid;
     }
 }

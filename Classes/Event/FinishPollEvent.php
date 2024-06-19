@@ -7,7 +7,7 @@ namespace FGTCLB\T3oodle\Event;
 use FGTCLB\T3oodle\Controller\PollController;
 use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
 use FGTCLB\T3oodle\Domain\Model\Option;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface;
 
 final class FinishPollEvent
 {

@@ -8,6 +8,7 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
+use FGTCLB\T3oodle\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Vote extends AbstractEntity
@@ -15,7 +16,7 @@ class Vote extends AbstractEntity
     use DynamicUserProperties;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     * @var FrontendUser
      */
     protected $participant;
 
@@ -49,12 +50,12 @@ class Vote extends AbstractEntity
         $this->optionValues = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
-    public function getParticipant(): ?\TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+    public function getParticipant(): ?FrontendUser
     {
         return $this->participant;
     }
 
-    public function setParticipant(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $participant): void
+    public function setParticipant(FrontendUser $participant): void
     {
         $this->participant = $participant;
     }

@@ -454,7 +454,10 @@ class PollController extends ActionController
     ): ResponseInterface {
         $this->pollPermission->isAllowed($option->getPoll(), 'suggestNewOptions', true);
         if ($option->getCreatorIdent() !== $this->currentUserIdent) {
-            throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
+            throw new AccessDeniedException(
+                'You are trying to update a suggestion, which you did not create!',
+                1727789441
+            );
         }
         if (!$suggestionDto) {
             /** @var SuggestionDto $suggestionDto */
@@ -494,7 +497,10 @@ class PollController extends ActionController
         }
 
         if ($option->getCreatorIdent() !== $this->currentUserIdent) {
-            throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
+            throw new AccessDeniedException(
+                'You are trying to update a suggestion, which you did not create!',
+                1727789452
+            );
         }
 
         $option->setName(trim($suggestionDto->getSuggestion()));
@@ -539,7 +545,10 @@ class PollController extends ActionController
         }
 
         if ($option->getCreatorIdent() !== $this->currentUserIdent) {
-            throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
+            throw new AccessDeniedException(
+                'You are trying to update a suggestion, which you did not create!',
+                1727789465
+            );
         }
 
         $deleteSuggestionEvent = new DeleteSuggestionEvent($option, true, $this->settings, $this);

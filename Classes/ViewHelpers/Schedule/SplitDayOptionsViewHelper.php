@@ -33,7 +33,10 @@ class SplitDayOptionsViewHelper extends AbstractViewHelper
     ) {
         $options = $arguments['options'] ?? $renderChildrenClosure();
         if (!$options || !is_iterable($options)) {
-            throw new \InvalidArgumentException('Invalid options given!');
+            throw new \InvalidArgumentException(
+                'Invalid options given!',
+                1727787635
+            );
         }
 
         $items = [];

@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Variable \\$_EXTKEY might not be defined\\.$#"
+			count: 1
+			path: ../../../ext_emconf.php

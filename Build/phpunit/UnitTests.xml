@@ -37,21 +37,15 @@
     failOnWarning="true"
     failOnRisky="true"
 >
-  <coverage>
-    <include>
-      <directory>../../Tests/Unit/</directory>
-    </include>
-  </coverage>
   <testsuites>
     <testsuite name="Unit tests">
       <!--
                 This path either needs an adaption in extensions, or an extension's
                 test location path needs to be given to phpunit.
             -->
-      <directory>../../Tests/Unit/</directory>
+      <directory suffix="Test.php">../../Tests/Unit/</directory>
     </testsuite>
   </testsuites>
-  <!-- @todo: change tag to 'coverage' when TF requires phpunit > 9 -->
   <php>
     <!-- @deprecated: will be removed with next major version, constant TYPO3_MODE is deprecated -->
     <const name="TYPO3_MODE" value="BE"/>

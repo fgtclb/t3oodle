@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# TYPO3 core test runner based on docker and docker-compose.
+# fgtclb/categpry-types test runner based on docker and docker-compose.
 #
 
 # Function to write a .env file in Build/testing-docker
@@ -12,7 +12,7 @@ setUpDockerComposeDotEnv() {
     [ -e .env ] && rm .env
     # Set up a new .env file for docker-compose
     {
-        echo "COMPOSE_PROJECT_NAME=local"
+        echo "COMPOSE_PROJECT_NAME=${PROJECT_NAME}"
         # To prevent access rights of files created by the testing, the docker image later
         # runs with the same user that is currently executing the script. docker-compose can't
         # use $UID directly itself since it is a shell variable and not an env variable, so
@@ -22,15 +22,14 @@ setUpDockerComposeDotEnv() {
         echo "ROOT_DIR=${ROOT_DIR}"
         echo "HOST_USER=${USER}"
         echo "TEST_FILE=${TEST_FILE}"
+        echo "ORIGINAL_ROOT=${ORIGINAL_ROOT}"
         echo "TYPO3_VERSION=${TYPO3_VERSION}"
         echo "PHP_XDEBUG_ON=${PHP_XDEBUG_ON}"
-        echo "PHP_XDEBUG_PORT=${PHP_XDEBUG_PORT}"
         echo "DOCKER_PHP_IMAGE=${DOCKER_PHP_IMAGE}"
         echo "EXTRA_TEST_OPTIONS=${EXTRA_TEST_OPTIONS}"
         echo "SCRIPT_VERBOSE=${SCRIPT_VERBOSE}"
         echo "CGLCHECK_DRY_RUN=${CGLCHECK_DRY_RUN}"
         echo "DATABASE_DRIVER=${DATABASE_DRIVER}"
-        echo "DOCKER_SELENIUM_IMAGE=${DOCKER_SELENIUM_IMAGE}"
         echo "IMAGE_PREFIX=${IMAGE_PREFIX}"
     } > .env
 }
@@ -44,7 +43,7 @@ handleDbmsAndDriverOptions() {
             if [ "${DATABASE_DRIVER}" != "mysqli" ] && [ "${DATABASE_DRIVER}" != "pdo_mysql" ]; then
                 echo "Invalid option -a ${DATABASE_DRIVER} with -d ${DBMS}" >&2
                 echo >&2
-                echo "call \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "call \"./Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             ;;
@@ -52,7 +51,7 @@ handleDbmsAndDriverOptions() {
             if [ -n "${DATABASE_DRIVER}" ]; then
                 echo "Invalid option -a ${DATABASE_DRIVER} with -d ${DBMS}" >&2
                 echo >&2
-                echo "call \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "call \"./Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             ;;
@@ -61,26 +60,32 @@ handleDbmsAndDriverOptions() {
 
 # Load help text into $HELP
 read -r -d '' HELP <<EOF
-styleguide test runner. Execute unit test suite and some other details.
-Also used by travis-ci for test execution.
+fgtclb/categpry-types test runner. Execute unit test suite and some other details.
+Also used by github for test execution.
+
+Recommended docker version is >=20.10 for xdebug break pointing to work reliably, and
+a recent docker-compose (tested >=1.21.2) is needed.
 
 Usage: $0 [options] [file]
 
-No arguments: Run all unit tests with PHP 8.1
+No arguments: Run all unit tests with PHP 7.4
 
 Options:
     -s <...>
         Specifies which test suite to run
-            - acceptance: backend acceptance tests
             - cgl: cgl test and fix all php files
-            - clean: clean up test related build files
+            - checkBom: check UTF-8 files do not contain BOM
+            - checkRst: test .rst files for integrity
+            - checkTestMethodsPrefix: check tests methods do not start with "test"
+            - clean: clean up build and testing related files
             - composerUpdate: "composer update", handy if host has no PHP
-            - composerValidate: "composer validate"
             - functional: functional tests
-            - lint: PHP linting
+            - lintPhp: PHP linting
+            - lintTypoScript: TypoScript linting
+            - renderDocumentation: This uses the official rendering container to render the extension documentation.
             - phpstan: phpstan analyze
             - phpstanGenerateBaseline: regenerate phpstan baseline, handy after phpstan updates
-            - unit (default): PHP unit tests
+            - unit: PHP unit tests
 
     -a <mysqli|pdo_mysql>
         Only with -s acceptance,functional
@@ -92,45 +97,38 @@ Options:
                 - mysqli (default)
                 - pdo_mysql
 
-    -d <mariadb|mysql|postgres|sqlite>
+    -d <sqlite|mariadb|mysql|postgres>
         Only with -s acceptance,functional
         Specifies on which DBMS tests are performed
-            - mariadb (default): use mariadb
+            - sqlite: (default) use sqlite
+            - mariadb: use mariadb
             - mysql: use mysql
             - postgres: use postgres
-            - sqlite: use sqlite (not for -s acceptance)
 
-    -p <7.4|8.0|8.1|8.2|8.3>
+    -p <7.4|8.0|8.1|8.2>
         Specifies the PHP minor version to be used
             - 7.4 (default): use PHP 7.4
             - 8.0: use PHP 8.0
             - 8.1: use PHP 8.1
             - 8.2: use PHP 8.2
-            - 8.3: use PHP 8.3
 
-    -t <11i3|11i4|12>
+    -t <11|12>
         Only with -s composerUpdate
         Specifies the TYPO3 core major version to be used
-            - 11i3 (default): use TYPO3 core v11 with typo3/cms-composer-installers 3.x
-            - 11i4: use TYPO3 core v11 with typo3/cms-composer-installers 4.0-RC1
+            - 11 (default): use TYPO3 core v11
             - 12: use TYPO3 core v12
 
-    -e "<phpunit, codeception or additional phpstan scan options>"
+    -e "<phpunit or codeception options>"
         Only with -s acceptance|functional|unit
         Additional options to send to phpunit (unit & functional tests) or codeception (acceptance
         tests). For phpunit, options starting with "--" must be added after options starting with "-".
         Example -e "-v --filter canRetrieveValueWithGP" to enable verbose output AND filter tests
         named "canRetrieveValueWithGP"
-
     -x
-        Only with -s functional|unit|acceptance
+        Only with -s functional|unit
         Send information to host instance for test or system under test break points. This is especially
         useful if a local PhpStorm instance is listening on default xdebug port 9003. A different port
         can be selected with -y
-
-    -y <port>
-        Send xdebug information to a different port than default 9003 if an IDE like PhpStorm
-        is not listening on default port.
 
     -n
         Only with -s cgl
@@ -149,8 +147,8 @@ Options:
         Show this help.
 
 Examples:
-    # Run unit tests using PHP 8.1
-    ./Build/Scripts/runTests.sh
+    # Run unit tests using PHP 7.4
+    ./Build/Scripts/runTests.sh -s unit
 EOF
 
 # Test if docker-compose exists, else exit out with error
@@ -164,6 +162,23 @@ fi
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd "$THIS_SCRIPT_DIR" || exit 1
 
+RUNTESTS_FILE="${PWD}"
+while [ -h "${RUNTESTS_FILE}" ]; do # resolve ${SCRIPT_FILE} until the file is no longer a symlink
+  TMPDIR="$( cd -P "$( dirname "${RUNTESTS_FILE}" 2>/dev/null )" && pwd )"
+  RUNTESTS_FILE="$(readlink "${RUNTESTS_FILE}" 2>/dev/null )"
+  [[ ${RUNTESTS_FILE} != /* ]] && SOURCE="${TMPDIR}/${RUNTESTS_FILE}"
+done
+PROJECT_DIR="$( cd -P "$( dirname "${RUNTESTS_FILE}" 2>/dev/null )/.." && pwd )"
+# get project folder name, lowercased and spaces replaced with dashes
+PROJECT_PARENT_NAME="$( basename $( dirname ${PROJECT_DIR} 2>/dev/null ) 2>/dev/null | tr 'A-Z' 'a-z' | tr ' ' '-' )"
+[[ -z "${PROJECT_PARENT_NAME}" ]] && PROJECT_PARENT_NAME="no-parent-folder"
+PROJECT_NAME="$( echo \"runTests-${PROJECT_PARENT_NAME}-$( basename ${PROJECT_DIR} 2>/dev/null | tr 'A-Z' 'a-z' | tr ' ' '-' )\" | tr '[:upper:]' '[:lower:]')"
+# using $$ would add the process id to the string. May be breaking, until proper traps have been implemented to
+# ensure docker services are correctly cleaned on errors/exit
+#PROJECT_NAME="${PROJECT_NAME//[[:blank:]]/}-$$"
+PROJECT_NAME="${PROJECT_NAME//[[:blank:]]/}"
+ORIGINAL_ROOT="${PROJECT_DIR}/.Build"
+
 # Go to directory that contains the local docker-compose.yml file
 cd ../testing-docker || exit 1
 
@@ -174,27 +189,16 @@ if ! command -v realpath &> /dev/null; then
 else
   ROOT_DIR=`realpath ${PWD}/../../`
 fi
-TEST_SUITE="unit"
-TYPO3_VERSION="11i3"
-DBMS="mariadb"
+TEST_SUITE=""
+DBMS="sqlite"
 PHP_VERSION="7.4"
+TYPO3_VERSION="11"
 PHP_XDEBUG_ON=0
-PHP_XDEBUG_PORT=9003
 EXTRA_TEST_OPTIONS=""
 SCRIPT_VERBOSE=0
 CGLCHECK_DRY_RUN=""
 DATABASE_DRIVER=""
-DOCKER_SELENIUM_IMAGE="selenium/standalone-chrome:3.141.59-20210713"
 IMAGE_PREFIX="ghcr.io/typo3/"
-
-# Detect arm64 and use a seleniarm image.
-# In a perfect world selenium would have a arm64 integrated, but that is not on the horizon.
-# So for the time being we have to use seleniarm image.
-ARCH=$(uname -m)
-if [ $ARCH = "arm64" ]; then
-    DOCKER_SELENIUM_IMAGE="seleniarm/standalone-chromium:4.1.2-20220227"
-    echo "Architecture" $ARCH "requires" $DOCKER_SELENIUM_IMAGE "to run acceptance tests."
-fi
 
 # Option parsing
 # Reset in case getopts has been used previously in the shell
@@ -202,7 +206,7 @@ OPTIND=1
 # Array for invalid options
 INVALID_OPTIONS=();
 # Simple option parsing based on getopts (! not getopt)
-while getopts ":s:a:d:p:t:e:xy:nhuv" OPT; do
+while getopts ":s:a:d:p:t:e:xnhuv" OPT; do
     case ${OPT} in
         s)
             TEST_SUITE=${OPTARG}
@@ -215,14 +219,14 @@ while getopts ":s:a:d:p:t:e:xy:nhuv" OPT; do
             ;;
         p)
             PHP_VERSION=${OPTARG}
-            if ! [[ ${PHP_VERSION} =~ ^(7.4|8.0|8.1|8.2|8.3)$ ]]; then
+            if ! [[ ${PHP_VERSION} =~ ^(7.4|8.0|8.1|8.2)$ ]]; then
                 INVALID_OPTIONS+=("p ${OPTARG}")
             fi
             ;;
         t)
             TYPO3_VERSION=${OPTARG}
-            if ! [[ ${TYPO3_VERSION} =~ ^(11i3|11i4|12)$ ]]; then
-                INVALID_OPTIONS+=("t ${OPTARG}")
+            if ! [[ ${TYPO3_VERSION} =~ ^(11|12)$ ]]; then
+                INVALID_OPTIONS+=("p ${OPTARG}")
             fi
             ;;
         e)
@@ -230,9 +234,6 @@ while getopts ":s:a:d:p:t:e:xy:nhuv" OPT; do
             ;;
         x)
             PHP_XDEBUG_ON=1
-            ;;
-        y)
-            PHP_XDEBUG_PORT=${OPTARG}
             ;;
         h)
             echo "${HELP}"
@@ -267,65 +268,65 @@ if [ ${#INVALID_OPTIONS[@]} -ne 0 ]; then
     exit 1
 fi
 
-# Move "7.4" to "php74", the latter is the docker container name
+# Move "7.2" to "php72", the latter is the docker container name
 DOCKER_PHP_IMAGE=`echo "php${PHP_VERSION}" | sed -e 's/\.//'`
 
 # Set $1 to first mass argument, this is the optional test file or test directory to execute
 shift $((OPTIND - 1))
 TEST_FILE=${1}
-#if [ -n "${1}" ]; then
-#    TEST_FILE="Web/typo3conf/ext/styleguide/${1}"
-#fi
 
 if [ ${SCRIPT_VERBOSE} -eq 1 ]; then
     set -x
 fi
 
+if [ -z ${TEST_SUITE} ]; then
+    echo "${HELP}"
+    exit 0
+fi
+
 # Suite execution
 case ${TEST_SUITE} in
-    acceptance)
-        handleDbmsAndDriverOptions
-        setUpDockerComposeDotEnv
-        case ${DBMS} in
-            mysql)
-                echo "Using driver: ${DATABASE_DRIVER}"
-                docker-compose run acceptance_backend_mysql80
-                SUITE_EXIT_CODE=$?
-                ;;
-            mariadb)
-                echo "Using driver: ${DATABASE_DRIVER}"
-                docker-compose run acceptance_backend_mariadb10
-                SUITE_EXIT_CODE=$?
-                ;;
-            postgres)
-                docker-compose run acceptance_backend_postgres10
-                SUITE_EXIT_CODE=$?
-                ;;
-            *)
-                echo "Acceptance tests don't run with DBMS ${DBMS}" >&2
-                echo >&2
-                echo "call \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
-                exit 1
-        esac
-        docker-compose down
-        ;;
     cgl)
         # Active dry-run for cgl needs not "-n" but specific options
         if [[ ! -z ${CGLCHECK_DRY_RUN} ]]; then
             CGLCHECK_DRY_RUN="--dry-run --diff"
         fi
         setUpDockerComposeDotEnv
-        docker-compose run cgl
+        docker-compose run cgl_all
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    checkBom)
+        setUpDockerComposeDotEnv
+        docker-compose run check_bom
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    checkExceptionCodes)
+        setUpDockerComposeDotEnv
+        docker-compose run check_exception_codes
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    checkTestMethodsPrefix)
+        setUpDockerComposeDotEnv
+        docker-compose run check_test_methods_prefix
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    checkRst)
+        setUpDockerComposeDotEnv
+        docker-compose run check_rst
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
     clean)
-        echo -n "Clean builds ... " ; rm -rf \
-        ../../Build/testing-docker/.env \
-        ../../composer.lock \
-        ../../.Build \
-        ../../Tests/Acceptance/Support/_generated/;
-        echo "done"
+        rm -rf ../../composer.lock \
+            ../../.Build/ \
+            ../../Tests/Acceptance/Support/_generated/ \
+            ../../composer.json.testing \
+            ../../.cache \
+            ../../Documentation-GENERATED-temp
         ;;
     composerUpdate)
         setUpDockerComposeDotEnv
@@ -339,29 +340,39 @@ case ${TEST_SUITE} in
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
-    composerValidate)
-        setUpDockerComposeDotEnv
-        docker-compose run composer_validate
-        SUITE_EXIT_CODE=$?
-        docker-compose down
-        ;;
     functional)
         handleDbmsAndDriverOptions
         setUpDockerComposeDotEnv
+        echo "TYPO3_VERSION: ${TYPO3_VERSION}"
         case ${DBMS} in
             mariadb)
                 echo "Using driver: ${DATABASE_DRIVER}"
-                docker-compose run functional_mariadb10
-                SUITE_EXIT_CODE=$?
+                if [[ "${TYPO3_VERSION}" -eq 11 ]] ; then
+                    docker-compose run functional_mariadb10
+                    SUITE_EXIT_CODE=$?
+                else
+                    docker-compose run functional_mariadb10_phpunit10
+                    SUITE_EXIT_CODE=$?
+                fi
                 ;;
             mysql)
                 echo "Using driver: ${DATABASE_DRIVER}"
-                docker-compose run functional_mysql80
-                SUITE_EXIT_CODE=$?
+                if [[ "${TYPO3_VERSION}" -eq 11 ]] ; then
+                    docker-compose run functional_mysql80
+                    SUITE_EXIT_CODE=$?
+                else
+                    docker-compose run functional_mysql80_phpunit10
+                    SUITE_EXIT_CODE=$?
+                fi
                 ;;
             postgres)
-                docker-compose run functional_postgres10
-                SUITE_EXIT_CODE=$?
+                if [[ "${TYPO3_VERSION}" -eq 11 ]] ; then
+                    docker-compose run functional_postgres10
+                    SUITE_EXIT_CODE=$?
+                else
+                    docker-compose run functional_postgres10_phpunit10
+                    SUITE_EXIT_CODE=$?
+                fi
                 ;;
             sqlite)
                 # sqlite has a tmpfs as .Build/Web/typo3temp/var/tests/functional-sqlite-dbs/
@@ -369,8 +380,13 @@ case ${TEST_SUITE} in
                 # root if docker creates it. Thank you, docker. We create the path beforehand
                 # to avoid permission issues.
                 mkdir -p ${ROOT_DIR}/.Build/Web/typo3temp/var/tests/functional-sqlite-dbs/
-                docker-compose run functional_sqlite
-                SUITE_EXIT_CODE=$?
+                if [[ "${TYPO3_VERSION}" -eq 11 ]] ; then
+                    docker-compose run functional_sqlite
+                    SUITE_EXIT_CODE=$?
+                else
+                    docker-compose run functional_sqlite_phpunit10
+                    SUITE_EXIT_CODE=$?
+                fi
                 ;;
             *)
                 echo "Invalid -d option argument ${DBMS}" >&2
@@ -380,9 +396,22 @@ case ${TEST_SUITE} in
         esac
         docker-compose down
         ;;
-    lint)
+    lintPhp)
         setUpDockerComposeDotEnv
-        docker-compose run lint
+        docker-compose run lint_php
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    lintTypoScript)
+        setUpDockerComposeDotEnv
+        docker-compose run lint_php
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    renderDocumentation)
+        setUpDockerComposeDotEnv
+        mkdir -p ../../Documentation-GENERATED-temp
+        docker-compose run render_documentation
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
@@ -400,15 +429,24 @@ case ${TEST_SUITE} in
         ;;
     unit)
         setUpDockerComposeDotEnv
-        docker-compose run unit
-        SUITE_EXIT_CODE=$?
+        if [[ "${TYPO3_VERSION}" -eq 11 ]] ; then
+            docker-compose run unit
+            SUITE_EXIT_CODE=$?
+        else
+            docker-compose run unit10
+            SUITE_EXIT_CODE=$?
+        fi
         docker-compose down
         ;;
     update)
-        # pull typo3/core-testing-*:latest versions of those ones that exist locally
+        # pull ${IMAGE_PREFIX}core-testing-*:latest versions of those ones that exist locally
         docker images ${IMAGE_PREFIX}core-testing-*:latest --format "{{.Repository}}:latest" | xargs -I {} docker pull {}
-        # remove "dangling" typo3/core-testing-* images (those tagged as <none>)
+        # remove "dangling" ${IMAGE_PREFIX}core-testing-* images (those tagged as <none>)
         docker images ${IMAGE_PREFIX}core-testing-* --filter "dangling=true" --format "{{.ID}}" | xargs -I {} docker rmi {}
+        # pull ghcr.io/t3docs/render-documentation:latest versions of those ones that exist locally
+        docker images ghcr.io/t3docs/render-documentation:develop --format "{{.Repository}}:latest" | xargs -I {} docker pull {}
+        # remove "dangling" ghcr.io/t3docs/render-documentation images (those tagged as <none>)
+        docker images ghcr.io/t3docs/render-documentation --filter "dangling=true" --format "{{.ID}}" | xargs -I {} docker rmi {}
         ;;
     *)
         echo "Invalid -s option argument ${TEST_SUITE}" >&2

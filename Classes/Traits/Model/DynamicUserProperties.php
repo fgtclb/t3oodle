@@ -34,7 +34,10 @@ trait DynamicUserProperties
         bool $showHintWhenEmpty = true
     ): string {
         if (!in_array($pluginSetting, ['name', 'mail'])) {
-            throw new \InvalidArgumentException('$pluginSetting argument only allows values "name" or "mail".');
+            throw new \InvalidArgumentException(
+                '$pluginSetting argument only allows values "name" or "mail".',
+                1727787679
+            );
         }
         if (!self::$typoscriptSettings) {
             self::$typoscriptSettings = SettingsUtility::getTypoScriptSettings();

@@ -48,7 +48,10 @@ class SvgViewHelper extends AbstractViewHelper
         $path = GeneralUtility::getFileAbsFileName($uri);
 
         if (!file_exists($path)) {
-            throw new \RuntimeException('Given SVG file "' . $arguments['path'] . '" not found!');
+            throw new \RuntimeException(
+                'Given SVG file "' . $arguments['path'] . '" not found!',
+                1727787280
+            );
         }
 
         // Prepare view helper arguments

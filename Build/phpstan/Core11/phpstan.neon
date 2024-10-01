@@ -15,5 +15,3 @@ parameters:
     - ../../../ext_emconf.php
     - ../../../ext_localconf.php
     - ../../../ext_tables.php
-
-  checkGenericClassInNonGenericObjectType: false

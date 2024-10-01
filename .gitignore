@@ -4,7 +4,7 @@
 /.Build
 /var
 /vendor
-/.php-cs-fixer.cachede
+/.php-cs-fixer.cache
 /composer.lock
 /composer.json.testing
 /composer.json.orig
@@ -12,3 +12,4 @@
 
 /.cache/
 /Build/testing-docker/.env
+

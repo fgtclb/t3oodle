@@ -1,6 +1,26 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Strict comparison using \\=\\=\\= between TYPO3\\\\CMS\\\\Extbase\\\\Validation\\\\Validator\\\\ValidatorInterface and null will always evaluate to false\\.$#"
+			count: 1
+			path: ../../../Classes/Controller/PollController.php
+
+		-
+			message: "#^Property FGTCLB\\\\T3oodle\\\\Domain\\\\Repository\\\\PollRepository\\:\\:\\$controllerSettings is never read, only written\\.$#"
+			count: 1
+			path: ../../../Classes/Domain/Repository/PollRepository.php
+
+		-
+			message: "#^Comparison operation \"\\>\" between Doctrine\\\\DBAL\\\\Result\\|int and 0 results in an error\\.$#"
+			count: 1
+			path: ../../../Classes/Updates/MigrateOneOptionOnlySetting.php
+
+		-
+			message: "#^Call to an undefined method TYPO3Fluid\\\\Fluid\\\\Core\\\\Rendering\\\\RenderingContextInterface\\:\\:getRequest\\(\\)\\.$#"
+			count: 1
+			path: ../../../Classes/ViewHelpers/SvgViewHelper.php
+
+		-
 			message: "#^Variable \\$_EXTKEY might not be defined\\.$#"
 			count: 1
 			path: ../../../ext_emconf.php

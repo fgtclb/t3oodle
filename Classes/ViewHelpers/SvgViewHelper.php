@@ -28,7 +28,7 @@ class SvgViewHelper extends AbstractViewHelper
      */
     protected static $cache = [];
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('path', 'string', 'SVG path, relative to Resources/Public/', true);
         $this->registerArgument('size', 'string', 'SVG size in pixel', false, '');
@@ -37,12 +37,22 @@ class SvgViewHelper extends AbstractViewHelper
         $this->registerArgument('title', 'string', 'Optional title', false, '');
     }
 
+    /**
+     * Return array element by key.
+     *
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @throws \RuntimeException
+     * @return string
+     */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
-        $extensionName = $renderingContext->getControllerContext()->getRequest()->getControllerExtensionName();
+    ): string {
+        $request = $renderingContext->getRequest();
+        $extensionName = $request->getControllerExtensionName();
         $uri = 'EXT:' . GeneralUtility::camelCaseToLowerCaseUnderscored($extensionName) . '/Resources/Public/' .
             $arguments['path'];
         $path = GeneralUtility::getFileAbsFileName($uri);

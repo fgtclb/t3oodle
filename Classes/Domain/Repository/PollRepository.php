@@ -13,6 +13,7 @@ use FGTCLB\T3oodle\Event\PollRepository\FindPollsEvent;
 use FGTCLB\T3oodle\Service\UserService;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
@@ -26,8 +27,9 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected $eventDispatcher;
 
     private UserService $userService;
+
     /**
-     * @var string[] Show unpublished first, then order by publishDate
+     * @var array<non-empty-string, 'ASC'|'DESC'> Show unpublished first, then order by publishDate
      */
     protected $defaultOrderings = [
         'isPublished' => 'ASC',
@@ -83,7 +85,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $andConstraints[] = $query->equals('isPublished', true);
         }
 
-        if (!empty($orConstraints)) {
+        if ($orConstraints !== []) {
             $andConstraints[] = $query->logicalOr($orConstraints);
         }
 
@@ -108,13 +110,26 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         /** @var ConnectionPool $pool */
         $pool = GeneralUtility::makeInstance(ConnectionPool::class);
-        $result = $pool->getQueryBuilderForTable('tx_t3oodle_domain_model_poll')
+        $queryBuilder = $pool->getQueryBuilderForTable('tx_t3oodle_domain_model_poll');
+        $result = $queryBuilder
             ->select('type')
             ->from('tx_t3oodle_domain_model_poll')
-            ->where('uid = ' . $poll)
-            ->execute()
-            ->fetch();
+            ->where($queryBuilder->expr()->eq(
+                'uid',
+                $queryBuilder->createNamedParameter($poll, Connection::PARAM_INT)
+            ))
+            ->executeQuery()
+            ->fetchAssociative();
 
         return $result['type'];
+    }
+
+    public function countBySlug(string $slug): int
+    {
+        $query = $this->createQuery();
+        return $query
+            ->matching($query->equals('slug', $slug))
+            ->execute()
+            ->count();
     }
 }

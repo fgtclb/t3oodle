@@ -45,7 +45,7 @@ final class ShowPollEvent
         return $this->view;
     }
 
-    public function getCaller()
+    public function getCaller(): PollController
     {
         return $this->caller;
     }

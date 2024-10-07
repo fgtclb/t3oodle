@@ -10,7 +10,7 @@ final class PermissionCheckEvent
     private ?array $arguments = [];
     private mixed $caller;
 
-    public function __construct(bool $currentStatus, ?array $arguments, $caller)
+    public function __construct(bool $currentStatus, ?array $arguments, mixed $caller)
     {
         $this->currentStatus = $currentStatus;
         $this->arguments = $arguments;
@@ -22,7 +22,7 @@ final class PermissionCheckEvent
         return $this->currentStatus;
     }
 
-    public function setCurrentStatus($status): void
+    public function setCurrentStatus(bool $status = null): void
     {
         $status ?? $this->currentStatus;
     }

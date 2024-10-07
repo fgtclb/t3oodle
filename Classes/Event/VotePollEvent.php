@@ -47,4 +47,9 @@ final class VotePollEvent
     {
         return $this->caller;
     }
+
+    public function getSettings(): array
+    {
+        return $this->settings;
+    }
 }

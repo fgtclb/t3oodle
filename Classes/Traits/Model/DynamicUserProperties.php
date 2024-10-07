@@ -10,6 +10,7 @@ namespace FGTCLB\T3oodle\Traits\Model;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Utility\SettingsUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 
@@ -69,8 +70,13 @@ trait DynamicUserProperties
         self::$userRowCache[$uid] = $queryBuilder
             ->select('uid', self::$typoscriptSettings['frontendUserNameField'])
             ->from('fe_users')
-            ->where($queryBuilder->expr()->eq('uid', $uid))
-            ->execute()->fetch(\PDO::FETCH_ASSOC);
+            ->where($queryBuilder->expr()->eq(
+                'uid',
+                $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
+            ))
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
 
         return self::$userRowCache[$uid];
     }

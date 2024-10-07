@@ -20,7 +20,7 @@ class SplitDayOptionsViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('get', 'string', '"dates" or "options" allowed', true);
         $this->registerArgument('options', 'array', 'Iterable with options', false);
@@ -30,7 +30,7 @@ class SplitDayOptionsViewHelper extends AbstractViewHelper
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
+    ): array {
         $options = $arguments['options'] ?? $renderChildrenClosure();
         if (!$options || !is_iterable($options)) {
             throw new \InvalidArgumentException(

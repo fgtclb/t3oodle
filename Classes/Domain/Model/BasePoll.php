@@ -314,7 +314,7 @@ abstract class BasePoll extends AbstractEntity
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options
      */
-    public function getOptions($skipMarkedToDeleted = false): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    public function getOptions(bool $skipMarkedToDeleted = false): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         if ($skipMarkedToDeleted) {
             /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options */
@@ -482,7 +482,7 @@ abstract class BasePoll extends AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage|Vote[]
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Vote>
      */
     public function getVotes(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
@@ -625,7 +625,9 @@ abstract class BasePoll extends AbstractEntity
 
         return false;
     }
-
+    /**
+     * @return \FGTCLB\T3oodle\Domain\Model\Option[]
+     */
     public function getAvailableOptions(): array
     {
         if (!$this->getSettingMaxVotesPerOption()) {

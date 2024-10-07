@@ -100,7 +100,7 @@ class PollController extends ActionController
 
     protected PersistenceManagerInterface $persistenceManager;
 
-    public function injectPersistenceManager(PersistenceManagerInterface $persistenceManager)
+    public function injectPersistenceManager(PersistenceManagerInterface $persistenceManager): void
     {
         $this->persistenceManager = $persistenceManager;
     }
@@ -616,7 +616,7 @@ class PollController extends ActionController
         BasePoll $poll,
         bool $publishDirectly,
         bool $acceptTerms = false
-    ) {
+    ): void {
         if ($poll->isSimplePoll()) {
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
         } else {
@@ -650,7 +650,7 @@ class PollController extends ActionController
                     AbstractMessage::OK
                 );
                 if ($publishDirectly) {
-                    return (new ForwardResponse('publish'))
+                    (new ForwardResponse('publish'))
                         ->withControllerName('Poll')
                         ->withExtensionName('t3oodle')
                         ->withArguments(['poll' => $poll]);

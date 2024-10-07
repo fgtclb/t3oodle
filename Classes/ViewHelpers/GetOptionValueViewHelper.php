@@ -19,7 +19,7 @@ class GetOptionValueViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('vote', 'object', 'Vote object', false);
         $this->registerArgument('option', 'object', 'Option object', true);

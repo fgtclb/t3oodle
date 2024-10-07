@@ -14,25 +14,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SlugUtility
 {
-    /**
-     * @var string
-     */
-    private $tableName;
-
-    /**
-     * @var string
-     */
-    private $fieldName;
-
-    /**
-     * @var SlugHelper
-     */
-    private $slugHelper;
+    private SlugHelper $slugHelper;
 
     public function __construct(string $tableName, string $fieldName)
     {
-        $this->tableName = $tableName;
-        $this->fieldName = $fieldName;
         $this->slugHelper = GeneralUtility::makeInstance(
             SlugHelper::class,
             $tableName,

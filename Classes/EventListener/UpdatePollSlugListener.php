@@ -83,7 +83,10 @@ class UpdatePollSlugListener
      */
     protected function updatePollSlug(BasePoll $poll): void
     {
-        $slugUtility = GeneralUtility::makeInstance(SlugUtility::class, 'tx_t3oodle_domain_model_poll', 'slug');
+        $slugUtility = new SlugUtility(
+            'tx_t3oodle_domain_model_poll',
+            'slug'
+        );
 
         // Create slug and update created entity
         if ($poll->getVisibility() === \FGTCLB\T3oodle\Domain\Enumeration\Visibility::NOT_LISTED) {

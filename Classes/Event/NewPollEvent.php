@@ -17,7 +17,7 @@ final class NewPollEvent
     private ViewInterface $view;
     private PollController $caller;
 
-    public function __construct(Poll $poll, bool $publishDirectly, array $newOptions, array $settings, ViewInterface $view, PollController $caller)
+    public function __construct(Poll $poll, bool $publishDirectly, array $newOptions, array $settings, $view, PollController $caller)
     {
         $this->poll = $poll;
         $this->publishDirectly = $publishDirectly;

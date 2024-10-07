@@ -17,7 +17,7 @@ final class NewSuggestionEvent
     private PollController $caller;
     private SuggestionDto $suggestionDto;
 
-    public function __construct(Poll $poll, SuggestionDto $suggestionDto, array $settings, ViewInterface $view, PollController $caller)
+    public function __construct(Poll $poll, SuggestionDto $suggestionDto, array $settings, $view, PollController $caller)
     {
         $this->poll = $poll;
         $this->suggestionDto = $suggestionDto;

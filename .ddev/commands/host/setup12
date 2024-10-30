@@ -1,0 +1,32 @@
+#!/bin/bash
+
+## Description: Setup the TYPO3 project
+## Usage: setup12
+## Example: "ddev setup12"
+## ProjectTypes: typo3
+## ExecRaw: true
+
+rm -rf composer.lock var/cache .Build vendor || true
+composer remove typo3/cms-core typo3/cms-fluid-styled-content georgringer/numbered-pagination armin/editorconfig-cli bk2k/bootstrap-package ergebnis/composer-normalize friendsofphp/php-cs-fixer helhum/typo3-console helmich/typo3-typoscript-lint jangregor/phpstan-prophecy phpstan/phpstan phpstan/phpstan-phpunit phpunit/phpunit saschaegerer/phpstan-typo3 ssch/typo3-rector typo3/cms-composer-installers typo3/cms-felogin typo3/cms-tstemplate
+ddev composer require "typo3/cms-composer-installers:^5" "typo3/cms-backend:^12.4" "typo3/cms-core:^12.4" "typo3/cms-extbase:^12.4" "typo3/cms-extensionmanager:^12.4" "typo3/cms-filelist:^12.4" "typo3/cms-fluid:^12.4" "typo3/cms-frontend:^12.4" "typo3/cms-install:^12.4" "typo3/minimal:^12"
+ddev composer install
+echo "DROP DATABASE db; CREATE DATABASE db;" | ddev mysql
+ddev import-db --file=seeds/db.sql.gz
+ddev typo3 install:setup --skip-integrity-check
+ddev import-db --file=seeds/db.sql.gz
+
+ddev typo3 configuration:set 'BE/debug' 1
+ddev typo3 configuration:set 'FE/debug' 1
+ddev typo3 configuration:set 'SYS/devIPmask' '*'
+ddev typo3 configuration:set 'SYS/displayErrors' 1
+ddev typo3 configuration:set 'SYS/systemLogLevel' 0
+ddev typo3 configuration:set 'SYS/trustedHostsPattern' '.*.*'
+ddev typo3 configuration:set 'MAIL/transport' 'smtp'
+ddev typo3 configuration:set 'MAIL/transport_smtp_server' 'localhost:1025'
+ddev typo3 configuration:set 'GFX/processor' 'ImageMagick'
+ddev typo3 configuration:set 'GFX/processor_path' '/usr/bin/'
+ddev typo3 configuration:set 'GFX/processor_path_lzw' '/usr/bin/'
+
+# ddev typo3 migrations:migrate --no-interaction
+ddev typo3cms database:updateschema
+ddev typo3cms cache:flush

@@ -67,7 +67,7 @@ trait DynamicUserProperties
         $pool = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class);
         $connection = $pool->getConnectionForTable('fe_users');
         $queryBuilder = $connection->createQueryBuilder();
-        self::$userRowCache[$uid] = $queryBuilder
+        $result = $queryBuilder
             ->select('uid', self::$typoscriptSettings['frontendUserNameField'])
             ->from('fe_users')
             ->where($queryBuilder->expr()->eq(
@@ -77,6 +77,12 @@ trait DynamicUserProperties
             ->setMaxResults(1)
             ->executeQuery()
             ->fetchAssociative();
+
+        if ($result === false) {
+            return null;
+        }
+
+        self::$userRowCache[$uid] = $result;
 
         return self::$userRowCache[$uid];
     }

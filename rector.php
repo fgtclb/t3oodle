@@ -37,6 +37,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         __DIR__ . '/.Build/*',
+        __DIR__ . '/.ddev/*',
     ]);
 
     // Rewrite your extbase persistence class mapping from typoscript into php according to official docs.

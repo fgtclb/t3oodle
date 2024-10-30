@@ -21,10 +21,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     private UserService $userService;
 
@@ -85,9 +82,7 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $andConstraints[] = $query->equals('isPublished', true);
         }
 
-        if ($orConstraints !== []) {
-            $andConstraints[] = $query->logicalOr($orConstraints);
-        }
+        $andConstraints[] = $query->logicalOr($orConstraints);
 
         $andConstraints[] = $query->logicalNot($query->equals('slug', ''));
 
@@ -106,6 +101,11 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $this->controllerSettings = $settings;
     }
 
+    /**
+     * Retrieves the poll type by its unique identifier (UID).
+     *
+     * @throws \RuntimeException If the poll is not found.
+     */
     public function getPollTypeByUid(int $poll): string
     {
         /** @var ConnectionPool $pool */
@@ -118,8 +118,13 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 'uid',
                 $queryBuilder->createNamedParameter($poll, Connection::PARAM_INT)
             ))
+            ->setMaxResults(1)
             ->executeQuery()
             ->fetchAssociative();
+
+        if ($result === false) {
+            throw new \RuntimeException('Poll not found', 1730287624);
+        }
 
         return $result['type'];
     }

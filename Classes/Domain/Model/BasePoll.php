@@ -685,11 +685,15 @@ abstract class BasePoll extends AbstractEntity
         return new PollStatus(PollStatus::CLOSED);
     }
 
+    // @todo: Check if $this->type() can be used instead of static::class
+    // @todo: Verify if static::class is appropriate in this context
     public function isSimplePoll(): bool
     {
         return stripos(static::class, 'simple') !== false;
     }
 
+    // @todo: Check if $this->type() can be used instead of static::class
+    // @todo: Verify if static::class is appropriate in this context
     public function isSchedulePoll(): bool
     {
         return stripos(static::class, 'schedule') !== false;

@@ -22,9 +22,9 @@ final class PermissionCheckEvent
         return $this->currentStatus;
     }
 
-    public function setCurrentStatus(bool $status = null): void
+    public function setCurrentStatus(bool $status): void
     {
-        $status ?? $this->currentStatus;
+        $this->currentStatus = $status;
     }
 
     public function getArguments(): array

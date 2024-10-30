@@ -189,6 +189,8 @@ class PollController extends ActionController
     }
 
     /**
+     * @todo: add proper return types
+     *
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function showAction(BasePoll $poll): ResponseInterface
@@ -229,6 +231,7 @@ class PollController extends ActionController
         $this->view->assign('poll', $poll);
         $this->view->assign('vote', $vote);
 
+        $newOptionValues = $event->getNewOptionValues();
         if (!empty($newOptionValues)) {
             $this->view->assign('newOptionValues', $event->getNewOptionValues());
         }
@@ -243,6 +246,8 @@ class PollController extends ActionController
     }
 
     /**
+     * @todo: add proper return types
+     *
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator", param="vote")
      */
     public function voteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote): void
@@ -281,6 +286,8 @@ class PollController extends ActionController
     }
 
     /**
+     * @todo: add proper return types
+     *
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function resetVotesAction(BasePoll $poll): void
@@ -303,6 +310,8 @@ class PollController extends ActionController
     }
 
     /**
+     * @todo: add proper return types
+     *
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("vote")
      */
     public function deleteOwnVoteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote): void
@@ -322,6 +331,8 @@ class PollController extends ActionController
     }
 
     /**
+     * @todo: add proper return types
+     *
      * @param int $option uid to finish
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
@@ -355,6 +366,8 @@ class PollController extends ActionController
     }
 
     /**
+     * @todo add proper return types
+     *
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
     public function finishSuggestionModeAction(BasePoll $poll): void
@@ -399,6 +412,8 @@ class PollController extends ActionController
     }
 
     /**
+     * @todo: add proper return types
+     *
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
      */
     public function createSuggestionAction(SuggestionDto $suggestionDto): void
@@ -700,6 +715,8 @@ class PollController extends ActionController
     }
 
     /**
+     * @todo Ensure proper return type is set
+     *
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
     public function updateAction(BasePoll $poll): void
@@ -741,6 +758,8 @@ class PollController extends ActionController
     }
 
     /**
+     * @todo Ensure proper return type is set
+     *
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
     public function deleteAction(BasePoll $poll): void

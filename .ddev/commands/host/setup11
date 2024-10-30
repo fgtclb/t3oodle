@@ -6,7 +6,7 @@
 ## ProjectTypes: typo3
 ## ExecRaw: true
 
-rm -rf var/cache .Build vendor || true
+rm -rf composer.lock var/cache .Build vendor || true
 ddev composer install
 echo "DROP DATABASE db; CREATE DATABASE db;" | ddev mysql
 ddev import-db --file=seeds/db.sql.gz

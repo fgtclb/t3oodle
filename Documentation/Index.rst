@@ -25,7 +25,7 @@ t3oodle
         TYPO3 CMS, poll, doodle, vote
 
     :Copyright:
-        2020-2021
+        2020-2024
 
     :Author:
         Armin Vieweg
@@ -59,16 +59,18 @@ t3oodle
 
 
 .. note::
+
    This extension has been brought to you by **FGTCLB** and has been supported by **Friedrich-Ebert-Stiftung e. V.**
 
    .. image:: Welcome/Images/FGTLB.svg
       :width: 21%
       :target: https://www.fgtclb.com/
       :alt: FGTCLB
+      :margin: 0 40px 0 0
 
    .. image:: Welcome/Images/Spacer.svg
-      :width: 50
-      :target: #
+      :width: 30%
+      :alt: Spacer
 
    .. image:: Welcome/Images/FES.svg
       :width: 40%

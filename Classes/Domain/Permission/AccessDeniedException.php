@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Domain\Permission;
 
@@ -10,6 +10,4 @@ namespace FGTCLB\T3oodle\Domain\Permission;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 
-class AccessDeniedException extends \FGTCLB\T3oodle\Exception\AccessDeniedException
-{
-}
+class AccessDeniedException extends \FGTCLB\T3oodle\Exception\AccessDeniedException {}

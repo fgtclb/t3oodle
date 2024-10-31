@@ -7,6 +7,10 @@
 Signal/Slots
 ============
 
+.. warning::
+
+    This section is outdated, as it is not possible to use signals and slots in TYPO3 11 anymore.
+
 Every action in t3oodle controllers implemented a **signal** you can use to put slots in it and modify or extend
 extension behaviour.
 

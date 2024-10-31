@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\ViewHelpers;
 
@@ -28,7 +28,7 @@ class SvgViewHelper extends AbstractViewHelper
      */
     protected static $cache = [];
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('path', 'string', 'SVG path, relative to Resources/Public/', true);
         $this->registerArgument('size', 'string', 'SVG size in pixel', false, '');
@@ -37,18 +37,31 @@ class SvgViewHelper extends AbstractViewHelper
         $this->registerArgument('title', 'string', 'Optional title', false, '');
     }
 
+    /**
+     * Return array element by key.
+     *
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @throws \RuntimeException
+     * @return string
+     */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
-        $extensionName = $renderingContext->getControllerContext()->getRequest()->getControllerExtensionName();
+    ): string {
+        $request = $renderingContext->getRequest();
+        $extensionName = $request->getControllerExtensionName();
         $uri = 'EXT:' . GeneralUtility::camelCaseToLowerCaseUnderscored($extensionName) . '/Resources/Public/' .
             $arguments['path'];
         $path = GeneralUtility::getFileAbsFileName($uri);
 
         if (!file_exists($path)) {
-            throw new \RuntimeException('Given SVG file "' . $arguments['path'] . '" not found!');
+            throw new \RuntimeException(
+                'Given SVG file "' . $arguments['path'] . '" not found!',
+                1727787280
+            );
         }
 
         // Prepare view helper arguments

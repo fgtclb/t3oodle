@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\ViewHelpers;
 
@@ -28,7 +28,7 @@ class PermissionViewHelper extends AbstractViewHelper
      */
     private static $permission;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('permissionClassName', 'string', '', false, PollPermission::class);
         $this->registerArgument('poll', 'object', 'Poll object', false);
@@ -55,7 +55,7 @@ class PermissionViewHelper extends AbstractViewHelper
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
+    ): bool {
         self::init($arguments, $renderingContext);
 
         $poll = $arguments['poll'] ?? $renderChildrenClosure();

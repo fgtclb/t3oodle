@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\ViewHelpers;
 
@@ -19,7 +19,7 @@ class GetOptionValueViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('vote', 'object', 'Vote object', false);
         $this->registerArgument('option', 'object', 'Option object', true);

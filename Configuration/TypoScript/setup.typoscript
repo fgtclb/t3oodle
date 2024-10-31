@@ -6,9 +6,8 @@ plugin.tx_t3oodle {
         partialRootPaths.1 = {$plugin.tx_t3oodle_main.view.partialRootPath}
         layoutRootPaths.0 = EXT:tx_t3oodle/Resources/Private/Layouts/
         layoutRootPaths.1 = {$plugin.tx_t3oodle_main.view.layoutRootPath}
-
-        widget.TYPO3\CMS\Fluid\ViewHelpers\Widget\PaginateViewHelper.templateRootPath = EXT:t3oodle/Resources/Private/Templates/
     }
+
     persistence {
         #storagePid = {$plugin.tx_t3oodle_main.persistence.storagePid}
         #recursive = 1
@@ -60,7 +59,8 @@ plugin.tx_t3oodle {
             personal = 1
 
             # Pagination in list view. Set to 0 to disable pagination.
-            itemsPerPage = 10
+            itemsPerPage = 9
+            maximumLinks = 3
             # When enabled, the total amount of polls (with current settings) have been found
             showTotal = 1
 

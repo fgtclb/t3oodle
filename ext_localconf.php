@@ -5,22 +5,22 @@
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 call_user_func(
     function () {
         // Configure plugins
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'FGTCLB.T3oodle',
+            'T3oodle',
             'Main',
             [
-                'Poll' => 'list, show, vote, new, create, edit, update, publish, finish, finishSuggestionMode, ' .
+                \FGTCLB\T3oodle\Controller\PollController::class => 'list, show, vote, new, create, edit, update, publish, finish, finishSuggestionMode, ' .
                           'newSuggestion, createSuggestion, editSuggestion, updateSuggestion, deleteSuggestion, ' .
                           'delete, resetVotes, deleteOwnVote',
             ],
             // non-cacheable actions
             [
-                'Poll' => 'list, show, vote, create, edit, update, publish, finish, finishSuggestionMode, ' .
+                \FGTCLB\T3oodle\Controller\PollController::class => 'list, show, vote, create, edit, update, publish, finish, finishSuggestionMode, ' .
                           'createSuggestion, editSuggestion, updateSuggestion, deleteSuggestion, ' .
                           'delete, resetVotes, deleteOwnVote',
             ]
@@ -56,23 +56,6 @@ TS
             't3oodle-plugin-main',
             \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
             ['source' => 'EXT:t3oodle/Resources/Public/Icons/Extension.svg']
-        );
-
-        // Register t3oodle's slots
-        $dispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
-        );
-        $dispatcher->connect(
-            \FGTCLB\T3oodle\Controller\PollController::class,
-            'createAfter',
-            \FGTCLB\T3oodle\Slots\UpdatePollSlug::class,
-            'afterCreate'
-        );
-        $dispatcher->connect(
-            \FGTCLB\T3oodle\Controller\PollController::class,
-            'updateBefore',
-            \FGTCLB\T3oodle\Slots\UpdatePollSlug::class,
-            'beforeUpdate'
         );
 
         // Register update wizards

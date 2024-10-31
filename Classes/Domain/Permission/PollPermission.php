@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Domain\Permission;
 
@@ -14,14 +14,20 @@ use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
-use FGTCLB\T3oodle\Utility\SettingsUtility;
+use FGTCLB\T3oodle\Event\Permission\PermissionCheckEvent;
+use FGTCLB\T3oodle\Service\UserService;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 class PollPermission
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
     /**
      * @var string
      */
@@ -32,10 +38,7 @@ class PollPermission
      */
     private $controllerSettings;
 
-    /**
-     * @var Dispatcher
-     */
-    private $signalSlotDispatcher;
+    private UserService $userService;
 
     public function __construct(string $currentUserIdent = null, array $controllerSettings = [])
     {
@@ -44,7 +47,8 @@ class PollPermission
         }
         $this->currentUserIdent = $currentUserIdent;
         $this->controllerSettings = $controllerSettings;
-        $this->signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+        $this->userService = GeneralUtility::makeInstance(UserService::class);
     }
 
     /**
@@ -59,7 +63,7 @@ class PollPermission
             $available = [];
             foreach (get_class_methods(self::class) as $method) {
                 $methodPart = substr($method, 2, -7);
-                if (!empty($methodPart) && 0 === strpos($method, 'is')) {
+                if (!empty($methodPart) &&   str_starts_with($method, 'is')) {
                     $available[] = lcfirst($methodPart);
                 }
             }
@@ -83,7 +87,7 @@ class PollPermission
      */
     public function isViewingInGeneralAllowed(BasePoll $poll): bool
     {
-        return Visibility::NOT_LISTED !== $poll->getVisibility() && $poll->isPublished();
+        return $poll->getVisibility() !== Visibility::NOT_LISTED && $poll->isPublished();
     }
 
     /**
@@ -92,7 +96,7 @@ class PollPermission
     public function isViewingAllowed(BasePoll $poll): bool
     {
         $status = $this->isViewingInGeneralAllowed($poll) || $this->userIsAuthor($poll);
-        $this->dispatch(__METHOD__, $status, $poll);
+        $this->dispatch($status, $poll);
 
         return $status;
     }
@@ -100,50 +104,49 @@ class PollPermission
     public function isShowAllowed(BasePoll $poll): bool
     {
         $status = $poll->isPublished() || $this->userIsAuthor($poll);
-
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isNewAllowed(): bool
     {
         $status = $this->isNewSimplePollAllowed() && $this->isNewSchedulePollAllowed();
 
-        return $this->dispatch(__METHOD__, $status);
+        return $this->dispatch($status);
     }
 
     public function isNewSimplePollAllowed(): bool
     {
         $status = (bool)$this->controllerSettings['allowNewSimplePolls'];
 
-        return $this->dispatch(__METHOD__, $status);
+        return $this->dispatch($status);
     }
 
     public function isNewSchedulePollAllowed(): bool
     {
         $status = (bool)$this->controllerSettings['allowNewSchedulePolls'];
 
-        return $this->dispatch(__METHOD__, $status);
+        return $this->dispatch($status);
     }
 
     public function isEditAllowed(BasePoll $poll): bool
     {
         $status = $this->userIsAuthor($poll) && !$poll->isFinished();
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isDeleteAllowed(BasePoll $poll): bool
     {
-        $status = $this->isEditAllowed($poll) && 0 === count($poll->getVotes());
+        $status = $this->isEditAllowed($poll) && count($poll->getVotes()) === 0;
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isPublishAllowed(BasePoll $poll): bool
     {
         $status = !$poll->isPublished() && !$poll->isFinished() && $this->userIsAuthor($poll);
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isFinishAllowed(BasePoll $poll): bool
@@ -157,25 +160,29 @@ class PollPermission
                 && $this->userIsAuthor($poll);
         }
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isFinishSuggestionModeAllowed(BasePoll $poll): bool
     {
         $status = $this->isSuggestNewOptionsAllowed($poll) && $this->userIsAuthor($poll);
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isSuggestNewOptionsAllowed(BasePoll $poll): bool
     {
+        if (empty($this->controllerSettings)) {
+            return false;
+        }
+
         $status = (bool)$this->controllerSettings['allowSuggestionMode']
             && $poll->isPublished()
             && !$poll->isFinished()
             && $poll->isSuggestModeEnabled()
             && !$poll->isSuggestModeFinished();
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isVotingAllowed(BasePoll $poll): bool
@@ -188,7 +195,7 @@ class PollPermission
                 && !$poll->isVotingExpired()
                 && (count($poll->getAvailableOptions()) > 0 || $poll->getHasCurrentUserVoted());
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isSeeParticipantsDuringVotingAllowed(BasePoll $poll): bool
@@ -198,7 +205,7 @@ class PollPermission
             $status = !$poll->isSettingSecretParticipants() || $this->userIsAuthor($poll);
         }
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isSeeVotesDuringVotingAllowed(BasePoll $poll): bool
@@ -208,14 +215,14 @@ class PollPermission
             $status = !$poll->isSettingSecretVotings() || $this->userIsAuthor($poll);
         }
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isAdministrationAllowed(BasePoll $poll = null): bool
     {
-        $status = $this->userIsAdmin();
+        $status = $this->userService->userIsAdmin();
         if ($poll) {
-            return $this->dispatch(__METHOD__, $status, $poll);
+            return $this->dispatch($status, $poll);
         }
 
         return $status;
@@ -223,9 +230,9 @@ class PollPermission
 
     private function userIsAuthor(BasePoll $poll): bool
     {
-        $status = $poll->getAuthorIdent() === $this->currentUserIdent || $this->userIsAdmin();
+        $status = $poll->getAuthorIdent() === $this->currentUserIdent || $this->userService->userIsAdmin();
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     public function isResetVotesAllowed(BasePoll $poll): bool
@@ -235,7 +242,7 @@ class PollPermission
                     && ($poll->getStatus()->equals(PollStatus::OPENED) || $poll->getStatus()->equals(PollStatus::CLOSED))
                     && $this->userIsAuthor($poll);
 
-        return $this->dispatch(__METHOD__, $status, $poll);
+        return $this->dispatch($status, $poll);
     }
 
     /**
@@ -248,45 +255,16 @@ class PollPermission
             && $vote->getPoll()->getStatus()->equals(PollStatus::OPENED)
             && $vote->getParticipantIdent() === $this->currentUserIdent;
 
-        return $this->dispatch(__METHOD__, $status, $vote->getPoll(), $vote);
-    }
-
-    /**
-     * @TODO Move this to own class. This is not poll related
-     */
-    public function userIsAdmin(): bool
-    {
-        $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
-        if (is_numeric($currentUserIdent)) {
-            $frontendUserUid = (int)$currentUserIdent;
-            $settings = SettingsUtility::getTypoScriptSettings();
-            if (!empty($settings['adminUserUids'])) {
-                $adminUserUids = GeneralUtility::intExplode(',', $settings['adminUserUids'], true);
-                if (in_array($frontendUserUid, $adminUserUids, true)) {
-                    return true;
-                }
-            }
-            if (!empty($settings['adminUserGroupUids'])) {
-                $adminUserGroupUids = GeneralUtility::intExplode(',', $settings['adminUserGroupUids'], true);
-                $userAspect = UserIdentUtility::getCurrentUserAspect();
-                $setAdminGroups = array_intersect($userAspect->getGroupIds(), $adminUserGroupUids);
-                if (count($setAdminGroups) > 0) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return $this->dispatch($status, $vote);
     }
 
     /**
      * Dispatches slot in permissions signals.
      *
-     * @param BasePoll $poll
+     * @param  BasePoll|Vote|null $caller
      */
-    private function dispatch(string $signalName, bool $currentStatus, ?BasePoll $poll = null, ?Vote $vote = null): bool
+    private function dispatch(bool $currentStatus, mixed $caller = null): bool
     {
-        $signalName = preg_replace('/(.*?::)(.*)/', '$2', $signalName);
         $arguments = [
             'currentStatus' => $currentStatus,
             'arguments' => [
@@ -294,17 +272,18 @@ class PollPermission
             ],
             'caller' => $this,
         ];
-        if ($poll) {
-            $arguments['arguments']['poll'] = $poll;
+        if ($caller instanceof BasePoll) {
+            $arguments['arguments']['poll'] = $caller;
         }
-        if ($vote) {
-            $arguments['arguments']['vote'] = $vote;
+        if ($caller instanceof Vote) {
+            $arguments['arguments']['vote'] = $caller;
         }
 
-        $status = $this->signalSlotDispatcher->dispatch(__CLASS__, $signalName, $arguments);
+        $event = new PermissionCheckEvent($arguments['currentStatus'], $arguments, $caller);
+        $status = $this->eventDispatcher->dispatch($event)->getCurrentStatus();
 
-        if (is_array($status) && array_key_exists('currentStatus', $status)) {
-            return (bool)$status['currentStatus'];
+        if ($status) {
+            return (bool)$status;
         }
 
         return (bool)$status;

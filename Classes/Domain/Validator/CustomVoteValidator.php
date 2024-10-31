@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Domain\Validator;
 
@@ -54,7 +54,7 @@ class CustomVoteValidator extends AbstractValidator
         if ($value->getPoll() && $value->getPoll()->getSettingMaxVotesPerParticipant()) {
             $amount = 0;
             foreach ($value->getOptionValues() as $optionValue) {
-                if ('0' !== $optionValue->getValue()) {
+                if ($optionValue->getValue() !== '0') {
                     ++$amount;
                 }
             }
@@ -76,7 +76,7 @@ class CustomVoteValidator extends AbstractValidator
         if ($value->getPoll() && $value->getPoll()->getSettingMinVotesPerParticipant()) {
             $amount = 0;
             foreach ($value->getOptionValues() as $optionValue) {
-                if ('0' !== $optionValue->getValue()) {
+                if ($optionValue->getValue() !== '0') {
                     ++$amount;
                 }
             }
@@ -97,7 +97,7 @@ class CustomVoteValidator extends AbstractValidator
         // Max votes per option
         if ($value->getPoll() && $value->getPoll()->getSettingMaxVotesPerOption() > 0) {
             foreach ($value->getOptionValues() as $optionValue) {
-                if ('0' !== $optionValue->getValue() &&
+                if ($optionValue->getValue() !== '0' &&
                     $optionValue->getOption() &&
                     $optionValue->getOption()->isFull()
                 ) {

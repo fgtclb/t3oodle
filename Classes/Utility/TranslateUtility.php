@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Utility;
 
@@ -18,7 +18,8 @@ final class TranslateUtility
     public static function translate(string $key, array $arguments = [], string $default = ''): string
     {
         $translation = LocalizationUtility::translate($key, self::EXTENSION_NAME, $arguments);
-        if (!$translation || empty($translation)) {
+
+        if (!$translation) {
             return $default;
         }
 

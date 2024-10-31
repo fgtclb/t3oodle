@@ -7,6 +7,14 @@
 Versions
 ========
 
+0.10.0
+------
+
+- [TASK] Make t3oodle compatible with TYPO3 v11
+- [TASK] remove old setup scripts
+- [TASK] add rector
+- [TASK] remove slots and add events
+
 0.9.2
 -----
 

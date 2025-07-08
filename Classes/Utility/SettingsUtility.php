@@ -17,7 +17,7 @@ class SettingsUtility
     /**
      * @var array|null
      */
-    private static $settings;
+    private static ?array $settings = null;
 
     public static function getTypoScriptSettings(): array
     {

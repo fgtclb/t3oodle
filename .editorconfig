@@ -42,11 +42,6 @@ indent_size = 3
 indent_style = space
 indent_size = 4
 
-# TypoScript
-[*.ts]
-indent_style = space
-indent_size = 2
-
 # SQL-Files
 [*.sql]
 indent_style = tab
@@ -55,11 +50,11 @@ indent_size = 2
 # TypoScript
 [*.typoscript]
 indent_style = space
-indent_size = 2
+indent_size = 4
 
 [*.tsconfig]
 indent_style = space
-indent_size = 2
+indent_size = 4
 
 # Yaml
 [*.yaml]

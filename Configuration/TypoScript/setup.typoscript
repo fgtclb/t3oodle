@@ -1,17 +1,19 @@
 plugin.tx_t3oodle {
     view {
-        templateRootPaths.0 = EXT:t3oodle/Resources/Private/Templates/
-        templateRootPaths.1 = {$plugin.tx_t3oodle_main.view.templateRootPath}
-        partialRootPaths.0 = EXT:t3oodle/Resources/Private/Partials/
-        partialRootPaths.1 = {$plugin.tx_t3oodle_main.view.partialRootPath}
-        layoutRootPaths.0 = EXT:tx_t3oodle/Resources/Private/Layouts/
-        layoutRootPaths.1 = {$plugin.tx_t3oodle_main.view.layoutRootPath}
+        templateRootPaths {
+            0 = EXT:t3oodle/Resources/Private/Templates/
+            1 = {$plugin.tx_t3oodle_main.view.templateRootPath}
+        }
+        partialRootPaths {
+            0 = EXT:t3oodle/Resources/Private/Partials/
+            1 = {$plugin.tx_t3oodle_main.view.partialRootPath}
+        }
+        layputRootPaths {
+            0 = EXT:tx_t3oodle/Resources/Private/Layouts/
+            1 = {$plugin.tx_t3oodle_main.view.layoutRootPath}
+        }
     }
 
-    persistence {
-        #storagePid = {$plugin.tx_t3oodle_main.persistence.storagePid}
-        #recursive = 1
-    }
     settings {
         dateTimeFormat = %d.%m.%Y %H:%M
         frontendUserNameField = name

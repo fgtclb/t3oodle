@@ -18,6 +18,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
+/**
+ * @deprecated
+ * Will be removed as outdated in future release
+ */
 class MigrateOldPollTypes implements UpgradeWizardInterface
 {
     private const TABLE_NAME = 'tx_t3oodle_domain_model_poll';

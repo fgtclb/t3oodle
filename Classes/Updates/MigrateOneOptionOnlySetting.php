@@ -16,6 +16,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
+/**
+ * @deprecated
+ * This class will be removed in a future release, as it's no longer needed
+ */
 class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
 {
     private const TABLE_NAME = 'tx_t3oodle_domain_model_poll';

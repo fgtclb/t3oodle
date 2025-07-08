@@ -11,17 +11,36 @@ jobs:
       fail-fast: false
       matrix:
         php-version: ['8.1']
+    permissions:
+      # actions: read|write|none
+      actions: none
+      # checks: read|write|none
+      checks: none
+      # contents: read|write|none
+      contents: read
+      # deployments: read|write|none
+      deployments: none
+      # id-token: read|write|none
+      id-token: none
+      # issues: read|write|none
+      issues: none
+      # discussions: read|write|none
+      discussions: none
+      # packages: read|write|none
+      packages: read
+      # pages: read|write|none
+      pages: none
+      # pull-requests: read|write|none
+      pull-requests: none
+      # repository-projects: read|write|none
+      repository-projects: read
+      # security-events: read|write|none
+      security-events: none
+      # statuses: read|write|none
+      statuses: none
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
-
-      # @todo this should be removed after upgrade of Build/Scripts/runTests.sh not using docker-compose
-      - name: "Link docker compose"
-        run: |
-          echo "#!/usr/bin/env bash" > /usr/local/bin/docker-compose
-          echo "" >> /usr/local/bin/docker-compose
-          echo "docker compose \"\$@\"" >> /usr/local/bin/docker-compose
-          chmod a+x /usr/local/bin/docker-compose
 
       - name: "Prepare dependencies for TYPO3 v11"
         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s composer require typo3/minimal:^11"
@@ -38,8 +57,9 @@ jobs:
       - name: "Ensure UTF-8 files do not contain BOM"
         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s checkBom"
 
-      # - name: "Test .rst files for integrity"
-      #   run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s checkRst"
+      # @todo enable after documentation is updated
+#      - name: "Test .rst files for integrity"
+#        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s checkRst"
 
       - name: "Find duplicate exception codes"
         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s checkExceptionCodes"
@@ -47,41 +67,68 @@ jobs:
       - name: "Run PHPStan"
         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s phpstan"
 
-#   testsuite:
-#     name: all tests with core v11
-#     runs-on: ubuntu-22.04
-#     needs: code-quality
-#     strategy:
-#       fail-fast: false
-#       matrix:
-#         php-version: [ '8.0', '8.1', '8.2' ]
-#     steps:
-#       - name: "Checkout"
-#         uses: actions/checkout@v3
+  testsuite:
+    name: all tests with core v11
+    runs-on: ubuntu-22.04
+    needs: code-quality
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: [ '8.1', '8.2', '8.3' ]
+    permissions:
+      # actions: read|write|none
+      actions: none
+      # checks: read|write|none
+      checks: none
+      # contents: read|write|none
+      contents: read
+      # deployments: read|write|none
+      deployments: none
+      # id-token: read|write|none
+      id-token: none
+      # issues: read|write|none
+      issues: none
+      # discussions: read|write|none
+      discussions: none
+      # packages: read|write|none
+      packages: read
+      # pages: read|write|none
+      pages: none
+      # pull-requests: read|write|none
+      pull-requests: none
+      # repository-projects: read|write|none
+      repository-projects: read
+      # security-events: read|write|none
+      security-events: none
+      # statuses: read|write|none
+      statuses: none
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v4
 
-#       - name: "Prepare dependencies for TYPO3 v11"
-#         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s composerUpdate"
+    - name: "Prepare dependencies for TYPO3 v11"
+      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s composer require typo3/minimal:^11"
 
-# #      - name: "Unit"
-# #        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s unit"
+    - name: "Unit"
+      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s unit"
 
-#       - name: "Functional SQLite"
-#         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d sqlite"
+    - name: "Functional SQLite"
+      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d sqlite"
 
-#       - name: "Functional MariaDB 10.5 mysqli"
-#         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a mysqli"
+    - name: "Functional MariaDB 10.5 mysqli"
+      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a mysqli"
 
-#       - name: "Functional MariaDB 10.5 pdo_mysql"
-#         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a pdo_mysql"
+    - name: "Functional MariaDB 10.5 pdo_mysql"
+      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a pdo_mysql"
 
-#       - name: "Functional MySQL 8.0 mysqli"
-#         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a mysqli"
+    - name: "Functional MySQL 8.0 mysqli"
+      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a mysqli"
 
-#       - name: "Functional MySQL 8.0 pdo_mysql"
-#         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a pdo_mysql"
+    - name: "Functional MySQL 8.0 pdo_mysql"
+      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a pdo_mysql"
 
-#       - name: "Functional PostgresSQL 10"
-#         # v11 postgres functional disabled with PHP 8.2 since https://github.com/doctrine/dbal/commit/73eec6d882b99e1e2d2d937accca89c1bd91b2d7
-#         # is not fixed in doctrine core v11 doctrine 2.13.9
-#         if: ${{ matrix.php <= '8.1' }}
-#         run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d postgres"
+    - name: "Functional PostgresSQL 10"
+      # v11 postgres functional disabled with PHP 8.2 since https://github.com/doctrine/dbal/commit/73eec6d882b99e1e2d2d937accca89c1bd91b2d7
+      # is not fixed in doctrine core v11 doctrine 2.13.9
+      if: ${{ matrix.php <= '8.1' }}
+      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d postgres"

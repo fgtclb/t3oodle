@@ -5,10 +5,9 @@
     "keywords": ["poll", "schedule", "doodle", "voting", "typo3"],
     "authors": [
         {
-            "name": "Armin Vieweg",
-            "role": "Lead Developer",
-            "email": "info@v.ieweg.de",
-            "homepage": "https://v.ieweg.de"
+            "name": "FGTCLB",
+            "email": "hello@fgtclb.com",
+            "homepage": "https://www.fgtclb.com/"
         }
     ],
     "license": "GPL-2.0-or-later",
@@ -22,7 +21,6 @@
     "require-dev": {
         "armin/editorconfig-cli": "^1.0",
         "bk2k/bootstrap-package": "^14.0",
-        "ergebnis/composer-normalize": "^2.44",
         "friendsofphp/php-cs-fixer": "^3.64",
         "helhum/typo3-console": "^7.1",
         "helmich/typo3-typoscript-lint": "^3.2",
@@ -31,29 +29,33 @@
         "phpstan/phpstan-phpunit": "^1.4",
         "phpunit/phpunit": "^10.5",
         "saschaegerer/phpstan-typo3": "^1.1",
-        "ssch/typo3-rector": "^1.3",
         "typo3/cms-composer-installers": "^4.0.0-RC1",
         "typo3/cms-felogin": "^11.5",
-        "typo3/cms-tstemplate": "^11.5"
+        "typo3/cms-tstemplate": "^11.5",
+        "typo3/testing-framework": "^7.1"
     },
     "autoload": {
         "psr-4": {
             "FGTCLB\\T3oodle\\": "Classes/"
         }
     },
+	"autoload-dev": {
+		"psr-4": {
+			"FGTCLB\\T3oodle\\Tests\\": "Tests/"
+		}
+	},
     "replace": {
         "typo3-ter/t3oodle": "self.version"
     },
 	"config": {
-		"bin-dir": ".Build/bin",
-		"sort-packages": true,
-		"vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin",
+        "sort-packages": true,
+        "vendor-dir": ".Build/vendor",
         "allow-plugins": {
             "typo3/cms-composer-installers": true,
-            "typo3/class-alias-loader": true,
-            "ergebnis/composer-normalize": true
+            "typo3/class-alias-loader": true
         }
-	},
+    },
 	"extra": {
 		"typo3/cms": {
 			"extension-key": "t3oodle",

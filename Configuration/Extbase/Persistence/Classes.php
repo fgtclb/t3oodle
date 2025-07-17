@@ -11,8 +11,8 @@ return [
         'tableName' => 'tx_t3oodle_domain_model_poll',
         'recordType' => BasePoll::class,
         'subclasses' => [
-            SimplePoll::class,
-            SchedulePoll::class,
+            SimplePoll::class => SimplePoll::class,
+            SchedulePoll::class => SchedulePoll::class,
         ],
     ],
     SimplePoll::class => [

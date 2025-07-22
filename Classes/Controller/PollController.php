@@ -631,7 +631,7 @@ class PollController extends ActionController
         BasePoll $poll,
         bool $publishDirectly,
         bool $acceptTerms = false
-    ): void {
+    ): ResponseInterface {
         if ($poll->isSimplePoll()) {
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
         } else {
@@ -665,22 +665,25 @@ class PollController extends ActionController
                     AbstractMessage::OK
                 );
                 if ($publishDirectly) {
-                    (new ForwardResponse('publish'))
+                    return (new ForwardResponse('publish'))
                         ->withControllerName('Poll')
                         ->withExtensionName('t3oodle')
                         ->withArguments(['poll' => $poll]);
                 }
-
-                $this->redirect('show', null, null, ['poll' => $poll->getUid()]);
             }
+            return (new ForwardResponse('show'))
+                ->withControllerName('Poll')
+                ->withExtensionName('t3oodle')
+                ->withArguments(['poll' => $poll]);
         }
+        return $this->htmlResponse();
     }
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
      */
-    public function publishAction(BasePoll $poll): void
+    public function publishAction(BasePoll $poll): ResponseInterface
     {
         $this->pollPermission->isAllowed($poll, 'publish', true);
         $poll->setPublishDate(DateTimeUtility::now());
@@ -696,8 +699,12 @@ class PollController extends ActionController
                 '',
                 AbstractMessage::OK
             );
-            $this->redirect('show', null, null, ['poll' => $poll]);
+            return (new ForwardResponse('show'))
+                ->withControllerName('Poll')
+                ->withExtensionName('t3oodle')
+                ->withArguments(['poll' => $poll]);
         }
+        return $this->htmlResponse();
     }
 
     /**

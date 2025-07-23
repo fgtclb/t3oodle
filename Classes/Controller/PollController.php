@@ -655,7 +655,19 @@ class PollController extends ActionController
 
             $this->persistenceManager->persistAll();
 
-            $createAfterEvent = new CreateAfterEvent($poll, $publishDirectly, true, $this->settings, $this);
+            $response = (new ForwardResponse($publishDirectly ? 'publish' : 'show'))
+                ->withControllerName('Poll')
+                ->withExtensionName('t3oodle')
+                ->withArguments(['poll' => $poll]);
+
+            $createAfterEvent = new CreateAfterEvent(
+                $poll,
+                $publishDirectly,
+                true,
+                $this->settings,
+                $this,
+                $response
+            );
             $this->eventDispatcher->dispatch($createAfterEvent);
 
             if ($createAfterEvent->getContinue()) {
@@ -664,19 +676,9 @@ class PollController extends ActionController
                     '',
                     AbstractMessage::OK
                 );
-                if ($publishDirectly) {
-                    return (new ForwardResponse('publish'))
-                        ->withControllerName('Poll')
-                        ->withExtensionName('t3oodle')
-                        ->withArguments(['poll' => $poll]);
-                }
             }
-            return (new ForwardResponse('show'))
-                ->withControllerName('Poll')
-                ->withExtensionName('t3oodle')
-                ->withArguments(['poll' => $poll]);
         }
-        return $this->htmlResponse();
+        return $createAfterEvent->getResponse();
     }
 
     /**

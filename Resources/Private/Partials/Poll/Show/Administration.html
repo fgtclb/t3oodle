@@ -1,20 +1,21 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
+<t3oodle:permission action="edit" poll="{poll}">
+	<f:then>
+		<div class="alert alert-secondary mb-4 pr-2 py-1">
+			<div class="d-flex justify-content-between align-items-center">
+				<p class="my-3">
+					<f:render partial="Poll/Show/Administration/WhoYouAre" arguments="{poll:poll}" />
+					<f:render partial="Poll/Show/Administration/LabelPublishStatus" arguments="{poll:poll}" />
+					<f:render partial="Poll/Show/Administration/NoticeVotingDisabled" arguments="{poll:poll}" />
+				</p>
 
-    <f:if condition="{poll -> t3oodle:permission(action:'edit')}">
-        <div class="alert alert-secondary mb-4 pr-2 py-1">
-            <div class="d-flex justify-content-between align-items-center">
-                <p class="my-3">
-                    <f:render partial="Poll/Show/Administration/WhoYouAre" arguments="{poll:poll}" />
-                    <f:render partial="Poll/Show/Administration/LabelPublishStatus" arguments="{poll:poll}" />
-                    <f:render partial="Poll/Show/Administration/NoticeVotingDisabled" arguments="{poll:poll}" />
-                </p>
-
-                <div class="buttons text-right my-2">
-                    <f:render partial="Poll/Show/Administration/Buttons" arguments="{poll:poll}" />
-                </div>
-            </div>
-        </div>
-    </f:if>
+				<div class="buttons text-right my-2">
+					<f:render partial="Poll/Show/Administration/Buttons" arguments="{poll:poll}" />
+				</div>
+			</div>
+		</div>
+	</f:then>
+</t3oodle:permission>
 </html>

@@ -2,12 +2,20 @@
       xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<f:if condition="{poll.published} && !{poll -> t3oodle:permission(action:'voting')}">
-    <br><strong class="text-info"><f:translate key="label.noticeAllowNewVotesDisabled" /></strong>
+<f:if  condition="{poll.published}">
+	<f:then>
+		<t3oodle:permission action="voting" poll="{poll}">
+			<f:else>
+				<br><strong class="text-info"><f:translate key="label.noticeAllowNewVotesDisabled" /></strong>
+			</f:else>
+		</t3oodle:permission>
+	</f:then>
 </f:if>
 
-<f:if condition="{poll -> t3oodle:permission(action:'suggestNewOptions')}">
-    <br><strong class="text-info"><f:translate key="label.becauseOfEnabledSuggestionMode" /></strong>
-</f:if>
+<t3oodle:permission action="suggestNewOptions" poll="{poll}">
+	<f:then>
+		<br><strong class="text-info"><f:translate key="label.becauseOfEnabledSuggestionMode" /></strong>
+	</f:then>
+</t3oodle:permission>
 
 </html>

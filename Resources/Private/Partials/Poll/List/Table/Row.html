@@ -8,9 +8,11 @@
         <f:render section="columnTitle" arguments="{poll:poll}" />
         <f:section name="columnTitle">
             <f:link.action action="show" arguments="{poll : poll}" class="font-weight-bold poll-link">{poll.title}</f:link.action>
-            <f:if condition="!{poll -> t3oodle:permission(action:'viewingInGeneral')}">
-                <f:translate key="label.onlyVisibleForYou" />
-            </f:if>
+						<t3oodle:permission action="viewingInGeneral" poll="{poll}">
+							<f:else>
+								<f:translate key="label.onlyVisibleForYou" />
+							</f:else>
+						</t3oodle:permission>
             <f:if condition="{poll.isCurrentUserAuthor}">
                 <t3oodle:svg class="mx-1 icon-light" path="Icons/crown-solid.svg" title="{f:translate(key:'label.youAreTheAuthor')}"/>
             </f:if>

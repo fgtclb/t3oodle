@@ -2,37 +2,49 @@
       xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<f:if condition="{poll -> t3oodle:permission(action:'edit')}">
-    <f:link.action class="btn btn-secondary mr-1 mb-1" action="edit" arguments="{poll:poll}"><f:translate key="label.edit" /></f:link.action>
-</f:if>
+<t3oodle:permission action="edit" poll="{poll}">
+	<f:then>
+		<f:link.action class="btn btn-secondary mr-1 mb-1" action="edit" arguments="{poll:poll}"><f:translate key="label.edit" /></f:link.action>
+	</f:then>
+</t3oodle:permission>
 
-<f:if condition="{poll -> t3oodle:permission(action:'resetVotes')} && {poll.votes -> f:count()} > 0">
-    <f:link.action class="btn btn-warning mr-1 mb-1" action="resetVotes" arguments="{poll:poll}" data="{confirm:'{f:translate(key:\'label.resetConfirmation\')}'}"><f:translate key="label.resetVotes" arguments="{0:'{poll.votes -> f:count()}'}" /></f:link.action>
-</f:if>
+<t3oodle:permission action="resetVotes" poll="{poll}">
+	<f:then>
+		<f:if condition="{poll.votes -> f:count()} > 0">
+			<f:then>
+				<f:link.action class="btn btn-warning mr-1 mb-1" action="resetVotes" arguments="{poll:poll}" data="{confirm:'{f:translate(key:\'label.resetConfirmation\')}'}"><f:translate key="label.resetVotes" arguments="{0:'{poll.votes -> f:count()}'}" /></f:link.action>
+			</f:then>
+		</f:if>
+	</f:then>
+</t3oodle:permission>
 
-<f:if condition="{poll -> t3oodle:permission(action:'delete')}">
-    <f:link.action class="btn btn-danger mr-1 mb-1" action="delete" arguments="{poll:poll}" data="{confirm:'{f:translate(key:\'label.deleteConfirmation\')}'}"><f:translate key="label.delete" /></f:link.action>
-</f:if>
+<t3oodle:permission action="delete" poll="{poll}">
+	<f:then>
+		<f:link.action class="btn btn-danger mr-1 mb-1" action="delete" arguments="{poll:poll}" data="{confirm:'{f:translate(key:\'label.deleteConfirmation\')}'}"><f:translate key="label.delete" /></f:link.action>
+	</f:then>
+</t3oodle:permission>
 
-<f:if condition="{poll -> t3oodle:permission(action:'publish')}">
-    <f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success mr-1 mb-1"><f:translate key="label.publishNow" /></f:link.action>
-</f:if>
+<t3oodle:permission action="publish" poll="{poll}">
+	<f:then>
+		<f:link.action action="publish" arguments="{poll:poll}" class="btn btn-success mr-1 mb-1"><f:translate key="label.publishNow" /></f:link.action>
+	</f:then>
+</t3oodle:permission>
 
-<f:if condition="{poll -> t3oodle:permission(action:'finishSuggestionMode')}">
-    <f:link.action action="finishSuggestionMode" arguments="{poll:poll}" class="btn btn-success mr-1 mb-1"><f:translate key="label.finishSuggestionMode" /></f:link.action>
-</f:if>
+<t3oodle:permission action="finishSuggestionMode" poll="{poll}">
+	<f:then>
+		<f:link.action action="finishSuggestionMode" arguments="{poll:poll}" class="btn btn-success mr-1 mb-1"><f:translate key="label.finishSuggestionMode" /></f:link.action>
+	</f:then>
+</t3oodle:permission>
 
-
-<f:if condition="{poll -> t3oodle:permission(action:'finish')}">
-    <f:then>
-        <f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success"><f:translate key="label.finishVoting" /></f:link.action>
-    </f:then>
-    <f:else>
-        <f:if condition="{poll.settingVotingExpiresAt}">
-            <a href="#" class="btn btn-success disabled"><f:translate key="label.finishVoting" /></a>
-            <span class="finish-note"><f:translate key="label.noteFinishingDisabledByExpireAt" /></span>
-        </f:if>
-    </f:else>
-</f:if>
-
+<t3oodle:permission action="finish" poll="{poll}">
+	<f:then>
+		<f:link.action action="finish" arguments="{poll:poll}" class="btn btn-success"><f:translate key="label.finishVoting" /></f:link.action>
+	</f:then>
+	<f:else>
+		<f:if condition="{poll.settingVotingExpiresAt}">
+			<a href="#" class="btn btn-success disabled"><f:translate key="label.finishVoting" /></a>
+			<span class="finish-note"><f:translate key="label.noteFinishingDisabledByExpireAt" /></span>
+		</f:if>
+	</f:else>
+</t3oodle:permission>
 </html>

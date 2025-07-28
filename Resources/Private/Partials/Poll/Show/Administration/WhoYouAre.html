@@ -3,9 +3,11 @@
       data-namespace-typo3-fluid="true">
 
 <f:variable name="whoYouAre"><f:translate key="label.theAuthor" /></f:variable>
-<f:if condition="{poll -> t3oodle:permission(action:'administration')}">
-    <f:variable name="whoYouAre"><f:translate key="label.theAuthorOrAdmin" /></f:variable>
-</f:if>
+<t3oodle:permission action="administration" poll="{poll}">
+	<f:then>
+		<f:variable name="whoYouAre"><f:translate key="label.theAuthorOrAdmin" /></f:variable>
+	</f:then>
+</t3oodle:permission>
 <f:translate key="label.youAre" /> {whoYouAre}.
 
 </html>

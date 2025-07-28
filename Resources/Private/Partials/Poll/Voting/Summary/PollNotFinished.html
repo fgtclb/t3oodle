@@ -34,22 +34,22 @@
             <span id="t3oodle-votes-summary"></span>
         </f:else>
     </f:if>
-    <f:if condition="{poll -> t3oodle:permission(action:'voting')}">
-        <f:then>
-            <f:if condition="{vote.uid}">
-                <f:then><f:form.submit class="btn btn-primary button-vote" value="{f:translate(key:'label.updateVote')}" tabindex="3" /></f:then>
-                <f:else><f:form.submit class="btn btn-primary button-vote" value="{f:translate(key:'label.vote')}" tabindex="3" /></f:else>
-            </f:if>
-        </f:then>
-        <f:else>
-            <f:if condition="{poll.availableOptions -> f:count()} == 0">
-                <span class="my-5">
-                    <f:translate key="label.limitPerOptionsReached" arguments="{0: '{poll.settingMaxVotesPerOption}'}" />
-                </span>
-            </f:if>
-            <f:form.submit class="btn btn-light button-vote" value="{f:translate(key:'label.votingDisabled')}" disabled="disabled" />
-        </f:else>
-    </f:if>
+	<t3oodle:permission action="voting" poll="{poll}">
+		<f:then>
+			<f:if condition="{vote.uid}">
+				<f:then><f:form.submit class="btn btn-primary button-vote" value="{f:translate(key:'label.updateVote')}" tabindex="3" /></f:then>
+				<f:else><f:form.submit class="btn btn-primary button-vote" value="{f:translate(key:'label.vote')}" tabindex="3" /></f:else>
+			</f:if>
+		</f:then>
+		<f:else>
+			<f:if condition="{poll.availableOptions -> f:count()} == 0">
+				<span class="my-5">
+					<f:translate key="label.limitPerOptionsReached" arguments="{0: '{poll.settingMaxVotesPerOption}'}" />
+				</span>
+			</f:if>
+			<f:form.submit class="btn btn-light button-vote" value="{f:translate(key:'label.votingDisabled')}" disabled="disabled" />
+		</f:else>
+	</t3oodle:permission>
 </div>
 
 </html>

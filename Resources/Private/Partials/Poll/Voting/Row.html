@@ -5,17 +5,17 @@
 <f:if condition="{vote.uid}">
     <tr class="vote">
         <td class="participant">
-            <f:if condition="{vote.poll -> t3oodle:permission(action:'seeParticipantsDuringVoting')}">
-                <f:then>
-                    <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}"/>
-                </f:then>
-                <f:else>
-                    <span class="{settings.classes.secret}">?</span>
-                </f:else>
-            </f:if>
+					<t3oodle:permission action="seeParticipantsDuringVoting" poll="{vote.poll}">
+						<f:then>
+							<f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}"/>
+						</f:then>
+						<f:else>
+							<span class="{settings.classes.secret}">?</span>
+						</f:else>
+					</t3oodle:permission>
         </td>
         <f:for each="{vote.poll.options}" as="option" iteration="iterator">
-            <f:if condition="{isFinishAction} || {vote.poll.finished} || {vote.poll -> t3oodle:permission(action:'seeVotesDuringVoting')}">
+            <f:if condition="{isFinishAction} || {vote.poll.finished} || {t3oodle:permission(action:'seeVotesDuringVoting', poll: '{vote.poll}', then: '1', else: '0')}">
                 <f:then>
                     <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
                     <td class="{f:if(condition:'{vote.poll.finalOption} === {option}', then:'is-final-option ')}{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')} voting-status voting-status-{optionValue.value}">

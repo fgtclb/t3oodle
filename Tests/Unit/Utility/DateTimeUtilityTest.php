@@ -13,13 +13,13 @@ final class DateTimeUtilityTest extends UnitTestCase
     #[Test]
     public function nowReturnsDateTimeObject(): void
     {
-        $this->assertInstanceOf(\DateTime::class, DateTimeUtility::now());
+        self::assertInstanceOf(\DateTime::class, DateTimeUtility::now());
     }
 
     #[Test]
     public function midnightReturnsMidnight(): void
     {
         $midnight = new \DateTime('today midnight');
-        $this->assertSame($midnight->getTimestamp(), DateTimeUtility::today()->getTimestamp());
+        self::assertSame($midnight->getTimestamp(), DateTimeUtility::today()->getTimestamp());
     }
 }

@@ -40,6 +40,7 @@ use FGTCLB\T3oodle\Event\Permission\EditSuggestAllowedEvent;
 use FGTCLB\T3oodle\Event\Permission\FinishPollAllowedEvent;
 use FGTCLB\T3oodle\Event\Permission\FinishSuggestionModeAllowedEvent;
 use FGTCLB\T3oodle\Event\Permission\NewOptionsAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\NewPollAllowedEvent;
 use FGTCLB\T3oodle\Event\Permission\PublishPollAllowedEvent;
 use FGTCLB\T3oodle\Event\Permission\ShowPollAllowedEvent;
 use FGTCLB\T3oodle\Event\Permission\SuggestNewOptionsAllowedEvent;
@@ -84,6 +85,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
@@ -746,6 +748,8 @@ class PollController extends ActionController
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
+     * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
+     * @throws NoSuchArgumentException
      */
     public function newAction(
         ?BasePoll $poll = null,
@@ -763,6 +767,15 @@ class PollController extends ActionController
             $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
         } else {
             $this->pollPermission->isAllowed($poll, 'newSchedulePoll', true);
+        }
+        // set allowed to true here, as denied would have thrown an exception.
+        $isNewAllowedEvent = new NewPollAllowedEvent($poll, true);
+        $this->eventDispatcher->dispatch($isNewAllowedEvent);
+        if ($isNewAllowedEvent->isAllowed() === false) {
+            throw new \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException(
+                'Creating new poll is denied.',
+                1755785539
+            );
         }
 
         $newOptions = [];

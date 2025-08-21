@@ -6,6 +6,7 @@ namespace FGTCLB\T3oodle\Event;
 
 use FGTCLB\T3oodle\Controller\PollController;
 use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
+use Psr\Http\Message\ResponseInterface;
 
 final class UpdateAfterEvent
 {
@@ -15,8 +16,9 @@ final class UpdateAfterEvent
     private bool $continue;
     private array $settings;
     private PollController $caller;
+    private ResponseInterface $response;
 
-    public function __construct(Poll $poll, int $voteCount, bool $areOptionsModified, bool $continue, array $settings, PollController $caller)
+    public function __construct(Poll $poll, int $voteCount, bool $areOptionsModified, bool $continue, array $settings, PollController $caller, ResponseInterface $response)
     {
         $this->poll = $poll;
         $this->voteCount = $voteCount;
@@ -24,6 +26,7 @@ final class UpdateAfterEvent
         $this->continue = $continue;
         $this->settings = $settings;
         $this->caller = $caller;
+        $this->response = $response;
     }
 
     public function getPoll(): Poll
@@ -57,5 +60,15 @@ final class UpdateAfterEvent
     public function setContinue(bool $continue): void
     {
         $this->continue = $continue;
+    }
+
+    public function getResponse(): ResponseInterface
+    {
+        return $this->response;
+    }
+
+    public function setResponse(ResponseInterface $response): void
+    {
+        $this->response = $response;
     }
 }

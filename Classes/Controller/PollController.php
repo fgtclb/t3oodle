@@ -943,6 +943,10 @@ class PollController extends ActionController
         $updateBeforeEvent = new UpdateBeforeEvent($poll, $voteCount, $optionsModified, true, $this->settings, $this);
         $this->eventDispatcher->dispatch($updateBeforeEvent);
 
+        $response = new RedirectResponse(
+            $this->uriBuilder->uriFor('edit', ['poll' => $poll])
+        );
+
         if ($updateBeforeEvent->getContinue()) {
             if ($voteCount > 0 && $optionsModified) {
                 foreach ($poll->getVotes() as $vote) {
@@ -954,8 +958,18 @@ class PollController extends ActionController
 
             $this->persistenceManager->persistAll();
 
-            $updateAfterEvent = new UpdateAfterEvent($poll, $voteCount, $optionsModified, true, $this->settings, $this);
+            $updateAfterEvent = new UpdateAfterEvent(
+                $poll,
+                $voteCount,
+                $optionsModified,
+                true,
+                $this->settings,
+                $this,
+                $response
+            );
             $this->eventDispatcher->dispatch($updateAfterEvent);
+
+            $response = $updateAfterEvent->getResponse();
 
             if ($updateAfterEvent->getContinue()) {
                 $this->addFlashMessage(TranslateUtility::translate('flash.successfullyUpdated', [$poll->getTitle()]));
@@ -968,9 +982,7 @@ class PollController extends ActionController
                 }
             }
         }
-        return new RedirectResponse(
-            $this->uriBuilder->uriFor('edit', ['poll' => $poll])
-        );
+        return $response;
     }
 
     /**

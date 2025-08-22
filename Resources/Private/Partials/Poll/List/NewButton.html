@@ -2,12 +2,16 @@
       xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<f:if condition="{t3oodle:permission(action:'newSimplePoll')}">
-    <f:link.action action="new" arguments="{pollType:'FGTCLB\T3oodle\Domain\Model\SimplePoll'}" class="btn btn-primary"><f:translate key="label.newPollSimple" /></f:link.action>
-</f:if>
+<t3oodle:permission action="newSimplePoll">
+	<f:then>
+		<f:link.action action="new" arguments="{pollType:'FGTCLB\T3oodle\Domain\Model\SimplePoll'}" class="btn btn-primary"><f:translate key="label.newPollSimple" /></f:link.action>
+	</f:then>
+</t3oodle:permission>
 
-<f:if condition="{t3oodle:permission(action:'newSchedulePoll')}">
-    <f:link.action action="new" arguments="{pollType:'FGTCLB\T3oodle\Domain\Model\SchedulePoll'}" class="btn btn-primary"><f:translate key="label.newPollSchedule" /></f:link.action>
-</f:if>
+<t3oodle:permission action="newSchedulePoll">
+	<f:then>
+		<f:link.action action="new" arguments="{pollType:'FGTCLB\T3oodle\Domain\Model\SchedulePoll'}" class="btn btn-primary"><f:translate key="label.newPollSchedule" /></f:link.action>
+	</f:then>
+</t3oodle:permission>
 
 </html>

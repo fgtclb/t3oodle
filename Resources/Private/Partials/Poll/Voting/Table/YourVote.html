@@ -1,65 +1,64 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:t3oodle="http://typo3.org/ns/FGTCLB/T3oodle/ViewHelpers"
       data-namespace-typo3-fluid="true">
-
-<f:if condition="{poll -> t3oodle:permission(action:'voting')}">
-    <f:then>
-        <tr class="vote yours{f:if(condition:'{validationErrorsExisting}', then:' has-errors')}">
-            <td class="participant">
-                <div class="row">
-                    <div class="col-10">
-                        <f:if condition="{settings._currentUser}">
-                            <f:then>
-                                <f:form.hidden property="participant" />
-                                <f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}" />
-                            </f:then>
-                            <f:else>
-                                <f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="{f:translate(key:'label.yourName')}" tabindex="1" data="{remember:'username'}" />
-                                <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantName'}" />
-                                <f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="{f:translate(key:'label.yourMailAddress')}" tabindex="2" data="{remember:'mail'}" />
-                                <f:render partial="FormFieldErrors" arguments="{for: 'vote.participantMail'}" />
-                            </f:else>
-                        </f:if>
-                    </div>
-                    <div class="col-2">
-                        <f:if condition="{vote.uid}">
-                            <f:link.action action="deleteOwnVote" arguments="{vote:vote}"
-                                           class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
-                                           title="{f:translate(key:'label.removeYourVote')}" data="{confirm:'{f:translate(key:\'label.removeYourVoteConfirmation\')}'}">
-                                x
-                            </f:link.action>
-                        </f:if>
-                    </div>
-                </div>
-            </td>
-            <f:if condition="{vote.uid}">
-                <f:then>
-                    <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
-                        <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-                            <f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
-                            <f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:optionValue.value}" />
-                        </td>
-                    </f:for>
-                </f:then>
-                <f:else>
-                    <f:for each="{poll.options}" as="option" iteration="iterator" key="key">
-                        <td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
-                            <f:variable name="newOptionValue"><f:spaceless>
-                                <f:if condition="{newOptionValues.{option.uid}}">
-                                    <f:then>{newOptionValues.{option.uid}}</f:then>
-                                    <f:else>0</f:else>
-                                </f:if>
-                            </f:spaceless></f:variable>
-                            <f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:newOptionValue}" />
-                        </td>
-                    </f:for>
-                </f:else>
-            </f:if>
-        </tr>
-    </f:then>
-    <f:else>
-        <f:render partial="Poll/Voting/Row" arguments="{vote:vote}" />
-    </f:else>
-</f:if>
+<t3oodle:permission action="voting" poll="{poll}">
+	<f:then>
+		<tr class="vote yours{f:if(condition:'{validationErrorsExisting}', then:' has-errors')}">
+			<td class="participant">
+				<div class="row">
+					<div class="col-10">
+						<f:if condition="{settings._currentUser}">
+							<f:then>
+								<f:form.hidden property="participant" />
+								<f:render partial="Poll/Voting/ParticipantInfo" arguments="{vote:vote}" />
+							</f:then>
+							<f:else>
+								<f:form.textfield property="participantName" class="form-control form-control-sm" placeholder="{f:translate(key:'label.yourName')}" tabindex="1" data="{remember:'username'}" />
+								<f:render partial="FormFieldErrors" arguments="{for: 'vote.participantName'}" />
+								<f:form.textfield property="participantMail" class="form-control form-control-sm mt-1" placeholder="{f:translate(key:'label.yourMailAddress')}" tabindex="2" data="{remember:'mail'}" />
+								<f:render partial="FormFieldErrors" arguments="{for: 'vote.participantMail'}" />
+							</f:else>
+						</f:if>
+					</div>
+					<div class="col-2">
+						<f:if condition="{vote.uid}">
+							<f:link.action action="deleteOwnVote" arguments="{vote:vote}"
+														 class="t3oodle-poll-vote-remove btn btn-link btn-sm border-0 text-danger font-weight-bold float-right"
+														 title="{f:translate(key:'label.removeYourVote')}" data="{confirm:'{f:translate(key:\'label.removeYourVoteConfirmation\')}'}">
+								x
+							</f:link.action>
+						</f:if>
+					</div>
+				</div>
+			</td>
+			<f:if condition="{vote.uid}">
+				<f:then>
+					<f:for each="{poll.options}" as="option" iteration="iterator" key="key">
+						<td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+							<f:variable name="optionValue">{vote -> t3oodle:getOptionValue(option:option)}</f:variable>
+							<f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:optionValue.value}" />
+						</td>
+					</f:for>
+				</f:then>
+				<f:else>
+					<f:for each="{poll.options}" as="option" iteration="iterator" key="key">
+						<td class="{f:if(condition:'{iterator.isEven}', then:'even', else:'odd')}">
+							<f:variable name="newOptionValue"><f:spaceless>
+								<f:if condition="{newOptionValues.{option.uid}}">
+									<f:then>{newOptionValues.{option.uid}}</f:then>
+									<f:else>0</f:else>
+								</f:if>
+							</f:spaceless></f:variable>
+							<f:render partial="Poll/Voting/Box" arguments="{option:option, key:key, value:newOptionValue}" />
+						</td>
+					</f:for>
+				</f:else>
+			</f:if>
+		</tr>
+	</f:then>
+	<f:else>
+		<f:render partial="Poll/Voting/Row" arguments="{vote:vote}" />
+	</f:else>
+</t3oodle:permission>
 
 </html>

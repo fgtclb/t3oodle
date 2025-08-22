@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Utility;
 
@@ -17,7 +17,7 @@ class SettingsUtility
     /**
      * @var array|null
      */
-    private static $settings;
+    private static ?array $settings = null;
 
     public static function getTypoScriptSettings(): array
     {

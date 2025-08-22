@@ -74,7 +74,7 @@ CREATE TABLE tx_t3oodle_domain_model_vote (
 #
 CREATE TABLE tx_t3oodle_domain_model_optionvalue (
 
-    option int(11) unsigned DEFAULT '0',
+    `option` int(11) unsigned DEFAULT '0',
     value varchar(255) DEFAULT '' NOT NULL,
     vote int(11) unsigned DEFAULT '0'
 

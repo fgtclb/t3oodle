@@ -83,7 +83,7 @@ class Option extends AbstractEntity
     {
         $votesLeft = $this->getAmountOfLeftVotes() ?? 1;
 
-        return 0 === $votesLeft;
+        return $votesLeft === 0;
     }
 
     public function getAmountOfLeftVotes(bool $respectCurrentUser = false): ?int
@@ -97,7 +97,7 @@ class Option extends AbstractEntity
             if ($respectCurrentUser || $vote->getParticipantIdent() !== UserIdentUtility::getCurrentUserIdent()) {
                 foreach ($vote->getOptionValues() as $optionValue) {
                     if ($optionValue->getOption() === $this) {
-                        if ('1' === $optionValue->getValue()) {
+                        if ($optionValue->getValue() === '1') {
                             ++$total;
                         }
                     }

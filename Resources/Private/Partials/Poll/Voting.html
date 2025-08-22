@@ -8,8 +8,10 @@
     <f:render partial="Poll/Voting/Summary" arguments="{poll:poll, vote:vote}" />
 </f:form>
 
-<f:if condition="{poll -> t3oodle:permission(action:'suggestNewOptions')}">
-    <f:render partial="Poll/SuggestionMode/Overview" arguments="{poll:poll, mySuggestions:mySuggestions}" />
-</f:if>
+<t3oodle:permission action="suggestNewOptions" poll="{poll}">
+	<f:then>
+		<f:render partial="Poll/SuggestionMode/Overview" arguments="{poll:poll, mySuggestions:mySuggestions}" />
+	</f:then>
+</t3oodle:permission>
 
 </html>

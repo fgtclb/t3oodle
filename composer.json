@@ -5,58 +5,69 @@
     "keywords": ["poll", "schedule", "doodle", "voting", "typo3"],
     "authors": [
         {
-            "name": "Armin Vieweg",
-            "role": "Lead Developer",
-            "email": "info@v.ieweg.de",
-            "homepage": "https://v.ieweg.de"
+            "name": "FGTCLB",
+            "email": "hello@fgtclb.com",
+            "homepage": "https://www.fgtclb.com/"
         }
     ],
     "license": "GPL-2.0-or-later",
     "require": {
-        "php": "^7.2",
+        "php": "^8.1",
         "ext-json": "*",
-        "typo3/cms-core": "^9.5.20 || ^10.4.6"
+        "typo3/cms-core": "^11.5",
+        "typo3/cms-fluid-styled-content": "^11.5",
+        "georgringer/numbered-pagination": "^2.0"
     },
     "require-dev": {
         "armin/editorconfig-cli": "^1.0",
-        "friendsofphp/php-cs-fixer": "^2.18",
-        "phpstan/phpstan": "^0.12.80",
-        "jangregor/phpstan-prophecy": "^0.8",
-        "saschaegerer/phpstan-typo3": "^0.13"
+        "bk2k/bootstrap-package": "^14.0",
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "helhum/typo3-console": "^7.1",
+        "helmich/typo3-typoscript-lint": "^3.2",
+        "jangregor/phpstan-prophecy": "^1.0",
+        "phpstan/phpstan": "^1.12",
+        "phpstan/phpstan-phpunit": "^1.4",
+        "phpunit/phpunit": "^10.5",
+        "saschaegerer/phpstan-typo3": "^1.1",
+        "typo3/cms-composer-installers": "^4.0.0-RC1",
+        "typo3/cms-felogin": "^11.5",
+        "typo3/cms-tstemplate": "^11.5",
+        "typo3/testing-framework": "^7.1"
     },
     "autoload": {
         "psr-4": {
-            "FGTCLB\\T3oodle\\": "Classes"
+            "FGTCLB\\T3oodle\\": "Classes/"
         }
     },
+	"autoload-dev": {
+		"psr-4": {
+			"FGTCLB\\T3oodle\\Tests\\": "Tests/"
+		}
+	},
     "replace": {
         "typo3-ter/t3oodle": "self.version"
     },
-    "extra": {
-        "typo3/cms": {
-            "extension-key": "t3oodle",
-            "cms-package-dir": "{$vendor-dir}/typo3/cms",
-            "web-dir": ".Build/public",
-            "app-dir": ".Build"
+	"config": {
+        "bin-dir": ".Build/bin",
+        "sort-packages": true,
+        "vendor-dir": ".Build/vendor",
+        "allow-plugins": {
+            "typo3/cms-composer-installers": true,
+            "typo3/class-alias-loader": true
         }
     },
-    "config": {
-        "vendor-dir": ".Build/vendor"
-    },
-    "scripts": {
-        "check": [
-            "@ec",
-            "@phpcs",
-            "@phpstan"
-        ],
-        "fix": [
-            "@ec:fix",
-            "@phpcs:fix"
-        ],
-        "phpcs": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi --verbose --diff --dry-run",
-        "phpcs:fix": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi",
-        "phpstan": "phpstan analyse -c Resources/Private/Build/phpstan.neon",
-        "ec": "ec -n -e Documentation-GENERATED -e .Build",
-        "ec:fix": "ec -n -e Documentation-GENERATED -e .Build --fix"
-    }
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "t3oodle",
+			"web-dir": ".Build/public"
+		}
+	},
+	"scripts": {
+		"cs:check": ".Build/bin/php-cs-fixer fix --config Build/php-cs-fixer/php-cs-rules.php --ansi --diff --verbose --dry-run",
+		"cs:fix": ".Build/bin/php-cs-fixer fix --config Build/php-cs-fixer/php-cs-rules.php --ansi",
+		"analyze:php": ".Build/bin/phpstan analyse --ansi --no-progress --memory-limit=768M --configuration=Build/phpstan/Core11/phpstan.neon",
+		"analyze:baseline": ".Build/bin/phpstan analyse --ansi --no-progress --memory-limit=768M --configuration=Build/phpstan/Core11/phpstan.neon --generate-baseline=Build/phpstan/Core11/phpstan-baseline.neon",
+		"lint:typoscript": ".Build/bin/typoscript-lint --ansi --config=./Build/typoscript-lint/typoscript-lint.yml",
+		"lint:php": "find .*.php *.php Classes Configuration Tests -name '*.php' -print0 | xargs -r -0 -n 1 -P 4 php -l"
+	}
 }

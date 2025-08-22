@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\ViewHelpers;
 
@@ -9,29 +9,25 @@ namespace FGTCLB\T3oodle\ViewHelpers;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+
+use FGTCLB\T3oodle\Domain\Model\BasePoll;
+use FGTCLB\T3oodle\Domain\Permission\AccessDeniedException;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
 
 /**
  * @see PollPermission
  */
-class PermissionViewHelper extends AbstractViewHelper
+final class PermissionViewHelper extends AbstractConditionViewHelper
 {
-    use CompileWithRenderStatic;
-
-    /**
-     * @var PollPermission
-     */
-    private static $permission;
-
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
+        parent::initializeArguments();
         $this->registerArgument('permissionClassName', 'string', '', false, PollPermission::class);
-        $this->registerArgument('poll', 'object', 'Poll object', false);
+        $this->registerArgument('poll', BasePoll::class, 'Poll object', false, null);
         $this->registerArgument(
             'action',
             'string',
@@ -41,30 +37,30 @@ class PermissionViewHelper extends AbstractViewHelper
         $this->registerArgument('negate', 'bool', 'Negates the result, when true', false, false);
     }
 
-    private static function init(array $arguments, RenderingContextInterface $renderingContext): void
+    /**
+     * @param array{
+     *     permissionClassName: class-string<PollPermission>,
+     *     poll: BasePoll|null,
+     *     action: string,
+     *     negate: bool
+     * } $arguments
+     * @param RenderingContextInterface $renderingContext
+     * @return bool
+     * @throws AccessDeniedException
+     */
+    public static function verdict(array $arguments, RenderingContextInterface $renderingContext)
     {
+        $permissionClass = $arguments['permissionClassName'];
         $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
-        self::$permission = GeneralUtility::makeInstance(
-            $arguments['permissionClassName'],
+        $settings = $renderingContext->getVariableProvider()->get('settings');
+        $poll = $arguments['poll'];
+        /** @var PollPermission $permission */
+        $permission = GeneralUtility::makeInstance(
+            $permissionClass,
             $currentUserIdent,
-            $renderingContext->getVariableProvider()->get('settings')
+            $settings
         );
-    }
-
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        self::init($arguments, $renderingContext);
-
-        $poll = $arguments['poll'] ?? $renderChildrenClosure();
-
-        $status = self::$permission->isAllowed($poll, $arguments['action']);
-        if ($arguments['negate']) {
-            return !$status;
-        }
-
-        return $status;
+        $status = $permission->isAllowed($poll, $arguments['action']);
+        return $arguments['negate'] ? !$status : $status;
     }
 }

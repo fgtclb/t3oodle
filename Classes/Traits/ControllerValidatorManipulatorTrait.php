@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Traits;
 
@@ -9,6 +9,8 @@ namespace FGTCLB\T3oodle\Traits;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
 
 trait ControllerValidatorManipulatorTrait
@@ -42,6 +44,13 @@ trait ControllerValidatorManipulatorTrait
     {
         if ($this->arguments->hasArgument($argumentName)) {
             $validator = $this->arguments->getArgument($argumentName)->getValidator();
+
+            if ($validator ===  null) {
+                GeneralUtility::makeInstance(LogManager::class)
+                    ->getLogger(__CLASS__)->warning("No validator found for argument $argumentName");
+                return;
+            }
+
             if (method_exists($validator, 'getValidators')) {
                 foreach ($validator->getValidators() as $subValidator) {
                     if (method_exists($subValidator, 'getValidators')) {

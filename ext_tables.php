@@ -5,11 +5,12 @@
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-defined('TYPO3_MODE') || die('Access denied.');
 
-call_user_func(
-    function () {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_t3oodle_domain_model_poll');
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_t3oodle_domain_model_option');
-    }
-);
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
+defined('TYPO3') || die('Access denied.');
+
+(static function (): void {
+    ExtensionManagementUtility::allowTableOnStandardPages('tx_t3oodle_domain_model_poll');
+    ExtensionManagementUtility::allowTableOnStandardPages('tx_t3oodle_domain_model_option');
+})();

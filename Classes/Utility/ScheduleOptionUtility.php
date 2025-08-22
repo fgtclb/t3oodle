@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Utility;
 
@@ -34,11 +34,13 @@ class ScheduleOptionUtility
         ];
 
         $result['day'] = $parts[0];
-        $result['option'] = $parts[1];
+        if (count($parts) > 1) {
+            $result['option'] = $parts[1];
+        }
 
         $result['dateStart'] = new \DateTime($result['day']);
 
-        if ($result['option']) {
+        if (isset($result['option'])) {
             // Check if day option contains time(s)
             preg_match_all('/\d{1,2}:\d{2}/', $result['option'], $timeMatches);
             $timeMatches = current($timeMatches);

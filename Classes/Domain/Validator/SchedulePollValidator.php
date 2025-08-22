@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Domain\Validator;
 
@@ -18,15 +18,18 @@ class SchedulePollValidator extends SimplePollValidator
     public function __construct(array $options = [], Result $result = null)
     {
         parent::__construct($options, $result);
-        if (null === $result) {
-            throw new \InvalidArgumentException('SchedulePollValidator requires result constructor argument, from parent validator');
+        if ($result === null) {
+            throw new \InvalidArgumentException(
+                'SchedulePollValidator requires result constructor argument, from parent validator',
+                1727789493
+            );
         }
         $this->result = $result;
     }
 
     public function validate($value)
     {
-        if (false === $this->acceptsEmptyValues || false === $this->isEmpty($value)) {
+        if ($this->acceptsEmptyValues === false || $this->isEmpty($value) === false) {
             $this->isValid($value);
         }
 

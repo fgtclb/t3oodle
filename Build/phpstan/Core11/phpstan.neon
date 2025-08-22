@@ -1,0 +1,17 @@
+includes:
+  - ../../../.Build/vendor/saschaegerer/phpstan-typo3/extension.neon
+  - phpstan-baseline.neon
+
+parameters:
+  # Use local .cache dir instead of /tmp
+  tmpDir: ../../../.cache/phpstan
+
+  level: 5
+
+  paths:
+    - ../../../Classes
+    - ../../../Configuration
+    - ../../../Resources
+    - ../../../ext_emconf.php
+    - ../../../ext_localconf.php
+    - ../../../ext_tables.php

@@ -9,18 +9,24 @@ namespace FGTCLB\T3oodle\Domain\Repository;
  */
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
-use FGTCLB\T3oodle\Domain\Permission\PollPermission;
+use FGTCLB\T3oodle\Event\PollRepository\FindPollsEvent;
+use FGTCLB\T3oodle\Service\UserService;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+    protected EventDispatcherInterface $eventDispatcher;
+
+    private UserService $userService;
+
     /**
-     * @var string[] Show unpublished first, then order by publishDate
+     * @var array<non-empty-string, 'ASC'|'DESC'> Show unpublished first, then order by publishDate
      */
     protected $defaultOrderings = [
         'isPublished' => 'ASC',
@@ -31,6 +37,8 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         parent::__construct($objectManager);
         $this->objectType = BasePoll::class;
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+        $this->userService = GeneralUtility::makeInstance(UserService::class);
     }
 
     /**
@@ -53,19 +61,14 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $query->equals('isPublished', true),
             $query->equals('isFinished', false),
         ]);
-        $orConstraints[] = $query->logicalAnd([
-            $query->equals('isPublished', true),
-            $query->equals('isFinished', false),
-        ]);
         if ($finished) {
             $orConstraints[] = $query->equals('isFinished', true);
         }
 
         $andConstraints = [];
 
-        $pollPermission = GeneralUtility::makeInstance(PollPermission::class, null, $this->controllerSettings);
         if ($personal) {
-            if (!$pollPermission->userIsAdmin()) {
+            if (!$this->userService->userIsAdmin()) {
                 $andConstraints[] = $query->logicalOr([
                     $query->logicalAnd([
                         $query->equals('visibility', Visibility::LISTED),
@@ -79,20 +82,14 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $andConstraints[] = $query->equals('isPublished', true);
         }
 
-        if (!empty($orConstraints)) {
-            $andConstraints[] = $query->logicalOr($orConstraints);
-        }
+        $andConstraints[] = $query->logicalOr($orConstraints);
 
         $andConstraints[] = $query->logicalNot($query->equals('slug', ''));
 
-        /** @var Dispatcher $signalSlotDispatcher */
-        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-        $slot = $signalSlotDispatcher->dispatch(__CLASS__, 'findPolls', [
-            'constraints' => $andConstraints,
-            'query' => $query,
-            'caller' => $this,
-        ]);
-        $andConstraints = $slot['constraints'];
+        $event = new FindPollsEvent($andConstraints, $query, $this);
+        $this->eventDispatcher->dispatch($event);
+
+        $andConstraints = $event->getConstraints();
 
         $query->matching($query->logicalAnd($andConstraints));
 
@@ -104,17 +101,40 @@ class PollRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $this->controllerSettings = $settings;
     }
 
+    /**
+     * Retrieves the poll type by its unique identifier (UID).
+     *
+     * @throws \RuntimeException If the poll is not found.
+     */
     public function getPollTypeByUid(int $poll): string
     {
         /** @var ConnectionPool $pool */
         $pool = GeneralUtility::makeInstance(ConnectionPool::class);
-        $result = $pool->getQueryBuilderForTable('tx_t3oodle_domain_model_poll')
+        $queryBuilder = $pool->getQueryBuilderForTable('tx_t3oodle_domain_model_poll');
+        $result = $queryBuilder
             ->select('type')
             ->from('tx_t3oodle_domain_model_poll')
-            ->where('uid = ' . $poll)
-            ->execute()
-            ->fetch();
+            ->where($queryBuilder->expr()->eq(
+                'uid',
+                $queryBuilder->createNamedParameter($poll, Connection::PARAM_INT)
+            ))
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
+
+        if ($result === false) {
+            throw new \RuntimeException('Poll not found', 1730287624);
+        }
 
         return $result['type'];
+    }
+
+    public function countBySlug(string $slug): int
+    {
+        $query = $this->createQuery();
+        return $query
+            ->matching($query->equals('slug', $slug))
+            ->execute()
+            ->count();
     }
 }

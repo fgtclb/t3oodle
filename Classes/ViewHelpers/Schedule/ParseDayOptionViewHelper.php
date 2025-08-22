@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\ViewHelpers\Schedule;
 
@@ -18,7 +18,7 @@ class ParseDayOptionViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('value', 'string', 'Date with option as string', false);
     }
@@ -27,7 +27,7 @@ class ParseDayOptionViewHelper extends AbstractViewHelper
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
+    ): array {
         $value = $arguments['value'] ?? (string)$renderChildrenClosure();
 
         return ScheduleOptionUtility::parseOptionName($value);

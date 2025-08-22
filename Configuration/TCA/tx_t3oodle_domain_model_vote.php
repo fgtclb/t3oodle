@@ -21,17 +21,14 @@ return [
         'cruser_id' => 'cruser_id',
         'delete' => 'deleted',
         'searchFields' => 'participant, participant_name, participant_mail, participant_ident',
-        'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_vote.gif'
-    ],
-    'interface' => [
-        'showRecordFieldList' => 'participant, participant_name, participant_mail, participant_ident, poll',
+        'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_vote.gif',
     ],
     'types' => [
         '1' => ['showitem' => '--palette--;;participant, option_values, poll'],
     ],
     'palettes' => [
         'participant' => [
-            'showitem' => 'participant,--linebreak--,participant_name,participant_mail,participant_ident'
+            'showitem' => 'participant,--linebreak--,participant_name,participant_mail,participant_ident',
         ],
     ],
     'columns' => [
@@ -45,7 +42,7 @@ return [
                 'maxitems' => 1,
                 'readOnly' => true,
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
             ],
         ],
@@ -76,7 +73,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
         'option_values' => [
@@ -93,7 +90,7 @@ return [
                     'levelLinksPosition' => 'top',
                     'showSynchronizationLink' => 1,
                     'showPossibleLocalizationRecords' => 1,
-                    'showAllLocalizationLink' => 1
+                    'showAllLocalizationLink' => 1,
                 ],
             ],
 

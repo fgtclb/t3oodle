@@ -176,7 +176,7 @@ abstract class BasePoll extends AbstractEntity
 
     public function __construct()
     {
-        $this->type = get_class($this);
+        $this->type = static::class;
         $this->options = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $this->votes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
@@ -314,7 +314,7 @@ abstract class BasePoll extends AbstractEntity
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options
      */
-    public function getOptions($skipMarkedToDeleted = false): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    public function getOptions(bool $skipMarkedToDeleted = false): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         if ($skipMarkedToDeleted) {
             /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options */
@@ -482,7 +482,7 @@ abstract class BasePoll extends AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage|Vote[]
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Vote>
      */
     public function getVotes(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
@@ -578,8 +578,8 @@ abstract class BasePoll extends AbstractEntity
                     if (!array_key_exists($optionValue->getOption()->getUid(), $optionTotals)) {
                         $optionTotals[$optionValue->getOption()->getUid()] = 0;
                     }
-                    if ('1' === $optionValue->getValue() ||
-                        ($settings['countMaybeVotes'] && '2' === $optionValue->getValue())
+                    if ($optionValue->getValue() === '1' ||
+                        ($settings['countMaybeVotes'] && $optionValue->getValue() === '2')
                     ) {
                         ++$optionTotals[$optionValue->getOption()->getUid()];
                     }
@@ -625,13 +625,15 @@ abstract class BasePoll extends AbstractEntity
 
         return false;
     }
-
+    /**
+     * @return \FGTCLB\T3oodle\Domain\Model\Option[]
+     */
     public function getAvailableOptions(): array
     {
         if (!$this->getSettingMaxVotesPerOption()) {
             return $this->getOptions()->toArray();
         }
-        if (null === self::$availableOptionsCache) {
+        if (self::$availableOptionsCache === null) {
             $settings = SettingsUtility::getTypoScriptSettings();
             $countMaybeVotes = (bool)$settings['countMaybeVotes'];
 
@@ -645,7 +647,7 @@ abstract class BasePoll extends AbstractEntity
             /** @var Vote $vote */
             foreach ($this->getVotes() as $vote) {
                 foreach ($vote->getOptionValues() as $optionValue) {
-                    if ('1' === $optionValue->getValue() || ($countMaybeVotes && '2' === $optionValue->getValue())) {
+                    if ($optionValue->getValue() === '1' || ($countMaybeVotes && $optionValue->getValue() === '2')) {
                         ++$usedOptionCounts[$optionValue->getOption()->getUid()];
                     }
                 }
@@ -683,13 +685,17 @@ abstract class BasePoll extends AbstractEntity
         return new PollStatus(PollStatus::CLOSED);
     }
 
+    // @todo: Check if $this->type() can be used instead of static::class
+    // @todo: Verify if static::class is appropriate in this context
     public function isSimplePoll(): bool
     {
-        return false !== stripos(get_class($this), 'simple');
+        return stripos(static::class, 'simple') !== false;
     }
 
+    // @todo: Check if $this->type() can be used instead of static::class
+    // @todo: Verify if static::class is appropriate in this context
     public function isSchedulePoll(): bool
     {
-        return false !== stripos(get_class($this), 'schedule');
+        return stripos(static::class, 'schedule') !== false;
     }
 }

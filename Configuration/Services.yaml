@@ -1,0 +1,23 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  FGTCLB\T3oodle\Extbase\TypeConverter:
+    public: true
+
+  FGTCLB\T3oodle\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*'
+
+  FGTCLB\T3oodle\EventListener\UpdatePollSlugListener:
+    tags:
+      - name: event.listener
+        identifier: fgtclb/t3oodle/update-slug-before-update-poll
+        method: updateBeforeEvent
+        event: FGTCLB\T3oodle\Event\UpdateBeforeEvent
+      - name: event.listener
+        identifier: fgtclb/t3oodle/update-slug-create-after-poll
+        method: createAfterEvent
+        event: FGTCLB\T3oodle\Event\CreateAfterEvent

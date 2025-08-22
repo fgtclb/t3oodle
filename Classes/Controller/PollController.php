@@ -7,22 +7,94 @@ namespace FGTCLB\T3oodle\Controller;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+
+use FGTCLB\T3oodle\Domain\Model\BasePoll;
+use FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto;
+use FGTCLB\T3oodle\Domain\Model\Option;
+use FGTCLB\T3oodle\Domain\Model\SimplePoll;
+use FGTCLB\T3oodle\Domain\Model\Vote;
+use FGTCLB\T3oodle\Domain\Permission\PollPermission;
+use FGTCLB\T3oodle\Domain\Repository\OptionRepository;
+use FGTCLB\T3oodle\Domain\Repository\PollRepository;
+use FGTCLB\T3oodle\Domain\Repository\VoteRepository;
 use FGTCLB\T3oodle\Domain\Validator\CustomPollValidator;
+use FGTCLB\T3oodle\Event\CreateAfterEvent;
+use FGTCLB\T3oodle\Event\CreateBeforeEvent;
+use FGTCLB\T3oodle\Event\CreateSuggestionAfterEvent;
+use FGTCLB\T3oodle\Event\CreateSuggestionBeforeEvent;
+use FGTCLB\T3oodle\Event\DeleteOwnVoteEvent;
+use FGTCLB\T3oodle\Event\DeletePollEvent;
+use FGTCLB\T3oodle\Event\DeleteSuggestionEvent;
+use FGTCLB\T3oodle\Event\EditPollEvent;
+use FGTCLB\T3oodle\Event\EditSuggestionEvent;
+use FGTCLB\T3oodle\Event\FinishPollEvent;
+use FGTCLB\T3oodle\Event\FinishSuggestionModeEvent;
+use FGTCLB\T3oodle\Event\ListPollEvent;
+use FGTCLB\T3oodle\Event\NewPollEvent;
+use FGTCLB\T3oodle\Event\NewSuggestionEvent;
+use FGTCLB\T3oodle\Event\Permission\CreatePollAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\DeletePollAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\DeleteSuggestionAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\EditPollAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\EditSuggestAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\FinishPollAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\FinishSuggestionModeAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\NewOptionsAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\NewPollAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\PublishPollAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\ShowPollAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\SuggestNewOptionsAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\UpdateSuggestionAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\VoteAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\VoteDeleteAllowedEvent;
+use FGTCLB\T3oodle\Event\Permission\VoteResetAllowedEvent;
+use FGTCLB\T3oodle\Event\PublishPollEvent;
+use FGTCLB\T3oodle\Event\ResetVotesEvent;
+use FGTCLB\T3oodle\Event\ShowFinishEvent;
+use FGTCLB\T3oodle\Event\ShowPollEvent;
+use FGTCLB\T3oodle\Event\UpdateAfterEvent;
+use FGTCLB\T3oodle\Event\UpdateBeforeEvent;
+use FGTCLB\T3oodle\Event\UpdateSuggestionAfterEvent;
+use FGTCLB\T3oodle\Event\UpdateSuggestionBeforeEvent;
+use FGTCLB\T3oodle\Event\VotePollEvent;
 use FGTCLB\T3oodle\Exception\AccessDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\CreatePollDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\DeletePollDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\DeleteSuggestionDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\DeleteVoteDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\EditPollDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\EditSuggestDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\FinishPollDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\FinishSuggestionModeDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\PublishPollDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\ShowPollDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\SuggestNewOptionsDeniedEception;
+use FGTCLB\T3oodle\Exception\Permission\UpdateSuggestionDeniedException;
+use FGTCLB\T3oodle\Exception\Permission\VoteResetNotAllowedException;
+use FGTCLB\T3oodle\Exception\Permission\VotingDeniedException;
 use FGTCLB\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use FGTCLB\T3oodle\Utility\CookieUtility;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
+use GeorgRinger\NumberedPagination\NumberedPagination;
+use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
-use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
-class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class PollController extends ActionController
 {
     use ControllerValidatorManipulatorTrait;
 
@@ -34,49 +106,45 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @var string UID of current frontend user or random string used to identify user by cookie
      */
-    protected $currentUserIdent = '';
+    protected string $currentUserIdent = '';
+    protected PollPermission $pollPermission;
+    protected PollRepository $pollRepository;
+    protected OptionRepository $optionRepository;
+    protected VoteRepository $voteRepository;
+    protected FrontendUserRepository $userRepository;
+    protected PersistenceManagerInterface $persistenceManager;
 
-    /**
-     * @var \FGTCLB\T3oodle\Domain\Permission\PollPermission
-     */
-    protected $pollPermission;
+    public function injectPersistenceManager(PersistenceManagerInterface $persistenceManager): void
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
 
-    /**
-     * @var \FGTCLB\T3oodle\Domain\Repository\PollRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $pollRepository;
+    public function injectPollRepository(PollRepository $pollRepository): void
+    {
+        $this->pollRepository = $pollRepository;
+    }
 
-    /**
-     * @var \FGTCLB\T3oodle\Domain\Repository\OptionRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $optionRepository;
+    public function injectOptionRepository(OptionRepository $optionRepository): void
+    {
+        $this->optionRepository = $optionRepository;
+    }
 
-    /**
-     * @var \FGTCLB\T3oodle\Domain\Repository\VoteRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $voteRepository;
+    public function injectVoteRepository(VoteRepository $voteRepository): void
+    {
+        $this->voteRepository = $voteRepository;
+    }
 
-    /**
-     * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $userRepository;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $signalSlotDispatcher;
+    public function injectUserRepository(FrontendUserRepository $userRepository): void
+    {
+        $this->userRepository = $userRepository;
+    }
 
     public function initializeAction(): void
     {
         $this->initializeCurrentUserOrUserIdent();
 
         $this->pollPermission = GeneralUtility::makeInstance(
-            \FGTCLB\T3oodle\Domain\Permission\PollPermission::class,
+            PollPermission::class,
             $this->currentUserIdent,
             $this->settings
         );
@@ -100,31 +168,58 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         return false;
     }
 
-    public function listAction(): void
+    public function listAction(): ResponseInterface
     {
+
         $this->pollRepository->setControllerSettings($this->settings);
+        // Retrieve polls based on settings
         $polls = $this->pollRepository->findPolls(
             (bool)$this->settings['list']['draft'],
             (bool)$this->settings['list']['finished'],
             (bool)$this->settings['list']['personal']
         );
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'list', [
+
+        $event = new ListPollEvent($polls, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($event);
+
+        $assignedValues = [
             'polls' => $polls,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
-        $this->view->assign('polls', $polls);
+        ];
+        if ($this->settings['list']['itemsPerPage'] > 0) {
+            $itemsPerPage = $this->settings['list']['itemsPerPage'];
+            $maximumLinks = $this->settings['list']['maximumLinks'];
+
+            $currentPage = $this->request->hasArgument('currentPage') ? (int)$this->request->getArgument('currentPage') : 1;
+            $paginator = new QueryResultPaginator($polls, $currentPage, $itemsPerPage);
+            $pagination = new NumberedPagination($paginator, $maximumLinks);
+
+            $assignedValues['paginator'] = $paginator;
+            $assignedValues['pagination'] = $pagination;
+        }
+
+        $this->view->assignMultiple($assignedValues);
+        return $this->htmlResponse();
+
     }
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
+     * @throws ShowPollDeniedException
      */
-    public function showAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function showAction(BasePoll $poll): ResponseInterface
     {
-        $this->pollPermission->isAllowed($poll, 'show', true);
+        $isAllowed = $this->pollPermission->isAllowed($poll, 'show');
+        $showPollAllowedEvent = new ShowPollAllowedEvent($poll, $isAllowed, $this);
+        $this->eventDispatcher->dispatch($showPollAllowedEvent);
+        $isAllowed = $showPollAllowedEvent->isAllowed();
+        if (!$isAllowed) {
+            throw new ShowPollDeniedException(
+                TranslateUtility::translate('exception.permission.show'),
+                1753700545
+            );
+        }
 
-        if ($this->getControllerContext()->getRequest()->getOriginalRequestMappingResults()->hasErrors()) {
+        if ($this->request->getOriginalRequestMappingResults()->hasErrors()) {
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.votingErrorOccurred'),
                 '',
@@ -136,7 +231,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $vote = $this->voteRepository->findOneByPollAndParticipantIdent($poll, $this->currentUserIdent);
         if (!$vote) {
-            $vote = GeneralUtility::makeInstance(\FGTCLB\T3oodle\Domain\Model\Vote::class);
+            $vote = new Vote();
             $vote->setPoll($poll);
             if ($this->currentUser) {
                 $vote->setParticipant($this->currentUser);
@@ -152,35 +247,52 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
         }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'show', [
-            'poll' => $poll,
-            'vote' => $vote,
-            'newOptionValues' => $newOptionValues,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+        $event = new ShowPollEvent(
+            $poll,
+            $vote,
+            $this->view,
+            $newOptionValues,
+            $this->settings,
+            $this
+        );
+        $this->eventDispatcher->dispatch($event);
 
         $this->view->assign('poll', $poll);
         $this->view->assign('vote', $vote);
+
+        $newOptionValues = $event->getNewOptionValues();
         if (!empty($newOptionValues)) {
-            $this->view->assign('newOptionValues', $signal['newOptionValues']);
+            $this->view->assign('newOptionValues', $event->getNewOptionValues());
         }
 
-        if ($this->pollPermission->isAllowed($poll, 'suggestNewOptions')) {
+        $suggestAllowed = $this->pollPermission->isAllowed($poll, 'suggestNewOptions');
+        $suggestAllowedEvent = new NewOptionsAllowedEvent($poll, $suggestAllowed, $this);
+        $this->eventDispatcher->dispatch($suggestAllowedEvent);
+        $suggestAllowed = $suggestAllowedEvent->isAllowed();
+        if ($suggestAllowed) {
             $this->view->assign(
                 'mySuggestions',
                 $this->optionRepository->findByPollAndCreatorIdent($poll, $this->currentUserIdent) ?? []
             );
         }
+        return $this->htmlResponse();
     }
 
     /**
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator", param="vote")
+     * @throws VotingDeniedException
      */
-    public function voteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote): void
+    public function voteAction(Vote $vote): ResponseInterface
     {
-        $this->pollPermission->isAllowed($vote->getPoll(), 'voting', true);
+        $voteAllowed = $this->pollPermission->isAllowed($vote->getPoll(), 'voting');
+        $voteAllowedEvent = new VoteAllowedEvent($vote, $voteAllowed, $this);
+        $this->eventDispatcher->dispatch($voteAllowedEvent);
+        if (!$voteAllowedEvent->isAllowed()) {
+            throw new VotingDeniedException(
+                'Voting not allowed!',
+                1753701631
+            );
+        }
 
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
@@ -196,43 +308,53 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if (!$vote->getUid() &&
             $this->voteRepository->findOneByPollAndParticipantIdent($vote->getPoll(), $this->currentUserIdent)
         ) {
-            $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
+            return new RedirectResponse(
+                $this
+                    ->uriBuilder
+                    ->uriFor('show', ['poll' => $vote->getPoll()])
+            );
         }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'vote', [
-            'vote' => $vote,
-            'isNew' => !$vote->getUid(),
-            'settings' => $this->settings,
-            'continue' => true,
-            'caller' => $this,
-        ]);
+        $votePollEvent = new VotePollEvent($vote, !$vote->getUid(), $this->settings, true, $this);
+        $this->eventDispatcher->dispatch($votePollEvent);
 
-        if ($signal['continue']) {
+        if ($votePollEvent->shouldContinue()) {
             $this->voteRepository->add($vote);
             $this->addFlashMessage(
-                TranslateUtility::translate($signal['isNew'] ? 'flash.votingSaved' : 'flash.votingUpdated'),
+                TranslateUtility::translate($votePollEvent->getIsNew() ? 'flash.votingSaved' : 'flash.votingUpdated'),
                 '',
                 AbstractMessage::OK
             );
-            $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
         }
+        return new RedirectResponse(
+            $this
+                ->uriBuilder
+                ->uriFor('show', ['poll' => $vote->getPoll()])
+        );
     }
 
     /**
+     * @throws VoteResetNotAllowedException
+     * @todo: add proper return types
+     *
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function resetVotesAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function resetVotesAction(BasePoll $poll): ResponseInterface
     {
-        $this->pollPermission->isAllowed($poll, 'resetVotes', true);
+        $resetAllowed = $this->pollPermission->isAllowed($poll, 'resetVotes');
+        $resetAllowedEvent = new VoteResetAllowedEvent($poll, $resetAllowed, $this);
+        $this->eventDispatcher->dispatch($resetAllowedEvent);
+        if (!$resetAllowedEvent->isAllowed()) {
+            throw new VoteResetNotAllowedException(
+                'Reset votes is not allowed!',
+                1753713611
+            );
+        }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'resetVotes', [
-            'poll' => $poll,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $resetVotesEvent = new ResetVotesEvent($poll, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($resetVotesEvent);
 
-        if ($signal['continue']) {
+        if ($resetVotesEvent->getContinue()) {
             $count = count($poll->getVotes());
             foreach ($poll->getVotes() as $vote) {
                 $this->voteRepository->remove($vote);
@@ -240,133 +362,179 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.votesSuccessfullyDeleted', [$count])
             );
-            $this->redirect('show', null, null, ['poll' => $poll]);
         }
+        return new RedirectResponse(
+            $this
+                ->uriBuilder
+                ->uriFor('show', ['poll' => $poll])
+        );
     }
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("vote")
+     * @throws DeleteVoteDeniedException
      */
-    public function deleteOwnVoteAction(\FGTCLB\T3oodle\Domain\Model\Vote $vote): void
+    public function deleteOwnVoteAction(Vote $vote): ResponseInterface
     {
-        $this->pollPermission->isAllowed($vote, 'deleteOwnVote', true);
+        $deleteVoteAllowed = $this->pollPermission->isAllowed($vote, 'deleteOwnVote');
+        $deleteVoteAllowedEvent = new VoteDeleteAllowedEvent($vote, $deleteVoteAllowed, $this);
+        $this->eventDispatcher->dispatch($deleteVoteAllowedEvent);
+        if (!$deleteVoteAllowedEvent->isAllowed()) {
+            throw new DeleteVoteDeniedException(
+                'Delete vote is not allowed!',
+                1753713961
+            );
+        }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'deleteOwnVote', [
-            'vote' => $vote,
-            'participantName' => $vote->getParticipantName(),
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $deleteOwnVoteEvent = new DeleteOwnVoteEvent($vote, $vote->getParticipantName(), true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($deleteOwnVoteEvent);
 
-        if ($signal['continue']) {
+        if ($deleteOwnVoteEvent->getContinue()) {
             $this->voteRepository->remove($vote);
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.voteSuccessfullyDeleted')
             );
-            $this->redirect('show', null, null, ['poll' => $vote->getPoll()]);
         }
+        return new RedirectResponse(
+            $this->uriBuilder
+                ->uriFor('show', ['poll' => $vote->getPoll()])
+        );
     }
 
     /**
      * @param int $option uid to finish
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
+     * @throws FinishPollDeniedException
      */
-    public function finishAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll, int $option = 0): void
+    public function finishAction(BasePoll $poll, int $option = 0): ResponseInterface
     {
-        $this->pollPermission->isAllowed($poll, 'finish', true);
+        $finishPollAllowed = $this->pollPermission->isAllowed($poll, 'finish');
+        $finishPollAllowedEvent = new FinishPollAllowedEvent($poll, $finishPollAllowed, $this);
+        $this->eventDispatcher->dispatch($finishPollAllowedEvent);
+        if (!$finishPollAllowedEvent->isAllowed()) {
+            throw new FinishPollDeniedException(
+                'Finish poll is not allowed!',
+                1753714157
+            );
+        }
         if ($option > 0) {
             // Persist final option
-            /** @var \FGTCLB\T3oodle\Domain\Model\Option $option */
-            $option = $this->optionRepository->findByUid($option);
-            $poll->setFinalOption($option);
+            /** @var Option $optionFromDatabase */
+            $optionFromDatabase = $this->optionRepository->findByUid($option);
+            $poll->setFinalOption($optionFromDatabase);
             $poll->setFinishDate(DateTimeUtility::now());
             $poll->setIsFinished(true);
 
-            $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'finish', [
-                'poll' => $poll,
-                'finalOption' => $option,
-                'continue' => true,
-                'settings' => $this->settings,
-                'view' => $this->view,
-                'caller' => $this,
-            ]);
+            $finishPollEvent = new FinishPollEvent($poll, $optionFromDatabase, true, $this->settings, $this->view, $this);
+            $this->eventDispatcher->dispatch($finishPollEvent);
 
-            if ($signal['continue']) {
+            if ($finishPollEvent->getContinue()) {
                 $this->pollRepository->update($poll);
                 $this->addFlashMessage(
-                    TranslateUtility::translate('flash.successfullyFinished', [$poll->getTitle(), $option->getName()])
+                    TranslateUtility::translate('flash.successfullyFinished', [$poll->getTitle(), $optionFromDatabase->getName()])
                 );
-                $this->redirect('show', null, null, ['poll' => $poll]);
+                return new RedirectResponse(
+                    $this->uriBuilder
+                        ->uriFor('show', ['poll' => $poll])
+                );
             }
         } else {
             // Display options to choose final one
-            $this->signalSlotDispatcher->dispatch(__CLASS__, 'showFinish', [
-                'poll' => $poll,
-                'settings' => $this->settings,
-                'view' => $this->view,
-                'caller' => $this,
-            ]);
+            $showFinishEvent = new ShowFinishEvent($poll, $this->settings, $this->view, $this);
+            $this->eventDispatcher->dispatch($showFinishEvent);
         }
         $this->view->assign('poll', $poll);
+        return $this->htmlResponse();
     }
 
     /**
+     * @throws FinishSuggestionModeDeniedException
+     * @todo add proper return types
+     *
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
-    public function finishSuggestionModeAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function finishSuggestionModeAction(BasePoll $poll): ResponseInterface
     {
-        $this->pollPermission->isAllowed($poll, 'finishSuggestionMode', true);
+        $finishSuggestionAllowed = $this->pollPermission->isAllowed($poll, 'finishSuggestionMode');
+        $finishSuggestionAllowedEvent = new FinishSuggestionModeAllowedEvent($poll, $finishSuggestionAllowed, $this);
+        $this->eventDispatcher->dispatch($finishSuggestionAllowedEvent);
+        if (!$finishSuggestionAllowedEvent->isAllowed()) {
+            throw new FinishSuggestionModeDeniedException(
+                'Finish suggestion mode is not allowed!',
+                1753714918
+            );
+        }
 
         $poll->setIsSuggestModeFinished(true);
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'finishSuggestionMode', [
-            'poll' => $poll,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $finishSuggestionModeEvent = new FinishSuggestionModeEvent($poll, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($finishSuggestionModeEvent);
 
-        if ($signal['continue']) {
+        if ($finishSuggestionModeEvent->getContinue()) {
             $this->pollRepository->update($poll);
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.successfullyFinishedSuggestionMode', [$poll->getTitle()])
             );
-            $this->redirect('show', null, null, ['poll' => $poll]);
         }
+        return new RedirectResponse(
+            $this->uriBuilder
+                ->uriFor('show', ['poll' => $poll])
+        );
     }
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto
+     * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
+     * @throws SuggestNewOptionsDeniedEception
      */
     public function newSuggestionAction(
-        \FGTCLB\T3oodle\Domain\Model\BasePoll $poll,
-        \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null
-    ): void {
-        $this->pollPermission->isAllowed($poll, 'suggestNewOptions', true);
+        BasePoll $poll,
+        ?SuggestionDto $suggestionDto = null
+    ): ResponseInterface {
+        $suggestNewOptionsAllowed = $this->pollPermission->isAllowed($poll, 'suggestNewOptions');
+        $suggestNewOptionsAllowedEvent = new SuggestNewOptionsAllowedEvent($poll, $suggestNewOptionsAllowed, $this, $suggestionDto);
+        $this->eventDispatcher->dispatch($suggestNewOptionsAllowedEvent);
+        if (!$suggestNewOptionsAllowedEvent->isAllowed()) {
+            throw new SuggestNewOptionsDeniedEception(
+                'Suggest new options is not allowed!',
+                1753715367
+            );
+        }
 
         if (!$suggestionDto) {
-            $suggestionDto = GeneralUtility::makeInstance(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto::class, $poll);
+            $suggestionDto = GeneralUtility::makeInstance(SuggestionDto::class, $poll);
         }
         if ($this->currentUser) {
             $suggestionDto->setCreator($this->currentUser);
         }
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'newSuggestion', [
-            'poll' => $poll,
-            'suggestionDto' => $suggestionDto,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+
+        $newSuggestionEvent = new NewSuggestionEvent($poll, $suggestionDto, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($newSuggestionEvent);
+
         $this->view->assign('suggestionDto', $suggestionDto);
+        return $this->htmlResponse();
     }
 
     /**
+     * @throws SuggestNewOptionsDeniedEception
+     *
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
      */
-    public function createSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto): void
+    public function createSuggestionAction(SuggestionDto $suggestionDto): ResponseInterface
     {
-        $this->pollPermission->isAllowed($suggestionDto->getPoll(), 'suggestNewOptions', true);
+        $suggestNewOptionsAllowed = $this->pollPermission->isAllowed($suggestionDto->getPoll(), 'suggestNewOptions');
+        $suggestNewOptionsAllowedEvent = new SuggestNewOptionsAllowedEvent(
+            $suggestionDto->getPoll(),
+            $suggestNewOptionsAllowed,
+            $this,
+            $suggestionDto
+        );
+        $this->eventDispatcher->dispatch($suggestNewOptionsAllowedEvent);
+        if (!$suggestNewOptionsAllowedEvent->isAllowed()) {
+            throw new SuggestNewOptionsDeniedEception(
+                'Suggest new options is not allowed!',
+                1753716638
+            );
+        }
 
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
@@ -381,53 +549,68 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $newSuggestedOption = $suggestionDto->makeOption();
 
-        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createSuggestionBefore', [
-            'suggestionDto' => $suggestionDto,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $createSuggestionBeforeEvent = new CreateSuggestionBeforeEvent($suggestionDto, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($createSuggestionBeforeEvent);
 
-        if ($signalBefore['continue']) {
+        if ($createSuggestionBeforeEvent->getContinue()) {
             $this->optionRepository->add($newSuggestedOption);
 
             if ($suggestionDto->getPoll()->isSchedulePoll()) {
                 $this->optionRepository->updateSortingOfOptionsByDateTime($suggestionDto->getPoll());
             }
 
-            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-            $persistenceManager->persistAll();
+            $this->persistenceManager->persistAll();
 
-            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createSuggestionAfter', [
-                'suggestionDto' => $suggestionDto,
-                'continue' => true,
-                'settings' => $this->settings,
-                'caller' => $this,
-            ]);
+            $createSuggestionAfterEvent = new CreateSuggestionAfterEvent($suggestionDto, true, $this->settings, $this);
+            $this->eventDispatcher->dispatch($createSuggestionAfterEvent);
 
-            if ($signalAfter['continue']) {
+            if ($createSuggestionAfterEvent->getContinue()) {
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyCreatedSuggestion', [$suggestionDto->getSuggestion(), $suggestionDto->getPoll()->getTitle()]),
                     '',
                     AbstractMessage::OK
                 );
-                $this->redirect('show', null, null, ['poll' => $suggestionDto->getPoll()->getUid()]);
             }
         }
+        return new RedirectResponse(
+            $this->uriBuilder->uriFor('show', ['poll' => $suggestionDto->getPoll()])
+        );
     }
 
+    /**
+     * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
+     * @throws AccessDeniedException
+     * @throws EditSuggestDeniedException
+     */
     public function editSuggestionAction(
-        \FGTCLB\T3oodle\Domain\Model\Option $option,
-        \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto = null
-    ): void {
-        $this->pollPermission->isAllowed($option->getPoll(), 'suggestNewOptions', true);
+        Option $option,
+        ?SuggestionDto $suggestionDto = null
+    ): ResponseInterface {
+        $editSuggestAllowed = $this->pollPermission->isAllowed($option->getPoll(), 'suggestNewOptions', true);
+        $editSuggestAllowedEvent = new EditSuggestAllowedEvent(
+            $option->getPoll(),
+            $editSuggestAllowed,
+            $this,
+            $suggestionDto
+        );
+        $this->eventDispatcher->dispatch($editSuggestAllowedEvent);
+        if (!$editSuggestAllowedEvent->isAllowed()) {
+            throw new EditSuggestDeniedException(
+                'Edit suggest option is not allowed!',
+                1753716935
+            );
+        }
+
         if ($option->getCreatorIdent() !== $this->currentUserIdent) {
-            throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
+            throw new AccessDeniedException(
+                'You are trying to update a suggestion, which you did not create!',
+                1727789441
+            );
         }
         if (!$suggestionDto) {
-            /** @var \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto */
+            /** @var SuggestionDto $suggestionDto */
             $suggestionDto = GeneralUtility::makeInstance(
-                \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto::class,
+                SuggestionDto::class,
                 $option->getPoll(),
                 $option->getName(),
                 $option->getCreator(),
@@ -437,26 +620,37 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             );
         }
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'editSuggestion', [
-            'option' => $option,
-            'suggestionDto' => $suggestionDto,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+        $editSuggestionEvent = new EditSuggestionEvent($option, $suggestionDto, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($editSuggestionEvent);
 
         $this->view->assign('suggestionDto', $suggestionDto);
         $this->view->assign('option', $option);
+        return $this->htmlResponse();
     }
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
+     * @throws UpdateSuggestionDeniedException
+     * @throws AccessDeniedException
      */
     public function updateSuggestionAction(
-        \FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto $suggestionDto,
-        \FGTCLB\T3oodle\Domain\Model\Option $option
-    ): void {
-        $this->pollPermission->isAllowed($suggestionDto->getPoll(), 'suggestNewOptions', true);
+        SuggestionDto $suggestionDto,
+        Option $option
+    ): ResponseInterface {
+        $updateSuggestionAllowed = $this->pollPermission->isAllowed($suggestionDto->getPoll(), 'suggestNewOptions');
+        $updateSuggestionAllowedEvent = new UpdateSuggestionAllowedEvent(
+            $suggestionDto->getPoll(),
+            $updateSuggestionAllowed,
+            $this,
+            $suggestionDto
+        );
+        $this->eventDispatcher->dispatch($updateSuggestionAllowedEvent);
+        if (!$updateSuggestionAllowedEvent->isAllowed()) {
+            throw new UpdateSuggestionDeniedException(
+                'Update suggest option is not allowed!',
+                1753717074
+            );
+        }
 
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
@@ -466,19 +660,18 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
 
         if ($option->getCreatorIdent() !== $this->currentUserIdent) {
-            throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
+            throw new AccessDeniedException(
+                'You are trying to update a suggestion, which you did not create!',
+                1727789452
+            );
         }
 
         $option->setName(trim($suggestionDto->getSuggestion()));
 
-        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateSuggestionBefore', [
-            'suggestionDto' => $suggestionDto,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $updateSuggestionBeforeEvent = new UpdateSuggestionBeforeEvent($suggestionDto, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($updateSuggestionBeforeEvent);
 
-        if ($signalBefore['continue']) {
+        if ($updateSuggestionBeforeEvent->getContinue()) {
             $this->optionRepository->update($option);
 
             if ($suggestionDto->getPoll()->isSchedulePoll()) {
@@ -486,31 +679,46 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 $this->pollRepository->update($suggestionDto->getPoll());
             }
 
-            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-            $persistenceManager->persistAll();
+            $this->persistenceManager->persistAll();
 
-            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateSuggestionAfter', [
-                'suggestionDto' => $suggestionDto,
-                'continue' => true,
-                'settings' => $this->settings,
-                'caller' => $this,
-            ]);
+            $updateSuggestionAfterEvent = new UpdateSuggestionAfterEvent($suggestionDto, true, $this->settings, $this);
+            $this->eventDispatcher->dispatch($updateSuggestionAfterEvent);
 
-            if ($signalAfter['continue']) {
+            if ($updateSuggestionAfterEvent->getContinue()) {
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyUpdatedSuggestion', [$suggestionDto->getSuggestion(), $suggestionDto->getPoll()->getTitle()]),
                     '',
                     AbstractMessage::OK
                 );
-                $this->redirect('show', null, null, ['poll' => $suggestionDto->getPoll()->getUid()]);
             }
         }
+        return new RedirectResponse(
+            $this->uriBuilder->uriFor('show', ['poll' => $suggestionDto->getPoll()])
+        );
     }
 
-    public function deleteSuggestionAction(\FGTCLB\T3oodle\Domain\Model\Option $option): void
+    /**
+     * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
+     * @throws IllegalObjectTypeException
+     * @throws DeleteSuggestionDeniedException
+     * @throws AccessDeniedException
+     */
+    public function deleteSuggestionAction(Option $option): ResponseInterface
     {
         $poll = $option->getPoll();
-        $this->pollPermission->isAllowed($poll, 'suggestNewOptions', true);
+        $deleteSuggestionAllowed = $this->pollPermission->isAllowed($poll, 'suggestNewOptions', true);
+        $deleteSuggestionAllowedEvent = new DeleteSuggestionAllowedEvent(
+            $poll,
+            $deleteSuggestionAllowed,
+            $this
+        );
+        $this->eventDispatcher->dispatch($deleteSuggestionAllowedEvent);
+        if (!$deleteSuggestionAllowedEvent->isAllowed()) {
+            throw new DeleteSuggestionDeniedException(
+                'Delete suggest option is not allowed!',
+                1753717215
+            );
+        }
 
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
@@ -520,31 +728,34 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
 
         if ($option->getCreatorIdent() !== $this->currentUserIdent) {
-            throw new AccessDeniedException('You are trying to update a suggestion, which you did not create!');
+            throw new AccessDeniedException(
+                'You are trying to update a suggestion, which you did not create!',
+                1727789465
+            );
         }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'deleteSuggestion', [
-            'option' => $option,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $deleteSuggestionEvent = new DeleteSuggestionEvent($option, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($deleteSuggestionEvent);
 
-        if ($signal['continue']) {
+        if ($deleteSuggestionEvent->getContinue()) {
             $this->optionRepository->remove($option);
             $this->addFlashMessage(TranslateUtility::translate('flash.successfullyDeletedSuggestion', [$option->getName()]));
-            $this->redirect('show', null, null, ['poll' => $poll->getUid()]);
         }
+        return new RedirectResponse(
+            $this->uriBuilder->uriFor('show', ['poll' => $poll])
+        );
     }
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
+     * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
+     * @throws NoSuchArgumentException
      */
     public function newAction(
-        \FGTCLB\T3oodle\Domain\Model\BasePoll $poll = null,
+        ?BasePoll $poll = null,
         bool $publishDirectly = true,
-        string $pollType = \FGTCLB\T3oodle\Domain\Model\SimplePoll::class
-    ): void {
+        string $pollType = SimplePoll::class
+    ): ResponseInterface {
         if (!$poll) {
             $poll = GeneralUtility::makeInstance($pollType);
             if ($this->currentUser) {
@@ -557,28 +768,32 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         } else {
             $this->pollPermission->isAllowed($poll, 'newSchedulePoll', true);
         }
+        // set allowed to true here, as denied would have thrown an exception.
+        $isNewAllowedEvent = new NewPollAllowedEvent($poll, true);
+        $this->eventDispatcher->dispatch($isNewAllowedEvent);
+        if ($isNewAllowedEvent->isAllowed() === false) {
+            throw new \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException(
+                'Creating new poll is denied.',
+                1755785539
+            );
+        }
 
         $newOptions = [];
         /** @var Request|null $originalRequest */
         $originalRequest = $this->request->getOriginalRequest();
         if ($originalRequest) {
-            $newOptions = $this->request->getOriginalRequest()->getArgument('poll')['options'];
+            $newOptions = $this->request->getOriginalRequest()->getArgument('poll')['options'] ?? [];
         }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'new', [
-            'poll' => $poll,
-            'publishDirectly' => $publishDirectly,
-            'newOptions' => $newOptions,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+        $newPollEvent = new NewPollEvent($poll, $publishDirectly, $newOptions, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($newPollEvent);
 
         $this->view->assign('poll', $poll);
-        $this->view->assign('publishDirectly', $signal['publishDirectly']);
-        if (!empty($signal['newOptions'])) {
-            $this->view->assign('newOptions', $signal['newOptions']);
+        $this->view->assign('publishDirectly', $newPollEvent->getPublishDirectly());
+        if (!empty($newPollEvent->getNewOptions())) {
+            $this->view->assign('newOptions', $newPollEvent->getNewOptions());
         }
+        return $this->htmlResponse();
     }
 
     public function initializeCreateAction(): void
@@ -592,17 +807,27 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator", param="acceptTerms")
+     * @throws CreatePollDeniedException
      */
     public function createAction(
-        \FGTCLB\T3oodle\Domain\Model\BasePoll $poll,
+        BasePoll $poll,
         bool $publishDirectly,
         bool $acceptTerms = false
-    ): void {
+    ): ResponseInterface {
         if ($poll->isSimplePoll()) {
-            $this->pollPermission->isAllowed($poll, 'newSimplePoll', true);
+            $createAllowed = $this->pollPermission->isAllowed($poll, 'newSimplePoll');
         } else {
-            $this->pollPermission->isAllowed($poll, 'newSchedulePoll', true);
+            $createAllowed = $this->pollPermission->isAllowed($poll, 'newSchedulePoll');
         }
+        $createAllowedEvent = new CreatePollAllowedEvent($poll, $createAllowed, $this);
+        $this->eventDispatcher->dispatch($createAllowedEvent);
+        if (!$createAllowedEvent->isAllowed()) {
+            throw new CreatePollDeniedException(
+                'Create poll is not allowed!',
+                1753717776
+            );
+        }
+
         if (!$this->currentUser) {
             if (!$this->currentUserIdent) {
                 $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
@@ -613,107 +838,129 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $poll->setAuthor($this->currentUser);
             $poll->setAuthorIdent($this->currentUserIdent);
         }
+        $createBeforeEvent = new CreateBeforeEvent($poll, $publishDirectly, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($createBeforeEvent);
 
-        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createBefore', [
-            'poll' => $poll,
-            'publishDirectly' => $publishDirectly,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
-
-        if ($signalBefore['continue']) {
+        $response = (new ForwardResponse($publishDirectly ? 'publish' : 'show'))
+            ->withControllerName('Poll')
+            ->withExtensionName('t3oodle')
+            ->withArguments(['poll' => $poll]);
+        if ($createBeforeEvent->getContinue()) {
             $this->pollRepository->add($poll);
 
-            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-            $persistenceManager->persistAll();
+            $this->persistenceManager->persistAll();
 
-            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'createAfter', [
-                'poll' => $poll,
-                'publishDirectly' => $publishDirectly,
-                'continue' => true,
-                'settings' => $this->settings,
-                'caller' => $this,
-            ]);
+            $createAfterEvent = new CreateAfterEvent(
+                $poll,
+                $publishDirectly,
+                true,
+                $this->settings,
+                $this,
+                $response
+            );
+            $this->eventDispatcher->dispatch($createAfterEvent);
 
-            if ($signalAfter['continue']) {
+            if ($createAfterEvent->getContinue()) {
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyCreated', [$poll->getTitle()]),
                     '',
                     AbstractMessage::OK
                 );
-                if ($publishDirectly) {
-                    $this->forward('publish', null, null, ['poll' => $poll]);
-                }
-                $this->redirect('show', null, null, ['poll' => $poll->getUid()]);
             }
+            $response = $createAfterEvent->getResponse();
         }
+        return $response;
     }
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
+     * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
+     * @throws PublishPollDeniedException
      */
-    public function publishAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function publishAction(BasePoll $poll): ResponseInterface
     {
-        $this->pollPermission->isAllowed($poll, 'publish', true);
+        $publishAllowed = $this->pollPermission->isAllowed($poll, 'publish');
+        $publishAllowedEvent = new PublishPollAllowedEvent($poll, $publishAllowed, $this);
+        $this->eventDispatcher->dispatch($publishAllowedEvent);
+        if (!$publishAllowedEvent->isAllowed()) {
+            throw new PublishPollDeniedException(
+                'Publish poll is not allowed!',
+                1753717962
+            );
+        }
         $poll->setPublishDate(DateTimeUtility::now());
         $poll->setIsPublished(true);
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'publish', [
-            'poll' => $poll,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $publishPollEvent = new PublishPollEvent($poll, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($publishPollEvent);
 
-        if ($signal['continue']) {
+        if ($publishPollEvent->getContinue()) {
             $this->pollRepository->update($poll);
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.successfullyPublished', [$poll->getTitle()]),
                 '',
                 AbstractMessage::OK
             );
-            $this->redirect('show', null, null, ['poll' => $poll]);
+            return (new ForwardResponse('show'))
+                ->withControllerName('Poll')
+                ->withExtensionName('t3oodle')
+                ->withArguments(['poll' => $poll]);
         }
+        return $this->htmlResponse();
     }
 
     /**
      * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
+     * @throws EditPollDeniedException
      */
-    public function editAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function editAction(BasePoll $poll): ResponseInterface
     {
-        $this->pollPermission->isAllowed($poll, 'edit', true);
+        $editAllowed = $this->pollPermission->isAllowed($poll, 'edit');
+        $editAllowedEvent = new EditPollAllowedEvent($poll, $editAllowed, $this);
+        $this->eventDispatcher->dispatch($editAllowedEvent);
+        if (!$editAllowedEvent->isAllowed()) {
+            throw new EditPollDeniedException(
+                'Edit poll is not allowed!',
+                1753718072
+            );
+        }
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'edit', [
-            'poll' => $poll,
-            'settings' => $this->settings,
-            'view' => $this->view,
-            'caller' => $this,
-        ]);
+        $editPollEvent = new EditPollEvent($poll, $this->settings, $this->view, $this);
+        $this->eventDispatcher->dispatch($editPollEvent);
 
         $this->view->assign('poll', $poll);
+        return $this->htmlResponse();
     }
 
     /**
+     * @throws EditPollDeniedException
+     * @todo Ensure proper return type is set
+     *
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
-    public function updateAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function updateAction(BasePoll $poll): ResponseInterface
     {
-        $this->pollPermission->isAllowed($poll, 'edit', true);
+        $editAllowed = $this->pollPermission->isAllowed($poll, 'edit');
+        $editAllowedEvent = new EditPollAllowedEvent($poll, $editAllowed, $this);
+        $this->eventDispatcher->dispatch($editAllowedEvent);
+        if (!$editAllowedEvent->isAllowed()) {
+            throw new EditPollDeniedException(
+                'Edit poll is not allowed!',
+                1753718103
+            );
+        }
 
         $voteCount = count($poll->getVotes());
         $optionsModified = $poll->areOptionsModified();
 
-        $signalBefore = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateBefore', [
-            'poll' => $poll,
-            'voteCount' => $voteCount,
-            'areOptionsModified' => $optionsModified,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $updateBeforeEvent = new UpdateBeforeEvent($poll, $voteCount, $optionsModified, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($updateBeforeEvent);
 
-        if ($signalBefore['continue']) {
+        $response = new RedirectResponse(
+            $this->uriBuilder->uriFor('edit', ['poll' => $poll])
+        );
+
+        if ($updateBeforeEvent->getContinue()) {
             if ($voteCount > 0 && $optionsModified) {
                 foreach ($poll->getVotes() as $vote) {
                     $this->voteRepository->remove($vote);
@@ -722,51 +969,63 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->removeMarkedPollOptions($poll);
             $this->pollRepository->update($poll);
 
-            $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-            $persistenceManager->persistAll();
+            $this->persistenceManager->persistAll();
 
-            $signalAfter = $this->signalSlotDispatcher->dispatch(__CLASS__, 'updateAfter', [
-                'poll' => $poll,
-                'voteCount' => $voteCount,
-                'areOptionsModified' => $optionsModified,
-                'continue' => true,
-                'settings' => $this->settings,
-                'caller' => $this,
-            ]);
+            $updateAfterEvent = new UpdateAfterEvent(
+                $poll,
+                $voteCount,
+                $optionsModified,
+                true,
+                $this->settings,
+                $this,
+                $response
+            );
+            $this->eventDispatcher->dispatch($updateAfterEvent);
 
-            if ($signalAfter['continue']) {
+            $response = $updateAfterEvent->getResponse();
+
+            if ($updateAfterEvent->getContinue()) {
                 $this->addFlashMessage(TranslateUtility::translate('flash.successfullyUpdated', [$poll->getTitle()]));
-                if ($signalAfter['voteCount'] > 0 && $signalAfter['areOptionsModified']) {
+                if ($updateAfterEvent->getVoteCount() > 0 && $updateAfterEvent->getAreOptionsModified()) {
                     $this->addFlashMessage(
-                        TranslateUtility::translate('flash.noticeRemovedVotes', [$signalAfter['voteCount']]),
+                        TranslateUtility::translate('flash.noticeRemovedVotes', [$updateAfterEvent->getVoteCount()]),
                         '',
                         AbstractMessage::WARNING
                     );
                 }
-                $this->redirect('show', null, null, ['poll' => $poll]);
             }
         }
+        return $response;
     }
 
     /**
+     * @throws DeletePollDeniedException
+     * @todo Ensure proper return type is set
+     *
      * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
-    public function deleteAction(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function deleteAction(BasePoll $poll): ResponseInterface
     {
-        $this->pollPermission->isAllowed($poll, 'delete', true);
+        $deleteAllowed = $this->pollPermission->isAllowed($poll, 'delete', true);
+        $deleteAllowedEvent = new DeletePollAllowedEvent($poll, $deleteAllowed, $this);
+        $this->eventDispatcher->dispatch($deleteAllowedEvent);
+        if (!$deleteAllowedEvent->isAllowed()) {
+            throw new DeletePollDeniedException(
+                'Delete poll is not allowed!',
+                1753718244
+            );
+        }
 
-        $signal = $this->signalSlotDispatcher->dispatch(__CLASS__, 'delete', [
-            'poll' => $poll,
-            'continue' => true,
-            'settings' => $this->settings,
-            'caller' => $this,
-        ]);
+        $deletePollEvent = new DeletePollEvent($poll, true, $this->settings, $this);
+        $this->eventDispatcher->dispatch($deletePollEvent);
 
-        if ($signal['continue']) {
+        if ($deletePollEvent->getContinue()) {
             $this->pollRepository->remove($poll);
             $this->addFlashMessage(TranslateUtility::translate('flash.successfullyDeleted', [$poll->getTitle()]));
-            $this->redirect('list');
         }
+        return new RedirectResponse(
+            $this->uriBuilder->uriFor('list')
+        );
     }
 
     public function getContentObjectRow(): ?array
@@ -774,18 +1033,15 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         return $this->configurationManager->getContentObject()->data;
     }
 
-    protected function removeMarkedPollOptions(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    protected function removeMarkedPollOptions(BasePoll $poll): void
     {
-        /** @var PersistenceManager $persistenceManager */
-        $persistenceManager = $this->objectManager->get(PersistenceManager::class);
-
         foreach ($poll->getOptions()->toArray() as $option) {
             // ->toArray() was necessary, because otherwise $poll->getOptions() did not return all items properly.
             if ($option->isMarkToDelete()) {
                 $poll->removeOption($option);
-                $persistenceManager->remove($option);
+                $this->persistenceManager->remove($option);
             } else {
-                $option->getUid() ? $persistenceManager->update($option) : $persistenceManager->add($option);
+                $option->getUid() ? $this->persistenceManager->update($option) : $this->persistenceManager->add($option);
             }
         }
     }
@@ -816,7 +1072,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         // Remove empty option entries and trim non-empty ones
         if ($this->request->hasArgument('poll') && is_array($this->request->getArgument('poll'))) {
             $poll = $this->request->getArgument('poll');
-            $pollOptions = $poll['options'];
+            $pollOptions = $poll['options'] ?? [];
             if ($pollOptions) {
                 $lastSorting = 0;
                 foreach ($pollOptions as $index => $pollOption) {
@@ -832,12 +1088,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                             $lastSorting = $pollOption['sorting'];
                         }
                     }
-                    if ('' === $pollOption['__identity']) {
+                    $__identity = $pollOption['__identity'] ?? '';
+                    if ($__identity === '') {
                         unset($poll['options'][$index]['__identity']);
                     }
                 }
             }
-            if (is_array($poll['options'])) {
+            if (isset($poll['options']) && is_array($poll['options'])) {
                 $poll['options'] = array_values($poll['options']);
             }
             $this->request->setArgument('poll', $poll);
@@ -880,7 +1137,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($this->arguments->hasArgument('option') && $this->request->hasArgument('option')) {
             $option = $this->request->getArgument('option');
             if (is_numeric($option) && $this->arguments->hasArgument('suggestionDto')) {
-                /** @var \FGTCLB\T3oodle\Domain\Model\Option $option */
+                /** @var Option $option */
                 $option = $this->optionRepository->findByUid((int)$option);
                 $poll = $option->getPoll()->getUid();
             }
@@ -900,10 +1157,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 if (!is_array($poll)) {
                     return;
                 }
-                $pollType = $poll['type'];
+                $pollType = $poll['type'] ?? false;
             }
 
-            if (false !== stripos($pollType, 'schedule')) {
+            if (stripos($pollType, 'schedule') !== false) {
                 $this->settings['_calendarLocale'] = json_encode([
                     'weekdays' => [
                         'shorthand' => [

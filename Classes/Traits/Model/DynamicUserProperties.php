@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Traits\Model;
 
@@ -10,6 +10,7 @@ namespace FGTCLB\T3oodle\Traits\Model;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Utility\SettingsUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 
@@ -34,7 +35,10 @@ trait DynamicUserProperties
         bool $showHintWhenEmpty = true
     ): string {
         if (!in_array($pluginSetting, ['name', 'mail'])) {
-            throw new \InvalidArgumentException('$pluginSetting argument only allows values "name" or "mail".');
+            throw new \InvalidArgumentException(
+                '$pluginSetting argument only allows values "name" or "mail".',
+                1727787679
+            );
         }
         if (!self::$typoscriptSettings) {
             self::$typoscriptSettings = SettingsUtility::getTypoScriptSettings();
@@ -63,11 +67,22 @@ trait DynamicUserProperties
         $pool = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class);
         $connection = $pool->getConnectionForTable('fe_users');
         $queryBuilder = $connection->createQueryBuilder();
-        self::$userRowCache[$uid] = $queryBuilder
+        $result = $queryBuilder
             ->select('uid', self::$typoscriptSettings['frontendUserNameField'])
             ->from('fe_users')
-            ->where($queryBuilder->expr()->eq('uid', $uid))
-            ->execute()->fetch(\PDO::FETCH_ASSOC);
+            ->where($queryBuilder->expr()->eq(
+                'uid',
+                $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
+            ))
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
+
+        if ($result === false) {
+            return null;
+        }
+
+        self::$userRowCache[$uid] = $result;
 
         return self::$userRowCache[$uid];
     }

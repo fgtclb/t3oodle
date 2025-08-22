@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\ViewHelpers\Math;
 
@@ -17,7 +17,7 @@ class AddViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('subject', 'int', 'Subject');
         $this->registerArgument('number', 'int', 'Number to add to subject', true);
@@ -27,7 +27,7 @@ class AddViewHelper extends AbstractViewHelper
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
+    ): int {
         $subject = $arguments['subject'] ?? $renderChildrenClosure();
 
         return (int)$subject + (int)$arguments['number'];

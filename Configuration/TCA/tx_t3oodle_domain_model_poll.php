@@ -26,16 +26,11 @@ return [
             'fe_group' => 'fe_group',
         ],
         'searchFields' => 'title,description,link,slug,author,author_name,author_mail',
-        'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_poll.gif'
-    ],
-    'interface' => [
-        'showRecordFieldList' => 'hidden, title, type, slug, visibility, is_published, publish_date, ' .
-            'author, author_name, author_mail, author_ident, options, fe_group, votes, ' .
-            'is_finished, finish_date, final_option',
+        'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_poll.gif',
     ],
     'types' => [
         '0' => [
-            'showitem' => 'type'
+            'showitem' => 'type, slug',
         ],
         \FGTCLB\T3oodle\Domain\Model\SimplePoll::class => [
             'showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, --palette--;;suggestmode, ' .
@@ -43,7 +38,7 @@ return [
                               '--div--;' . $ll('tab.settings') . ',--palette--;Settings;settings, ' .
                               '--div--;' . $ll('tab.votes') . ', votes, ' .
                               '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, ' .
-                              'hidden, starttime, endtime, fe_group'
+                              'hidden, starttime, endtime, fe_group',
         ],
         \FGTCLB\T3oodle\Domain\Model\SchedulePoll::class => [
             'showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, --palette--;;suggestmode, ' .
@@ -51,29 +46,29 @@ return [
                           '--div--;' . $ll('tab.settings') . ',--palette--;Settings;settings, ' .
                           '--div--;' . $ll('tab.votes') . ', votes, ' .
                           '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, ' .
-                          'hidden, starttime, endtime, fe_group'
+                          'hidden, starttime, endtime, fe_group',
         ],
     ],
     'palettes' => [
         'general' => [
-            'showitem' => 'type, visibility'
+            'showitem' => 'type, visibility',
         ],
         'author' => [
-            'showitem' => 'author,--linebreak--,author_name,author_mail,author_ident'
+            'showitem' => 'author,--linebreak--,author_name,author_mail,author_ident',
         ],
         'settings' => [
             'showitem' => 'setting_tristate_checkbox, --linebreak--, setting_min_votes_per_participant,setting_max_votes_per_participant, --linebreak--, ' .
                 'setting_max_votes_per_option, --linebreak--, setting_secret_participants, setting_secret_votings, setting_super_secret_mode, ' .
-                '--linebreak--, setting_voting_expires_date, setting_voting_expires_time'
+                '--linebreak--, setting_voting_expires_date, setting_voting_expires_time',
         ],
         'publishing' => [
-            'showitem' => 'is_published, publish_date'
+            'showitem' => 'is_published, publish_date',
         ],
         'finishing' => [
-            'showitem' => 'is_finished, finish_date, final_option'
+            'showitem' => 'is_finished, finish_date, final_option',
         ],
         'suggestmode' => [
-            'showitem' => 'suggest_mode_enabled, is_suggest_mode_finished'
+            'showitem' => 'suggest_mode_enabled, is_suggest_mode_finished',
         ],
     ],
     'columns' => [
@@ -87,8 +82,8 @@ return [
                     [
                         0 => '',
                         1 => '',
-                        'invertStateDisplay' => true
-                    ]
+                        'invertStateDisplay' => true,
+                    ],
                 ],
             ],
         ],
@@ -101,8 +96,8 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'endtime' => [
@@ -114,11 +109,11 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'fe_group' => [
@@ -133,22 +128,21 @@ return [
                 'items' => [
                     [
                         'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login',
-                        -1
+                        -1,
                     ],
                     [
                         'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.any_login',
-                        -2
+                        -2,
                     ],
                     [
                         'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.usergroups',
-                        '--div--'
-                    ]
+                        '--div--',
+                    ],
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
-                'enableMultiSelectFilterTextfield' => true
-            ]
+            ],
         ],
         'crdate' => [
             'exclude' => true,
@@ -178,7 +172,7 @@ return [
                 'default' => \FGTCLB\T3oodle\Domain\Model\SimplePoll::class,
                 'size' => 1,
                 'maxitems' => 1,
-                'eval' => 'required'
+                'eval' => 'required',
             ],
         ],
         'title' => [
@@ -187,7 +181,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required'
+                'eval' => 'trim,required',
             ],
         ],
         'description' => [
@@ -197,7 +191,7 @@ return [
                 'type' => 'text',
                 'cols' => 30,
                 'rows' => 5,
-                'eval' => 'trim'
+                'eval' => 'trim',
             ],
         ],
         'link' => [
@@ -206,11 +200,11 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim'
+                'eval' => 'trim',
             ],
         ],
         'slug' => [
-            'exclude' => true,
+            'exclude' => false,
             'label' => $ll('slug'),
             'config' => [
                 'type' => 'slug',
@@ -218,12 +212,12 @@ return [
                 'generatorOptions' => [
                     'fields' => ['title'],
                     'replacements' => [
-                        '/' => '-'
+                        '/' => '-',
                     ],
                 ],
                 'fallbackCharacter' => '-',
                 'eval' => 'uniqueInPid',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'visibility' => [
@@ -238,7 +232,7 @@ return [
                 'default' => \FGTCLB\T3oodle\Domain\Enumeration\Visibility::LISTED,
                 'size' => 1,
                 'maxitems' => 1,
-                'eval' => 'required'
+                'eval' => 'required',
             ],
         ],
         'author' => [
@@ -250,7 +244,7 @@ return [
                 'foreign_table' => 'fe_users',
                 'maxitems' => 1,
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
             ],
         ],
@@ -260,7 +254,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim'
+                'eval' => 'trim',
             ],
         ],
         'author_mail' => [
@@ -269,7 +263,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,email'
+                'eval' => 'trim,email',
             ],
         ],
         'author_ident' => [
@@ -279,7 +273,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
         'options' => [
@@ -296,7 +290,7 @@ return [
                     'levelLinksPosition' => 'top',
                     'showSynchronizationLink' => 1,
                     'showPossibleLocalizationRecords' => 1,
-                    'showAllLocalizationLink' => 1
+                    'showAllLocalizationLink' => 1,
                 ],
             ],
         ],
@@ -305,7 +299,7 @@ return [
             'label' => $ll('suggest_mode_enabled'),
             'config' => [
                 'type' => 'check',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'is_suggest_mode_finished' => [
@@ -313,7 +307,7 @@ return [
             'label' => $ll('is_suggest_mode_finished'),
             'config' => [
                 'type' => 'check',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'votes' => [
@@ -332,8 +326,8 @@ return [
                     'showPossibleLocalizationRecords' => 1,
                     'showAllLocalizationLink' => 1,
                     'enabledControls' => [
-                        'new' => false
-                    ]
+                        'new' => false,
+                    ],
                 ],
             ],
 
@@ -343,7 +337,7 @@ return [
             'label' => $ll('setting_tristate_checkbox'),
             'config' => [
                 'type' => 'check',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'setting_max_votes_per_option' => [
@@ -353,7 +347,7 @@ return [
                 'type' => 'input',
                 'eval' => 'int',
                 'default' => '0',
-                'size' => 3
+                'size' => 3,
             ],
         ],
         'setting_max_votes_per_participant' => [
@@ -363,7 +357,7 @@ return [
                 'type' => 'input',
                 'eval' => 'int',
                 'default' => '0',
-                'size' => 3
+                'size' => 3,
             ],
         ],
         'setting_min_votes_per_participant' => [
@@ -373,7 +367,7 @@ return [
                 'type' => 'input',
                 'eval' => 'int',
                 'default' => '0',
-                'size' => 3
+                'size' => 3,
             ],
         ],
         'setting_secret_participants' => [
@@ -381,7 +375,7 @@ return [
             'label' => $ll('setting_secret_participants'),
             'config' => [
                 'type' => 'check',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'setting_secret_votings' => [
@@ -389,7 +383,7 @@ return [
             'label' => $ll('setting_secret_votings'),
             'config' => [
                 'type' => 'check',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'setting_super_secret_mode' => [
@@ -397,7 +391,7 @@ return [
             'label' => $ll('setting_super_secret_mode'),
             'config' => [
                 'type' => 'check',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'setting_voting_expires_date' => [
@@ -409,11 +403,11 @@ return [
                 'eval' => 'date,int',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'setting_voting_expires_time' => [
@@ -425,11 +419,11 @@ return [
                 'eval' => 'time,int',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'is_published' => [
@@ -437,7 +431,7 @@ return [
             'label' => $ll('is_published'),
             'config' => [
                 'type' => 'check',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'publish_date' => [
@@ -449,11 +443,11 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'is_finished' => [
@@ -461,7 +455,7 @@ return [
             'label' => $ll('is_finished'),
             'config' => [
                 'type' => 'check',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'finish_date' => [
@@ -473,27 +467,28 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'final_option' => [
             'exclude' => true,
             'label' => $ll('final_option'),
             'config' => [
+                'default' => 0,
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_t3oodle_domain_model_option',
                 'foreign_table_where' => 'AND tx_t3oodle_domain_model_option.poll = ###THIS_UID###',
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
                 'minitems' => 0,
                 'maxitems' => 1,
             ],
-        ]
+        ],
     ],
 ];

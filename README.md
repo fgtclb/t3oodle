@@ -54,7 +54,8 @@ Prerequisites:
 echo '>> Prepare release pull-request' ; \
   RELEASE_BRANCH='master' ; \
   RELEASE_VERSION='1.0.0' ; \
-  git checkout main && \
+  REPOSITORY_DEFAULT_BRANCH="$( git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' )" ; \
+  git checkout ${REPOSITORY_DEFAULT_BRANCH} && \
   git fetch --all && \
   git pull --rebase && \
   git checkout ${RELEASE_BRANCH} && \
@@ -67,7 +68,7 @@ echo '>> Prepare release pull-request' ; \
   git commit -m "[RELEASE] ${RELEASE_VERSION}" && \
   git push --set-upstream origin prepare-release-${RELEASE_VERSION} && \
   gh pr create --fill-verbose --base ${RELEASE_BRANCH} --title "[RELEASE] ${RELEASE_VERSION} on ${RELEASE_BRANCH}" && \
-  git checkout main && \
+  git checkout  ${REPOSITORY_DEFAULT_BRANCH} && \
   git branch -D prepare-release-${RELEASE_VERSION}
 ```
 
@@ -83,7 +84,8 @@ Check pull-request and the pipeline run.
 RELEASE_BRANCH='master' ; \
 RELEASE_VERSION='1.0.0' ; \
 RELEASE_PR_NUMBER='123' ; \
-  git checkout main && \
+REPOSITORY_DEFAULT_BRANCH="$( git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' )" ; \
+  git checkout ${REPOSITORY_DEFAULT_BRANCH} && \
   git fetch --all && \
   git pull --rebase && \
   gh pr checkout ${RELEASE_PR_NUMBER} && \

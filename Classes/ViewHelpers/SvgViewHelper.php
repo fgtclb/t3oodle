@@ -12,6 +12,7 @@ namespace FGTCLB\T3oodle\ViewHelpers;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
  * Font Awesome SVG ViewHelper.
@@ -19,8 +20,10 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * Usage examples:
  * <t3oodle:svg path="Icons/clock-regular.svg" />
  */
-class SvgViewHelper extends AbstractViewHelper
+final class SvgViewHelper extends AbstractViewHelper
 {
+    use CompileWithRenderStatic;
+
     protected $escapeOutput = false;
 
     /**

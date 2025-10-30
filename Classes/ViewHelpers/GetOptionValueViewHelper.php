@@ -10,38 +10,31 @@ namespace FGTCLB\T3oodle\ViewHelpers;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Domain\Model\Option;
+use FGTCLB\T3oodle\Domain\Model\OptionValue;
 use FGTCLB\T3oodle\Domain\Model\Vote;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
-class GetOptionValueViewHelper extends AbstractViewHelper
+final class GetOptionValueViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
     public function initializeArguments(): void
     {
-        $this->registerArgument('vote', 'object', 'Vote object', false);
-        $this->registerArgument('option', 'object', 'Option object', true);
+        $this->registerArgument('option', Option::class, 'Option object', true);
+        $this->registerArgument('vote', Vote::class, 'Vote object');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render(): OptionValue
+    {
+        $option = $this->arguments['option'];
+        $renderChildrenClosure = $this->buildRenderChildrenClosure();
         /** @var Vote $vote */
-        $vote = $arguments['vote'] ?? $renderChildrenClosure();
-        /** @var Option $option */
-        $option = $arguments['option'];
-
+        $vote = $this->arguments['vote'] ?? $renderChildrenClosure();
         foreach ($vote->getOptionValues() as $key => $optionValue) {
             if ($optionValue->getOption() === $option) {
                 return $optionValue;
             }
         }
 
-        $optionValue = new \FGTCLB\T3oodle\Domain\Model\OptionValue();
+        $optionValue = new OptionValue();
         $optionValue->setOption($option);
         $optionValue->setValue('0');
 

@@ -14,22 +14,19 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
-class ParseDayOptionViewHelper extends AbstractViewHelper
+final class ParseDayOptionViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
     public function initializeArguments(): void
     {
         $this->registerArgument('value', 'string', 'Date with option as string', false);
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): array {
-        $value = $arguments['value'] ?? (string)$renderChildrenClosure();
-
-        return ScheduleOptionUtility::parseOptionName($value);
+    /**
+     * @return string[]
+     */
+    public function render(): array
+    {
+        $renderChildrenClosure = $this->buildRenderChildrenClosure();
+        return ScheduleOptionUtility::parseOptionName($this->arguments['value'] ?? $renderChildrenClosure());
     }
 }

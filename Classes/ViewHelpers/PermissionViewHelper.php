@@ -19,7 +19,13 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
 
 /**
- * @see PollPermission
+ * ViewHelper checking, if an action can be performed.
+ *
+ * @example
+ * <t3oodle:permission action="vote">
+ *     <f:then></f:then>
+ *     <f:else></f:else>
+ * </t3oodle:permission>
  */
 final class PermissionViewHelper extends AbstractConditionViewHelper
 {
@@ -48,7 +54,7 @@ final class PermissionViewHelper extends AbstractConditionViewHelper
      * @return bool
      * @throws AccessDeniedException
      */
-    public static function verdict(array $arguments, RenderingContextInterface $renderingContext)
+    public static function verdict(array $arguments, RenderingContextInterface $renderingContext): bool
     {
         $permissionClass = $arguments['permissionClassName'];
         $currentUserIdent = UserIdentUtility::getCurrentUserIdent();

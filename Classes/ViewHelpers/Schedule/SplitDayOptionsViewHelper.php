@@ -16,21 +16,17 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
-class SplitDayOptionsViewHelper extends AbstractViewHelper
+final class SplitDayOptionsViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
     public function initializeArguments(): void
     {
         $this->registerArgument('get', 'string', '"dates" or "options" allowed', true);
         $this->registerArgument('options', 'array', 'Iterable with options', false);
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): array {
+    public function render(): array
+    {
+        $renderChildrenClosure = $this->buildRenderChildrenClosure();
         $options = $arguments['options'] ?? $renderChildrenClosure();
         if (!$options || !is_iterable($options)) {
             throw new \InvalidArgumentException(
@@ -38,20 +34,19 @@ class SplitDayOptionsViewHelper extends AbstractViewHelper
                 1727787635
             );
         }
-
         $items = [];
         /** @var Option|array $option */
         foreach ($options as $option) {
             $name = is_array($option) ? $option['name'] : $option->getName();
             $parts = GeneralUtility::trimExplode(ScheduleOptionUtility::DAY_OPTION_DELIMITER, $name, true, 2);
             if (count($parts) === 2) {
-                if ($arguments['get'] === 'options') {
+                if ($this->arguments['get'] === 'options') {
                     $items[] = $parts[1];
                 } else {
                     $items[] = $parts[0];
                 }
             } else {
-                if ($arguments['get'] !== 'options') {
+                if ($this->arguments['get'] !== 'options') {
                     $items[] = $name;
                 }
             }

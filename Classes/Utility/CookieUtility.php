@@ -9,6 +9,9 @@ namespace FGTCLB\T3oodle\Utility;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 final class CookieUtility
 {
     private const COOKIE_PREFIX = 'tx_t3oodle_';
@@ -16,12 +19,8 @@ final class CookieUtility
 
     /**
      * Get cookie value.
-     *
-     * @param string $key
-     *
-     * @return string|null
      */
-    public static function get($key)
+    public static function get(string $key): ?string
     {
         if (isset($_COOKIE[self::COOKIE_PREFIX . $key])) {
             return $_COOKIE[self::COOKIE_PREFIX . $key];
@@ -32,11 +31,8 @@ final class CookieUtility
 
     /**
      * Set cookie value.
-     *
-     * @param string $key
-     * @param string $value
      */
-    public static function set($key, $value): void
+    public static function set(string $key, string $value): void
     {
         $cookieExpireDate = time() + self::COOKIE_LIFETIME_DAYS * 24 * 60 * 60;
         setcookie(
@@ -54,7 +50,7 @@ final class CookieUtility
      *
      * @return string The domain to be used on setting cookies
      */
-    private static function getCookieDomain()
+    private static function getCookieDomain(): string
     {
         $result = '';
         $cookieDomain = $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieDomain'];
@@ -66,7 +62,7 @@ final class CookieUtility
                 $match = [];
                 $matchCnt = @preg_match(
                     $cookieDomain,
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY'),
+                    GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY'),
                     $match
                 );
                 if ($matchCnt !== false) {

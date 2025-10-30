@@ -6,10 +6,6 @@
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 
-$ll = FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
-    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.'
-);
-
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option',
@@ -22,6 +18,9 @@ return [
         'delete' => 'deleted',
         'searchFields' => 'name',
         'iconfile' => 'EXT:t3oodle/Resources/Public/Icons/tx_t3oodle_domain_model_option.gif',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ],
     ],
     'types' => [
         '1' => [
@@ -58,7 +57,7 @@ return [
         ],
         'name' => [
             'exclude' => true,
-            'label' => $ll('name'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.name',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -67,7 +66,7 @@ return [
         ],
         'creator' => [
             'exclude' => true,
-            'label' => $ll('creator'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.creator',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -81,7 +80,7 @@ return [
         ],
         'creator_name' => [
             'exclude' => true,
-            'label' => $ll('creator_name'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.creator_name',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -91,7 +90,7 @@ return [
         ],
         'creator_mail' => [
             'exclude' => true,
-            'label' => $ll('creator_mail'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.creator_mail',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -101,7 +100,7 @@ return [
         ],
         'creator_ident' => [
             'exclude' => true,
-            'label' => $ll('creator_ident'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.creator_ident',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -111,7 +110,7 @@ return [
         ],
         'poll' => [
             'exclude' => true,
-            'label' => $ll('poll'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.poll',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

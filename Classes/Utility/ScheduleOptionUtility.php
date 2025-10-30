@@ -12,7 +12,7 @@ namespace FGTCLB\T3oodle\Utility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Error;
 
-class ScheduleOptionUtility
+final class ScheduleOptionUtility
 {
     public const DAY_OPTION_DELIMITER = ' - ';
 

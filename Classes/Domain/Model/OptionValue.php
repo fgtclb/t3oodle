@@ -17,12 +17,12 @@ class OptionValue extends AbstractEntity
     protected $value = '';
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\Option
+     * @var Option
      */
     protected $option;
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\Vote
+     * @var Vote
      */
     protected $vote;
 

@@ -17,8 +17,10 @@ use FGTCLB\T3oodle\Domain\Model\Vote;
 use FGTCLB\T3oodle\Service\UserService;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+#[Exclude]
 class PollPermission
 {
     private string $currentUserIdent;

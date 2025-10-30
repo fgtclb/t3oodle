@@ -13,15 +13,13 @@ final class TcaGeneratorUtility
 {
     /**
      * Returns a ready to use array, for TCA (e.g for "items" property, in type select), based on defined constants.
-     *
-     * @param mixed|int|string $emptyValue
      * @param string           $labelPrefix If empty, getHumanReadableName() is called, otherwise this label prefix (e.g.
      *                                      "LLL:EXT:../locallang.xlf:") is used together with the name of the constant.
      */
     public static function getItemListForEnumeration(
         string $enumeration,
         bool $showEmptyValue = false,
-        $emptyValue = 0,
+        int|string $emptyValue = 0,
         string $emptyLabel = '',
         string $labelPrefix = ''
     ): array {
@@ -37,34 +35,5 @@ final class TcaGeneratorUtility
         }
 
         return $items;
-    }
-
-    /**
-     * Provides anonymous closure function to prefix locallang key.
-     *
-     * Usage in TCA:
-     *
-     * $ll = FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
-     *     'LLL:EXT:yourext/Resources/Private/Language/locallang_db.xlf:'
-     * );
-     *
-     * ...
-     *
-     * [
-     *     'label' => $ll('pages.tx_rooms_version'),
-     *     'config' => [...]
-     * ]
-     */
-    public static function getLocallangClosureFunction(string $prefix): \Closure
-    {
-        /*
-         * Prepends given prefix to key.
-         *
-         * @param string $key
-         * @return string Given key prepended with prefix
-         */
-        return static function (string $key) use ($prefix): string {
-            return $prefix . $key;
-        };
     }
 }

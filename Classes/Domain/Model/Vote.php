@@ -9,6 +9,7 @@ namespace FGTCLB\T3oodle\Domain\Model;
  */
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class Vote extends AbstractEntity
 {
@@ -35,18 +36,18 @@ class Vote extends AbstractEntity
     protected $participantIdent = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\OptionValue>
+     * @var ObjectStorage<OptionValue>
      */
     protected $optionValues;
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\BasePoll
+     * @var BasePoll
      */
     protected $poll;
 
-    public function __construct()
+    public function initializeObject(): void
     {
-        $this->optionValues = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->optionValues = new ObjectStorage();
     }
 
     public function getParticipant(): ?\TYPO3\CMS\Extbase\Domain\Model\FrontendUser
@@ -98,14 +99,14 @@ class Vote extends AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage|OptionValue[]
+     * @return ObjectStorage<OptionValue>
      */
-    public function getOptionValues(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    public function getOptionValues(): ObjectStorage
     {
         return $this->optionValues;
     }
 
-    public function setOptionValues(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $optionValues): void
+    public function setOptionValues(ObjectStorage $optionValues): void
     {
         $this->optionValues = $optionValues;
     }

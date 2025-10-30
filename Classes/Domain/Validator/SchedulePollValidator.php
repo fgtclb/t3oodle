@@ -27,7 +27,7 @@ class SchedulePollValidator extends SimplePollValidator
         $this->result = $result;
     }
 
-    public function validate($value)
+    public function validate($value): Result
     {
         if ($this->acceptsEmptyValues === false || $this->isEmpty($value) === false) {
             $this->isValid($value);
@@ -41,7 +41,7 @@ class SchedulePollValidator extends SimplePollValidator
      *
      * @return bool
      */
-    protected function isValid($value)
+    protected function isValid(mixed $value): bool
     {
         if (!$value) {
             return true;

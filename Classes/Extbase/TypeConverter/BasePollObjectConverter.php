@@ -10,9 +10,11 @@ namespace FGTCLB\T3oodle\Extbase\TypeConverter;
  *  | (c) 2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
 
+#[Autoconfigure(public: true)]
 class BasePollObjectConverter extends PersistentObjectConverter
 {
     protected $targetType = BasePoll::class;

@@ -12,7 +12,7 @@ namespace FGTCLB\T3oodle\Utility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 
-class SettingsUtility
+final class SettingsUtility
 {
     /**
      * @var array|null

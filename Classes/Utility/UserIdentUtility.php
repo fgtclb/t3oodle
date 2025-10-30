@@ -13,12 +13,12 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\UserAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class UserIdentUtility
+final class UserIdentUtility
 {
     /**
      * @var string|null
      */
-    private static $currentUserIdent;
+    private static ?string $currentUserIdent;
 
     public static function getCurrentUserIdent(): ?string
     {

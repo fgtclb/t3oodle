@@ -16,6 +16,7 @@ use FGTCLB\T3oodle\Utility\SettingsUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 abstract class BasePoll extends AbstractEntity
 {
@@ -78,7 +79,7 @@ abstract class BasePoll extends AbstractEntity
     protected $authorIdent = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Option>
+     * @var ObjectStorage<Option>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $options;
@@ -159,12 +160,12 @@ abstract class BasePoll extends AbstractEntity
     protected $finishDate;
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\Option
+     * @var Option
      */
     protected $finalOption;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Vote>
+     * @var ObjectStorage<Vote>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $votes;
@@ -174,11 +175,11 @@ abstract class BasePoll extends AbstractEntity
      */
     protected static $availableOptionsCache;
 
-    public function __construct()
+    public function initializeObject(): void
     {
         $this->type = static::class;
-        $this->options = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-        $this->votes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->options = new ObjectStorage();
+        $this->votes = new ObjectStorage();
     }
 
     public function getType(): string
@@ -312,13 +313,13 @@ abstract class BasePoll extends AbstractEntity
     /**
      * @param bool $skipMarkedToDeleted When true, only options are returned, which are not marked to get deleted
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options
+     * @return ObjectStorage $options
      */
-    public function getOptions(bool $skipMarkedToDeleted = false): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    public function getOptions(bool $skipMarkedToDeleted = false): ObjectStorage
     {
         if ($skipMarkedToDeleted) {
-            /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options */
-            $options = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Persistence\ObjectStorage::class);
+            /** @var ObjectStorage $options */
+            $options = GeneralUtility::makeInstance(ObjectStorage::class);
             foreach ($this->options as $option) {
                 if (!$option->isMarkToDelete()) {
                     $options->attach($option);
@@ -331,7 +332,7 @@ abstract class BasePoll extends AbstractEntity
         return $this->options;
     }
 
-    public function setOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $options): void
+    public function setOptions(ObjectStorage $options): void
     {
         $this->options = $options;
     }
@@ -482,17 +483,17 @@ abstract class BasePoll extends AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Vote>
+     * @return ObjectStorage<Vote>
      */
-    public function getVotes(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    public function getVotes(): ObjectStorage
     {
         return $this->votes;
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FGTCLB\T3oodle\Domain\Model\Vote> $votes
+     * @param ObjectStorage<Vote> $votes
      */
-    public function setVotes(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $votes): void
+    public function setVotes(ObjectStorage $votes): void
     {
         $this->votes = $votes;
     }
@@ -626,7 +627,7 @@ abstract class BasePoll extends AbstractEntity
         return false;
     }
     /**
-     * @return \FGTCLB\T3oodle\Domain\Model\Option[]
+     * @return Option[]
      */
     public function getAvailableOptions(): array
     {

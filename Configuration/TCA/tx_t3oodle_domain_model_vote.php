@@ -6,10 +6,6 @@
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 
-$ll = FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
-    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.'
-);
-
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote',
@@ -34,7 +30,7 @@ return [
     'columns' => [
         'participant' => [
             'exclude' => true,
-            'label' => $ll('participant'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.participant',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -48,7 +44,7 @@ return [
         ],
         'participant_name' => [
             'exclude' => true,
-            'label' => $ll('participant_name'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.participant_name',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -58,7 +54,7 @@ return [
         ],
         'participant_mail' => [
             'exclude' => true,
-            'label' => $ll('participant_mail'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.participant_mail',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -68,7 +64,7 @@ return [
         ],
         'participant_ident' => [
             'exclude' => true,
-            'label' => $ll('participant_ident'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.participant_ident',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -78,7 +74,7 @@ return [
         ],
         'option_values' => [
             'exclude' => true,
-            'label' => $ll('option_values'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.option_values',
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_t3oodle_domain_model_optionvalue',
@@ -97,7 +93,7 @@ return [
         ],
         'poll' => [
             'exclude' => true,
-            'label' => $ll('poll'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote.poll',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

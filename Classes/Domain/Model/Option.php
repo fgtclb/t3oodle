@@ -31,7 +31,7 @@ class Option extends AbstractEntity
     protected $sorting = 0;
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\BasePoll|null
+     * @var BasePoll|null
      */
     protected $poll;
 

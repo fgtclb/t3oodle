@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FGTCLB\T3oodle\Domain\Repository;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -13,7 +15,7 @@ use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
-class OptionRepository extends Repository
+final class OptionRepository extends Repository
 {
     protected $defaultOrderings = ['sorting' => 'ASC'];
 
@@ -26,10 +28,12 @@ class OptionRepository extends Repository
             return null;
         }
         $query = $this->createQuery();
-        $query->matching($query->logicalAnd([
-            $query->equals('poll', $poll),
-            $query->equals('creatorIdent', $creatorIdent),
-        ]));
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('poll', $poll),
+                $query->equals('creatorIdent', $creatorIdent),
+            )
+        );
 
         return $query->execute();
     }

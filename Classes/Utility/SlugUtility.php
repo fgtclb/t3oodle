@@ -9,10 +9,13 @@ namespace FGTCLB\T3oodle\Utility;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class SlugUtility
+#[Exclude]
+final class SlugUtility
 {
     private SlugHelper $slugHelper;
 

@@ -6,10 +6,6 @@
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 
-$ll = FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getLocallangClosureFunction(
-    'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.'
-);
-
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue',
@@ -32,14 +28,14 @@ return [
     'columns' => [
         'value' => [
             'exclude' => true,
-            'label' => $ll('value'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    [$ll('value.0'), 0],
-                    [$ll('value.1'), 1],
-                    [$ll('value.2'), 2],
+                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value.0', 0],
+                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value.1', 1],
+                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value.2', 2],
                 ],
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -47,7 +43,7 @@ return [
         ],
         'option' => [
             'exclude' => true,
-            'label' => $ll('option'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.option',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -60,7 +56,7 @@ return [
         ],
         'vote' => [
             'exclude' => true,
-            'label' => $ll('vote'),
+            'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.vote',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

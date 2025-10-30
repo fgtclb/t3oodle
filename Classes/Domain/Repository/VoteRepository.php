@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FGTCLB\T3oodle\Domain\Repository;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -9,8 +11,9 @@ namespace FGTCLB\T3oodle\Domain\Repository;
  */
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 
-class VoteRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+final class VoteRepository extends Repository
 {
     public function findOneByPollAndParticipantIdent(BasePoll $poll, string $participantIdent): ?Vote
     {
@@ -18,10 +21,12 @@ class VoteRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             return null;
         }
         $query = $this->createQuery();
-        $query->matching($query->logicalAnd([
-            $query->equals('poll', $poll),
-            $query->equals('participantIdent', $participantIdent),
-        ]));
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('poll', $poll),
+                $query->equals('participantIdent', $participantIdent),
+            )
+        );
 
         return $query->execute()->getFirst();
     }

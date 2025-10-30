@@ -26,7 +26,7 @@ class SuggestionDtoValidator extends AbstractValidator
      *
      * @return bool
      */
-    protected function isValid($value)
+    protected function isValid(mixed $value): bool
     {
         $isValid = true;
         $suggestion = trim($value->getSuggestion());

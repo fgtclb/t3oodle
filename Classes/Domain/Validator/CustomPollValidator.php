@@ -26,7 +26,7 @@ class CustomPollValidator extends AbstractValidator
      *
      * @return bool
      */
-    protected function isValid($value)
+    protected function isValid(mixed $value): bool
     {
         if (!$value) {
             return true;

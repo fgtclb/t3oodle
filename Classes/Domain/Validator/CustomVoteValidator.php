@@ -23,7 +23,7 @@ class CustomVoteValidator extends AbstractValidator
      *
      * @return bool
      */
-    protected function isValid($value)
+    protected function isValid(mixed $value): bool
     {
         $isValid = true;
 

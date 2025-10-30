@@ -94,7 +94,7 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
-class PollController extends ActionController
+final class PollController extends ActionController
 {
     use ControllerValidatorManipulatorTrait;
 

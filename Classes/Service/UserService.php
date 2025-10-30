@@ -8,7 +8,7 @@ use FGTCLB\T3oodle\Utility\SettingsUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class UserService
+final class UserService
 {
     public function userIsAdmin(): bool
     {

@@ -12,29 +12,25 @@
     ],
     "license": "GPL-2.0-or-later",
     "require": {
-        "php": "^8.1",
-        "ext-json": "*",
-        "typo3/cms-core": "^11.5",
-        "typo3/cms-fluid-styled-content": "^11.5",
-        "georgringer/numbered-pagination": "^2.0"
-    },
+        "php": "^8.1 || ^8.2 || ^8.3 || ^8.4",
+		"ext-dom": "*",
+		"ext-json": "*",
+		"georgringer/numbered-pagination": "^2.0",
+		"typo3/cms-core": "^12.4",
+		"typo3/cms-extbase": "^12.4",
+		"typo3/cms-fluid-styled-content": "^12.4"
+	},
     "require-dev": {
-		"typo3/cms-composer-installers": "^4.0.0-RC1",
-        "typo3/minimal": "^11.5",
-        "typo3/cms-felogin": "^11.5",
-        "helhum/typo3-console": "^7.1",
         "armin/editorconfig-cli": "^1.0",
-        "friendsofphp/php-cs-fixer": "^2.18",
-        "phpstan/phpstan": "^1.8",
+        "friendsofphp/php-cs-fixer": "^3.86",
         "jangregor/phpstan-prophecy": "^1.0",
         "phpstan/phpstan": "^1.12",
         "phpstan/phpstan-phpunit": "^1.4",
         "phpunit/phpunit": "^10.5",
         "saschaegerer/phpstan-typo3": "^1.1",
-        "typo3/cms-composer-installers": "^4.0.0-RC1",
-        "typo3/cms-felogin": "^11.5",
-        "typo3/cms-tstemplate": "^11.5",
-        "typo3/testing-framework": "^7.1"
+        "typo3/cms-felogin": "^12.4",
+        "typo3/cms-install": "^12.4",
+        "typo3/testing-framework": "^8.2"
     },
     "autoload": {
         "psr-4": {
@@ -75,13 +71,5 @@
             "dev-master": "2.x-dev",
             "dev-1": "1.x-dev"
         }
-    },
-    "scripts": {
-        "cs:check": ".Build/bin/php-cs-fixer fix --config Build/php-cs-fixer/php-cs-rules.php --ansi --diff --verbose --dry-run",
-        "cs:fix": ".Build/bin/php-cs-fixer fix --config Build/php-cs-fixer/php-cs-rules.php --ansi",
-        "analyze:php": ".Build/bin/phpstan analyse --ansi --no-progress --memory-limit=768M --configuration=Build/phpstan/Core11/phpstan.neon",
-        "analyze:baseline": ".Build/bin/phpstan analyse --ansi --no-progress --memory-limit=768M --configuration=Build/phpstan/Core11/phpstan.neon --generate-baseline=Build/phpstan/Core11/phpstan-baseline.neon",
-        "lint:typoscript": ".Build/bin/typoscript-lint --ansi --config=./Build/typoscript-lint/typoscript-lint.yml",
-        "lint:php": "find .*.php *.php Classes Configuration Tests -name '*.php' -print0 | xargs -r -0 -n 1 -P 4 php -l"
     }
 }

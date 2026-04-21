@@ -17,7 +17,6 @@ use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -35,6 +34,9 @@ final class PollRepository extends Repository
         'isPublished' => 'ASC',
         'publishDate' => 'DESC',
     ];
+    public function __construct(private readonly ConnectionPool $connectionPool)
+    {
+    }
 
     public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
@@ -114,7 +116,7 @@ final class PollRepository extends Repository
     public function getPollTypeByUid(int $poll): string
     {
         /** @var ConnectionPool $pool */
-        $pool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $pool = $this->connectionPool;
         $queryBuilder = $pool->getQueryBuilderForTable('tx_t3oodle_domain_model_poll');
         $result = $queryBuilder
             ->select('type')

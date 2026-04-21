@@ -347,8 +347,7 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_max_votes_per_option',
             'config' => [
-                'type' => 'input',
-                'eval' => 'int',
+                'type' => 'number',
                 'default' => '0',
                 'size' => 3,
             ],
@@ -357,8 +356,7 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_max_votes_per_participant',
             'config' => [
-                'type' => 'input',
-                'eval' => 'int',
+                'type' => 'number',
                 'default' => '0',
                 'size' => 3,
             ],
@@ -367,8 +365,7 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.setting_min_votes_per_participant',
             'config' => [
-                'type' => 'input',
-                'eval' => 'int',
+                'type' => 'number',
                 'default' => '0',
                 'size' => 3,
             ],

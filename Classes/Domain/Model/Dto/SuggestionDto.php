@@ -19,26 +19,14 @@ class SuggestionDto
 {
     use CreatorTrait;
 
-    /**
-     * @var BasePoll|null
-     */
-    private $poll;
-
-    /**
-     * @var string
-     */
-    private $suggestion;
-
     public function __construct(
-        BasePoll $poll = null,
-        string $suggestion = '',
+        private ?BasePoll $poll = null,
+        private string $suggestion = '',
         FrontendUser $creator = null,
         string $creatorName = '',
         string $creatorMail = '',
         string $creatorIdent = ''
     ) {
-        $this->poll = $poll;
-        $this->suggestion = $suggestion;
         $this->creator = $creator;
         $this->creatorName = $creatorName;
         $this->creatorMail = $creatorMail;

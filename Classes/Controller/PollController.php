@@ -1079,7 +1079,7 @@ final class PollController extends ActionController
                     if (empty($pollOption['name'])) {
                         unset($poll['options'][$index]); // remove
                     } else {
-                        $poll['options'][$index]['name'] = trim($pollOption['name']); // trim
+                        $poll['options'][$index]['name'] = trim((string) $pollOption['name']); // trim
 
                         if (empty($pollOption['sorting'])) {
                             $lastSorting = $lastSorting * 2;

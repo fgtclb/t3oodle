@@ -10,11 +10,11 @@ use Psr\Http\Message\ResponseInterface;
 
 final class CreateAfterEvent
 {
-    private Poll $poll;
-    private bool $publishDirectly;
+    private readonly Poll $poll;
+    private readonly bool $publishDirectly;
     private bool $continue;
-    private array $settings;
-    private PollController $caller;
+    private readonly array $settings;
+    private readonly PollController $caller;
     private ResponseInterface $response;
 
     public function __construct(Poll $poll, bool $publishDirectly, bool $continue, array $settings, PollController $caller, ResponseInterface $response)

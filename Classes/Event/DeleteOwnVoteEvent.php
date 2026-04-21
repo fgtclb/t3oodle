@@ -9,11 +9,11 @@ use FGTCLB\T3oodle\Domain\Model\Vote;
 
 final class DeleteOwnVoteEvent
 {
-    private Vote $vote;
-    private string $participantName;
+    private readonly Vote $vote;
+    private readonly string $participantName;
     private bool $continue;
-    private array $settings;
-    private PollController $caller;
+    private readonly array $settings;
+    private readonly PollController $caller;
 
     public function __construct(Vote $vote, string $participantName, bool $continue, array $settings, PollController $caller)
     {

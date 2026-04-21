@@ -10,10 +10,10 @@ use FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto;
 
 final class UpdateSuggestionAllowedEvent
 {
-    private BasePoll $poll;
+    private readonly BasePoll $poll;
     private bool $allowed;
-    private PollController $controller;
-    private ?SuggestionDto $suggestionDto;
+    private readonly PollController $controller;
+    private readonly ?SuggestionDto $suggestionDto;
 
     public function __construct(
         BasePoll $poll,

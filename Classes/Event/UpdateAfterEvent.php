@@ -10,12 +10,12 @@ use Psr\Http\Message\ResponseInterface;
 
 final class UpdateAfterEvent
 {
-    private Poll $poll;
-    private int $voteCount;
-    private bool $areOptionsModified;
+    private readonly Poll $poll;
+    private readonly int $voteCount;
+    private readonly bool $areOptionsModified;
     private bool $continue;
-    private array $settings;
-    private PollController $caller;
+    private readonly array $settings;
+    private readonly PollController $caller;
     private ResponseInterface $response;
 
     public function __construct(Poll $poll, int $voteCount, bool $areOptionsModified, bool $continue, array $settings, PollController $caller, ResponseInterface $response)

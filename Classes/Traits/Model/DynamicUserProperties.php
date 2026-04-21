@@ -9,6 +9,7 @@ namespace FGTCLB\T3oodle\Traits\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -64,7 +65,7 @@ trait DynamicUserProperties
             return self::$userRowCache[$uid];
         }
 
-        $pool = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class);
+        $pool = GeneralUtility::makeInstance(ConnectionPool::class);
         $connection = $pool->getConnectionForTable('fe_users');
         $queryBuilder = $connection->createQueryBuilder();
         $result = $queryBuilder

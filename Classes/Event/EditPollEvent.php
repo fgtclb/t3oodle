@@ -9,10 +9,10 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 final class EditPollEvent
 {
-    private Poll $poll;
-    private array $settings;
-    private ViewInterface $view;
-    private object $caller;
+    private readonly Poll $poll;
+    private readonly array $settings;
+    private readonly ViewInterface $view;
+    private readonly object $caller;
 
     public function __construct(Poll $poll, array $settings, ViewInterface $view, object $caller)
     {

@@ -1,11 +1,15 @@
 <?php
 
+use FGTCLB\T3oodle\Domain\Model\SimplePoll;
+use FGTCLB\T3oodle\Domain\Model\SchedulePoll;
+use FGTCLB\T3oodle\Utility\TcaGeneratorUtility;
+use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
+
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll',
@@ -31,7 +35,7 @@ return [
         '0' => [
             'showitem' => 'type, slug',
         ],
-        \FGTCLB\T3oodle\Domain\Model\SimplePoll::class => [
+        SimplePoll::class => [
             'showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, --palette--;;suggestmode, ' .
                               '--div--;LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.tab.status, --palette--;;publishing, --palette--;;finishing, ' .
                               '--div--;LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.tab.settings,--palette--;Settings;settings, ' .
@@ -39,7 +43,7 @@ return [
                               '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, ' .
                               'hidden, starttime, endtime, fe_group',
         ],
-        \FGTCLB\T3oodle\Domain\Model\SchedulePoll::class => [
+        SchedulePoll::class => [
             'showitem' => '--palette--;;general, --palette--;;author, title, slug, description, link, options, --palette--;;suggestmode, ' .
                           '--div--;LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.tab.status, --palette--;;publishing, --palette--;;finishing, ' .
                           '--div--;LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.tab.settings,--palette--;Settings;settings, ' .
@@ -165,10 +169,10 @@ return [
                 'renderType' => 'selectSingle',
                 'items' => [
                     ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.undefined', '0'],
-                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.simple', \FGTCLB\T3oodle\Domain\Model\SimplePoll::class],
-                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.schedule', \FGTCLB\T3oodle\Domain\Model\SchedulePoll::class],
+                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.simple', SimplePoll::class],
+                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.schedule', SchedulePoll::class],
                 ],
-                'default' => \FGTCLB\T3oodle\Domain\Model\SimplePoll::class,
+                'default' => SimplePoll::class,
                 'size' => 1,
                 'maxitems' => 1,
                 'eval' => 'required',
@@ -225,10 +229,10 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => \FGTCLB\T3oodle\Utility\TcaGeneratorUtility::getItemListForEnumeration(
-                    \FGTCLB\T3oodle\Domain\Enumeration\Visibility::class
+                'items' => TcaGeneratorUtility::getItemListForEnumeration(
+                    Visibility::class
                 ),
-                'default' => \FGTCLB\T3oodle\Domain\Enumeration\Visibility::LISTED,
+                'default' => Visibility::LISTED,
                 'size' => 1,
                 'maxitems' => 1,
                 'eval' => 'required',

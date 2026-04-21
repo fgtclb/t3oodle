@@ -9,6 +9,7 @@ namespace FGTCLB\T3oodle\Domain\Validator;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\Vote;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Error;
@@ -19,7 +20,7 @@ class CustomVoteValidator extends AbstractValidator
     protected $acceptsEmptyValues = true;
 
     /**
-     * @param \FGTCLB\T3oodle\Domain\Model\Vote $value
+     * @param Vote $value
      *
      * @return bool
      */

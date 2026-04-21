@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Traits\Model;
 
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
+
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2021 Armin Vieweg <info@v.ieweg.de>
  */
-
 trait CreatorTrait
 {
     use DynamicUserProperties;
@@ -34,12 +35,12 @@ trait CreatorTrait
      */
     protected $creatorIdent = '';
 
-    public function getCreator(): ?\TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+    public function getCreator(): ?FrontendUser
     {
         return $this->creator;
     }
 
-    public function setCreator(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $creator): void
+    public function setCreator(FrontendUser $creator): void
     {
         $this->creator = $creator;
     }

@@ -23,13 +23,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 #[Exclude]
 class PollPermission
 {
-    private string $currentUserIdent;
+    private readonly string $currentUserIdent;
 
     /**
      * @var array
      */
     private array $controllerSettings;
-    private UserService $userService;
+    private readonly UserService $userService;
 
     public function __construct(string $currentUserIdent = null, array $controllerSettings = [])
     {

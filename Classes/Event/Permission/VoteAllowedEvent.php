@@ -9,9 +9,9 @@ use FGTCLB\T3oodle\Domain\Model\Vote;
 
 final class VoteAllowedEvent
 {
-    private Vote $vote;
+    private readonly Vote $vote;
     private bool $allowed;
-    private PollController $controller;
+    private readonly PollController $controller;
 
     public function __construct(
         Vote $vote,

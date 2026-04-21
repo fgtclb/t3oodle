@@ -34,9 +34,7 @@ final class CookieUtility
         setcookie(
             self::COOKIE_PREFIX . $key,
             $value,
-            $cookieExpireDate,
-            '/',
-            self::getCookieDomain()
+            ['expires' => $cookieExpireDate, 'path' => '/', 'domain' => self::getCookieDomain()]
         );
     }
 

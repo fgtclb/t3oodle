@@ -112,17 +112,11 @@ final class PollController extends ActionController
      */
     protected string $currentUserIdent = '';
     protected PollPermission $pollPermission;
-    protected PollRepository $pollRepository;
-    protected OptionRepository $optionRepository;
-    protected VoteRepository $voteRepository;
     protected FrontendUserRepository $userRepository;
     protected PersistenceManagerInterface $persistenceManager;
-    public function __construct(PersistenceManagerInterface $persistenceManager, PollRepository $pollRepository, OptionRepository $optionRepository, VoteRepository $voteRepository, FrontendUserRepository $userRepository)
+    public function __construct(PersistenceManagerInterface $persistenceManager, protected PollRepository $pollRepository, protected OptionRepository $optionRepository, protected VoteRepository $voteRepository, FrontendUserRepository $userRepository)
     {
         $this->persistenceManager = $persistenceManager;
-        $this->pollRepository = $pollRepository;
-        $this->optionRepository = $optionRepository;
-        $this->voteRepository = $voteRepository;
         $this->userRepository = $userRepository;
     }
 

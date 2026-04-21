@@ -146,7 +146,7 @@ class SimplePollValidator extends AbstractValidator
         }
         try {
             new Visibility($value->getVisibility());
-        } catch (InvalidEnumerationValueException $e) {
+        } catch (InvalidEnumerationValueException) {
             $isValid = false;
             $this->result->forProperty('visibility')->addError(
                 new Error(TranslateUtility::translate('validation.1592143011'), 1592143011)

@@ -7,7 +7,11 @@ namespace FGTCLB\T3oodle\Controller;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-
+use TYPO3\CMS\Extbase\Annotation\IgnoreValidation;
+use TYPO3\CMS\Extbase\Annotation\Validate;
+use FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator;
+use FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator;
+use FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto;
 use FGTCLB\T3oodle\Domain\Model\Option;
@@ -203,9 +207,9 @@ final class PollController extends ActionController
     }
 
     /**
-     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      * @throws ShowPollDeniedException
      */
+    #[IgnoreValidation(['argumentName' => 'poll'])]
     public function showAction(BasePoll $poll): ResponseInterface
     {
         $isAllowed = $this->pollPermission->isAllowed($poll, 'show');
@@ -279,9 +283,9 @@ final class PollController extends ActionController
     }
 
     /**
-     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator", param="vote")
      * @throws VotingDeniedException
      */
+    #[Validate(['validator' => CustomVoteValidator::class, 'param' => 'vote'])]
     public function voteAction(Vote $vote): ResponseInterface
     {
         $voteAllowed = $this->pollPermission->isAllowed($vote->getPoll(), 'voting');
@@ -336,9 +340,8 @@ final class PollController extends ActionController
     /**
      * @throws VoteResetNotAllowedException
      * @todo: add proper return types
-     *
-     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
+    #[IgnoreValidation(['argumentName' => 'poll'])]
     public function resetVotesAction(BasePoll $poll): ResponseInterface
     {
         $resetAllowed = $this->pollPermission->isAllowed($poll, 'resetVotes');
@@ -371,9 +374,9 @@ final class PollController extends ActionController
     }
 
     /**
-     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("vote")
      * @throws DeleteVoteDeniedException
      */
+    #[IgnoreValidation(['argumentName' => 'vote'])]
     public function deleteOwnVoteAction(Vote $vote): ResponseInterface
     {
         $deleteVoteAllowed = $this->pollPermission->isAllowed($vote, 'deleteOwnVote');
@@ -403,9 +406,9 @@ final class PollController extends ActionController
 
     /**
      * @param int $option uid to finish
-     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      * @throws FinishPollDeniedException
      */
+    #[IgnoreValidation(['argumentName' => 'poll'])]
     public function finishAction(BasePoll $poll, int $option = 0): ResponseInterface
     {
         $finishPollAllowed = $this->pollPermission->isAllowed($poll, 'finish');
@@ -450,9 +453,8 @@ final class PollController extends ActionController
     /**
      * @throws FinishSuggestionModeDeniedException
      * @todo add proper return types
-     *
-     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      */
+    #[IgnoreValidation(['argumentName' => 'poll'])]
     public function finishSuggestionModeAction(BasePoll $poll): ResponseInterface
     {
         $finishSuggestionAllowed = $this->pollPermission->isAllowed($poll, 'finishSuggestionMode');
@@ -516,9 +518,8 @@ final class PollController extends ActionController
 
     /**
      * @throws SuggestNewOptionsDeniedEception
-     *
-     * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
      */
+    #[Validate(['validator' => SuggestionDtoValidator::class, 'param' => 'suggestionDto'])]
     public function createSuggestionAction(SuggestionDto $suggestionDto): ResponseInterface
     {
         $suggestNewOptionsAllowed = $this->pollPermission->isAllowed($suggestionDto->getPoll(), 'suggestNewOptions');
@@ -629,10 +630,10 @@ final class PollController extends ActionController
     }
 
     /**
-     * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator", param="suggestionDto")
      * @throws UpdateSuggestionDeniedException
      * @throws AccessDeniedException
      */
+    #[Validate(['validator' => SuggestionDtoValidator::class, 'param' => 'suggestionDto'])]
     public function updateSuggestionAction(
         SuggestionDto $suggestionDto,
         Option $option
@@ -747,10 +748,10 @@ final class PollController extends ActionController
     }
 
     /**
-     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
      * @throws NoSuchArgumentException
      */
+    #[IgnoreValidation(['argumentName' => 'poll'])]
     public function newAction(
         ?BasePoll $poll = null,
         bool $publishDirectly = true,
@@ -805,10 +806,10 @@ final class PollController extends ActionController
     }
 
     /**
-     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
-     * @\TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator", param="acceptTerms")
      * @throws CreatePollDeniedException
      */
+    #[Validate(['validator' => CustomPollValidator::class, 'param' => 'poll'])]
+    #[Validate(['validator' => AcceptedTermsValidator::class, 'param' => 'acceptTerms'])]
     public function createAction(
         BasePoll $poll,
         bool $publishDirectly,
@@ -873,10 +874,10 @@ final class PollController extends ActionController
     }
 
     /**
-     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
      * @throws PublishPollDeniedException
      */
+    #[IgnoreValidation(['argumentName' => 'poll'])]
     public function publishAction(BasePoll $poll): ResponseInterface
     {
         $publishAllowed = $this->pollPermission->isAllowed($poll, 'publish');
@@ -910,9 +911,9 @@ final class PollController extends ActionController
     }
 
     /**
-     * @\TYPO3\CMS\Extbase\Annotation\IgnoreValidation("poll")
      * @throws EditPollDeniedException
      */
+    #[IgnoreValidation(['argumentName' => 'poll'])]
     public function editAction(BasePoll $poll): ResponseInterface
     {
         $editAllowed = $this->pollPermission->isAllowed($poll, 'edit');
@@ -935,9 +936,8 @@ final class PollController extends ActionController
     /**
      * @throws EditPollDeniedException
      * @todo Ensure proper return type is set
-     *
-     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
+    #[Validate(['validator' => CustomPollValidator::class, 'param' => 'poll'])]
     public function updateAction(BasePoll $poll): ResponseInterface
     {
         $editAllowed = $this->pollPermission->isAllowed($poll, 'edit');
@@ -1001,9 +1001,8 @@ final class PollController extends ActionController
     /**
      * @throws DeletePollDeniedException
      * @todo Ensure proper return type is set
-     *
-     * @TYPO3\CMS\Extbase\Annotation\Validate("FGTCLB\T3oodle\Domain\Validator\CustomPollValidator", param="poll")
      */
+    #[Validate(['validator' => CustomPollValidator::class, 'param' => 'poll'])]
     public function deleteAction(BasePoll $poll): ResponseInterface
     {
         $deleteAllowed = $this->pollPermission->isAllowed($poll, 'delete', true);

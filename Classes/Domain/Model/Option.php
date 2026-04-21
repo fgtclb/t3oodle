@@ -7,6 +7,7 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use TYPO3\CMS\Extbase\Annotation\Validate;
 use FGTCLB\T3oodle\Traits\Model\CreatorTrait;
 use FGTCLB\T3oodle\Traits\Model\MarkToDeleteTrait;
 use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
@@ -21,8 +22,8 @@ class Option extends AbstractEntity
 
     /**
      * @var string
-     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
+    #[Validate(['validator' => 'NotEmpty'])]
     protected $name = '';
 
     /**

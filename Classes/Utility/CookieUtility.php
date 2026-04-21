@@ -22,11 +22,7 @@ final class CookieUtility
      */
     public static function get(string $key): ?string
     {
-        if (isset($_COOKIE[self::COOKIE_PREFIX . $key])) {
-            return $_COOKIE[self::COOKIE_PREFIX . $key];
-        }
-
-        return null;
+        return $_COOKIE[self::COOKIE_PREFIX . $key] ?? null;
     }
 
     /**

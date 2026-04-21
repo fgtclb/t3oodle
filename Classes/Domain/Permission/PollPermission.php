@@ -42,7 +42,7 @@ class PollPermission
             $available = [];
             foreach (get_class_methods(self::class) as $method) {
                 $methodPart = substr($method, 2, -7);
-                if (!empty($methodPart) &&   str_starts_with($method, 'is')) {
+                if ($methodPart !== '' && $methodPart !== '0' &&   str_starts_with($method, 'is')) {
                     $available[] = lcfirst($methodPart);
                 }
             }
@@ -52,7 +52,7 @@ class PollPermission
 
         if (!$result && $throwException) {
             $customErrorMessage = TranslateUtility::translate('exception.permission.' . $action);
-            if (empty($customErrorMessage)) {
+            if ($customErrorMessage === '' || $customErrorMessage === '0') {
                 $customErrorMessage = TranslateUtility::translate('exception.1592142348', [$action]);
             }
             throw new AccessDeniedException($customErrorMessage, 1592142348);
@@ -133,7 +133,7 @@ class PollPermission
 
     public function isSuggestNewOptionsAllowed(BasePoll $poll): bool
     {
-        if (empty($this->controllerSettings)) {
+        if ($this->controllerSettings === []) {
             return false;
         }
 
@@ -147,7 +147,7 @@ class PollPermission
     public function isVotingAllowed(BasePoll $poll): bool
     {
         // TODO: Controller settings may stay empty, when called from models (like Poll->getStatus())
-        return (empty($this->controllerSettings) || $this->controllerSettings['allowNewVotes'])
+        return ($this->controllerSettings === [] || $this->controllerSettings['allowNewVotes'])
                 && $poll->isPublished()
                 && !$poll->isFinished()
                 && !$this->isSuggestNewOptionsAllowed($poll)

@@ -28,7 +28,7 @@ final class TcaGeneratorUtility
             $items[] = [$emptyLabel, $emptyValue];
         }
         foreach (call_user_func([$enumeration, 'getConstants']) as $value) {
-            $label = empty($labelPrefix)
+            $label = $labelPrefix === '' || $labelPrefix === '0'
                         ? call_user_func([$enumeration, 'getHumanReadableName'], $value)
                         : $labelPrefix . call_user_func([$enumeration, 'getName'], $value);
             $items[] = [$label, $value];

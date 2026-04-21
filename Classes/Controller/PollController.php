@@ -261,7 +261,7 @@ final class PollController extends ActionController
         $this->view->assign('vote', $vote);
 
         $newOptionValues = $event->getNewOptionValues();
-        if (!empty($newOptionValues)) {
+        if ($newOptionValues !== []) {
             $this->view->assign('newOptionValues', $event->getNewOptionValues());
         }
 
@@ -790,7 +790,7 @@ final class PollController extends ActionController
 
         $this->view->assign('poll', $poll);
         $this->view->assign('publishDirectly', $newPollEvent->getPublishDirectly());
-        if (!empty($newPollEvent->getNewOptions())) {
+        if ($newPollEvent->getNewOptions() !== []) {
             $this->view->assign('newOptions', $newPollEvent->getNewOptions());
         }
         return $this->htmlResponse();

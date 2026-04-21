@@ -94,13 +94,13 @@ final class SvgViewHelper extends AbstractViewHelper
         string $color,
         string $title
     ): string {
-        if (!empty($size)) {
+        if ($size !== '' && $size !== '0') {
             $size = ' width="' . $size . '" height="' . $size . '" ';
         }
-        if (!empty($color)) {
+        if ($color !== '' && $color !== '0') {
             $color = ' fill="' . $color . '"';
         }
-        if (!empty($title)) {
+        if ($title !== '' && $title !== '0') {
             $title = '<title>' . $title . '</title>';
         }
 

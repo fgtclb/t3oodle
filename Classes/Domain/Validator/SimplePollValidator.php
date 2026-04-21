@@ -111,7 +111,7 @@ class SimplePollValidator extends AbstractValidator
     protected function checkInfo(BasePoll $value): bool
     {
         $isValid = true;
-        if (empty(trim($value->getTitle()))) {
+        if (in_array(trim($value->getTitle()), ['', '0'], true)) {
             $isValid = false;
             $this->result->forProperty('title')->addError(
                 new Error(TranslateUtility::translate('validation.1592143006'), 1592143006)
@@ -159,13 +159,13 @@ class SimplePollValidator extends AbstractValidator
     {
         $isValid = true;
         if (!$value->getAuthor()) {
-            if (empty(trim($value->getAuthorName()))) {
+            if (in_array(trim($value->getAuthorName()), ['', '0'], true)) {
                 $isValid = false;
                 $this->result->forProperty('authorName')->addError(
                     new Error(TranslateUtility::translate('validation.1592143012'), 1592143012)
                 );
             }
-            if (empty(trim($value->getAuthorMail()))) {
+            if (in_array(trim($value->getAuthorMail()), ['', '0'], true)) {
                 $isValid = false;
                 $this->result->forProperty('authorMail')->addError(
                     new Error(TranslateUtility::translate('validation.1592143013'), 1592143013)

@@ -33,14 +33,14 @@ class SuggestionDtoValidator extends AbstractValidator
 
         // Check participant
         if (!$value->getCreator()) {
-            if (empty(trim($value->getCreatorName()))) {
+            if (in_array(trim($value->getCreatorName()), ['', '0'], true)) {
                 $isValid = false;
 
                 $this->result->forProperty('creatorName')->addError(
                     new Error(TranslateUtility::translate('validation.1616519320'), 1616519320)
                 );
             }
-            if (empty(trim($value->getCreatorMail()))) {
+            if (in_array(trim($value->getCreatorMail()), ['', '0'], true)) {
                 $isValid = false;
                 $this->result->forProperty('creatorMail')->addError(
                     new Error(TranslateUtility::translate('validation.1616519321'), 1616519321)
@@ -54,7 +54,7 @@ class SuggestionDtoValidator extends AbstractValidator
             }
         }
 
-        if (empty($suggestion)) {
+        if ($suggestion === '' || $suggestion === '0') {
             $isValid = false;
             $this->result->forProperty('suggestion')->addError(
                 new Error(TranslateUtility::translate('validation.1616516640', []), 1616516640)

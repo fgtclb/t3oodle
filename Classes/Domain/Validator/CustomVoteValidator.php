@@ -30,13 +30,13 @@ class CustomVoteValidator extends AbstractValidator
 
         // Check participant
         if (!$value->getParticipant()) {
-            if (empty(trim($value->getParticipantName()))) {
+            if (in_array(trim($value->getParticipantName()), ['', '0'], true)) {
                 $isValid = false;
                 $this->result->forProperty('participantName')->addError(
                     new Error(TranslateUtility::translate('validation.1592143020'), 1592143020)
                 );
             }
-            if (empty(trim($value->getParticipantMail()))) {
+            if (in_array(trim($value->getParticipantMail()), ['', '0'], true)) {
                 $isValid = false;
                 $this->result->forProperty('participantMail')->addError(
                     new Error(TranslateUtility::translate('validation.1592143021'), 1592143021)

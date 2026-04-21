@@ -266,9 +266,8 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.author_mail',
             'config' => [
-                'type' => 'input',
+                'type' => 'email',
                 'size' => 30,
-                'eval' => 'trim,email',
             ],
         ],
         'author_ident' => [

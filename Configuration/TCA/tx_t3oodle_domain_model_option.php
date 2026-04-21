@@ -93,9 +93,8 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_option.creator_mail',
             'config' => [
-                'type' => 'input',
+                'type' => 'email',
                 'size' => 30,
-                'eval' => 'trim,email',
                 'readOnly' => true,
             ],
         ],

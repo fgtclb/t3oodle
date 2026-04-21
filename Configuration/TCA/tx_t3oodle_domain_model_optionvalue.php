@@ -34,9 +34,9 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value.0', 0],
-                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value.1', 1],
-                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value.2', 2],
+                    ['label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value.0', 'value' => 0],
+                    ['label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value.1', 'value' => 1],
+                    ['label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_optionvalue.value.2', 'value' => 2],
                 ],
                 'minitems' => 0,
                 'maxitems' => 1,

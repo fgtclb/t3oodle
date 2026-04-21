@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_vote',

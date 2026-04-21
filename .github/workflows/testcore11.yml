@@ -1,80 +1,12 @@
 name: tests core 11
 
 on:
-  pull_request:
+  workflow_dispatch:
 
 jobs:
-  code-quality:
-    name: "code quality with core v11"
-    runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version: ['8.1']
+  dummy:
+    name: "dummy v11 (disabled on main) to allow creation of badges for other branches"
+    runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
         uses: actions/checkout@v6
-
-      - name: "Prepare dependencies for TYPO3 v11"
-        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s composer require typo3/minimal:^11"
-
-      - name: "Run TypoScript lint"
-        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s lintTypoScript"
-
-      - name: "Run PHP lint"
-        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s lintPhp"
-
-      - name: "Validate CGL"
-        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s cgl"
-
-      - name: "Ensure UTF-8 files do not contain BOM"
-        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s checkBom"
-
-      # @todo enable after documentation is updated
-#      - name: "Test .rst files for integrity"
-#        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s checkRst"
-
-      - name: "Find duplicate exception codes"
-        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s checkExceptionCodes"
-
-      - name: "Run PHPStan"
-        run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s phpstan"
-
-  testsuite:
-    name: all tests with core v11
-    runs-on: ubuntu-22.04
-    needs: code-quality
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version: [ '8.1', '8.3' ]
-    steps:
-    - name: "Checkout"
-      uses: actions/checkout@v6
-
-    - name: "Prepare dependencies for TYPO3 v11"
-      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s composer require typo3/minimal:^11"
-
-    - name: "Unit"
-      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s unit"
-
-    - name: "Functional SQLite"
-      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d sqlite"
-
-    - name: "Functional MariaDB 10.5 mysqli"
-      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a mysqli"
-
-    - name: "Functional MariaDB 10.5 pdo_mysql"
-      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a pdo_mysql"
-
-    - name: "Functional MySQL 8.0 mysqli"
-      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a mysqli"
-
-    - name: "Functional MySQL 8.0 pdo_mysql"
-      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d mariadb -a pdo_mysql"
-
-    - name: "Functional PostgresSQL 10"
-      # v11 postgres functional disabled with PHP 8.2 since https://github.com/doctrine/dbal/commit/73eec6d882b99e1e2d2d937accca89c1bd91b2d7
-      # is not fixed in doctrine core v11 doctrine 2.13.9
-      if: ${{ matrix.php <= '8.1' }}
-      run: "Build/Scripts/runTests.sh -t 11 -p ${{ matrix.php-version }} -s functional -d postgres"

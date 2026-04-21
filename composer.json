@@ -23,6 +23,7 @@
     "require-dev": {
         "armin/editorconfig-cli": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.86",
+        "helmich/typo3-typoscript-lint": "^3.3",
         "jangregor/phpstan-prophecy": "^1.0",
         "phpstan/phpstan": "^1.12",
         "phpstan/phpstan-phpunit": "^1.4",

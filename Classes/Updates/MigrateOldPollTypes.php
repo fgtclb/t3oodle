@@ -28,6 +28,9 @@ class MigrateOldPollTypes implements UpgradeWizardInterface
     private const DESTINATION_COLUMN_NAME = 'type';
 
     protected $affectedRows = 0;
+    public function __construct(private readonly ConnectionPool $connectionPool)
+    {
+    }
 
     public function getIdentifier(): string
     {
@@ -91,7 +94,7 @@ class MigrateOldPollTypes implements UpgradeWizardInterface
 
     private function getPreparedQueryBuilder(): QueryBuilder
     {
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(self::TABLE_NAME);
+        $connection = $this->connectionPool->getConnectionForTable(self::TABLE_NAME);
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 

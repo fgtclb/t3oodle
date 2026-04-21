@@ -26,6 +26,9 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
     private const DESTINATION_COLUMN_NAME = 'setting_max_votes_per_participant';
 
     protected $affectedRows = 0;
+    public function __construct(private readonly ConnectionPool $connectionPool)
+    {
+    }
 
     public function getIdentifier(): string
     {
@@ -91,7 +94,7 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
 
     private function getPreparedQueryBuilder(): QueryBuilder
     {
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(self::TABLE_NAME);
+        $connection = $this->connectionPool->getConnectionForTable(self::TABLE_NAME);
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 
@@ -113,7 +116,7 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
 
     private function doesColumnExist(string $columnName): bool
     {
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(self::TABLE_NAME);
+        $connection = $this->connectionPool->getConnectionForTable(self::TABLE_NAME);
         $columns = $connection->getSchemaManager()->listTableColumns(self::TABLE_NAME);
 
         return array_key_exists($columnName, $columns);

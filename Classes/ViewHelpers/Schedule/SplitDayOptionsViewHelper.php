@@ -43,10 +43,8 @@ final class SplitDayOptionsViewHelper extends AbstractViewHelper
                 } else {
                     $items[] = $parts[0];
                 }
-            } else {
-                if ($this->arguments['get'] !== 'options') {
-                    $items[] = $name;
-                }
+            } elseif ($this->arguments['get'] !== 'options') {
+                $items[] = $name;
             }
         }
 

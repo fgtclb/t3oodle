@@ -10,12 +10,12 @@ use TYPO3Fluid\Fluid\View\ViewInterface;
 
 final class NewPollEvent
 {
-    private Poll $poll;
-    private bool $publishDirectly;
-    private array $newOptions;
-    private array $settings;
-    private ViewInterface $view;
-    private PollController $caller;
+    private readonly Poll $poll;
+    private readonly bool $publishDirectly;
+    private readonly array $newOptions;
+    private readonly array $settings;
+    private readonly ViewInterface $view;
+    private readonly PollController $caller;
 
     public function __construct(Poll $poll, bool $publishDirectly, array $newOptions, array $settings, $view, PollController $caller)
     {

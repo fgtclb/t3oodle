@@ -7,6 +7,8 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
@@ -56,7 +58,7 @@ abstract class BasePoll extends AbstractEntity
     /**
      * @var string
      */
-    protected $visibility = \FGTCLB\T3oodle\Domain\Enumeration\Visibility::LISTED;
+    protected $visibility = Visibility::LISTED;
 
     /**
      * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
@@ -251,12 +253,12 @@ abstract class BasePoll extends AbstractEntity
         $this->visibility = $visibility;
     }
 
-    public function getAuthor(): ?\TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+    public function getAuthor(): ?FrontendUser
     {
         return $this->author;
     }
 
-    public function setAuthor(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $author): void
+    public function setAuthor(FrontendUser $author): void
     {
         $this->author = $author;
     }

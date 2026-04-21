@@ -9,6 +9,7 @@ namespace FGTCLB\T3oodle\Domain\Validator;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
@@ -84,7 +85,7 @@ class SimplePollValidator extends AbstractValidator
 
         // Check unique options
         $i = 0;
-        /** @var \FGTCLB\T3oodle\Domain\Model\Option $option */
+        /** @var Option $option */
         foreach ($options as $key => $option) {
             if ($this->options['action'] === 'create') {
                 $key = $i++;

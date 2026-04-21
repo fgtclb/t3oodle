@@ -10,9 +10,7 @@ namespace FGTCLB\T3oodle\ViewHelpers\Schedule;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 final class ParseDayOptionViewHelper extends AbstractViewHelper
 {

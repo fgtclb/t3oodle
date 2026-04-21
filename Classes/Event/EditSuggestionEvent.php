@@ -11,11 +11,11 @@ use TYPO3Fluid\Fluid\View\ViewInterface;
 
 final class EditSuggestionEvent
 {
-    private Option $option;
-    private SuggestionDto $suggestionDto;
-    private ViewInterface $view;
-    private array $settings;
-    private PollController $caller;
+    private readonly Option $option;
+    private readonly SuggestionDto $suggestionDto;
+    private readonly ViewInterface $view;
+    private readonly array $settings;
+    private readonly PollController $caller;
 
     public function __construct(Option $option, SuggestionDto $suggestionDto, array $settings, $view, PollController $caller)
     {

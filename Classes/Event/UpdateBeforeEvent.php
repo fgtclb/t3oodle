@@ -9,12 +9,12 @@ use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
 
 final class UpdateBeforeEvent
 {
-    private Poll $poll;
-    private int $voteCount;
-    private bool $areOptionsModified;
+    private readonly Poll $poll;
+    private readonly int $voteCount;
+    private readonly bool $areOptionsModified;
     private bool $continue;
-    private array $settings;
-    private PollController $caller;
+    private readonly array $settings;
+    private readonly PollController $caller;
 
     public function __construct(Poll $poll, int $voteCount, bool $areOptionsModified, bool $continue, array $settings, PollController $caller)
     {

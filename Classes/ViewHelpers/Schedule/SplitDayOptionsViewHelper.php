@@ -12,9 +12,7 @@ namespace FGTCLB\T3oodle\ViewHelpers\Schedule;
 use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 final class SplitDayOptionsViewHelper extends AbstractViewHelper
 {

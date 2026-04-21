@@ -9,6 +9,8 @@ namespace FGTCLB\T3oodle\Domain\Model\Dto;
  *  |
  *  | (c) 2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\BasePoll;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Traits\Model\CreatorTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -18,7 +20,7 @@ class SuggestionDto
     use CreatorTrait;
 
     /**
-     * @var \FGTCLB\T3oodle\Domain\Model\BasePoll|null
+     * @var BasePoll|null
      */
     private $poll;
 
@@ -28,9 +30,9 @@ class SuggestionDto
     private $suggestion;
 
     public function __construct(
-        \FGTCLB\T3oodle\Domain\Model\BasePoll $poll = null,
+        BasePoll $poll = null,
         string $suggestion = '',
-        \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $creator = null,
+        FrontendUser $creator = null,
         string $creatorName = '',
         string $creatorMail = '',
         string $creatorIdent = ''
@@ -43,12 +45,12 @@ class SuggestionDto
         $this->creatorIdent = $creatorIdent;
     }
 
-    public function getPoll(): \FGTCLB\T3oodle\Domain\Model\BasePoll
+    public function getPoll(): BasePoll
     {
         return $this->poll;
     }
 
-    public function setPoll(\FGTCLB\T3oodle\Domain\Model\BasePoll $poll): void
+    public function setPoll(BasePoll $poll): void
     {
         $this->poll = $poll;
     }

@@ -9,10 +9,10 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 final class ListPollEvent
 {
-    private QueryResultInterface $polls;
-    private array $settings;
-    private ViewInterface $view;
-    private object $caller;
+    private readonly QueryResultInterface $polls;
+    private readonly array $settings;
+    private readonly ViewInterface $view;
+    private readonly object $caller;
 
     public function __construct(QueryResultInterface $polls, array $settings, ViewInterface $view, object $caller)
     {

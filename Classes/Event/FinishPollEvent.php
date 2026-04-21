@@ -11,12 +11,12 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 final class FinishPollEvent
 {
-    private Poll $poll;
-    private Option $finalOption;
+    private readonly Poll $poll;
+    private readonly Option $finalOption;
     private bool $continue;
-    private array $settings;
-    private ViewInterface $view;
-    private PollController $caller;
+    private readonly array $settings;
+    private readonly ViewInterface $view;
+    private readonly PollController $caller;
 
     public function __construct(Poll $poll, Option $finalOption, bool $continue, array $settings, ViewInterface $view, PollController $caller)
     {

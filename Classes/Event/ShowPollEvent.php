@@ -16,9 +16,9 @@ final class ShowPollEvent
 
     private array $newOptionValues = [];
     private array $settings = [];
-    private ViewInterface $view;
+    private readonly ViewInterface $view;
 
-    private PollController $caller;
+    private readonly PollController $caller;
 
     public function __construct(mixed $poll, Vote $vote, ViewInterface $view, array $newOptionValues, array $settings, PollController $caller)
     {

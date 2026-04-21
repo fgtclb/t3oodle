@@ -9,10 +9,10 @@ use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
 
 final class FinishSuggestionModeEvent
 {
-    private Poll $poll;
+    private readonly Poll $poll;
     private bool $continue;
-    private array $settings;
-    private PollController $caller;
+    private readonly array $settings;
+    private readonly PollController $caller;
 
     public function __construct(Poll $poll, bool $continue, array $settings, PollController $caller)
     {

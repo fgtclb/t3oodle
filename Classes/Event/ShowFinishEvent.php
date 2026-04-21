@@ -10,10 +10,10 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 final class ShowFinishEvent
 {
-    private Poll $poll;
-    private array $settings;
-    private ViewInterface $view;
-    private PollController $caller;
+    private readonly Poll $poll;
+    private readonly array $settings;
+    private readonly ViewInterface $view;
+    private readonly PollController $caller;
 
     public function __construct(Poll $poll, array $settings, ViewInterface $view, PollController $caller)
     {

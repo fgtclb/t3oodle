@@ -9,10 +9,10 @@ use FGTCLB\T3oodle\Domain\Model\Option;
 
 final class DeleteSuggestionEvent
 {
-    private Option $option;
+    private readonly Option $option;
     private bool $continue;
-    private array $settings;
-    private PollController $caller;
+    private readonly array $settings;
+    private readonly PollController $caller;
 
     public function __construct(Option $option, bool $continue, array $settings, PollController $caller)
     {

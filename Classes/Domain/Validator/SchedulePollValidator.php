@@ -9,6 +9,7 @@ namespace FGTCLB\T3oodle\Domain\Validator;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
 use TYPO3\CMS\Extbase\Error\Result;
@@ -57,7 +58,7 @@ class SchedulePollValidator extends SimplePollValidator
     protected function checkScheduleOptions(BasePoll $value): bool
     {
         $isValid = true;
-        /** @var \FGTCLB\T3oodle\Domain\Model\Option[] $options */
+        /** @var Option[] $options */
         $options = $value->getOptions(true);
         foreach ($options as $key => $option) {
             $validationErrors = ScheduleOptionUtility::validateOptionName($option->getName());

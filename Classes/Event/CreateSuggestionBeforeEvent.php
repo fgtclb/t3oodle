@@ -9,10 +9,10 @@ use FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto;
 
 final class CreateSuggestionBeforeEvent
 {
-    private SuggestionDto $suggestionDto;
+    private readonly SuggestionDto $suggestionDto;
     private bool $continue;
-    private array $settings;
-    private PollController $caller;
+    private readonly array $settings;
+    private readonly PollController $caller;
 
     public function __construct(SuggestionDto $suggestionDto, bool $continue, array $settings, PollController $caller)
     {

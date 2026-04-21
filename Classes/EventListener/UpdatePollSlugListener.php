@@ -9,6 +9,7 @@ namespace FGTCLB\T3oodle\EventListener;
  *  |
  *  | (c) 2020-2024 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Controller\PollController;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Repository\PollRepository;
@@ -89,7 +90,7 @@ class UpdatePollSlugListener
         );
 
         // Create slug and update created entity
-        if ($poll->getVisibility() === \FGTCLB\T3oodle\Domain\Enumeration\Visibility::NOT_LISTED) {
+        if ($poll->getVisibility() === Visibility::NOT_LISTED) {
             $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
         } else {
             $newSlug = $slugUtility->sanitize($poll->getTitle());

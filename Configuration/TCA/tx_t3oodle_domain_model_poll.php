@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\SchedulePoll;
 use FGTCLB\T3oodle\Domain\Model\SimplePoll;

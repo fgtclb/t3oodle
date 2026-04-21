@@ -94,7 +94,7 @@ class UpdatePollSlugListener
             $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
         } else {
             $newSlug = $slugUtility->sanitize($poll->getTitle());
-            if (empty($newSlug)) {
+            if ($newSlug === '' || $newSlug === '0') {
                 $newSlug = 'poll-' . $poll->getUid();
             } else {
                 if ($this->pollRepository->countBySlug($newSlug) > 0) {

@@ -70,7 +70,7 @@ final class ScheduleOptionUtility
         if (isset($parts[0]) && $parts[0] && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $parts[0])) {
             $errors[] = new Error(TranslateUtility::translate('validation.1592143004', [$optionName]), 1592143004);
         }
-        if (isset($parts[1]) && empty(trim($parts[1]))) {
+        if (isset($parts[1]) && in_array(trim($parts[1]), ['', '0'], true)) {
             $errors[] = new Error(TranslateUtility::translate('validation.1592143005'), 1592143005);
         }
 

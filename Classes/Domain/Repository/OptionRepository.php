@@ -24,7 +24,7 @@ final class OptionRepository extends Repository
      */
     public function findByPollAndCreatorIdent(BasePoll $poll, string $creatorIdent): ?QueryResultInterface
     {
-        if (empty($creatorIdent)) {
+        if ($creatorIdent === '' || $creatorIdent === '0') {
             return null;
         }
         $query = $this->createQuery();

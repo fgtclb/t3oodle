@@ -17,7 +17,7 @@ final class VoteRepository extends Repository
 {
     public function findOneByPollAndParticipantIdent(BasePoll $poll, string $participantIdent): ?Vote
     {
-        if (empty($participantIdent)) {
+        if ($participantIdent === '' || $participantIdent === '0') {
             return null;
         }
         $query = $this->createQuery();

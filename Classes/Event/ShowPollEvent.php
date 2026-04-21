@@ -12,7 +12,7 @@ final class ShowPollEvent
 {
     private readonly ViewInterface $view;
 
-    public function __construct(private mixed $poll, private Vote $vote, ViewInterface $view, private array $newOptionValues, private array $settings, private readonly PollController $caller)
+    public function __construct(private mixed $poll, private Vote $vote, ViewInterface $view, private array $newOptionValues, private readonly array $settings, private readonly PollController $caller)
     {
         $this->view = $view;
     }

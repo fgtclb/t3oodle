@@ -85,7 +85,7 @@ return [
                 'renderType' => 'checkboxToggle',
                 'items' => [
                     [
-                        0 => '',
+                        'label' => '',
                         1 => '',
                         'invertStateDisplay' => true,
                     ],
@@ -132,16 +132,16 @@ return [
                 'maxitems' => 20,
                 'items' => [
                     [
-                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login',
-                        -1,
+                        'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login',
+                        'value' => -1,
                     ],
                     [
-                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.any_login',
-                        -2,
+                        'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.any_login',
+                        'value' => -2,
                     ],
                     [
-                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.usergroups',
-                        '--div--',
+                        'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.usergroups',
+                        'value' => '--div--',
                     ],
                 ],
                 'exclusiveKeys' => '-1,-2',
@@ -170,9 +170,9 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.undefined', '0'],
-                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.simple', SimplePoll::class],
-                    ['LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.schedule', SchedulePoll::class],
+                    ['label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.undefined', 'value' => '0'],
+                    ['label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.simple', 'value' => SimplePoll::class],
+                    ['label' => 'LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_domain_model_poll.type.schedule', 'value' => SchedulePoll::class],
                 ],
                 'default' => SimplePoll::class,
                 'size' => 1,
@@ -249,7 +249,7 @@ return [
                 'foreign_table' => 'fe_users',
                 'maxitems' => 1,
                 'items' => [
-                    ['', 0],
+                    ['label' => '', 'value' => 0],
                 ],
             ],
         ],
@@ -489,7 +489,7 @@ return [
                 'foreign_table' => 'tx_t3oodle_domain_model_option',
                 'foreign_table_where' => 'AND tx_t3oodle_domain_model_option.poll = ###THIS_UID###',
                 'items' => [
-                    ['', 0],
+                    ['label' => '', 'value' => 0],
                 ],
                 'minitems' => 0,
                 'maxitems' => 1,

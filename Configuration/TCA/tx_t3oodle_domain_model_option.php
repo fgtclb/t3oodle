@@ -75,7 +75,7 @@ return [
                 'maxitems' => 1,
                 'readOnly' => true,
                 'items' => [
-                    ['', 0],
+                    ['label' => '', 'value' => 0],
                 ],
             ],
         ],

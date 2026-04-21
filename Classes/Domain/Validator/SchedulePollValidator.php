@@ -19,7 +19,7 @@ class SchedulePollValidator extends SimplePollValidator
     public function __construct(array $options = [], Result $result = null)
     {
         parent::__construct($options, $result);
-        if ($result === null) {
+        if (!$result instanceof Result) {
             throw new \InvalidArgumentException(
                 'SchedulePollValidator requires result constructor argument, from parent validator',
                 1727789493

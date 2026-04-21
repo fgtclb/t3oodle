@@ -32,7 +32,7 @@ class SimplePollValidator extends AbstractValidator
     public function __construct(array $options = [], Result $result = null)
     {
         parent::__construct($options);
-        if ($result === null) {
+        if (!$result instanceof Result) {
             throw new \InvalidArgumentException(
                 'SimplePollValidator requires result constructor argument, from parent validator',
                 1727787663

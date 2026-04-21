@@ -15,6 +15,6 @@ final class SettingsUtilityTest extends UnitTestCase
     {
         $object = new SettingsUtility();
 
-        self::assertSame(SettingsUtility::class, get_class($object));
+        self::assertSame(SettingsUtility::class, $object::class);
     }
 }

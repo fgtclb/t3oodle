@@ -117,29 +117,12 @@ final class PollController extends ActionController
     protected VoteRepository $voteRepository;
     protected FrontendUserRepository $userRepository;
     protected PersistenceManagerInterface $persistenceManager;
-
-    public function injectPersistenceManager(PersistenceManagerInterface $persistenceManager): void
+    public function __construct(PersistenceManagerInterface $persistenceManager, PollRepository $pollRepository, OptionRepository $optionRepository, VoteRepository $voteRepository, FrontendUserRepository $userRepository)
     {
         $this->persistenceManager = $persistenceManager;
-    }
-
-    public function injectPollRepository(PollRepository $pollRepository): void
-    {
         $this->pollRepository = $pollRepository;
-    }
-
-    public function injectOptionRepository(OptionRepository $optionRepository): void
-    {
         $this->optionRepository = $optionRepository;
-    }
-
-    public function injectVoteRepository(VoteRepository $voteRepository): void
-    {
         $this->voteRepository = $voteRepository;
-    }
-
-    public function injectUserRepository(FrontendUserRepository $userRepository): void
-    {
         $this->userRepository = $userRepository;
     }
 

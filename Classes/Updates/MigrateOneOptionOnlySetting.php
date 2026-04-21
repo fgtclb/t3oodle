@@ -26,9 +26,7 @@ class MigrateOneOptionOnlySetting implements UpgradeWizardInterface
     private const DESTINATION_COLUMN_NAME = 'setting_max_votes_per_participant';
 
     protected $affectedRows = 0;
-    public function __construct(private readonly ConnectionPool $connectionPool)
-    {
-    }
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
 
     public function getIdentifier(): string
     {

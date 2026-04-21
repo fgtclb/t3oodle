@@ -34,9 +34,7 @@ final class PollRepository extends Repository
         'isPublished' => 'ASC',
         'publishDate' => 'DESC',
     ];
-    public function __construct(private readonly ConnectionPool $connectionPool)
-    {
-    }
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
 
     public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
     {

@@ -19,7 +19,7 @@ $EM_CONF[$_EXTKEY] = [
     'author_company' => 'FGTCLB',
     'constraints' => [
         'depends' => [
-            'typo3' => '11.5.0-11.5.99',
+            'typo3' => '12.4.0-12.4.99',
             'fluid_styled_content' => '11.5.0-11.5.99',
             'numbered_pagination' => '2.0.0-2.1.99',
         ],

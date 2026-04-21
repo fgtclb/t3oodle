@@ -9,6 +9,7 @@ namespace FGTCLB\T3oodle\EventListener;
  *  |
  *  | (c) 2020-2024 Armin Vieweg <info@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use FGTCLB\T3oodle\Controller\PollController;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
@@ -17,7 +18,6 @@ use FGTCLB\T3oodle\Event\CreateAfterEvent;
 use FGTCLB\T3oodle\Event\UpdateBeforeEvent;
 use FGTCLB\T3oodle\Utility\SlugUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
@@ -72,7 +72,7 @@ class UpdatePollSlugListener
             $caller->addFlashMessage(
                 TranslateUtility::translate('flash.slugChanged', [$slugBefore, $poll->getSlug()]),
                 '',
-                AbstractMessage::WARNING
+                ContextualFeedbackSeverity::WARNING
             );
         }
     }

@@ -6,9 +6,6 @@
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 
-
-
 defined('TYPO3') || die('Access denied.');
 
-(static function (): void {
-})();
+(static function (): void {})();

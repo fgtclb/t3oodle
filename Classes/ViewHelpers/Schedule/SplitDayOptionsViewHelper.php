@@ -38,11 +38,7 @@ final class SplitDayOptionsViewHelper extends AbstractViewHelper
             $name = is_array($option) ? $option['name'] : $option->getName();
             $parts = GeneralUtility::trimExplode(ScheduleOptionUtility::DAY_OPTION_DELIMITER, $name, true, 2);
             if (count($parts) === 2) {
-                if ($this->arguments['get'] === 'options') {
-                    $items[] = $parts[1];
-                } else {
-                    $items[] = $parts[0];
-                }
+                $items[] = $this->arguments['get'] === 'options' ? $parts[1] : $parts[0];
             } elseif ($this->arguments['get'] !== 'options') {
                 $items[] = $name;
             }

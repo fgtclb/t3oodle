@@ -9,9 +9,7 @@ use FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto;
 
 final class UpdateSuggestionBeforeEvent
 {
-    public function __construct(private readonly SuggestionDto $suggestionDto, private bool $continue, private readonly array $settings, private readonly PollController $caller)
-    {
-    }
+    public function __construct(private readonly SuggestionDto $suggestionDto, private bool $continue, private readonly array $settings, private readonly PollController $caller) {}
 
     public function getSuggestionDto(): SuggestionDto
     {

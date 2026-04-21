@@ -7,9 +7,8 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
+use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
 use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
@@ -17,6 +16,7 @@ use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -265,7 +265,7 @@ abstract class BasePoll extends AbstractEntity
 
     public function getAuthorName(): string
     {
-        if ($this->getAuthor()) {
+        if ($this->getAuthor() instanceof FrontendUser) {
             return $this->getPropertyDynamically($this->getAuthor(), 'name');
         }
 
@@ -279,7 +279,7 @@ abstract class BasePoll extends AbstractEntity
 
     public function getAuthorMail(): string
     {
-        if ($this->getAuthor()) {
+        if ($this->getAuthor() instanceof FrontendUser) {
             return $this->getPropertyDynamically($this->getAuthor(), 'mail', false);
         }
 
@@ -446,7 +446,7 @@ abstract class BasePoll extends AbstractEntity
 
     public function setSettingVotingExpiresTime(?\DateTime $settingVotingExpiresTime): void
     {
-        if ($settingVotingExpiresTime) {
+        if ($settingVotingExpiresTime instanceof \DateTime) {
             $settingVotingExpiresTime->modify('1970-01-01');
         }
         $this->settingVotingExpiresTime = $settingVotingExpiresTime;
@@ -466,7 +466,7 @@ abstract class BasePoll extends AbstractEntity
 
     public function isVotingExpired(): bool
     {
-        if (!$this->getSettingVotingExpiresAt()) {
+        if (!$this->getSettingVotingExpiresAt() instanceof \DateTime) {
             return false;
         }
 
@@ -633,7 +633,7 @@ abstract class BasePoll extends AbstractEntity
      */
     public function getAvailableOptions(): array
     {
-        if (!$this->getSettingMaxVotesPerOption()) {
+        if ($this->getSettingMaxVotesPerOption() === 0) {
             return $this->getOptions()->toArray();
         }
         if (self::$availableOptionsCache === null) {

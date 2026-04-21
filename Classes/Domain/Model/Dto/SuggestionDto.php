@@ -10,10 +10,10 @@ namespace FGTCLB\T3oodle\Domain\Model\Dto;
  *  | (c) 2021 Armin Vieweg <info@v.ieweg.de>
  */
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Traits\Model\CreatorTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 
 class SuggestionDto
 {
@@ -60,16 +60,16 @@ class SuggestionDto
         $newOption->setPid($this->getPoll()->getPid());
         $newOption->setName(trim($this->getSuggestion()));
 
-        if ($this->getCreator()) {
+        if ($this->getCreator() instanceof FrontendUser) {
             $newOption->setCreator($this->getCreator());
         }
-        if ($this->getCreatorName()) {
+        if ($this->getCreatorName() !== '' && $this->getCreatorName() !== '0') {
             $newOption->setCreatorName($this->getCreatorName());
         }
-        if ($this->getCreatorMail()) {
+        if ($this->getCreatorMail() !== '' && $this->getCreatorMail() !== '0') {
             $newOption->setCreatorMail($this->getCreatorMail());
         }
-        if ($this->getCreatorIdent()) {
+        if ($this->getCreatorIdent() !== '' && $this->getCreatorIdent() !== '0') {
             $newOption->setCreatorIdent($this->getCreatorIdent());
         }
 

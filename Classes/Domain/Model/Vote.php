@@ -7,8 +7,8 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -63,7 +63,7 @@ class Vote extends AbstractEntity
 
     public function getParticipantName(): string
     {
-        if ($this->getParticipant()) {
+        if ($this->getParticipant() instanceof FrontendUser) {
             return $this->getPropertyDynamically($this->getParticipant(), 'name');
         }
 
@@ -77,7 +77,7 @@ class Vote extends AbstractEntity
 
     public function getParticipantMail(): string
     {
-        if ($this->getParticipant()) {
+        if ($this->getParticipant() instanceof FrontendUser) {
             return $this->getPropertyDynamically($this->getParticipant(), 'mail', false);
         }
 

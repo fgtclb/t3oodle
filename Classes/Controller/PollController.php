@@ -7,12 +7,6 @@ namespace FGTCLB\T3oodle\Controller;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Extbase\Annotation\IgnoreValidation;
-use TYPO3\CMS\Extbase\Annotation\Validate;
-use FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator;
-use FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator;
-use FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto;
 use FGTCLB\T3oodle\Domain\Model\Option;
@@ -22,7 +16,10 @@ use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Domain\Repository\OptionRepository;
 use FGTCLB\T3oodle\Domain\Repository\PollRepository;
 use FGTCLB\T3oodle\Domain\Repository\VoteRepository;
+use FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator;
 use FGTCLB\T3oodle\Domain\Validator\CustomPollValidator;
+use FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator;
+use FGTCLB\T3oodle\Domain\Validator\SuggestionDtoValidator;
 use FGTCLB\T3oodle\Event\CreateAfterEvent;
 use FGTCLB\T3oodle\Event\CreateBeforeEvent;
 use FGTCLB\T3oodle\Event\CreateSuggestionAfterEvent;
@@ -85,7 +82,10 @@ use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use GeorgRinger\NumberedPagination\NumberedPagination;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\RedirectResponse;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\IgnoreValidation;
+use TYPO3\CMS\Extbase\Annotation\Validate;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -234,7 +234,7 @@ final class PollController extends ActionController
         }
 
         $vote = $this->voteRepository->findOneByPollAndParticipantIdent($poll, $this->currentUserIdent);
-        if (!$vote) {
+        if (!$vote instanceof Vote) {
             $vote = new Vote();
             $vote->setPoll($poll);
             if ($this->currentUser) {
@@ -299,7 +299,7 @@ final class PollController extends ActionController
         }
 
         if (!$this->currentUser) {
-            if (!$this->currentUserIdent) {
+            if ($this->currentUserIdent === '' || $this->currentUserIdent === '0') {
                 $this->currentUserIdent = UserIdentUtility::generateNewUserIdent();
             }
             $vote->setParticipantIdent($this->currentUserIdent);
@@ -502,7 +502,7 @@ final class PollController extends ActionController
             );
         }
 
-        if (!$suggestionDto) {
+        if (!$suggestionDto instanceof SuggestionDto) {
             $suggestionDto = GeneralUtility::makeInstance(SuggestionDto::class, $poll);
         }
         if ($this->currentUser) {
@@ -538,7 +538,7 @@ final class PollController extends ActionController
         }
 
         if (!$this->currentUser) {
-            if (!$this->currentUserIdent) {
+            if ($this->currentUserIdent === '' || $this->currentUserIdent === '0') {
                 $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
             }
             $suggestionDto->setCreatorIdent($this->currentUserIdent);
@@ -608,7 +608,7 @@ final class PollController extends ActionController
                 1727789441
             );
         }
-        if (!$suggestionDto) {
+        if (!$suggestionDto instanceof SuggestionDto) {
             /** @var SuggestionDto $suggestionDto */
             $suggestionDto = GeneralUtility::makeInstance(
                 SuggestionDto::class,
@@ -654,7 +654,7 @@ final class PollController extends ActionController
         }
 
         if (!$this->currentUser) {
-            if (!$this->currentUserIdent) {
+            if ($this->currentUserIdent === '' || $this->currentUserIdent === '0') {
                 $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
             }
             CookieUtility::set('userIdent', $this->currentUserIdent);
@@ -722,7 +722,7 @@ final class PollController extends ActionController
         }
 
         if (!$this->currentUser) {
-            if (!$this->currentUserIdent) {
+            if ($this->currentUserIdent === '' || $this->currentUserIdent === '0') {
                 $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
             }
             CookieUtility::set('userIdent', $this->currentUserIdent);
@@ -757,7 +757,7 @@ final class PollController extends ActionController
         bool $publishDirectly = true,
         string $pollType = SimplePoll::class
     ): ResponseInterface {
-        if (!$poll) {
+        if (!$poll instanceof BasePoll) {
             $poll = GeneralUtility::makeInstance($pollType);
             if ($this->currentUser) {
                 $poll->setAuthor($this->currentUser);
@@ -830,7 +830,7 @@ final class PollController extends ActionController
         }
 
         if (!$this->currentUser) {
-            if (!$this->currentUserIdent) {
+            if ($this->currentUserIdent === '' || $this->currentUserIdent === '0') {
                 $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
             }
             $poll->setAuthorIdent($this->currentUserIdent);
@@ -1078,7 +1078,7 @@ final class PollController extends ActionController
                     if (empty($pollOption['name'])) {
                         unset($poll['options'][$index]); // remove
                     } else {
-                        $poll['options'][$index]['name'] = trim((string) $pollOption['name']); // trim
+                        $poll['options'][$index]['name'] = trim((string)$pollOption['name']); // trim
 
                         if (empty($pollOption['sorting'])) {
                             $lastSorting *= 2;

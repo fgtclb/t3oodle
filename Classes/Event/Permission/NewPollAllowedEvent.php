@@ -17,9 +17,7 @@ use FGTCLB\T3oodle\Domain\Permission\AccessDeniedException;
  */
 final class NewPollAllowedEvent
 {
-    public function __construct(private readonly null|BasePoll $poll, private bool $allowed)
-    {
-    }
+    public function __construct(private readonly null|BasePoll $poll, private bool $allowed) {}
 
     public function getPoll(): ?BasePoll
     {

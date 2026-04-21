@@ -9,8 +9,8 @@ namespace FGTCLB\T3oodle\EventListener;
  *  |
  *  | (c) 2020-2024 Armin Vieweg <info@v.ieweg.de>
  */
-use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Controller\PollController;
+use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Repository\PollRepository;
 use FGTCLB\T3oodle\Event\CreateAfterEvent;

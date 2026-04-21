@@ -9,9 +9,10 @@ namespace FGTCLB\T3oodle\Domain\Validator;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-use FGTCLB\T3oodle\Domain\Model\Option;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
+use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
@@ -158,7 +159,7 @@ class SimplePollValidator extends AbstractValidator
     protected function checkAuthor(BasePoll $value): bool
     {
         $isValid = true;
-        if (!$value->getAuthor()) {
+        if (!$value->getAuthor() instanceof FrontendUser) {
             if (in_array(trim($value->getAuthorName()), ['', '0'], true)) {
                 $isValid = false;
                 $this->result->forProperty('authorName')->addError(
@@ -191,13 +192,13 @@ class SimplePollValidator extends AbstractValidator
                 new Error(TranslateUtility::translate('validation.1592143015'), 1592143015)
             );
         }
-        if ($value->getSettingVotingExpiresDate()) {
+        if ($value->getSettingVotingExpiresDate() instanceof \DateTime) {
             if ($value->getSettingVotingExpiresDate()->getTimestamp() < DateTimeUtility::today()->getTimestamp()) {
                 $isValid = false;
                 $this->result->forProperty('settingVotingExpiresDate')->addError(
                     new Error(TranslateUtility::translate('validation.1592143016'), 1592143016)
                 );
-            } elseif ($expiresAt = $value->getSettingVotingExpiresAt()) {
+            } elseif (($expiresAt = $value->getSettingVotingExpiresAt()) instanceof \DateTime) {
                 if ($expiresAt->getTimestamp() < DateTimeUtility::now()->getTimestamp()) {
                     $isValid = false;
                     $this->result->forProperty('settingVotingExpiresTime')->addError(
@@ -205,7 +206,7 @@ class SimplePollValidator extends AbstractValidator
                     );
                 }
             }
-            if (!$value->getSettingVotingExpiresTime()) {
+            if (!$value->getSettingVotingExpiresTime() instanceof \DateTime) {
                 $isValid = false;
                 $this->result->forProperty('settingVotingExpiresTime')->addError(
                     new Error(TranslateUtility::translate('validation.1592143018'), 1592143018)

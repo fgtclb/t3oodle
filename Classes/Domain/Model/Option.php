@@ -88,7 +88,7 @@ class Option extends AbstractEntity
 
     public function getAmountOfLeftVotes(bool $respectCurrentUser = false): ?int
     {
-        if (!$this->getPoll()->getSettingMaxVotesPerOption()) {
+        if ($this->getPoll()->getSettingMaxVotesPerOption() === 0) {
             return null;
         }
 

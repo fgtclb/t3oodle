@@ -9,9 +9,7 @@ use FGTCLB\T3oodle\Domain\Model\Vote;
 
 final class VoteDeleteAllowedEvent
 {
-    public function __construct(private readonly Vote $vote, private bool $allowed, private readonly PollController $controller)
-    {
-    }
+    public function __construct(private readonly Vote $vote, private bool $allowed, private readonly PollController $controller) {}
 
     public function getVote(): Vote
     {

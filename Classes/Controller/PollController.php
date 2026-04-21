@@ -7,6 +7,7 @@ namespace FGTCLB\T3oodle\Controller;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Annotation\IgnoreValidation;
 use TYPO3\CMS\Extbase\Annotation\Validate;
 use FGTCLB\T3oodle\Domain\Validator\CustomVoteValidator;
@@ -84,7 +85,6 @@ use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use GeorgRinger\NumberedPagination\NumberedPagination;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\RedirectResponse;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -227,7 +227,7 @@ final class PollController extends ActionController
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.votingErrorOccurred'),
                 '',
-                AbstractMessage::ERROR,
+                ContextualFeedbackSeverity::ERROR,
                 false
             );
             $this->view->assign('validationErrorsExisting', true);
@@ -327,7 +327,7 @@ final class PollController extends ActionController
             $this->addFlashMessage(
                 TranslateUtility::translate($votePollEvent->getIsNew() ? 'flash.votingSaved' : 'flash.votingUpdated'),
                 '',
-                AbstractMessage::OK
+                ContextualFeedbackSeverity::OK
             );
         }
         return new RedirectResponse(
@@ -569,7 +569,7 @@ final class PollController extends ActionController
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyCreatedSuggestion', [$suggestionDto->getSuggestion(), $suggestionDto->getPoll()->getTitle()]),
                     '',
-                    AbstractMessage::OK
+                    ContextualFeedbackSeverity::OK
                 );
             }
         }
@@ -689,7 +689,7 @@ final class PollController extends ActionController
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyUpdatedSuggestion', [$suggestionDto->getSuggestion(), $suggestionDto->getPoll()->getTitle()]),
                     '',
-                    AbstractMessage::OK
+                    ContextualFeedbackSeverity::OK
                 );
             }
         }
@@ -865,7 +865,7 @@ final class PollController extends ActionController
                 $this->addFlashMessage(
                     TranslateUtility::translate('flash.successfullyCreated', [$poll->getTitle()]),
                     '',
-                    AbstractMessage::OK
+                    ContextualFeedbackSeverity::OK
                 );
             }
             $response = $createAfterEvent->getResponse();
@@ -900,7 +900,7 @@ final class PollController extends ActionController
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.successfullyPublished', [$poll->getTitle()]),
                 '',
-                AbstractMessage::OK
+                ContextualFeedbackSeverity::OK
             );
             return (new ForwardResponse('show'))
                 ->withControllerName('Poll')
@@ -990,7 +990,7 @@ final class PollController extends ActionController
                     $this->addFlashMessage(
                         TranslateUtility::translate('flash.noticeRemovedVotes', [$updateAfterEvent->getVoteCount()]),
                         '',
-                        AbstractMessage::WARNING
+                        ContextualFeedbackSeverity::WARNING
                     );
                 }
             }
@@ -1205,7 +1205,7 @@ final class PollController extends ActionController
     public function addFlashMessage(
         $messageBody,
         $messageTitle = '',
-        $severity = AbstractMessage::OK,
+        $severity = ContextualFeedbackSeverity::OK,
         $storeInSession = true
     ): void {
         if ($this->settings['enableFlashMessages']) {

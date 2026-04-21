@@ -1,20 +1,17 @@
+<?xml version="1.0"?>
 <T3DataStructure>
     <sheets>
         <generalsheet>
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xml:general</sheetTitle>
-                </TCEforms>
+                <sheetTitle>LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xml:general</sheetTitle>
                 <type>array</type>
                 <el>
                     <settings.tbd>
-                        <TCEforms>
-                            <label>LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xml:setting.tbd</label>
-                            <config>
-                                <type>check</type>
-                                <readOnly>1</readOnly>
-                            </config>
-                        </TCEforms>
+                        <label>LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xml:setting.tbd</label>
+                        <config>
+                            <type>check</type>
+                            <readOnly>1</readOnly>
+                        </config>
                     </settings.tbd>
                 </el>
             </ROOT>

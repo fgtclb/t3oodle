@@ -172,7 +172,7 @@ return [
                 'default' => SimplePoll::class,
                 'size' => 1,
                 'maxitems' => 1,
-                'eval' => 'required',
+                'required' => true,
             ],
         ],
         'title' => [
@@ -181,7 +181,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required',
+                'eval' => 'trim',
+                'required' => true,
             ],
         ],
         'description' => [
@@ -232,7 +233,7 @@ return [
                 'default' => Visibility::LISTED,
                 'size' => 1,
                 'maxitems' => 1,
-                'eval' => 'required',
+                'required' => true,
             ],
         ],
         'author' => [

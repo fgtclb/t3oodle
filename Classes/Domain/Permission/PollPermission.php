@@ -24,17 +24,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class PollPermission
 {
     private readonly string $currentUserIdent;
-
-    /**
-     * @var array
-     */
-    private array $controllerSettings;
     private readonly UserService $userService;
 
-    public function __construct(string $currentUserIdent = null, array $controllerSettings = [])
+    public function __construct(string $currentUserIdent = null, private array $controllerSettings = [])
     {
         $this->currentUserIdent = $currentUserIdent ?? UserIdentUtility::getCurrentUserIdent();
-        $this->controllerSettings = $controllerSettings;
         $this->userService = GeneralUtility::makeInstance(UserService::class);
     }
 

@@ -10,24 +10,11 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 final class ShowPollEvent
 {
-    private mixed $poll;
-
-    private Vote $vote;
-
-    private array $newOptionValues = [];
-    private array $settings = [];
     private readonly ViewInterface $view;
 
-    private readonly PollController $caller;
-
-    public function __construct(mixed $poll, Vote $vote, ViewInterface $view, array $newOptionValues, array $settings, PollController $caller)
+    public function __construct(private mixed $poll, private Vote $vote, ViewInterface $view, private array $newOptionValues, private array $settings, private readonly PollController $caller)
     {
-        $this->poll = $poll;
-        $this->vote = $vote;
         $this->view = $view;
-        $this->newOptionValues = $newOptionValues;
-        $this->settings = $settings;
-        $this->caller = $caller;
     }
 
     public function getPoll(): mixed

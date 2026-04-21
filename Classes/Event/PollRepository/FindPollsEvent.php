@@ -9,18 +9,14 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 final class FindPollsEvent
 {
-    private array $constraints;
     private readonly QueryInterface $query;
-    private readonly PollRepository $caller;
 
     public function __construct(
-        array $constraints,
+        private array $constraints,
         QueryInterface $query,
-        PollRepository $caller
+        private readonly PollRepository $caller
     ) {
-        $this->constraints = $constraints;
         $this->query = $query;
-        $this->caller = $caller;
     }
 
     public function getConstraints(): array

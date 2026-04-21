@@ -11,19 +11,11 @@ use TYPO3Fluid\Fluid\View\ViewInterface;
 
 final class NewSuggestionEvent
 {
-    private readonly Poll $poll;
-    private readonly array $settings;
     private readonly ViewInterface $view;
-    private readonly PollController $caller;
-    private readonly SuggestionDto $suggestionDto;
 
-    public function __construct(Poll $poll, SuggestionDto $suggestionDto, array $settings, $view, PollController $caller)
+    public function __construct(private readonly Poll $poll, private readonly SuggestionDto $suggestionDto, private readonly array $settings, $view, private readonly PollController $caller)
     {
-        $this->poll = $poll;
-        $this->suggestionDto = $suggestionDto;
-        $this->settings = $settings;
         $this->view = $view;
-        $this->caller = $caller;
     }
 
     public function getPoll(): Poll

@@ -9,19 +9,8 @@ use FGTCLB\T3oodle\Domain\Model\Vote;
 
 final class VotePollEvent
 {
-    private readonly Vote $vote;
-    private readonly bool $isNew;
-    private readonly array $settings;
-    private bool $continue;
-    private readonly PollController $caller;
-
-    public function __construct(Vote $vote, bool $isNew, array $settings, bool $continue, PollController $caller)
+    public function __construct(private readonly Vote $vote, private readonly bool $isNew, private readonly array $settings, private bool $continue, private readonly PollController $caller)
     {
-        $this->vote = $vote;
-        $this->isNew = $isNew;
-        $this->settings = $settings;
-        $this->continue = $continue;
-        $this->caller = $caller;
     }
 
     public function getVote(): Vote

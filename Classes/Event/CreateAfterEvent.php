@@ -10,20 +10,10 @@ use Psr\Http\Message\ResponseInterface;
 
 final class CreateAfterEvent
 {
-    private readonly Poll $poll;
-    private readonly bool $publishDirectly;
-    private bool $continue;
-    private readonly array $settings;
-    private readonly PollController $caller;
     private ResponseInterface $response;
 
-    public function __construct(Poll $poll, bool $publishDirectly, bool $continue, array $settings, PollController $caller, ResponseInterface $response)
+    public function __construct(private readonly Poll $poll, private readonly bool $publishDirectly, private bool $continue, private readonly array $settings, private readonly PollController $caller, ResponseInterface $response)
     {
-        $this->poll = $poll;
-        $this->publishDirectly = $publishDirectly;
-        $this->continue = $continue;
-        $this->settings = $settings;
-        $this->caller = $caller;
         $this->response = $response;
     }
 

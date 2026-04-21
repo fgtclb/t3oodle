@@ -13,18 +13,8 @@ use FGTCLB\T3oodle\Domain\Model\BasePoll;
  */
 final class NewOptionsAllowedEvent
 {
-    private readonly BasePoll $poll;
-    private bool $allowed;
-    private readonly PollController $controller;
-
-    public function __construct(
-        BasePoll $poll,
-        bool $allowed,
-        PollController $controller,
-    ) {
-        $this->poll = $poll;
-        $this->allowed = $allowed;
-        $this->controller = $controller;
+    public function __construct(private readonly BasePoll $poll, private bool $allowed, private readonly PollController $controller)
+    {
     }
 
     public function getPoll(): BasePoll

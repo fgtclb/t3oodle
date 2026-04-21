@@ -32,7 +32,7 @@ class CustomPollValidator extends AbstractValidator
             return true;
         }
 
-        $validatorFQCN = str_replace('\\Domain\\Model\\', '\\Domain\\Validator\\', get_class($value)) . 'Validator';
+        $validatorFQCN = str_replace('\\Domain\\Model\\', '\\Domain\\Validator\\', $value::class) . 'Validator';
         if (!class_exists($validatorFQCN)) {
             return false; // no validator, no validation
         }

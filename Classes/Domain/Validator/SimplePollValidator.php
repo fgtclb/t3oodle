@@ -12,11 +12,11 @@ namespace FGTCLB\T3oodle\Domain\Validator;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Option;
+use FGTCLB\T3oodle\Domain\Model\PollFrontendUser as FrontendUser;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Error;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
@@ -25,13 +25,21 @@ class SimplePollValidator extends AbstractValidator
 {
     protected $acceptsEmptyValues = false;
 
+    /**
+     * @var array{
+     *     action: non-empty-string[]
+     * }
+     */
     protected $supportedOptions = [
         'action' => ['update', '"create" or "update"', 'string'],
     ];
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function __construct(array $options = [], Result $result = null)
     {
-        parent::__construct($options);
+        $this->setOptions($options);
         if (!$result instanceof Result) {
             throw new \InvalidArgumentException(
                 'SimplePollValidator requires result constructor argument, from parent validator',
@@ -52,20 +60,20 @@ class SimplePollValidator extends AbstractValidator
 
     /**
      * @param BasePoll|null $value
-     *
-     * @return bool
      */
-    protected function isValid(mixed $value): bool
+    protected function isValid(mixed $value): void
     {
         if (!$value) {
-            return true;
+            return;
         }
         $statusOptions = $this->checkOptions($value);
         $statusInfo = $this->checkInfo($value);
         $statusAuthor = $this->checkAuthor($value);
         $statusSettings = $this->checkSettings($value);
 
-        return $statusOptions && $statusInfo && $statusAuthor && $statusSettings;
+        if (!($statusOptions && $statusInfo && $statusAuthor && $statusSettings)) {
+            // @todo add error message
+        }
     }
 
     protected function checkOptions(BasePoll $value): bool

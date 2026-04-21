@@ -9,7 +9,15 @@ use FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto;
 
 final class CreateSuggestionAfterEvent
 {
-    public function __construct(private readonly SuggestionDto $suggestionDto, private bool $continue, private readonly array $settings, private readonly PollController $caller) {}
+    /**
+     * @param array<string, mixed> $settings
+     */
+    public function __construct(
+        private readonly SuggestionDto $suggestionDto,
+        private bool $continue,
+        private readonly array $settings,
+        private readonly PollController $caller,
+    ) {}
 
     public function getSuggestionDto(): SuggestionDto
     {
@@ -21,6 +29,9 @@ final class CreateSuggestionAfterEvent
         return $this->continue;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getSettings(): array
     {
         return $this->settings;

@@ -7,8 +7,8 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\PollFrontendUser as FrontendUser;
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -17,7 +17,7 @@ class Vote extends AbstractEntity
     use DynamicUserProperties;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     * @var \FGTCLB\T3oodle\Domain\Model\PollFrontendUser
      */
     protected $participant;
 
@@ -107,6 +107,9 @@ class Vote extends AbstractEntity
         return $this->optionValues;
     }
 
+    /**
+     * @param ObjectStorage<OptionValue> $optionValues
+     */
     public function setOptionValues(ObjectStorage $optionValues): void
     {
         $this->optionValues = $optionValues;
@@ -122,7 +125,7 @@ class Vote extends AbstractEntity
         $this->optionValues->detach($optionValue);
     }
 
-    public function getPoll(): ?BasePoll
+    public function getPoll(): BasePoll
     {
         return $this->poll;
     }

@@ -14,6 +14,7 @@ use FGTCLB\T3oodle\Domain\Model\SimplePoll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Domain\Repository\OptionRepository;
+use FGTCLB\T3oodle\Domain\Repository\PollFrontendUserRepository;
 use FGTCLB\T3oodle\Domain\Repository\PollRepository;
 use FGTCLB\T3oodle\Domain\Repository\VoteRepository;
 use FGTCLB\T3oodle\Domain\Validator\AcceptedTermsValidator;
@@ -84,16 +85,16 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Annotation\IgnoreValidation;
 use TYPO3\CMS\Extbase\Annotation\Validate;
-use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Request;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -112,10 +113,15 @@ final class PollController extends ActionController
      */
     protected string $currentUserIdent = '';
     protected PollPermission $pollPermission;
-    protected FrontendUserRepository $userRepository;
+    protected PollFrontendUserRepository $userRepository;
     protected PersistenceManagerInterface $persistenceManager;
-    public function __construct(PersistenceManagerInterface $persistenceManager, protected PollRepository $pollRepository, protected OptionRepository $optionRepository, protected VoteRepository $voteRepository, FrontendUserRepository $userRepository)
-    {
+    public function __construct(
+        PersistenceManagerInterface $persistenceManager,
+        protected PollRepository $pollRepository,
+        protected OptionRepository $optionRepository,
+        protected VoteRepository $voteRepository,
+        PollFrontendUserRepository $userRepository
+    ) {
         $this->persistenceManager = $persistenceManager;
         $this->userRepository = $userRepository;
     }
@@ -136,23 +142,18 @@ final class PollController extends ActionController
         $this->settings['_dynamic'] = new \stdClass();
     }
 
-    public function initializeView(ViewInterface $view): void
+    public function initializeView(): void
     {
-        $view->assign('contentObject', $this->configurationManager->getContentObject()->data);
+        $this->view->assign('contentObject', $this->getContentObjectRow());
     }
 
-    /**
-     * @return string|bool
-     */
-    protected function getErrorFlashMessage()
+    protected function getErrorFlashMessage(): bool|string
     {
         return false;
     }
 
     public function listAction(): ResponseInterface
     {
-
-        $this->pollRepository->setControllerSettings($this->settings);
         // Retrieve polls based on settings
         $polls = $this->pollRepository->findPolls(
             (bool)$this->settings['list']['draft'],
@@ -200,7 +201,7 @@ final class PollController extends ActionController
             );
         }
 
-        if ($this->request->getOriginalRequestMappingResults()->hasErrors()) {
+        if ($this->request->getAttribute('extbase')?->getOriginalRequestMappingResults()->hasErrors()) {
             $this->addFlashMessage(
                 TranslateUtility::translate('flash.votingErrorOccurred'),
                 '',
@@ -221,7 +222,7 @@ final class PollController extends ActionController
 
         $newOptionValues = [];
         /** @var Request|null $originalRequest */
-        $originalRequest = $this->request->getOriginalRequest();
+        $originalRequest = $this->request;
         if ($originalRequest && $originalRequest->hasArgument('vote')) {
             foreach ($originalRequest->getArgument('vote')['optionValues'] as $optionValue) {
                 $newOptionValues[$optionValue['option']['__identity']] = $optionValue['value'];
@@ -382,8 +383,10 @@ final class PollController extends ActionController
     }
 
     /**
-     * @param int $option uid to finish
      * @throws FinishPollDeniedException
+     * @throws IllegalObjectTypeException
+     * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
+     * @throws UnknownObjectException
      */
     #[IgnoreValidation(['argumentName' => 'poll'])]
     public function finishAction(BasePoll $poll, int $option = 0): ResponseInterface
@@ -725,6 +728,8 @@ final class PollController extends ActionController
     }
 
     /**
+     * @param class-string<BasePoll> $pollType
+     *
      * @throws \FGTCLB\T3oodle\Domain\Permission\AccessDeniedException
      * @throws NoSuchArgumentException
      */
@@ -756,12 +761,7 @@ final class PollController extends ActionController
             );
         }
 
-        $newOptions = [];
-        /** @var Request|null $originalRequest */
-        $originalRequest = $this->request->getOriginalRequest();
-        if ($originalRequest) {
-            $newOptions = $this->request->getOriginalRequest()->getArgument('poll')['options'] ?? [];
-        }
+        $newOptions = $this->request->getArgument('poll')['options'] ?? [];
 
         $newPollEvent = new NewPollEvent($poll, $publishDirectly, $newOptions, $this->settings, $this->view, $this);
         $this->eventDispatcher->dispatch($newPollEvent);
@@ -779,7 +779,7 @@ final class PollController extends ActionController
         $this->disableValidator('poll', CustomPollValidator::class);
         /** @var \TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator $validator */
         $validator = $this->arguments->getArgument('poll')->getValidator();
-        $validator->addValidator(new CustomPollValidator(['action' => 'create']));
+        $validator->addValidator(new CustomPollValidator());
     }
 
     /**
@@ -1004,9 +1004,12 @@ final class PollController extends ActionController
         );
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getContentObjectRow(): ?array
     {
-        return $this->configurationManager->getContentObject()->data;
+        return $this->request->getAttribute('currentContentObject')?->data;
     }
 
     protected function removeMarkedPollOptions(BasePoll $poll): void
@@ -1024,8 +1027,8 @@ final class PollController extends ActionController
 
     private function initializeCurrentUserOrUserIdent(): void
     {
-        $this->currentUserIdent = UserIdentUtility::getCurrentUserIdent();
-        if (is_numeric($this->currentUserIdent)) {
+        $this->currentUserIdent = UserIdentUtility::getCurrentUserIdent() ?? '';
+        if (MathUtility::canBeInterpretedAsInteger($this->currentUserIdent)) {
             $this->currentUser = $this->userRepository->findByUid((int)$this->currentUserIdent);
         }
 
@@ -1073,7 +1076,7 @@ final class PollController extends ActionController
             if (isset($poll['options']) && is_array($poll['options'])) {
                 $poll['options'] = array_values($poll['options']);
             }
-            $this->request->setArgument('poll', $poll);
+            $this->arguments->addNewArgument('poll', 'Array', false, $poll);
         }
 
         if ($this->arguments->hasArgument('vote')) {
@@ -1125,8 +1128,8 @@ final class PollController extends ActionController
             if (!$poll && $this->request->hasArgument('poll')) {
                 $poll = $this->request->getArgument('poll');
             }
-            if (is_numeric($poll) && $this->arguments->hasArgument('suggestionDto')) {
-                $pollType = $this->pollRepository->getPollTypeByUid($poll);
+            if (MathUtility::canBeInterpretedAsInteger($poll) && $this->arguments->hasArgument('suggestionDto')) {
+                $pollType = $this->pollRepository->getPollTypeByUid((int)$poll);
             }
 
             if (!$pollType) {
@@ -1174,13 +1177,12 @@ final class PollController extends ActionController
     }
 
     /**
-     * @param string $messageBody
      * @param string $messageTitle
-     * @param int    $severity
-     * @param bool   $storeInSession
+     * @param int|ContextualFeedbackSeverity $severity
+     * @param bool $storeInSession
      */
     public function addFlashMessage(
-        $messageBody,
+        string $messageBody,
         $messageTitle = '',
         $severity = ContextualFeedbackSeverity::OK,
         $storeInSession = true

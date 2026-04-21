@@ -20,7 +20,13 @@ final class ParseDayOptionViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return string[]
+     * @return array{
+     *      original: string,
+     *      day: string,
+     *      option?: string,
+     *      dateStart: \DateTimeInterface,
+     *      dateEnd?: \DateTimeInterface
+     *  }
      */
     public function render(): array
     {

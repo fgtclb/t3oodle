@@ -9,6 +9,8 @@ namespace FGTCLB\T3oodle\Domain\Repository;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+
+use Doctrine\DBAL\Exception;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Event\PollRepository\FindPollsEvent;
@@ -17,9 +19,14 @@ use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
+/**
+ * @extends Repository<BasePoll>
+ */
 final class PollRepository extends Repository
 {
     protected EventDispatcherInterface $eventDispatcher;
@@ -34,7 +41,11 @@ final class PollRepository extends Repository
         'isPublished' => 'ASC',
         'publishDate' => 'DESC',
     ];
-    public function __construct(private readonly ConnectionPool $connectionPool) {}
+
+    public function __construct(private readonly ConnectionPool $connectionPool)
+    {
+        parent::__construct();
+    }
 
     public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
@@ -47,15 +58,15 @@ final class PollRepository extends Repository
     }
 
     /**
-     * @var array
+     * @return QueryResultInterface<BasePoll>
+     * @throws InvalidConfigurationTypeException
      */
-    private $controllerSettings = [];
-
     public function findPolls(
         bool $draft,
         bool $finished,
         bool $personal
     ): QueryResultInterface {
+        /** @var QueryInterface<BasePoll> $query */
         $query = $this->createQuery();
         $orConstraints = [];
 
@@ -101,21 +112,15 @@ final class PollRepository extends Repository
         return $query->execute();
     }
 
-    public function setControllerSettings(array $settings): void
-    {
-        $this->controllerSettings = $settings;
-    }
-
     /**
      * Retrieves the poll type by its unique identifier (UID).
      *
      * @throws \RuntimeException If the poll is not found.
+     * @throws Exception
      */
     public function getPollTypeByUid(int $poll): string
     {
-        /** @var ConnectionPool $pool */
-        $pool = $this->connectionPool;
-        $queryBuilder = $pool->getQueryBuilderForTable('tx_t3oodle_domain_model_poll');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tx_t3oodle_domain_model_poll');
         $result = $queryBuilder
             ->select('type')
             ->from('tx_t3oodle_domain_model_poll')

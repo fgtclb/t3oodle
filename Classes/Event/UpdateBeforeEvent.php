@@ -9,7 +9,17 @@ use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
 
 final class UpdateBeforeEvent
 {
-    public function __construct(private readonly Poll $poll, private readonly int $voteCount, private readonly bool $areOptionsModified, private bool $continue, private readonly array $settings, private readonly PollController $caller) {}
+    /**
+     * @param array<string, mixed> $settings
+     */
+    public function __construct(
+        private readonly Poll $poll,
+        private readonly int $voteCount,
+        private readonly bool $areOptionsModified,
+        private bool $continue,
+        private readonly array $settings,
+        private readonly PollController $caller,
+    ) {}
 
     public function getPoll(): Poll
     {
@@ -29,6 +39,9 @@ final class UpdateBeforeEvent
         return $this->continue;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getSettings(): array
     {
         return $this->settings;

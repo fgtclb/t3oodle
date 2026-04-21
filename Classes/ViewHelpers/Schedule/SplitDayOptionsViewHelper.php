@@ -22,10 +22,13 @@ final class SplitDayOptionsViewHelper extends AbstractViewHelper
         $this->registerArgument('options', 'array', 'Iterable with options', false);
     }
 
+    /**
+     * @return string[]
+     */
     public function render(): array
     {
         $renderChildrenClosure = $this->buildRenderChildrenClosure();
-        $options = $arguments['options'] ?? $renderChildrenClosure();
+        $options = $this->arguments['options'] ?? $renderChildrenClosure();
         if (!$options || !is_iterable($options)) {
             throw new \InvalidArgumentException(
                 'Invalid options given!',
@@ -33,7 +36,7 @@ final class SplitDayOptionsViewHelper extends AbstractViewHelper
             );
         }
         $items = [];
-        /** @var Option|array $option */
+        /** @var Option|array{name: string} $option */
         foreach ($options as $option) {
             $name = is_array($option) ? $option['name'] : $option->getName();
             $parts = GeneralUtility::trimExplode(ScheduleOptionUtility::DAY_OPTION_DELIMITER, $name, true, 2);

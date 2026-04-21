@@ -10,12 +10,17 @@ use Psr\Http\Message\ResponseInterface;
 
 final class CreateAfterEvent
 {
-    private ResponseInterface $response;
-
-    public function __construct(private readonly Poll $poll, private readonly bool $publishDirectly, private bool $continue, private readonly array $settings, private readonly PollController $caller, ResponseInterface $response)
-    {
-        $this->response = $response;
-    }
+    /**
+     * @param array<string, mixed> $settings
+     */
+    public function __construct(
+        private readonly Poll $poll,
+        private readonly bool $publishDirectly,
+        private bool $continue,
+        private readonly array $settings,
+        private readonly PollController $caller,
+        private ResponseInterface $response,
+    ) {}
 
     public function getPoll(): Poll
     {
@@ -37,6 +42,9 @@ final class CreateAfterEvent
         $this->continue = $continue;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getSettings(): array
     {
         return $this->settings;

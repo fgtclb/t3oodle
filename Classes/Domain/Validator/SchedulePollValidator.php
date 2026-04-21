@@ -16,7 +16,6 @@ use TYPO3\CMS\Extbase\Error\Result;
 
 class SchedulePollValidator extends SimplePollValidator
 {
-    public $result;
     public function __construct(array $options = [], Result $result = null)
     {
         parent::__construct($options, $result);
@@ -40,20 +39,20 @@ class SchedulePollValidator extends SimplePollValidator
 
     /**
      * @param BasePoll|null $value
-     *
-     * @return bool
      */
-    protected function isValid(mixed $value): bool
+    protected function isValid(mixed $value): void
     {
         if (!$value) {
-            return true;
+            return;
         }
         $statusOptions = $this->checkOptions($value) && $this->checkScheduleOptions($value);
         $statusInfo = $this->checkInfo($value);
         $statusAuthor = $this->checkAuthor($value);
         $statusSettings = $this->checkSettings($value);
 
-        return $statusOptions && $statusInfo && $statusAuthor && $statusSettings;
+        if (!($statusOptions && $statusInfo && $statusAuthor && $statusSettings)) {
+            // @todo add error message
+        }
     }
 
     protected function checkScheduleOptions(BasePoll $value): bool

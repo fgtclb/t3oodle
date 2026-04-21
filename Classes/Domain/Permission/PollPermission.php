@@ -23,11 +23,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 #[Exclude]
 class PollPermission
 {
-    private readonly string $currentUserIdent;
+    private readonly ?string $currentUserIdent;
     private readonly UserService $userService;
 
-    public function __construct(string $currentUserIdent = null, private array $controllerSettings = [])
-    {
+    /**
+     * @param array<array-key, mixed> $controllerSettings
+     */
+    public function __construct(
+        string $currentUserIdent = null,
+        private readonly array $controllerSettings = [],
+    ) {
         $this->currentUserIdent = $currentUserIdent ?? UserIdentUtility::getCurrentUserIdent();
         $this->userService = GeneralUtility::makeInstance(UserService::class);
     }
@@ -37,6 +42,9 @@ class PollPermission
      */
     public function isAllowed(BasePoll|Vote|null $subject, string $action, bool $throwException = false): bool
     {
+        if ($subject === null) {
+            return false;
+        }
         $getter = 'is' . ucfirst($action) . 'Allowed';
         if (!method_exists($this, $getter)) {
             $available = [];

@@ -11,10 +11,18 @@ namespace FGTCLB\T3oodle\Traits;
  */
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Extbase\Validation\Exception\NoSuchValidatorException;
 use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 
 trait ControllerValidatorManipulatorTrait
 {
+    /**
+     * @param class-string<ValidatorInterface> $validatorToRemove
+     * @throws NoSuchValidatorException
+     * @throws NoSuchArgumentException
+     */
     private function disableValidator(string $argument, string $validatorToRemove): void
     {
         if ($this->arguments->hasArgument($argument)) {
@@ -24,6 +32,10 @@ trait ControllerValidatorManipulatorTrait
         }
     }
 
+    /**
+     * @param class-string<ValidatorInterface> $validatorToRemove
+     * @throws NoSuchValidatorException
+     */
     private function removeValidatorRecursively(ConjunctionValidator $validator, string $validatorToRemove): void
     {
         $markToRemove = [];
@@ -45,7 +57,7 @@ trait ControllerValidatorManipulatorTrait
         if ($this->arguments->hasArgument($argumentName)) {
             $validator = $this->arguments->getArgument($argumentName)->getValidator();
 
-            if ($validator ===  null) {
+            if (!$validator instanceof ValidatorInterface) {
                 GeneralUtility::makeInstance(LogManager::class)
                     ->getLogger(self::class)->warning("No validator found for argument $argumentName");
                 return;
@@ -53,9 +65,9 @@ trait ControllerValidatorManipulatorTrait
 
             if (method_exists($validator, 'getValidators')) {
                 foreach ($validator->getValidators() as $subValidator) {
-                    if (method_exists($subValidator, 'getValidators')) {
+                    if ($subValidator instanceof ValidatorInterface && method_exists($subValidator, 'getValidators')) {
                         foreach ($subValidator->getValidators() as $subValidatorSub) {
-                            if (method_exists($subValidatorSub, 'getPropertyValidators')) {
+                            if ($subValidatorSub instanceof ValidatorInterface && method_exists($subValidatorSub, 'getPropertyValidators')) {
                                 $subValidatorSub->getPropertyValidators($propertyName)->removeAll(
                                     $subValidatorSub->getPropertyValidators($propertyName)
                                 );

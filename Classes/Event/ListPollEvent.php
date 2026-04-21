@@ -4,25 +4,34 @@ declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Event;
 
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface;
 
 final class ListPollEvent
 {
-    private readonly QueryResultInterface $polls;
-    private readonly ViewInterface $view;
+    /**
+     * @param QueryResultInterface<BasePoll> $polls
+     * @param array<string, mixed> $settings
+     */
+    public function __construct(
+        private readonly QueryResultInterface $polls,
+        private readonly array $settings,
+        private readonly ViewInterface $view,
+        private readonly object $caller,
+    ) {}
 
-    public function __construct(QueryResultInterface $polls, private readonly array $settings, ViewInterface $view, private readonly object $caller)
-    {
-        $this->polls = $polls;
-        $this->view = $view;
-    }
-
+    /**
+     * @return QueryResultInterface<BasePoll>
+     */
     public function getPolls(): QueryResultInterface
     {
         return $this->polls;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getSettings(): array
     {
         return $this->settings;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FGTCLB\T3oodle\Domain\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -9,6 +11,7 @@ namespace FGTCLB\T3oodle\Domain\Model;
  */
 use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
+use FGTCLB\T3oodle\Domain\Model\PollFrontendUser as FrontendUser;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
 use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
@@ -17,7 +20,6 @@ use FGTCLB\T3oodle\Utility\SettingsUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -62,7 +64,7 @@ abstract class BasePoll extends AbstractEntity
     protected $visibility = Visibility::LISTED;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     * @var PollFrontendUser
      */
     protected $author;
 
@@ -174,9 +176,14 @@ abstract class BasePoll extends AbstractEntity
     protected $votes;
 
     /**
-     * @var array|null
+     * @var Option[]|null
      */
     protected static $availableOptionsCache;
+
+    public function __construct()
+    {
+        $this->initializeObject();
+    }
 
     public function initializeObject(): void
     {
@@ -316,12 +323,12 @@ abstract class BasePoll extends AbstractEntity
     /**
      * @param bool $skipMarkedToDeleted When true, only options are returned, which are not marked to get deleted
      *
-     * @return ObjectStorage $options
+     * @return ObjectStorage<Option> $options
      */
     public function getOptions(bool $skipMarkedToDeleted = false): ObjectStorage
     {
         if ($skipMarkedToDeleted) {
-            /** @var ObjectStorage $options */
+            /** @var ObjectStorage<Option> $options */
             $options = GeneralUtility::makeInstance(ObjectStorage::class);
             foreach ($this->options as $option) {
                 if (!$option->isMarkToDelete()) {
@@ -335,6 +342,9 @@ abstract class BasePoll extends AbstractEntity
         return $this->options;
     }
 
+    /**
+     * @param ObjectStorage<Option> $options
+     */
     public function setOptions(ObjectStorage $options): void
     {
         $this->options = $options;
@@ -569,7 +579,7 @@ abstract class BasePoll extends AbstractEntity
     }
 
     /**
-     * @return array key is uid of option, value the amount of votes
+     * @return array<int, int> key is uid of option, value the amount of votes
      */
     public function getOptionTotals(): array
     {
@@ -579,13 +589,13 @@ abstract class BasePoll extends AbstractEntity
         foreach ($this->getVotes() as $vote) {
             foreach ($vote->getOptionValues() as $optionValue) {
                 if ($optionValue->getOption()) {
-                    if (!array_key_exists($optionValue->getOption()->getUid(), $optionTotals)) {
-                        $optionTotals[$optionValue->getOption()->getUid()] = 0;
+                    if (!array_key_exists(($optionValue->getOption()->getUid() ?? 0), $optionTotals)) {
+                        $optionTotals[(int)$optionValue->getOption()->getUid()] = 0;
                     }
                     if ($optionValue->getValue() === '1' ||
                         ($settings['countMaybeVotes'] && $optionValue->getValue() === '2')
                     ) {
-                        ++$optionTotals[$optionValue->getOption()->getUid()];
+                        ++$optionTotals[(int)$optionValue->getOption()->getUid()];
                     }
                 }
             }
@@ -652,7 +662,7 @@ abstract class BasePoll extends AbstractEntity
             foreach ($this->getVotes() as $vote) {
                 foreach ($vote->getOptionValues() as $optionValue) {
                     if ($optionValue->getValue() === '1' || ($countMaybeVotes && $optionValue->getValue() === '2')) {
-                        ++$usedOptionCounts[$optionValue->getOption()->getUid()];
+                        ++$usedOptionCounts[(int)$optionValue->getOption()?->getUid()];
                     }
                 }
             }

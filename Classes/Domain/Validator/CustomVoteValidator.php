@@ -21,10 +21,8 @@ class CustomVoteValidator extends AbstractValidator
 
     /**
      * @param Vote $value
-     *
-     * @return bool
      */
-    protected function isValid(mixed $value): bool
+    protected function isValid(mixed $value): void
     {
         $isValid = true;
 
@@ -115,7 +113,5 @@ class CustomVoteValidator extends AbstractValidator
                 }
             }
         }
-
-        return $isValid;
     }
 }

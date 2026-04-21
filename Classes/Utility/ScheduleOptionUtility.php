@@ -25,6 +25,13 @@ final class ScheduleOptionUtility
      *   option => '13:00-15:00'
      *   dateStart => DateTime (2020-06-13T13:00:00+02:00, 1592046000)
      *   dateEnd => DateTime (2020-06-13T15:00:00+02:00, 1592053200)
+     * @return array{
+     *     original: string,
+     *     day: string,
+     *     option?: string,
+     *     dateStart: \DateTimeInterface,
+     *     dateEnd?: \DateTimeInterface
+     * }
      */
     public static function parseOptionName(string $optionName): array
     {
@@ -59,12 +66,14 @@ final class ScheduleOptionUtility
         return $result;
     }
 
+    /**
+     * @return Error[]
+     */
     public static function validateOptionName(string $optionName): array
     {
         $errors = [];
         $parts = GeneralUtility::trimExplode(' - ', $optionName, true, 2);
         if (count($parts) < 1) {
-            $isValid = false;
             $errors[] = new Error(TranslateUtility::translate('validation.1592143003', [$optionName]), 1592143003);
         }
         if (isset($parts[0]) && $parts[0] && !preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)$parts[0])) {

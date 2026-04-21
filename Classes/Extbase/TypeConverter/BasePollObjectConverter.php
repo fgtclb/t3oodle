@@ -11,6 +11,7 @@ namespace FGTCLB\T3oodle\Extbase\TypeConverter;
  */
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
 
@@ -21,8 +22,11 @@ class BasePollObjectConverter extends PersistentObjectConverter
 
     protected $priority = 2;
 
-    public function getTargetTypeForSource($source, string $originalTargetType, PropertyMappingConfigurationInterface $configuration = null): string
-    {
+    public function getTargetTypeForSource(
+        $source,
+        string $originalTargetType,
+        PropertyMappingConfigurationInterface $configuration = null,
+    ): string {
         $targetType = parent::getTargetTypeForSource($source, $originalTargetType, $configuration);
         if ($targetType === BasePoll::class && is_array($source) && isset($source['type'])) {
             return $source['type'];
@@ -31,6 +35,10 @@ class BasePollObjectConverter extends PersistentObjectConverter
         return $targetType;
     }
 
+    /**
+     * @param array<array-key, mixed> $possibleConstructorArgumentValues
+     * @throws InvalidTargetException
+     */
     protected function buildObject(array &$possibleConstructorArgumentValues, string $objectType): object
     {
         $type = $possibleConstructorArgumentValues['type'] ?? null;

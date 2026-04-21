@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FGTCLB\T3oodle\Traits\Model;
 
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
+use FGTCLB\T3oodle\Domain\Model\PollFrontendUser as FrontendUser;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -16,7 +16,7 @@ trait CreatorTrait
     use DynamicUserProperties;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     * @var FrontendUser
      */
     protected $creator;
 

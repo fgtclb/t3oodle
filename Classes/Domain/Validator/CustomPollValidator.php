@@ -12,34 +12,38 @@ namespace FGTCLB\T3oodle\Domain\Validator;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 
 class CustomPollValidator extends AbstractValidator
 {
     protected $acceptsEmptyValues = false;
 
+    /**
+     * @var array{
+     *     action: non-empty-string[]
+     * }
+     */
     protected $supportedOptions = [
         'action' => ['update', '"create" or "update"', 'string'],
     ];
 
     /**
      * @param BasePoll|null $value
-     *
-     * @return bool
      */
-    protected function isValid(mixed $value): bool
+    protected function isValid(mixed $value): void
     {
         if (!$value) {
-            return true;
+            return;
         }
 
         $validatorFQCN = str_replace('\\Domain\\Model\\', '\\Domain\\Validator\\', $value::class) . 'Validator';
         if (!class_exists($validatorFQCN)) {
-            return false; // no validator, no validation
+            return; // no validator, no validation
         }
 
         $validator = GeneralUtility::makeInstance($validatorFQCN, $this->getOptions(), $this->result);
-        $validator->validate($value);
-
-        return !$this->result->hasMessages();
+        if ($validator instanceof ValidatorInterface) {
+            $validator->validate($value);
+        }
     }
 }

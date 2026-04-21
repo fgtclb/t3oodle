@@ -15,6 +15,9 @@ final class TranslateUtility
 {
     private const EXTENSION_NAME = 'T3oodle';
 
+    /**
+     * @param array<array-key, mixed> $arguments
+     */
     public static function translate(string $key, array $arguments = [], string $default = ''): string
     {
         $translation = LocalizationUtility::translate($key, self::EXTENSION_NAME, $arguments);

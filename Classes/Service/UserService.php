@@ -7,9 +7,13 @@ namespace FGTCLB\T3oodle\Service;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 final class UserService
 {
+    /**
+     * @throws InvalidConfigurationTypeException
+     */
     public function userIsAdmin(): bool
     {
         $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
@@ -23,6 +27,9 @@ final class UserService
         return $this->isAdminByUid($frontendUserUid, $settings) || $this->isAdminByGroup($frontendUserUid, $settings);
     }
 
+    /**
+     * @param array<array-key, mixed> $settings
+     */
     private function isAdminByUid(int $frontendUserUid, array $settings): bool
     {
         if (empty($settings['adminUserUids'])) {
@@ -34,6 +41,9 @@ final class UserService
         return in_array($frontendUserUid, $adminUserUids, true);
     }
 
+    /**
+     * @param array<array-key, mixed> $settings
+     */
     private function isAdminByGroup(int $frontendUserUid, array $settings): bool
     {
         if (empty($settings['adminUserGroupUids'])) {

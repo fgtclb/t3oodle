@@ -31,8 +31,8 @@ final class SlugUtility
 
     public function sanitize(string $slug): string
     {
-        $slug = str_replace('/', ' ', $slug);
-        $slug = preg_replace('/ {2,}/', ' ', $slug);
+        $slug = (string)str_replace('/', ' ', $slug);
+        $slug = (string)preg_replace('/ {2,}/', ' ', $slug);
 
         return $this->slugHelper->sanitize($slug);
     }

@@ -9,7 +9,15 @@ use FGTCLB\T3oodle\Domain\Model\Option;
 
 final class DeleteSuggestionEvent
 {
-    public function __construct(private readonly Option $option, private bool $continue, private readonly array $settings, private readonly PollController $caller) {}
+    /**
+     * @param array<string, mixed> $settings
+     */
+    public function __construct(
+        private readonly Option $option,
+        private bool $continue,
+        private readonly array $settings,
+        private readonly PollController $caller,
+    ) {}
 
     public function getOption(): Option
     {
@@ -21,6 +29,9 @@ final class DeleteSuggestionEvent
         return $this->continue;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getSettings(): array
     {
         return $this->settings;

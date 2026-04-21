@@ -15,12 +15,15 @@ use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
+/**
+ * @extends Repository<Option>
+ */
 final class OptionRepository extends Repository
 {
     protected $defaultOrderings = ['sorting' => 'ASC'];
 
     /**
-     * @return QueryResultInterface|Option[]|null
+     * @return QueryResultInterface<Option>|null
      */
     public function findByPollAndCreatorIdent(BasePoll $poll, string $creatorIdent): ?QueryResultInterface
     {

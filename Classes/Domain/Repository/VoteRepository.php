@@ -13,6 +13,9 @@ use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
+/**
+ * @extends Repository<Vote>
+ */
 final class VoteRepository extends Repository
 {
     public function findOneByPollAndParticipantIdent(BasePoll $poll, string $participantIdent): ?Vote

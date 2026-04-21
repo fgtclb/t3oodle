@@ -11,14 +11,19 @@ namespace FGTCLB\T3oodle\Utility;
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 final class SettingsUtility
 {
     /**
-     * @var array|null
+     * @var array<array-key, mixed>|null
      */
     private static ?array $settings = null;
 
+    /**
+     * @return array<array-key, mixed>
+     * @throws InvalidConfigurationTypeException
+     */
     public static function getTypoScriptSettings(): array
     {
         if (self::$settings) {

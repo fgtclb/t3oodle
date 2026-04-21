@@ -18,24 +18,14 @@ use FGTCLB\T3oodle\Event\UpdateBeforeEvent;
 use FGTCLB\T3oodle\Utility\SlugUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
-class UpdatePollSlugListener
+final class UpdatePollSlugListener
 {
-    protected PollRepository $pollRepository;
-
-    public function injectPollRepository(PollRepository $pollRepository): void
-    {
-        $this->pollRepository = $pollRepository;
-    }
-
-    protected PersistenceManager $persistenceManager;
-
-    public function __construct()
-    {
-        $this->persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
-    }
+    public function __construct(
+        private readonly PersistenceManager $persistenceManager,
+        private readonly PollRepository $pollRepository,
+    ) {}
 
     public function createAfterEvent(CreateAfterEvent $event): void
     {

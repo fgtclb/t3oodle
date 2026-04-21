@@ -9,21 +9,21 @@ namespace FGTCLB\T3oodle\Traits\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Domain\Model\PollFrontendUser as FrontendUser;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 
 trait DynamicUserProperties
 {
     /**
-     * @var array
+     * @var array<array-key, mixed>
      */
     protected static $typoscriptSettings = [];
 
     /**
-     * @var array
+     * @var array<array-key, mixed>
      */
     protected static $userRowCache = [];
 
@@ -54,11 +54,24 @@ trait DynamicUserProperties
 
             return $user->$getter() ?: '';
         }
-        $userRow = $this->getUserRow($user->getUid());
+        $userRow = $this->getUserRow((int)$user->getUid());
 
-        return $userRow[$fieldName];
+        $returnValue = $userRow[$fieldName] ?? null;
+
+        if ($returnValue === null) {
+            throw new \InvalidArgumentException(
+                sprintf('Field "%s" not given.', $fieldName),
+                1776774128
+            );
+        }
+
+        return $returnValue;
     }
 
+    /**
+     * @return array<array-key, mixed>|null
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function getUserRow(int $uid): ?array
     {
         if (array_key_exists($uid, self::$userRowCache)) {

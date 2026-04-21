@@ -11,23 +11,25 @@ namespace FGTCLB\T3oodle\Domain\Model\Dto;
  */
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Option;
+use FGTCLB\T3oodle\Domain\Model\PollFrontendUser as FrontendUser;
 use FGTCLB\T3oodle\Traits\Model\CreatorTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 
 class SuggestionDto
 {
     use CreatorTrait;
 
     public function __construct(
-        private ?BasePoll $poll = null,
+        private BasePoll $poll,
         private string $suggestion = '',
         FrontendUser $creator = null,
         string $creatorName = '',
         string $creatorMail = '',
         string $creatorIdent = ''
     ) {
-        $this->creator = $creator;
+        if ($creator instanceof FrontendUser) {
+            $this->creator = $creator;
+        }
         $this->creatorName = $creatorName;
         $this->creatorMail = $creatorMail;
         $this->creatorIdent = $creatorIdent;
@@ -57,7 +59,7 @@ class SuggestionDto
     {
         /** @var Option $newOption */
         $newOption = GeneralUtility::makeInstance(Option::class);
-        $newOption->setPid($this->getPoll()->getPid());
+        $newOption->setPid((int)$this->getPoll()->getPid());
         $newOption->setName(trim($this->getSuggestion()));
 
         if ($this->getCreator() instanceof FrontendUser) {

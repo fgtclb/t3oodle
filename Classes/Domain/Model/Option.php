@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FGTCLB\T3oodle\Domain\Model;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
@@ -32,7 +34,7 @@ class Option extends AbstractEntity
     protected $sorting = 0;
 
     /**
-     * @var BasePoll|null
+     * @var BasePoll
      */
     protected $poll;
 
@@ -56,7 +58,7 @@ class Option extends AbstractEntity
         $this->sorting = (int)$sorting;
     }
 
-    public function getPoll(): ?BasePoll
+    public function getPoll(): BasePoll
     {
         return $this->poll;
     }
@@ -66,6 +68,14 @@ class Option extends AbstractEntity
         $this->poll = $poll;
     }
 
+    /**
+     * @return array{
+     *     -1: string,
+     *     0: string,
+     *     1: string,
+     *     2?: string
+     * }
+     */
     public function getCheckboxStates(): array
     {
         $states = [
@@ -73,7 +83,7 @@ class Option extends AbstractEntity
             0 => 'no',
             1 => 'yes',
         ];
-        if ($this->getPoll() && $this->poll->isSettingTristateCheckbox()) {
+        if ($this->poll->isSettingTristateCheckbox()) {
             $states[2] = 'maybe';
         }
 
@@ -89,12 +99,13 @@ class Option extends AbstractEntity
 
     public function getAmountOfLeftVotes(bool $respectCurrentUser = false): ?int
     {
-        if ($this->getPoll()->getSettingMaxVotesPerOption() === 0) {
+        if ($this->poll->getSettingMaxVotesPerOption() === 0) {
             return null;
         }
 
         $total = 0;
-        foreach ($this->getPoll()->getVotes() as $vote) {
+        $currentVotes = $this->poll->getVotes();
+        foreach ($currentVotes as $vote) {
             if ($respectCurrentUser || $vote->getParticipantIdent() !== UserIdentUtility::getCurrentUserIdent()) {
                 foreach ($vote->getOptionValues() as $optionValue) {
                     if ($optionValue->getOption() === $this && $optionValue->getValue() === '1') {
@@ -104,7 +115,7 @@ class Option extends AbstractEntity
             }
         }
 
-        return $this->getPoll()->getSettingMaxVotesPerOption() - $total;
+        return $this->poll->getSettingMaxVotesPerOption() - $total;
     }
 
     public function getAmountOfLeftVotesRespectingCurrentUser(): ?int

@@ -10,9 +10,7 @@ namespace FGTCLB\T3oodle\ViewHelpers;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
  * Font Awesome SVG ViewHelper.
@@ -22,12 +20,10 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  */
 final class SvgViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
     protected $escapeOutput = false;
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected static $cache = [];
 
@@ -43,37 +39,30 @@ final class SvgViewHelper extends AbstractViewHelper
     /**
      * Return array element by key.
      *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @throws \RuntimeException
-     * @return string
      */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): string {
-        $request = $renderingContext->getRequest();
+    public function render(): string
+    {
+        $request = $this->renderingContext->getRequest();
         $extensionName = $request->getControllerExtensionName();
         $uri = 'EXT:' . GeneralUtility::camelCaseToLowerCaseUnderscored($extensionName) . '/Resources/Public/' .
-            $arguments['path'];
+            $this->arguments['path'];
         $path = GeneralUtility::getFileAbsFileName($uri);
 
         if (!file_exists($path)) {
             throw new \RuntimeException(
-                'Given SVG file "' . $arguments['path'] . '" not found!',
+                'Given SVG file "' . $this->arguments['path'] . '" not found!',
                 1727787280
             );
         }
 
         // Prepare view helper arguments
-        $size = (string)$arguments['size'];
-        $color = (string)$arguments['color'];
-        $title = (string)$arguments['title'];
+        $size = (string)$this->arguments['size'];
+        $color = (string)$this->arguments['color'];
+        $title = (string)$this->arguments['title'];
         $class = 'svg-icon';
-        if (!empty($arguments['class'])) {
-            $class .= ' ' . $arguments['class'];
+        if (!empty($this->arguments['class'])) {
+            $class .= ' ' . $this->arguments['class'];
         }
 
         // If the same icon is requested a second time, use a reference to symbol instead
@@ -117,8 +106,21 @@ final class SvgViewHelper extends AbstractViewHelper
         string $title
     ): string {
         $svgContents = file_get_contents($path);
+        if ($svgContents === false) {
+            throw new \InvalidArgumentException(
+                'Given SVG file "' . $path . '" not found!',
+                1776954293
+            );
+        }
         $svgDocument = new \DOMDocument();
-        $svgDocument->loadXML($svgContents);
+        $loadedDocument = $svgDocument->loadXML($svgContents);
+
+        if (!$loadedDocument instanceof \DOMDocument) {
+            throw new \InvalidArgumentException(
+                'Given SVG file "' . $path . '" not parseable!',
+                1776954336
+            );
+        }
 
         // Used for caching and symbol identifier
         $id = 'svg-' . str_replace(['/', '_', ' ', '.'], '-', basename($path));
@@ -127,13 +129,13 @@ final class SvgViewHelper extends AbstractViewHelper
         $symbolDocument = new \DOMDocument();
         $symbol = $symbolDocument->createElement('symbol');
         $symbol->setAttribute('id', $id);
-        $symbol->setAttribute('viewBox', $svgDocument->documentElement->getAttribute('viewBox'));
+        $symbol->setAttribute('viewBox', $loadedDocument->documentElement->getAttribute('viewBox'));
         $symbolDocument->appendChild($symbol);
 
         // Get paths of font awesome SVG
-        foreach ($svgDocument->documentElement->childNodes as $svgpath) {
+        foreach ($loadedDocument->documentElement->childNodes as $svgpath) {
             $iconPathsFragment = $symbolDocument->createDocumentFragment();
-            $iconPathsFragment->appendXML($svgDocument->saveXML($svgpath));
+            $iconPathsFragment->appendXML($loadedDocument->saveXML($svgpath));
             $symbol->appendChild($iconPathsFragment);
         }
 

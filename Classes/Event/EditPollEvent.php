@@ -5,22 +5,28 @@ declare(strict_types=1);
 namespace FGTCLB\T3oodle\Event;
 
 use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface;
 
 final class EditPollEvent
 {
-    private readonly ViewInterface $view;
-
-    public function __construct(private readonly Poll $poll, private readonly array $settings, ViewInterface $view, private readonly object $caller)
-    {
-        $this->view = $view;
-    }
+    /**
+     * @param array<string, mixed> $settings
+     */
+    public function __construct(
+        private readonly Poll $poll,
+        private readonly array $settings,
+        private readonly ViewInterface $view,
+        private readonly object $caller,
+    ) {}
 
     public function getPoll(): Poll
     {
         return $this->poll;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getSettings(): array
     {
         return $this->settings;

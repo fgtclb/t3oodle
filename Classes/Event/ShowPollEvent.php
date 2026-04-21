@@ -6,16 +6,22 @@ namespace FGTCLB\T3oodle\Event;
 
 use FGTCLB\T3oodle\Controller\PollController;
 use FGTCLB\T3oodle\Domain\Model\Vote;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface;
 
 final class ShowPollEvent
 {
-    private readonly ViewInterface $view;
-
-    public function __construct(private mixed $poll, private Vote $vote, ViewInterface $view, private array $newOptionValues, private readonly array $settings, private readonly PollController $caller)
-    {
-        $this->view = $view;
-    }
+    /**
+     * @param array<string, mixed> $settings
+     * @param array<string, mixed> $newOptionValues
+     */
+    public function __construct(
+        private mixed $poll,
+        private Vote $vote,
+        private readonly ViewInterface $view,
+        private array $newOptionValues,
+        private readonly array $settings,
+        private readonly PollController $caller,
+    ) {}
 
     public function getPoll(): mixed
     {
@@ -47,16 +53,25 @@ final class ShowPollEvent
         $this->vote = $vote;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getNewOptionValues(): array
     {
         return $this->newOptionValues;
     }
 
+    /**
+     * @param array<string, mixed> $newOptionValues
+     */
     public function setNewOptionValues(array $newOptionValues): void
     {
         $this->newOptionValues = $newOptionValues;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getSettings(): array
     {
         return $this->settings;

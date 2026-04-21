@@ -9,9 +9,7 @@ use FGTCLB\T3oodle\Domain\Model\BasePoll;
 
 final class CreatePollAllowedEvent
 {
-    public function __construct(private readonly BasePoll $poll, private bool $allowed, private readonly PollController $controller)
-    {
-    }
+    public function __construct(private readonly BasePoll $poll, private bool $allowed, private readonly PollController $controller) {}
 
     public function getPoll(): BasePoll
     {

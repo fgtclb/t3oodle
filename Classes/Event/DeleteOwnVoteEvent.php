@@ -9,9 +9,7 @@ use FGTCLB\T3oodle\Domain\Model\Vote;
 
 final class DeleteOwnVoteEvent
 {
-    public function __construct(private readonly Vote $vote, private readonly string $participantName, private bool $continue, private readonly array $settings, private readonly PollController $caller)
-    {
-    }
+    public function __construct(private readonly Vote $vote, private readonly string $participantName, private bool $continue, private readonly array $settings, private readonly PollController $caller) {}
 
     public function getVote(): Vote
     {

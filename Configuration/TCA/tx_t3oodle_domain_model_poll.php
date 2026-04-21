@@ -1,9 +1,9 @@
 <?php
 
-use FGTCLB\T3oodle\Domain\Model\SimplePoll;
-use FGTCLB\T3oodle\Domain\Model\SchedulePoll;
-use FGTCLB\T3oodle\Utility\TcaGeneratorUtility;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
+use FGTCLB\T3oodle\Domain\Model\SchedulePoll;
+use FGTCLB\T3oodle\Domain\Model\SimplePoll;
+use FGTCLB\T3oodle\Utility\TcaGeneratorUtility;
 
 /*  | The t3oodle extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.

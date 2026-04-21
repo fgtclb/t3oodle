@@ -9,8 +9,8 @@ namespace FGTCLB\T3oodle\Domain\Validator;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
+use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Utility\ScheduleOptionUtility;
 use TYPO3\CMS\Extbase\Error\Result;
 

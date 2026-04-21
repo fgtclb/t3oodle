@@ -7,6 +7,7 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
@@ -82,8 +83,8 @@ abstract class BasePoll extends AbstractEntity
 
     /**
      * @var ObjectStorage<Option>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
+    #[Cascade(['value' => 'remove'])]
     protected $options;
 
     /**
@@ -168,8 +169,8 @@ abstract class BasePoll extends AbstractEntity
 
     /**
      * @var ObjectStorage<Vote>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
+    #[Cascade(['value' => 'remove'])]
     protected $votes;
 
     /**

@@ -97,10 +97,8 @@ class Option extends AbstractEntity
         foreach ($this->getPoll()->getVotes() as $vote) {
             if ($respectCurrentUser || $vote->getParticipantIdent() !== UserIdentUtility::getCurrentUserIdent()) {
                 foreach ($vote->getOptionValues() as $optionValue) {
-                    if ($optionValue->getOption() === $this) {
-                        if ($optionValue->getValue() === '1') {
-                            ++$total;
-                        }
+                    if ($optionValue->getOption() === $this && $optionValue->getValue() === '1') {
+                        ++$total;
                     }
                 }
             }

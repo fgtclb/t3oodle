@@ -7,9 +7,6 @@
  */
 
 use FGTCLB\T3oodle\Controller\PollController;
-use FGTCLB\T3oodle\Extbase\TypeConverter\BasePollObjectConverter;
-use FGTCLB\T3oodle\Updates\MigrateOldPollTypes;
-use FGTCLB\T3oodle\Updates\MigrateOneOptionOnlySetting;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
@@ -53,16 +50,5 @@ mod {
     }
 }
 TS
-    );
-
-    // Register update wizards
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['t3oodleMigrateOneOptionOnlySetting']
-        = MigrateOneOptionOnlySetting::class;
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['t3oodleMigrateOldPollTypes']
-        = MigrateOldPollTypes::class;
-
-    // Register Extbase Type Converter
-    ExtensionUtility::registerTypeConverter(
-        BasePollObjectConverter::class
     );
 })();

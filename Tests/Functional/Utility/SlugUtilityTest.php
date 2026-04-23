@@ -11,8 +11,13 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 final class SlugUtilityTest extends FunctionalTestCase
 {
+    protected array $coreExtensionsToLoad = [
+        'typo3/cms-fluid-styled-content',
+    ];
+
     protected array $testExtensionsToLoad = [
         'fgtclb/t3oodle',
+        'georgringer/numbered-pagination',
     ];
 
     public static function sanitizingDataProvider(): \Generator

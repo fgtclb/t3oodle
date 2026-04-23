@@ -31,7 +31,10 @@ final class TcaGeneratorUtility
             $label = $labelPrefix === '' || $labelPrefix === '0'
                         ? call_user_func([$enumeration, 'getHumanReadableName'], $value)
                         : $labelPrefix . call_user_func([$enumeration, 'getName'], $value);
-            $items[] = [$label, $value];
+            $items[] = [
+                'label' => $label,
+                'value' => $value,
+            ];
         }
 
         return $items;

@@ -11,6 +11,7 @@
     stopOnIncomplete="false"
     stopOnSkipped="false"
     beStrictAboutTestsThatDoNotTestAnything="false"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
     failOnWarning="true"
     failOnRisky="true"
 >

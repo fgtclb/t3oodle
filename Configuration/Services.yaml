@@ -18,3 +18,10 @@ services:
         identifier: fgtclb/t3oodle/update-slug-create-after-poll
         method: createAfterEvent
         event: FGTCLB\T3oodle\Event\CreateAfterEvent
+
+  FGTCLB\T3oodle\Extbase\TypeConverter\BasePollObjectConverter:
+    tags:
+      - name: extbase.type_converter
+        priority: 2
+        target: \FGTCLB\T3oodle\Domain\Model\BasePoll
+        sources: int,string,array

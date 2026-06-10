@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
+use FGTCLB\T3oodle\Domain\Model\PollFrontendUser;
 use FGTCLB\T3oodle\Domain\Model\SchedulePoll;
 use FGTCLB\T3oodle\Domain\Model\SimplePoll;
 
@@ -22,5 +23,8 @@ return [
     SchedulePoll::class => [
         'tableName' => 'tx_t3oodle_domain_model_poll',
         'recordType' => SchedulePoll::class,
+    ],
+    PollFrontendUser::class => [
+        'tableName' => 'fe_users',
     ],
 ];

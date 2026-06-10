@@ -18,11 +18,11 @@ final class UserIdentUtility
     /**
      * @var string|null
      */
-    private static ?string $currentUserIdent;
+    private static ?string $currentUserIdent = null;
 
     public static function getCurrentUserIdent(): ?string
     {
-        if (self::$currentUserIdent) {
+        if (self::$currentUserIdent !== null) {
             return self::$currentUserIdent;
         }
 

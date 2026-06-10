@@ -45,6 +45,7 @@ final class PollRepository extends Repository
     public function __construct(private readonly ConnectionPool $connectionPool)
     {
         parent::__construct();
+        $this->objectType = BasePoll::class;
     }
 
     public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void

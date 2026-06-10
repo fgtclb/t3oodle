@@ -3,11 +3,11 @@
     <sheets>
         <generalsheet>
             <ROOT>
-                <sheetTitle>LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xml:general</sheetTitle>
+                <sheetTitle>LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:general</sheetTitle>
                 <type>array</type>
                 <el>
                     <settings.tbd>
-                        <label>LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xml:setting.tbd</label>
+                        <label>LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:setting.tbd</label>
                         <config>
                             <type>check</type>
                             <readOnly>1</readOnly>

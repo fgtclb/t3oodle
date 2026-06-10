@@ -114,8 +114,7 @@ final class SvgViewHelper extends AbstractViewHelper
         }
         $svgDocument = new \DOMDocument();
         $loadedDocument = $svgDocument->loadXML($svgContents);
-
-        if (!$loadedDocument instanceof \DOMDocument) {
+        if ($loadedDocument !== true) {
             throw new \InvalidArgumentException(
                 'Given SVG file "' . $path . '" not parseable!',
                 1776954336
@@ -129,13 +128,13 @@ final class SvgViewHelper extends AbstractViewHelper
         $symbolDocument = new \DOMDocument();
         $symbol = $symbolDocument->createElement('symbol');
         $symbol->setAttribute('id', $id);
-        $symbol->setAttribute('viewBox', $loadedDocument->documentElement->getAttribute('viewBox'));
+        $symbol->setAttribute('viewBox', $svgDocument->documentElement->getAttribute('viewBox'));
         $symbolDocument->appendChild($symbol);
 
         // Get paths of font awesome SVG
-        foreach ($loadedDocument->documentElement->childNodes as $svgpath) {
+        foreach ($svgDocument->documentElement->childNodes as $svgpath) {
             $iconPathsFragment = $symbolDocument->createDocumentFragment();
-            $iconPathsFragment->appendXML($loadedDocument->saveXML($svgpath));
+            $iconPathsFragment->appendXML($svgDocument->saveXML($svgpath));
             $symbol->appendChild($iconPathsFragment);
         }
 

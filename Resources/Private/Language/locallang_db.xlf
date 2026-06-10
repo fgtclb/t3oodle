@@ -185,14 +185,17 @@
 			<trans-unit id="tx_t3oodle_domain_model_optionvalue.vote">
 				<source>Vote</source>
 			</trans-unit>
-
-
-
 			<trans-unit id="tx_t3oodle_main.name">
 				<source>t3oodle</source>
 			</trans-unit>
 			<trans-unit id="tx_t3oodle_main.description">
 				<source>Poll plugin.</source>
+			</trans-unit>
+			<trans-unit id="general">
+				<source>General</source>
+			</trans-unit>
+			<trans-unit id="setting.tbd">
+				<source>To be defined</source>
 			</trans-unit>
 		</body>
 	</file>

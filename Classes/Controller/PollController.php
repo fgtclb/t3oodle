@@ -1076,7 +1076,7 @@ final class PollController extends ActionController
             if (isset($poll['options']) && is_array($poll['options'])) {
                 $poll['options'] = array_values($poll['options']);
             }
-            $this->arguments->addNewArgument('poll', 'Array', false, $poll);
+            $this->request = $this->request->withArgument('poll', $poll);
         }
 
         if ($this->arguments->hasArgument('vote')) {

@@ -120,6 +120,13 @@ final class SvgViewHelper extends AbstractViewHelper
                 1776954336
             );
         }
+        $svgRoot = $svgDocument->documentElement;
+        if (!$svgRoot instanceof \DOMElement) {
+            throw new \InvalidArgumentException(
+                'Given SVG file "' . $path . '" has no root SVG element!',
+                1776954775
+            );
+        }
 
         // Used for caching and symbol identifier
         $id = 'svg-' . str_replace(['/', '_', ' ', '.'], '-', basename($path));
@@ -128,13 +135,17 @@ final class SvgViewHelper extends AbstractViewHelper
         $symbolDocument = new \DOMDocument();
         $symbol = $symbolDocument->createElement('symbol');
         $symbol->setAttribute('id', $id);
-        $symbol->setAttribute('viewBox', $svgDocument->documentElement->getAttribute('viewBox'));
+        $symbol->setAttribute('viewBox', $svgRoot->getAttribute('viewBox'));
         $symbolDocument->appendChild($symbol);
 
         // Get paths of font awesome SVG
-        foreach ($svgDocument->documentElement->childNodes as $svgpath) {
+        foreach ($svgRoot->childNodes as $svgpath) {
+            $svgPathXml = $svgDocument->saveXML($svgpath);
+            if ($svgPathXml === false) {
+                continue;
+            }
             $iconPathsFragment = $symbolDocument->createDocumentFragment();
-            $iconPathsFragment->appendXML($svgDocument->saveXML($svgpath));
+            $iconPathsFragment->appendXML($svgPathXml);
             $symbol->appendChild($iconPathsFragment);
         }
 

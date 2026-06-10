@@ -104,6 +104,9 @@ class Vote extends AbstractEntity
      */
     public function getOptionValues(): ObjectStorage
     {
+        if (!$this->optionValues instanceof ObjectStorage) {
+            $this->optionValues = new ObjectStorage();
+        }
         return $this->optionValues;
     }
 
@@ -117,12 +120,12 @@ class Vote extends AbstractEntity
 
     public function addOptionValue(OptionValue $optionValue): void
     {
-        $this->optionValues->attach($optionValue);
+        $this->getOptionValues()->attach($optionValue);
     }
 
     public function removeOptionValue(OptionValue $optionValue): void
     {
-        $this->optionValues->detach($optionValue);
+        $this->getOptionValues()->detach($optionValue);
     }
 
     public function getPoll(): BasePoll

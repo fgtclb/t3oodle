@@ -59,7 +59,7 @@ Prerequisites:
 echo '>> Create release' ; \
   RELEASE_BRANCH='master' ; \
   RELEASE_VERSION='1.0.1' ; \
-  DEV_VERSION='1.0.2' ; \
+  DEV_VERSION='2.0.0' ; \
   echo ">> Checkout branches" && \
   git checkout master && \
   git fetch --all && \

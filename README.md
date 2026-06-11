@@ -59,42 +59,45 @@ Prerequisites:
 echo '>> Create release' ; \
   RELEASE_BRANCH='master' ; \
   RELEASE_VERSION='1.0.1' ; \
-  NEXT_DEV_VERSION='1.0.2' ; \
+  DEV_VERSION='1.0.2' ; \
+  echo ">> Checkout branches" && \
   git checkout master && \
   git fetch --all && \
   git pull --rebase && \
   git checkout ${RELEASE_BRANCH} && \
   git pull --rebase && \
+  echo ">> Create release ${RELEASE_VERSION}" && \
   git checkout -b release-${RELEASE_VERSION} && \
   sed -i "s/^COMPOSER_ROOT_VERSION.*/COMPOSER_ROOT_VERSION=\"${RELEASE_VERSION}\"/" Build/Scripts/runTests.sh && \
+  sed -i "s/^  RELEASE_VERSION.*/  RELEASE_VERSION='${RELEASE_VERSION}' ; \\\\/" README.md && \
+  sed -i "s/^  DEV_VERSION.*/  DEV_VERSION='${DEV_VERSION}' ; \\\\/" README.md && \
   tailor set-version ${RELEASE_VERSION} && \
+  composer config "extra"."typo3/cms"."version" "${RELEASE_VERSION}" && \
   echo "${RELEASE_VERSION}" > VERSION && \
   git add . && \
   git commit -m "[RELEASE] ${RELEASE_VERSION}" && \
   git push --set-upstream origin release-${RELEASE_VERSION} && \
   gh pr create --fill --base ${RELEASE_BRANCH} --title "[RELEASE] ${RELEASE_VERSION}" && \
-  gh pr view --web && \
-  sleep 30 && \
+  sleep 10 && \
   gh pr checks --watch --interval 2 && \
-  sleep 5 && \
+  sleep 10 && \
   gh pr merge -rd --admin && \
   git remote prune origin && \
   git tag ${RELEASE_VERSION} && \
-  git push --tags && \
-  git checkout -b set-dev-version-${NEXT_DEV_VERSION} && \
-  tailor set-version ${NEXT_DEV_VERSION} && \
-  echo "${NEXT_DEV_VERSION}-dev" > VERSION && \
-  sed -i "s/^COMPOSER_ROOT_VERSION.*/COMPOSER_ROOT_VERSION=\"${NEXT_DEV_VERSION}-dev\"/" Build/Scripts/runTests.sh && \
-  sed -i "s/^  RELEASE_VERSION=.*/  RELEASE_VERSION='${RELEASE_VERSION}' ; \\\/" README.md && \
-  sed -i "s/^  NEXT_DEV_VERSION=.*/  NEXT_DEV_VERSION='${NEXT_DEV_VERSION}' ; \\\/" README.md && \
+  git push origin ${RELEASE_VERSION} && \
+  echo ">> Post-release - set dev version: ${DEV_VRESION}-dev" && \
+  git checkout -b set-dev-version-${DEV_VERSION} && \
+  sed -i "s/^COMPOSER_ROOT_VERSION.*/COMPOSER_ROOT_VERSION=\"${DEV_VERSION}-dev\"/" Build/Scripts/runTests.sh && \
+  tailor set-version ${DEV_VERSION} && \
+  composer config "extra"."typo3/cms"."version" "${DEV_VERSION}-dev" && \
+  echo "${DEV_VERSION}-dev" > VERSION && \
   git add . && \
-  git commit -m "[TASK] Set \"${NEXT_DEV_VERSION}-dev\"" && \
-  git push --set-upstream origin set-dev-version-${NEXT_DEV_VERSION} && \
-  gh pr create --fill --base ${RELEASE_BRANCH} --title "[TASK] Set \"${NEXT_DEV_VERSION}-dev\"" && \
-  gh pr view --web && \
-  sleep 30 && \
+  git commit -m "[TASK] Set dev version ${DEV_VERSION}" && \
+  git push --set-upstream origin set-dev-version-${DEV_VERSION} && \
+  gh pr create --fill --base ${RELEASE_BRANCH} --title "[TASK] Set dev version \"${DEV_VERSION}-dev\"" && \
+  sleep 10 && \
   gh pr checks --watch --interval 2 && \
-  sleep 5 && \
+  sleep 10 && \
   gh pr merge -rd --admin && \
   git remote prune origin
 ```

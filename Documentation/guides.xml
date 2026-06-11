@@ -14,8 +14,8 @@
                interlink-shortcode="fgtclb/t3oodle"
     />
     <project title="t3oodle"
-             release="main (development 1.x)"
-             version="main (development 1.x)"
+             release="main (development 2.x)"
+             version="main (development 2.x)"
              copyright="since 2018 by FGTCLB GmbH &amp; Contributors"
     />
     <inventory id="t3coreapi-latest"

@@ -17,7 +17,7 @@ Just perform the following command on CLI:
 
 ::
 
-    $ composer req fgtclb/t3oodle
+    $ composer req 'fgtclb/t3oodle':'^2.0@dev'
 
 When composer is done, you need to enable the extension in the extension manager.
 

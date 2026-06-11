@@ -35,7 +35,7 @@ Install with your flavour:
 We prefer composer installation:
 
 ```bash
-composer require -W 'fgtclb/t3oodle':'^1.0'
+composer require -W 'fgtclb/t3oodle':'^2.0@dev'
 ```
 
 ## Create a release (maintainers only)

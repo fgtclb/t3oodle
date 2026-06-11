@@ -68,6 +68,10 @@
             "Package": {
                 "providesPackages": []
             }
+        },
+        "branch-alias": {
+            "dev-master": "2.x-dev",
+            "dev-1": "1.x-dev"
         }
     },
     "scripts": {

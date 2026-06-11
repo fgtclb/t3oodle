@@ -829,6 +829,12 @@ final class PollController extends ActionController
         if (!$this->currentUser) {
             if ($this->currentUserIdent === '' || $this->currentUserIdent === '0') {
                 $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
+                $this->settings['_currentUserIdent'] = $this->currentUserIdent;
+                $this->pollPermission = GeneralUtility::makeInstance(
+                    PollPermission::class,
+                    $this->currentUserIdent,
+                    $this->settings
+                );
             }
             $poll->setAuthorIdent($this->currentUserIdent);
             CookieUtility::set('userIdent', $this->currentUserIdent);

@@ -762,7 +762,10 @@ final class PollController extends ActionController
             );
         }
 
-        $newOptions = $this->request->getArgument('poll')['options'] ?? [];
+        $newOptions = [];
+        if ($this->request->hasArgument('poll')) {
+            $newOptions = $this->request->getArgument('poll')['options'] ?? [];
+        }
 
         $newPollEvent = new NewPollEvent($poll, $publishDirectly, $newOptions, $this->settings, $this->view, $this);
         $this->eventDispatcher->dispatch($newPollEvent);

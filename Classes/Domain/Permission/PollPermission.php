@@ -42,9 +42,6 @@ class PollPermission
      */
     public function isAllowed(BasePoll|Vote|null $subject, string $action, bool $throwException = false): bool
     {
-        if ($subject === null) {
-            return false;
-        }
         $getter = 'is' . ucfirst($action) . 'Allowed';
         if (!method_exists($this, $getter)) {
             $available = [];
@@ -56,7 +53,14 @@ class PollPermission
             }
             throw new \InvalidArgumentException(TranslateUtility::translate('exception.1592142419', [$action, implode(', ', $available)]), 1592142419);
         }
-        $result = $this->$getter($subject);
+
+        if ($subject === null && in_array($action, ['new', 'newSimplePoll', 'newSchedulePoll'], true)) {
+            $result = $this->$getter();
+        } elseif ($subject !== null) {
+            $result = $this->$getter($subject);
+        } else {
+            $result = false;
+        }
 
         if (!$result && $throwException) {
             $customErrorMessage = TranslateUtility::translate('exception.permission.' . $action);

@@ -20,9 +20,10 @@ You will find a demonstration of the extension on https://t3oodle.com
 
 ## Compatibility
 
-| Branch | Version | TYPO3 | PHP                                               |
-|--------|---------|-------|---------------------------------------------------|
-| main   | 1.x-dev | v11   | 8.1, 8.2, 8.3, 8.4 (depending on TYPO3)           |
+| Branch | Version | TYPO3 | PHP                 |
+|--------|---------|-------|---------------------|
+| master | 2.x-dev | v12   | 8.1, 8.2, 8.3, 8.4  |
+| 1      | 1.x-dev | v11   | 8.1, 8.2, 8.3, 8.4  |
 
 ## Installation
 
@@ -45,53 +46,57 @@ Prerequisites:
 * ssh key allowed to push new branches to the repository
 * GitHub command line tool `gh` installed and configured with user having permission to create pull requests.
 
-**Prepare release locally**
+**Create release**
 
-> Set `RELEASE_BRANCH` to branch release should happen, for example: 'master'.
-> Set `RELEASE_VERSION` to release version working on, for example: '1.0.0'.
+> Set `RELEASE_BRANCH` to branch release should happen, for example: 'main'.
+> Set `RELEASE_VERSION` to release version working on, for example: '5.0.0'.
 
-```shell
-echo '>> Prepare release pull-request' ; \
+> [!IMPORTANT]
+> Requires `GitHub cli tool` with personal token and
+> maintainer permission on the extension repository.
+
+```bash
+echo '>> Create release' ; \
   RELEASE_BRANCH='master' ; \
-  RELEASE_VERSION='1.0.0' ; \
-  REPOSITORY_DEFAULT_BRANCH="$( git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' )" ; \
-  git checkout ${REPOSITORY_DEFAULT_BRANCH} && \
+  RELEASE_VERSION='1.0.1' ; \
+  NEXT_DEV_VERSION='1.0.2' ; \
+  git checkout master && \
   git fetch --all && \
   git pull --rebase && \
   git checkout ${RELEASE_BRANCH} && \
   git pull --rebase && \
-  git checkout -b prepare-release-${RELEASE_VERSION} && \
-  composer require --dev "typo3/tailor" && \
-  ./.Build/bin/tailor set-version ${RELEASE_VERSION} && \
-  composer remove --dev "typo3/tailor" && \
+  git checkout -b release-${RELEASE_VERSION} && \
+  sed -i "s/^COMPOSER_ROOT_VERSION.*/COMPOSER_ROOT_VERSION=\"${RELEASE_VERSION}\"/" Build/Scripts/runTests.sh && \
+  tailor set-version ${RELEASE_VERSION} && \
+  echo "${RELEASE_VERSION}" > VERSION && \
   git add . && \
   git commit -m "[RELEASE] ${RELEASE_VERSION}" && \
-  git push --set-upstream origin prepare-release-${RELEASE_VERSION} && \
-  gh pr create --fill-verbose --base ${RELEASE_BRANCH} --title "[RELEASE] ${RELEASE_VERSION} on ${RELEASE_BRANCH}" && \
-  git checkout  ${REPOSITORY_DEFAULT_BRANCH} && \
-  git branch -D prepare-release-${RELEASE_VERSION}
-```
-
-Check pull-request and the pipeline run.
-
-**Merge approved pull-request and push version tag**
-
-> Set `RELEASE_PR_NUMBER` with the pull-request number of the preparation pull-request.
-> Set `RELEASE_BRANCH` to branch release should happen, for example: 'master' (same as in previous step).
-> Set `RELEASE_VERSION` to release version working on, for example: `1.0.0` (same as in previous step).
-
-```shell
-RELEASE_BRANCH='master' ; \
-RELEASE_VERSION='1.0.0' ; \
-RELEASE_PR_NUMBER='123' ; \
-REPOSITORY_DEFAULT_BRANCH="$( git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' )" ; \
-  git checkout ${REPOSITORY_DEFAULT_BRANCH} && \
-  git fetch --all && \
-  git pull --rebase && \
-  gh pr checkout ${RELEASE_PR_NUMBER} && \
-  gh pr merge -rd ${RELEASE_PR_NUMBER} && \
+  git push --set-upstream origin release-${RELEASE_VERSION} && \
+  gh pr create --fill --base ${RELEASE_BRANCH} --title "[RELEASE] ${RELEASE_VERSION}" && \
+  gh pr view --web && \
+  sleep 30 && \
+  gh pr checks --watch --interval 2 && \
+  sleep 5 && \
+  gh pr merge -rd --admin && \
+  git remote prune origin && \
   git tag ${RELEASE_VERSION} && \
-  git push --tags
+  git push --tags && \
+  git checkout -b set-dev-version-${NEXT_DEV_VERSION} && \
+  tailor set-version ${NEXT_DEV_VERSION} && \
+  echo "${NEXT_DEV_VERSION}-dev" > VERSION && \
+  sed -i "s/^COMPOSER_ROOT_VERSION.*/COMPOSER_ROOT_VERSION=\"${NEXT_DEV_VERSION}-dev\"/" Build/Scripts/runTests.sh && \
+  sed -i "s/^  RELEASE_VERSION=.*/  RELEASE_VERSION='${RELEASE_VERSION}' ; \\\/" README.md && \
+  sed -i "s/^  NEXT_DEV_VERSION=.*/  NEXT_DEV_VERSION='${NEXT_DEV_VERSION}' ; \\\/" README.md && \
+  git add . && \
+  git commit -m "[TASK] Set \"${NEXT_DEV_VERSION}-dev\"" && \
+  git push --set-upstream origin set-dev-version-${NEXT_DEV_VERSION} && \
+  gh pr create --fill --base ${RELEASE_BRANCH} --title "[TASK] Set \"${NEXT_DEV_VERSION}-dev\"" && \
+  gh pr view --web && \
+  sleep 30 && \
+  gh pr checks --watch --interval 2 && \
+  sleep 5 && \
+  gh pr merge -rd --admin && \
+  git remote prune origin
 ```
 
 This triggers the `on push tags` workflow (`publish.yml`) which creates the upload package,

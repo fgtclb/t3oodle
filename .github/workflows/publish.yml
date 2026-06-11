@@ -15,7 +15,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Verify tag
         run: |
@@ -60,7 +60,7 @@ jobs:
       # Note that when release already exists for tag, only files will be uploaded and lets this acting as a
       # fallback to ensure that a real GitHub release is created for the tag along with extension artifacts.
       - name: Create release and upload artifacts in the same step
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: ${{startsWith(github.ref, 'refs/tags/') }}
         with:
           name: "[RELEASE] ${{ env.version }}"
@@ -70,8 +70,7 @@ jobs:
             LICENSE
           fail_on_unmatched_files: true
 
-# @todo Enable TER upload after extension has been transfered to `web-vision-gmbh`.
-#      - name: Publish to TER
-#        run: |
-#          php ~/.composer/vendor/bin/tailor ter:publish --comment "${{ env.terReleaseNotes }}" ${{ env.version }} \
-#            --artefact=tailor-version-artefact/${{ env.DETECTED_EXTENSION_KEY }}_${{ env.version }}.zip
+      - name: Publish to TER
+        run: |
+          php ~/.composer/vendor/bin/tailor ter:publish --comment "${{ env.terReleaseNotes }}" ${{ env.version }} \
+            --artefact=tailor-version-artefact/${{ env.DETECTED_EXTENSION_KEY }}_${{ env.version }}.zip

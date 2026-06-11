@@ -25,13 +25,10 @@ t3oodle
         TYPO3 CMS, poll, doodle, vote
 
     :Copyright:
-        2020-2024
+        2020-2026
 
     :Author:
-        Armin Vieweg
-
-    :Email:
-        info@v.ieweg.de
+       FGTCLB
 
     :License:
         This document is published under the Open Content License available from http://www.opencontent.org/opl.shtml

@@ -96,6 +96,7 @@ use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use TYPO3\CMS\Extbase\Property\TypeConverter\ObjectConverter;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -780,6 +781,22 @@ final class PollController extends ActionController
         /** @var \TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator $validator */
         $validator = $this->arguments->getArgument('poll')->getValidator();
         $validator->addValidator(new CustomPollValidator());
+
+        if ($this->request->hasArgument('poll') && is_array($this->request->getArgument('poll'))) {
+            $poll = $this->request->getArgument('poll');
+            $pollType = $poll['type'] ?? null;
+            if (is_string($pollType) && $pollType !== BasePoll::class && is_a($pollType, BasePoll::class, true)) {
+                // Extbase cannot instantiate the abstract BasePoll root argument, so forward the submitted subtype explicitly.
+                $poll['__type'] = $pollType;
+                $this->request = $this->request->withArgument('poll', $poll);
+                $this->arguments->getArgument('poll')->getPropertyMappingConfiguration()
+                    ->setTypeConverterOption(
+                        ObjectConverter::class,
+                        (string)ObjectConverter::CONFIGURATION_OVERRIDE_TARGET_TYPE_ALLOWED,
+                        true
+                    );
+            }
+        }
     }
 
     /**

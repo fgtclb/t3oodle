@@ -14,11 +14,13 @@ use Doctrine\DBAL\Exception;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Event\PollRepository\FindPollsEvent;
+use FGTCLB\T3oodle\Service\UserIdentService;
 use FGTCLB\T3oodle\Service\UserService;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -93,7 +95,7 @@ class PollRepository extends Repository
                         $query->equals('visibility', Visibility::LISTED),
                         $query->equals('isPublished', true),
                     ),
-                    $query->equals('authorIdent', UserIdentUtility::getCurrentUserIdent()),
+                    $query->equals('authorIdent', GeneralUtility::makeInstance(UserIdentService::class)->getCurrentUserIdent()),
                 );
             }
         } else {

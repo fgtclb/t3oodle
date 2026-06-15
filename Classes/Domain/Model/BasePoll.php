@@ -13,6 +13,7 @@ use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\PollFrontendUser as FrontendUser;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
+use FGTCLB\T3oodle\Service\UserIdentService;
 use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
 use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
@@ -513,14 +514,14 @@ abstract class BasePoll extends AbstractEntity
 
     public function getIsCurrentUserAuthor(): bool
     {
-        return $this->getAuthorIdent() === UserIdentUtility::getCurrentUserIdent();
+        return $this->getAuthorIdent() === GeneralUtility::makeInstance(UserIdentService::class)->getCurrentUserIdent();
     }
 
     public function getHasCurrentUserVoted(): bool
     {
         /** @var Vote $vote */
         foreach ($this->getVotes() as $vote) {
-            if ($vote->getParticipantIdent() === UserIdentUtility::getCurrentUserIdent()) {
+            if ($vote->getParticipantIdent() === GeneralUtility::makeInstance(UserIdentService::class)->getCurrentUserIdent()) {
                 return true;
             }
         }

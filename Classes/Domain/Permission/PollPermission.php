@@ -14,6 +14,7 @@ use FGTCLB\T3oodle\Domain\Enumeration\PollStatus;
 use FGTCLB\T3oodle\Domain\Enumeration\Visibility;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Model\Vote;
+use FGTCLB\T3oodle\Service\UserIdentService;
 use FGTCLB\T3oodle\Service\UserService;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
@@ -33,7 +34,7 @@ class PollPermission
         string $currentUserIdent = null,
         private readonly array $controllerSettings = [],
     ) {
-        $this->currentUserIdent = $currentUserIdent ?? UserIdentUtility::getCurrentUserIdent();
+        $this->currentUserIdent = $currentUserIdent ?? GeneralUtility::makeInstance(UserIdentService::class)->getCurrentUserIdent();
         $this->userService = GeneralUtility::makeInstance(UserService::class);
     }
 

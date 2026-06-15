@@ -75,6 +75,7 @@ use FGTCLB\T3oodle\Exception\Permission\SuggestNewOptionsDeniedEception;
 use FGTCLB\T3oodle\Exception\Permission\UpdateSuggestionDeniedException;
 use FGTCLB\T3oodle\Exception\Permission\VoteResetNotAllowedException;
 use FGTCLB\T3oodle\Exception\Permission\VotingDeniedException;
+use FGTCLB\T3oodle\Service\UserIdentService;
 use FGTCLB\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use FGTCLB\T3oodle\Utility\CookieUtility;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
@@ -114,17 +115,15 @@ final class PollController extends ActionController
      */
     protected string $currentUserIdent = '';
     protected PollPermission $pollPermission;
-    protected PollFrontendUserRepository $userRepository;
-    protected PersistenceManagerInterface $persistenceManager;
+
     public function __construct(
-        PersistenceManagerInterface $persistenceManager,
-        protected PollRepository $pollRepository,
-        protected OptionRepository $optionRepository,
-        protected VoteRepository $voteRepository,
-        PollFrontendUserRepository $userRepository
+        private PersistenceManagerInterface $persistenceManager,
+        private PollRepository $pollRepository,
+        private OptionRepository $optionRepository,
+        private VoteRepository $voteRepository,
+        private PollFrontendUserRepository $userRepository,
+        private UserIdentService $userIdentService,
     ) {
-        $this->persistenceManager = $persistenceManager;
-        $this->userRepository = $userRepository;
     }
 
     public function initializeAction(): void
@@ -279,7 +278,7 @@ final class PollController extends ActionController
 
         if (!$this->currentUser) {
             if ($this->currentUserIdent === '' || $this->currentUserIdent === '0') {
-                $this->currentUserIdent = UserIdentUtility::generateNewUserIdent();
+                $this->currentUserIdent = $this->userIdentService->generateNewUserIdent();
             }
             $vote->setParticipantIdent($this->currentUserIdent);
             CookieUtility::set('userIdent', $this->currentUserIdent);
@@ -636,7 +635,7 @@ final class PollController extends ActionController
 
         if (!$this->currentUser) {
             if ($this->currentUserIdent === '' || $this->currentUserIdent === '0') {
-                $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
+                $this->currentUserIdent = $this->userIdentService->generateNewUserIdent();
             }
             CookieUtility::set('userIdent', $this->currentUserIdent);
         }
@@ -828,7 +827,7 @@ final class PollController extends ActionController
 
         if (!$this->currentUser) {
             if ($this->currentUserIdent === '' || $this->currentUserIdent === '0') {
-                $this->currentUserIdent = base64_encode(uniqid('', true) . uniqid('', true));
+                $this->currentUserIdent = $this->userIdentService->generateNewUserIdent();
                 $this->settings['_currentUserIdent'] = $this->currentUserIdent;
                 $this->pollPermission = GeneralUtility::makeInstance(
                     PollPermission::class,
@@ -1053,11 +1052,10 @@ final class PollController extends ActionController
 
     private function initializeCurrentUserOrUserIdent(): void
     {
-        $this->currentUserIdent = UserIdentUtility::getCurrentUserIdent() ?? '';
+        $this->currentUserIdent = $this->userIdentService->getCurrentUserIdent() ?? '';
         if (MathUtility::canBeInterpretedAsInteger($this->currentUserIdent)) {
             $this->currentUser = $this->userRepository->findByUid((int)$this->currentUserIdent);
         }
-
         $this->settings['_currentUser'] = $this->currentUser;
         $this->settings['_currentUserIdent'] = $this->currentUserIdent;
     }

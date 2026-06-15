@@ -13,6 +13,7 @@ namespace FGTCLB\T3oodle\ViewHelpers;
 use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Domain\Permission\AccessDeniedException;
 use FGTCLB\T3oodle\Domain\Permission\PollPermission;
+use FGTCLB\T3oodle\Service\UserIdentService;
 use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
@@ -57,7 +58,7 @@ final class PermissionViewHelper extends AbstractConditionViewHelper
     public static function verdict(array $arguments, RenderingContextInterface $renderingContext): bool
     {
         $permissionClass = $arguments['permissionClassName'];
-        $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
+        $currentUserIdent = GeneralUtility::makeInstance(UserIdentService::class)->getCurrentUserIdent();
         $settings = $renderingContext->getVariableProvider()->get('settings');
         $poll = $arguments['poll'];
         /** @var PollPermission $permission */

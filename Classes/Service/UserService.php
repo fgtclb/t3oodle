@@ -5,18 +5,24 @@ declare(strict_types=1);
 namespace FGTCLB\T3oodle\Service;
 
 use FGTCLB\T3oodle\Utility\SettingsUtility;
-use FGTCLB\T3oodle\Utility\UserIdentUtility;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
+#[Autoconfigure(public: true)]
 final class UserService
 {
+    public function __construct(
+        private UserIdentService $userIdentService,
+    ) {
+    }
+
     /**
      * @throws InvalidConfigurationTypeException
      */
     public function userIsAdmin(): bool
     {
-        $currentUserIdent = UserIdentUtility::getCurrentUserIdent();
+        $currentUserIdent = $this->userIdentService->getCurrentUserIdent();
         if (!is_numeric($currentUserIdent)) {
             return false;
         }
@@ -51,7 +57,7 @@ final class UserService
         }
 
         $adminUserGroupUids = GeneralUtility::intExplode(',', $settings['adminUserGroupUids'], true);
-        $userAspect = UserIdentUtility::getCurrentUserAspect();
+        $userAspect = $this->userIdentService->getCurrentUserAspect();
         $setAdminGroups = array_intersect($userAspect->getGroupIds(), $adminUserGroupUids);
 
         return count($setAdminGroups) > 0;

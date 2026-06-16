@@ -26,8 +26,10 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * @extends Repository<BasePoll>
+ * **Be aware** that this class cannot be made final because it is currently extended in projects.
+ * @todo Make this class final in `3.0.0` after introducing proper "model class" replacement ability.
  */
-final class PollRepository extends Repository
+class PollRepository extends Repository
 {
     protected EventDispatcherInterface $eventDispatcher;
     private UserService $userService;

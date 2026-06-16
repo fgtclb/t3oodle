@@ -63,7 +63,7 @@
         "typo3/cms": {
             "extension-key": "t3oodle",
             "web-dir": ".Build/public",
-            "version": "2.0.1",
+            "version": "2.0.2-dev",
             "Package": {
                 "providesPackages": []
             }

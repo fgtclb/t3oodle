@@ -51,6 +51,11 @@ tx_t3oodle._calcScheduleOptions = function () {
           hidden.name = 'tx_t3oodle_main[poll][options][' + index + '][name]';
           hidden.value = value2;
           container.appendChild(hidden);
+          var sorting = document.createElement('input');
+          sorting.type = 'hidden';
+          sorting.name = 'tx_t3oodle_main[poll][options][' + index + '][sorting]';
+          sorting.value = index;
+          container.appendChild(sorting);
           index++;
         }
       }
@@ -60,6 +65,11 @@ tx_t3oodle._calcScheduleOptions = function () {
       hidden2.name = 'tx_t3oodle_main[poll][options][' + index + '][name]';
       hidden2.value = day;
       container.appendChild(hidden2);
+      var sorting = document.createElement('input');
+      sorting.type = 'hidden';
+      sorting.name = 'tx_t3oodle_main[poll][options][' + index + '][sorting]';
+      sorting.value = index;
+      container.appendChild(sorting);
       index++;
     }
   }

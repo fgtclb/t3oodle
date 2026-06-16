@@ -25,7 +25,7 @@ jobs:
         run: "Build/Scripts/runTests.sh -t 12 -p ${{ matrix.php-version }} -s lintPhp"
 
       - name: "Validate CGL"
-        run: "Build/Scripts/runTests.sh -t 12 -p ${{ matrix.php-version }} -s cgl"
+        run: "Build/Scripts/runTests.sh -t 12 -p ${{ matrix.php-version }} -s cgl -n"
 
       - name: "Ensure UTF-8 files do not contain BOM"
         run: "Build/Scripts/runTests.sh -t 12 -p ${{ matrix.php-version }} -s checkBom"

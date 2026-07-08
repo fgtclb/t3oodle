@@ -23,8 +23,7 @@ final class UserIdentService
     public function __construct(
         #[Autowire(service: 'cache.runtime')]
         private readonly FrontendInterface $runtimeCache,
-    ) {
-    }
+    ) {}
 
     public function getCurrentUserIdent(?Context $context = null): ?string
     {

@@ -16,7 +16,6 @@ use FGTCLB\T3oodle\Domain\Model\BasePoll;
 use FGTCLB\T3oodle\Event\PollRepository\FindPollsEvent;
 use FGTCLB\T3oodle\Service\UserIdentService;
 use FGTCLB\T3oodle\Service\UserService;
-use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;

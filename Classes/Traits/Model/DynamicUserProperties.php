@@ -78,11 +78,17 @@ trait DynamicUserProperties
             return self::$userRowCache[$uid];
         }
 
+        $selectFields = array_values(array_unique(array_filter([
+            'uid',
+            self::$typoscriptSettings['frontendUserNameField'] ?? null,
+            self::$typoscriptSettings['frontendUserMailField'] ?? null,
+        ])));
+
         $pool = GeneralUtility::makeInstance(ConnectionPool::class);
         $connection = $pool->getConnectionForTable('fe_users');
         $queryBuilder = $connection->createQueryBuilder();
         $result = $queryBuilder
-            ->select('uid', self::$typoscriptSettings['frontendUserNameField'])
+            ->select(...$selectFields)
             ->from('fe_users')
             ->where($queryBuilder->expr()->eq(
                 'uid',

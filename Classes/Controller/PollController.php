@@ -80,7 +80,6 @@ use FGTCLB\T3oodle\Traits\ControllerValidatorManipulatorTrait;
 use FGTCLB\T3oodle\Utility\CookieUtility;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
-use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use GeorgRinger\NumberedPagination\NumberedPagination;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\RedirectResponse;
@@ -123,8 +122,7 @@ final class PollController extends ActionController
         private VoteRepository $voteRepository,
         private PollFrontendUserRepository $userRepository,
         private UserIdentService $userIdentService,
-    ) {
-    }
+    ) {}
 
     public function initializeAction(): void
     {

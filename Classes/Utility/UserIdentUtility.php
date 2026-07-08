@@ -24,7 +24,8 @@ final class UserIdentUtility
         trigger_error(
             sprintf(
                 __METHOD__ . ' is deprecated, use "%s::%s" instead',
-                UserIdentService::class, 'getCurrentUserIdent'
+                UserIdentService::class,
+                'getCurrentUserIdent'
             ),
             E_USER_DEPRECATED,
         );
@@ -36,7 +37,8 @@ final class UserIdentUtility
         trigger_error(
             sprintf(
                 __METHOD__ . ' is deprecated, use "%s::%s" instead',
-                UserIdentService::class, 'generateNewUserIdent'
+                UserIdentService::class,
+                'generateNewUserIdent'
             ),
             E_USER_DEPRECATED,
         );
@@ -48,7 +50,8 @@ final class UserIdentUtility
         trigger_error(
             sprintf(
                 __METHOD__ . ' is deprecated, use "%s::%s" instead',
-                UserIdentService::class, 'getCurrentUserAspect'
+                UserIdentService::class,
+                'getCurrentUserAspect'
             ),
             E_USER_DEPRECATED,
         );

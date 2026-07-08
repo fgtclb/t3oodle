@@ -14,8 +14,7 @@ final class UserService
 {
     public function __construct(
         private UserIdentService $userIdentService,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws InvalidConfigurationTypeException

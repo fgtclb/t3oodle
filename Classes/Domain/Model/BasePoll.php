@@ -18,7 +18,6 @@ use FGTCLB\T3oodle\Traits\Model\DynamicUserProperties;
 use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
-use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;

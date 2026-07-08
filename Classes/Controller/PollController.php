@@ -393,6 +393,14 @@ final class PollController extends ActionController
         $finishPollAllowedEvent = new FinishPollAllowedEvent($poll, $finishPollAllowed, $this);
         $this->eventDispatcher->dispatch($finishPollAllowedEvent);
         if (!$finishPollAllowedEvent->isAllowed()) {
+            if ($poll->isFinished()) {
+                // Poll has already been finished (e.g. browser back after finalizing): redirect to the
+                // poll instead of throwing a hard error for this idempotent re-request.
+                return new RedirectResponse(
+                    $this->uriBuilder
+                        ->uriFor('show', ['poll' => $poll])
+                );
+            }
             throw new FinishPollDeniedException(
                 'Finish poll is not allowed!',
                 1753714157

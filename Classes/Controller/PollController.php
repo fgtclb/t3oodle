@@ -933,6 +933,26 @@ final class PollController extends ActionController
         return $this->htmlResponse();
     }
 
+    public function initializeUpdateAction(): void
+    {
+        if ($this->request->hasArgument('poll') && is_array($this->request->getArgument('poll'))) {
+            $poll = $this->request->getArgument('poll');
+            $pollType = $poll['type'] ?? null;
+            if (is_string($pollType) && $pollType !== BasePoll::class && is_a($pollType, BasePoll::class, true)) {
+                // Map the submitted data onto the concrete subtype instead of the abstract BasePoll root
+                // argument, so subclass-only properties can be updated as well (mirrors createAction).
+                $poll['__type'] = $pollType;
+                $this->request = $this->request->withArgument('poll', $poll);
+                $this->arguments->getArgument('poll')->getPropertyMappingConfiguration()
+                    ->setTypeConverterOption(
+                        ObjectConverter::class,
+                        (string)ObjectConverter::CONFIGURATION_OVERRIDE_TARGET_TYPE_ALLOWED,
+                        true
+                    );
+            }
+        }
+    }
+
     /**
      * @throws EditPollDeniedException
      * @todo Ensure proper return type is set

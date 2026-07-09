@@ -58,8 +58,8 @@ Prerequisites:
 ```bash
 echo '>> Create release' ; \
   RELEASE_BRANCH='master' ; \
-  RELEASE_VERSION='2.0.3' ; \
-  DEV_VERSION='2.0.4' ; \
+  RELEASE_VERSION='2.0.4' ; \
+  DEV_VERSION='2.0.5' ; \
   echo ">> Checkout branches" && \
   git checkout master && \
   git fetch --all && \

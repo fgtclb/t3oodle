@@ -28,7 +28,7 @@ final class UserIdentService
     public function getCurrentUserIdent(?Context $context = null): ?string
     {
         $currentUserIdent = $this->runtimeCache->get(self::CURRENT_USER_IDENT_IDENTIFIER);
-        if ($currentUserIdent !== null) {
+        if (is_string($currentUserIdent)) {
             return $currentUserIdent;
         }
         $userAspect = $this->getCurrentUserAspect($context);

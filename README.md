@@ -38,6 +38,25 @@ We prefer composer installation:
 composer require -W 'fgtclb/t3oodle':'^2.0@dev'
 ```
 
+### Updating without composer
+
+TYPO3 caches its compiled dependency injection container, by default in
+`typo3temp/var/cache/code/di/`. Without composer, replacing the files of an
+active extension (upload, FTP or Extension Manager) does not rebuild it, and
+the backend "Flush all caches" removes it only in the Development context.
+
+After every update of t3oodle in a non-composer installation, flush it with
+**Admin Tools > Maintenance > Flush TYPO3 and PHP Cache**, which also resets
+the PHP opcache, or run from the document root:
+
+```bash
+typo3/sysext/core/bin/typo3 cache:flush
+```
+
+Otherwise the frontend can fail with errors like `Too few arguments to
+function FGTCLB\T3oodle\Service\UserService::__construct()`, see
+[#47](https://github.com/fgtclb/t3oodle/issues/47).
+
 ## Create a release (maintainers only)
 
 Prerequisites:

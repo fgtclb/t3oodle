@@ -26,7 +26,7 @@ All checks run through the containerized core test runner
 (`Build/Scripts/runTests.sh`, docker or podman). First run needs dependencies:
 
 ```bash
-Build/Scripts/runTests.sh -s composer require typo3/minimal:^12   # install deps into .Build/
+Build/Scripts/runTests.sh -s composerUpdate   # fresh install of the deps into .Build/
 ```
 
 Common suites (`-s`):

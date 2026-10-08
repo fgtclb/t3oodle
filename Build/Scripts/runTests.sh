@@ -127,7 +127,7 @@ cleanTestFiles() {
     # test related
     echo -n "Clean test related files ... "
     rm -rf \
-        .Build/Web/typo3temp/var/tests/
+        .Build/public/typo3temp/var/tests/
     echo "done"
 }
 
@@ -414,7 +414,7 @@ ROOT_DIR="${PWD}"
 
 # Create .cache dir: composer need this.
 mkdir -p .Build/.cache
-mkdir -p .Build/Web/typo3temp/var/tests
+mkdir -p .Build/public/typo3temp/var/tests
 
 
 IS_CORE_CI=0
@@ -585,12 +585,12 @@ case ${TEST_SUITE} in
                 ;;
             sqlite)
                 # create sqlite tmpfs mount typo3temp/var/tests/functional-sqlite-dbs/ to avoid permission issues
-                mkdir -p "${ROOT_DIR}/.Build/Web/typo3temp/var/tests/functional-sqlite-dbs/"
+                mkdir -p "${ROOT_DIR}/.Build/public/typo3temp/var/tests/functional-sqlite-dbs/"
                 # "${TMPFS_MOUNT_OPTIONS}" carries the owner and mode the mount needs, which
                 # differ per container binary - see where it is assigned. Without them the
                 # test databases cannot be created and every test fails with "unable to open
                 # database file".
-                CONTAINERPARAMS="-e typo3DatabaseDriver=pdo_sqlite --tmpfs ${ROOT_DIR}/.Build/Web/typo3temp/var/tests/functional-sqlite-dbs/:${TMPFS_MOUNT_OPTIONS}"
+                CONTAINERPARAMS="-e typo3DatabaseDriver=pdo_sqlite --tmpfs ${ROOT_DIR}/.Build/public/typo3temp/var/tests/functional-sqlite-dbs/:${TMPFS_MOUNT_OPTIONS}"
                 ${CONTAINER_BIN} run ${CONTAINER_COMMON_PARAMS} --name functional-${SUFFIX} ${XDEBUG_MODE} -e XDEBUG_CONFIG="${XDEBUG_CONFIG}" ${CONTAINERPARAMS} ${IMAGE_PHP} "${COMMAND[@]}"
                 SUITE_EXIT_CODE=$?
                 ;;

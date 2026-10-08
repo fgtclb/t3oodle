@@ -7,24 +7,55 @@ if [ "${CI}" != "true" ]; then
     trap 'echo "runTests.sh SIGINT signal emitted";cleanUp;exit 2' SIGINT
 fi
 
-waitFor() {
-    local HOST=${1}
-    local PORT=${2}
+waitForDatabase() {
+    # Waits until the database server answers a query, and aborts the whole run
+    # when it does not.
+    #
+    # It asks for a query rather than probing the TCP port, because an open port
+    # is not a ready server: the mysql image runs a temporary server while it
+    # initialises its data directory.
+    #
+    # The probe runs the vendor's own client from the database image itself,
+    # which is the only client guaranteed to speak the protocol of the version
+    # under test and needs no extension compiled into the PHP image. MariaDB
+    # renamed that client, so both names are tried - "mysql" is a deprecated
+    # symlink in current MariaDB and absent from future ones, while "mariadb"
+    # does not exist in the older images this repository still supports.
+    #
     # 60 rather than 10 seconds: mysql:8.0 needs 12-13s under docker to
     # initialise a fresh data directory, about twice as long as under podman,
     # so an 11 second budget aborted the functional mysql suites at random.
+    local KIND=${1}
+    local HOST=${2}
+    local IMAGE=${3}
+    local PROBE=""
+    case ${KIND} in
+        mariadb|mysql)
+            # MYSQL_PWD rather than "-p", which warns about the password on the
+            # command line once per probe iteration.
+            PROBE="MYSQL_PWD=funcp sh -c 'mysql -h ${HOST} -u root -e \"SELECT 1\" || mariadb -h ${HOST} -u root -e \"SELECT 1\"' >/dev/null 2>&1"
+            ;;
+        postgres)
+            PROBE="PGPASSWORD=funcp psql -h ${HOST} -U funcu -d funcu -c 'SELECT 1' >/dev/null 2>&1"
+            ;;
+        *)
+            echo "waitForDatabase() does not know the DBMS \"${KIND}\"." >&2
+            cleanUp
+            exit 1
+            ;;
+    esac
     local TESTCOMMAND="
         COUNT=0;
-        while ! nc -z ${HOST} ${PORT}; do
+        until ${PROBE}; do
             if [ \"\${COUNT}\" -gt 60 ]; then
-              echo \"Can not connect to ${HOST} port ${PORT}. Aborting.\";
+              echo \"The ${KIND} server \\\"${HOST}\\\" did not answer a query within 60 seconds. Aborting.\";
               exit 1;
             fi;
             sleep 1;
             COUNT=\$((COUNT + 1));
         done;
     "
-    ${CONTAINER_BIN} run ${CONTAINER_COMMON_PARAMS} --name wait-for-${SUFFIX} ${XDEBUG_MODE} -e XDEBUG_CONFIG="${XDEBUG_CONFIG}" ${IMAGE_ALPINE} /bin/sh -c "${TESTCOMMAND}"
+    ${CONTAINER_BIN} run ${CONTAINER_COMMON_PARAMS} --name wait-for-${SUFFIX} ${IMAGE} /bin/sh -c "${TESTCOMMAND}"
     if [[ $? -gt 0 ]]; then
         # Not "kill -SIGINT -$$": the SIGINT trap is only installed when CI is
         # not "true", so in CI the signal was a no-op, the run continued and the
@@ -445,7 +476,6 @@ if [[ -z "${CONTAINER_BIN}" ]]; then
 fi
 
 IMAGE_PHP="ghcr.io/typo3/core-testing-$(echo "php${PHP_VERSION}" | sed -e 's/\.//'):latest"
-IMAGE_ALPINE="docker.io/alpine:3.8"
 IMAGE_DOCS="ghcr.io/typo3-documentation/render-guides:latest"
 IMAGE_SELENIUM="docker.io/selenium/standalone-chrome:4.0.0-20211102"
 IMAGE_MARIADB="docker.io/mariadb:${DBMS_VERSION}"
@@ -563,7 +593,7 @@ case ${TEST_SUITE} in
             mariadb)
                 echo "Using driver: ${DATABASE_DRIVER}"
                 ${CONTAINER_BIN} run --name mariadb-func-${SUFFIX} --network ${NETWORK} -d -e MYSQL_ROOT_PASSWORD=funcp --tmpfs /var/lib/mysql/:rw,noexec,nosuid ${IMAGE_MARIADB} >/dev/null
-                waitFor mariadb-func-${SUFFIX} 3306
+                waitForDatabase mariadb mariadb-func-${SUFFIX} ${IMAGE_MARIADB}
                 CONTAINERPARAMS="-e typo3DatabaseDriver=${DATABASE_DRIVER} -e typo3DatabaseName=func_test -e typo3DatabaseUsername=root -e typo3DatabaseHost=mariadb-func-${SUFFIX} -e typo3DatabasePassword=funcp"
                 ${CONTAINER_BIN} run ${CONTAINER_COMMON_PARAMS} --name functional-${SUFFIX} ${XDEBUG_MODE} -e XDEBUG_CONFIG="${XDEBUG_CONFIG}" ${CONTAINERPARAMS} ${IMAGE_PHP} "${COMMAND[@]}"
                 SUITE_EXIT_CODE=$?
@@ -571,14 +601,14 @@ case ${TEST_SUITE} in
             mysql)
                 echo "Using driver: ${DATABASE_DRIVER}"
                 ${CONTAINER_BIN} run --name mysql-func-${SUFFIX} --network ${NETWORK} -d -e MYSQL_ROOT_PASSWORD=funcp --tmpfs /var/lib/mysql/:rw,noexec,nosuid ${IMAGE_MYSQL} >/dev/null
-                waitFor mysql-func-${SUFFIX} 3306
+                waitForDatabase mysql mysql-func-${SUFFIX} ${IMAGE_MYSQL}
                 CONTAINERPARAMS="-e typo3DatabaseDriver=${DATABASE_DRIVER} -e typo3DatabaseName=func_test -e typo3DatabaseUsername=root -e typo3DatabaseHost=mysql-func-${SUFFIX} -e typo3DatabasePassword=funcp"
                 ${CONTAINER_BIN} run ${CONTAINER_COMMON_PARAMS} --name functional-${SUFFIX} ${XDEBUG_MODE} -e XDEBUG_CONFIG="${XDEBUG_CONFIG}" ${CONTAINERPARAMS} ${IMAGE_PHP} "${COMMAND[@]}"
                 SUITE_EXIT_CODE=$?
                 ;;
             postgres)
                 ${CONTAINER_BIN} run --name postgres-func-${SUFFIX} --network ${NETWORK} -d -e POSTGRES_PASSWORD=funcp -e POSTGRES_USER=funcu --tmpfs /var/lib/postgresql/data:rw,noexec,nosuid ${IMAGE_POSTGRES} >/dev/null
-                waitFor postgres-func-${SUFFIX} 5432
+                waitForDatabase postgres postgres-func-${SUFFIX} ${IMAGE_POSTGRES}
                 CONTAINERPARAMS="-e typo3DatabaseDriver=pdo_pgsql -e typo3DatabaseName=bamboo -e typo3DatabaseUsername=funcu -e typo3DatabaseHost=postgres-func-${SUFFIX} -e typo3DatabasePassword=funcp"
                 ${CONTAINER_BIN} run ${CONTAINER_COMMON_PARAMS} --name functional-${SUFFIX} ${XDEBUG_MODE} -e XDEBUG_CONFIG="${XDEBUG_CONFIG}" ${CONTAINERPARAMS} ${IMAGE_PHP} "${COMMAND[@]}"
                 SUITE_EXIT_CODE=$?

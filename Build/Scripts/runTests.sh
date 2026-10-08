@@ -640,7 +640,7 @@ case ${TEST_SUITE} in
             *) ensureImages "${IMAGE_PHP}" ;;
         esac
         ;;
-    cgl|checkBom|checkExceptionCodes|checkRst|checkTestMethodsPrefix|composer|lintPhp|lintTypoScript|phpstan|phpstanGenerateBaseline|unit|unitRandom)
+    cgl|checkBom|checkExceptionCodes|checkRst|checkTestMethodsPrefix|composer|composerUpdate|lintPhp|lintTypoScript|phpstan|phpstanGenerateBaseline|unit|unitRandom)
         ensureImages "${IMAGE_PHP}"
         ;;
 esac
@@ -694,6 +694,19 @@ case ${TEST_SUITE} in
         COMMAND=(composer "$@")
         ${CONTAINER_BIN} run ${CONTAINER_SIMPLE_PARAMS} --name composer-command-${SUFFIX} -e COMPOSER_CACHE_DIR=.Build/.cache/composer -e COMPOSER_ROOT_VERSION=${COMPOSER_ROOT_VERSION} ${IMAGE_PHP} "${COMMAND[@]}"
         SUITE_EXIT_CODE=$?
+        ;;
+    composerUpdate)
+        # backup current composer.json
+        cp -Rf composer.json composer.json.orig
+        # The vendor tree must go, not just the lock file: Composer boots plugins from
+        # it before resolving, so a leftover tree from another "-t" runs the previous
+        # core's "typo3/class-alias-loader" over the newly installed one. ".Build/.cache"
+        # is kept so the reinstall is served from the local Composer cache.
+        rm -rf .Build/vendor .Build/bin composer.lock
+        ${CONTAINER_BIN} run ${CONTAINER_SIMPLE_PARAMS} --name composer-update-${CORE_VERSION}-${SUFFIX} -e COMPOSER_CACHE_DIR=.Build/.cache/composer -e COMPOSER_ROOT_VERSION=${COMPOSER_ROOT_VERSION} ${IMAGE_PHP} composer require --dev "typo3/minimal":"^${CORE_VERSION}"
+        SUITE_EXIT_CODE=$?
+        # restore composer json
+        cp -Rf composer.json.orig composer.json
         ;;
     functional)
         PHPUNIT_CONFIG_FILE="Build/phpunit/FunctionalTests.xml"

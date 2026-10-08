@@ -46,11 +46,11 @@ Build/Scripts/runTests.sh -s functional -d sqlite # functional tests (db: sqlite
 
 Select PHP with `-p` (e.g. `-p 8.3`); functional DB driver with `-a mysqli|pdo_mysql`.
 
-Run a single test (pass a path and/or PHPUnit args via `-e`):
+Run a single test (pass a path, PHPUnit args go after `--` and before the path):
 
 ```bash
 Build/Scripts/runTests.sh -s unit Tests/Unit/Path/To/SomeTest.php
-Build/Scripts/runTests.sh -s functional -d sqlite -e "--filter someMethodName"
+Build/Scripts/runTests.sh -s functional -d sqlite -- --filter someMethodName
 ```
 
 CI mirrors these in `.github/workflows/testcore12.yml` (and `testcore11.yml` for branch `1`).

@@ -50,7 +50,9 @@ CREATE TABLE tx_t3oodle_domain_model_option (
     creator varchar(255) DEFAULT '' NOT NULL,
     creator_name varchar(255) DEFAULT '' NOT NULL,
     creator_mail varchar(255) DEFAULT '' NOT NULL,
-    creator_ident varchar(128) DEFAULT '' NOT NULL
+    creator_ident varchar(128) DEFAULT '' NOT NULL,
+
+    KEY poll (poll)
 
 );
 
@@ -64,7 +66,9 @@ CREATE TABLE tx_t3oodle_domain_model_vote (
     participant_mail varchar(255) DEFAULT '' NOT NULL,
     participant_ident varchar(128) DEFAULT '' NOT NULL,
     option_values int(11) unsigned DEFAULT '0' NOT NULL,
-    poll int(11) unsigned DEFAULT '0'
+    poll int(11) unsigned DEFAULT '0',
+
+    KEY poll (poll)
 
 );
 
@@ -76,6 +80,8 @@ CREATE TABLE tx_t3oodle_domain_model_optionvalue (
 
     `option` int(11) unsigned DEFAULT '0',
     value varchar(255) DEFAULT '' NOT NULL,
-    vote int(11) unsigned DEFAULT '0'
+    vote int(11) unsigned DEFAULT '0',
+
+    KEY vote (vote)
 
 );

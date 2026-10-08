@@ -148,14 +148,14 @@ handleDbmsOptions() {
             if [ "${DATABASE_DRIVER}" != "mysqli" ] && [ "${DATABASE_DRIVER}" != "pdo_mysql" ]; then
                 echo "Invalid combination -d ${DBMS} -a ${DATABASE_DRIVER}" >&2
                 echo >&2
-                echo "Use \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             [ -z "${DBMS_VERSION}" ] && DBMS_VERSION="10.4"
             if ! [[ ${DBMS_VERSION} =~ ^(10.4|10.5|10.6|10.7|10.8|10.9|10.10|10.11|11.0|11.1)$ ]]; then
                 echo "Invalid combination -d ${DBMS} -i ${DBMS_VERSION}" >&2
                 echo >&2
-                echo "Use \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             ;;
@@ -164,14 +164,14 @@ handleDbmsOptions() {
             if [ "${DATABASE_DRIVER}" != "mysqli" ] && [ "${DATABASE_DRIVER}" != "pdo_mysql" ]; then
                 echo "Invalid combination -d ${DBMS} -a ${DATABASE_DRIVER}" >&2
                 echo >&2
-                echo "Use \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             [ -z "${DBMS_VERSION}" ] && DBMS_VERSION="8.0"
             if ! [[ ${DBMS_VERSION} =~ ^(8.0|8.1|8.2|8.3|8.4)$ ]]; then
                 echo "Invalid combination -d ${DBMS} -i ${DBMS_VERSION}" >&2
                 echo >&2
-                echo "Use \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             ;;
@@ -179,14 +179,14 @@ handleDbmsOptions() {
             if [ -n "${DATABASE_DRIVER}" ]; then
                 echo "Invalid combination -d ${DBMS} -a ${DATABASE_DRIVER}" >&2
                 echo >&2
-                echo "Use \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             [ -z "${DBMS_VERSION}" ] && DBMS_VERSION="10"
             if ! [[ ${DBMS_VERSION} =~ ^(10|11|12|13|14|15|16)$ ]]; then
                 echo "Invalid combination -d ${DBMS} -i ${DBMS_VERSION}" >&2
                 echo >&2
-                echo "Use \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             ;;
@@ -194,20 +194,20 @@ handleDbmsOptions() {
             if [ -n "${DATABASE_DRIVER}" ]; then
                 echo "Invalid combination -d ${DBMS} -a ${DATABASE_DRIVER}" >&2
                 echo >&2
-                echo "Use \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             if [ -n "${DBMS_VERSION}" ]; then
-                echo "Invalid combination -d ${DBMS} -i ${DATABASE_DRIVER}" >&2
+                echo "Invalid combination -d ${DBMS} -i ${DBMS_VERSION}" >&2
                 echo >&2
-                echo "Use \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+                echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
                 exit 1
             fi
             ;;
         *)
             echo "Invalid option -d ${DBMS}" >&2
             echo >&2
-            echo "Use \".Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
+            echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
             exit 1
             ;;
     esac
@@ -239,33 +239,44 @@ cleanRenderedDocumentationFiles() {
 loadHelp() {
     # Load help text into $HELP
     read -r -d '' HELP <<EOF
-TYPO3 core test runner. Execute acceptance, unit, functional and other test suites in
-a container based test environment. Handles execution of single test files, sending
+Test runner of fgtclb/t3oodle. Executes the unit, functional, linting, static analysis
+and documentation suites in a container based environment, so nothing but docker or
+podman has to be installed on the host. Handles execution of single test files, sending
 xdebug information to a local IDE and more.
 
 Usage: $0 [options] [file]
+       $0 [options] -- <arguments> [file]
+
+A trailing file or directory restricts the phpunit based suites to it. Everything
+after a "--" separator is appended to the command the suite runs, which is how
+options are handed to phpunit and composer. A file or directory goes last then,
+phpunit takes every argument after the first file as a file as well:
+
+    ./Build/Scripts/runTests.sh -s unit -- --filter SomeTest Tests/Unit/Utility
 
 Options:
     -s <...>
         Specifies which test suite to run
-            - cgl: cgl test and fix all php files
+            - cgl: test and fix all php files, "-n" to only check
             - checkBom: check UTF-8 files do not contain BOM
             - checkExceptionCodes: Check for duplicate exception codes
             - checkRst: test .rst files for integrity
             - checkTestMethodsPrefix: check tests methods do not start with "test"
-            - clean: clean up build, cache and testing related files and folders
+            - clean: clean up cache, rendered documentation and testing related files and folders
             - cleanCache: clean up cache related files and folders
             - cleanRenderedDocumentation: clean up rendered documentation files and folders (Documentation-GENERATED-temp)
-            - clean: clean up build and testing related files
+            - cleanTests: clean up testing related files and folders
             - composer: "composer" with all remaining arguments dispatched.
-            - composerUpdate: "composer update", handy if host has no PHP
+            - composerUpdate: fresh "composer update" for the core selected with "-t", handy if host has no PHP
             - functional: functional tests
             - lintPhp: PHP linting
             - lintTypoScript: TypoScript linting
-            - renderDocumentation: This uses the official rendering container to render the extension documentation.
             - phpstan: phpstan analyze
             - phpstanGenerateBaseline: regenerate phpstan baseline, handy after phpstan updates
-            - unit: PHP unit tests
+            - renderDocumentation: This uses the official rendering container to render the extension documentation.
+            - unit (default): PHP unit tests
+            - unitRandom: PHP unit tests in random order, "-o <number>" to use a specific seed
+            - update: update the typo3/core-testing-* images, same as "-u"
 
     -b <docker|podman>
         Container environment:
@@ -275,7 +286,7 @@ Options:
         If not specified, podman will be used if available. Otherwise, docker is used.
 
     -a <mysqli|pdo_mysql>
-        Only with -s functional|functionalDeprecated
+        Only with -s functional
         Specifies to use another driver, following combinations are available:
             - mysql
                 - mysqli (default)
@@ -285,7 +296,7 @@ Options:
                 - pdo_mysql
 
     -d <sqlite|mariadb|mysql|postgres>
-        Only with -s functional|functionalDeprecated|acceptance|acceptanceInstall
+        Only with -s functional
         Specifies on which DBMS tests are performed
             - sqlite: (default): use sqlite
             - mariadb: use mariadb
@@ -320,11 +331,13 @@ Options:
             - 15    maintained until 2027-11-11
             - 16    maintained until 2028-11-09
 
-    -t <11|12>
-        Only with -s composerInstall|composerInstallMin|composerInstallMax
-        Specifies the TYPO3 CORE Version to be used
-            - 11: (default) use TYPO3 v11
-            - 12: use TYPO3 v12
+    -t <12>
+        Only with -s composerUpdate|phpstan|phpstanGenerateBaseline
+        Specifies the TYPO3 core version to be used
+            - 12: (default) use TYPO3 v12
+
+        It selects configuration only and does not install anything: composerUpdate
+        resolves against it, phpstan picks Build/phpstan/Core<version>/phpstan.neon.
 
     -p <8.1|8.2|8.3|8.4|8.5>
         Specifies the PHP minor version to be used
@@ -335,7 +348,7 @@ Options:
             - 8.5: use PHP 8.5
 
     -x
-        Only with -s functional|functionalDeprecated|unit|unitDeprecated|unitRandom|acceptance|acceptanceInstall
+        Only with -s functional|unit|unitRandom
         Send information to host instance for test or system under test break points. This is especially
         useful if a local PhpStorm instance is listening on default xdebug port 9003. A different port
         can be selected with -y
@@ -347,8 +360,7 @@ Options:
     -o <number>
         Only with -s unitRandom
         Set specific random seed to replay a random run in this order again. The phpunit randomizer
-        outputs the used seed at the end (in gitlab core testing logs, too). Use that number to
-        replay the unit tests in that order.
+        outputs the used seed at the end. Use that number to replay the unit tests in that order.
 
     -n
         Only with -s cgl
@@ -363,31 +375,27 @@ Options:
         Show this help.
 
 Examples:
-    # Run all core unit tests using PHP 8.1
+    # Install the dependencies, which every PHP suite needs first
+    ./Build/Scripts/runTests.sh -s composerUpdate
+
+    # Run all unit tests using PHP 8.1
     ./Build/Scripts/runTests.sh
     ./Build/Scripts/runTests.sh -s unit
 
-    # Run all core units tests and enable xdebug (have a PhpStorm listening on port 9003!)
+    # Run all unit tests and enable xdebug (have a PhpStorm listening on port 9003!)
     ./Build/Scripts/runTests.sh -x
 
-    # Run unit tests in phpunit verbose mode with xdebug on PHP 8.1 and filter for test canRetrieveValueWithGP
-    ./Build/Scripts/runTests.sh -x -p 8.1 -e "-v --filter canRetrieveValueWithGP"
+    # Run unit tests with xdebug on PHP 8.3 and filter for test midnightReturnsMidnight
+    ./Build/Scripts/runTests.sh -x -p 8.3 -- --filter midnightReturnsMidnight
 
     # Run functional tests in phpunit with a filtered test method name in a specified file
-    # example will currently execute two tests, both of which start with the search term
-    ./Build/Scripts/runTests.sh -s functional -e "--filter deleteContent" typo3/sysext/core/Tests/Functional/DataHandling/Regular/Modify/ActionTest.php
+    ./Build/Scripts/runTests.sh -s functional -- --filter stringIsSanitized Tests/Functional/Utility/SlugUtilityTest.php
 
-    # Run functional tests on postgres with xdebug, php 8.1 and execute a restricted set of tests
-    ./Build/Scripts/runTests.sh -x -p 8.1 -s functional -d postgres typo3/sysext/core/Tests/Functional/Authentication
+    # Run functional tests on postgres with xdebug, php 8.3 and execute a restricted set of tests
+    ./Build/Scripts/runTests.sh -x -p 8.3 -s functional -d postgres Tests/Functional/Database
 
     # Run functional tests on postgres 11
-    ./Build/Scripts/runTests.sh -s functional -d postgres -k 11
-
-    # Run restricted set of application acceptance tests
-    ./Build/Scripts/runTests.sh -s acceptance typo3/sysext/core/Tests/Acceptance/Application/Login/BackendLoginCest.php:loginButtonMouseOver
-
-    # Run installer tests of a new instance on sqlite
-    ./Build/Scripts/runTests.sh -s acceptanceInstall -d sqlite
+    ./Build/Scripts/runTests.sh -s functional -d postgres -i 11
 EOF
 }
 
@@ -445,7 +453,7 @@ while getopts "a:b:s:d:i:p:t:xy:o:nhu" OPT; do
             ;;
         t)
             CORE_VERSION=${OPTARG}
-            if ! [[ ${CORE_VERSION} =~ ^(11|12)$ ]]; then
+            if ! [[ ${CORE_VERSION} =~ ^(12)$ ]]; then
                 INVALID_OPTIONS+=("t ${OPTARG}")
             fi
             ;;
@@ -485,7 +493,7 @@ if [ ${#INVALID_OPTIONS[@]} -ne 0 ]; then
         echo "-"${I} >&2
     done
     echo >&2
-    echo "call \".Build/Scripts/runTests.sh -h\" to display help and valid options"
+    echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
     exit 1
 fi
 

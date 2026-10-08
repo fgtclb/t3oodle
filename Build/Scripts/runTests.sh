@@ -552,20 +552,9 @@ fi
 
 IMAGE_PHP="ghcr.io/typo3/core-testing-$(echo "php${PHP_VERSION}" | sed -e 's/\.//'):latest"
 IMAGE_DOCS="ghcr.io/typo3-documentation/render-guides:latest"
-IMAGE_SELENIUM="docker.io/selenium/standalone-chrome:4.0.0-20211102"
 IMAGE_MARIADB="docker.io/mariadb:${DBMS_VERSION}"
 IMAGE_MYSQL="docker.io/mysql:${DBMS_VERSION}"
 IMAGE_POSTGRES="docker.io/postgres:${DBMS_VERSION}-alpine"
-
-
-# Detect arm64 and use a seleniarm image.
-# In a perfect world selenium would have a arm64 integrated, but that is not on the horizon.
-# So for the time being we have to use seleniarm image.
-ARCH=$(uname -m)
-if [ ${ARCH} = "arm64" ]; then
-    IMAGE_SELENIUM="docker.io/seleniarm/standalone-chromium:4.1.2-20220227"
-fi
-echo "Architecture" ${ARCH} "requires" ${IMAGE_SELENIUM} "to run acceptance tests."
 
 # Set $1 to first mass argument, this is the optional test file or test directory to execute
 shift $((OPTIND - 1))

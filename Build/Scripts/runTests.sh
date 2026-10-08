@@ -3,9 +3,37 @@
 #
 # fgtclb/t3oodle test runner based on docker/podman.
 #
-if [ "${CI}" != "true" ]; then
-    trap 'echo "runTests.sh SIGINT signal emitted";cleanUp;exit 2' SIGINT
-fi
+
+# The containers and the network of a run are removed on every way out of this script: its end,
+# every "exit" below, and SIGINT, SIGTERM and SIGHUP. A database container is started detached
+# ("run -d"), so no client process of it is left to take a signal - with SIGINT trapped alone, a
+# run stopped by SIGTERM or SIGHUP (a timeout, a closed terminal) left it running after its
+# "functional-*" sibling was gone. SIGKILL cannot be trapped, it is left to the reaper started
+# once the network exists.
+#
+# The trap is installed in CI as well. The core excludes it there for debugging a cancelled job
+# on its own runners (review of https://review.typo3.org/c/Packages/TYPO3.CMS/+/85303), a GitHub
+# hosted runner is discarded with its job, so nothing is lost here by removing the containers.
+#
+# The exit code is kept: EXIT only cleans up, the signals exit with 128 + their number - except
+# SIGINT, which keeps the 2 it always had. The signals are ignored while the cleanup runs, so a
+# second ctrl-c does not abandon it half way. bash runs a trap only once the command in the
+# foreground has returned: a signal to the process group - ctrl-c, a closed terminal, a
+# supervisor - stops the container as well and is handled at once, a signal to this script alone
+# waits for the container to finish.
+NETWORK=""
+CLEANED_UP=0
+trap 'cleanUp' EXIT
+trap 'handleSignal INT 2' INT
+trap 'handleSignal TERM 143' TERM
+trap 'handleSignal HUP 129' HUP
+
+handleSignal() {
+    trap '' INT TERM HUP
+    echo "runTests.sh SIG${1} signal emitted" >&2
+    cleanUp
+    exit "${2}"
+}
 
 waitForDatabase() {
     # Waits until the database server answers a query, and aborts the whole run
@@ -57,8 +85,10 @@ waitForDatabase() {
     "
     ${CONTAINER_BIN} run ${CONTAINER_COMMON_PARAMS} --name wait-for-${SUFFIX} ${IMAGE} /bin/sh -c "${TESTCOMMAND}"
     if [[ $? -gt 0 ]]; then
-        # Not "kill -SIGINT -$$": the SIGINT trap is only installed when CI is
-        # not "true", so in CI the signal was a no-op, the run continued and the
+        # Not "kill -SIGINT -$$": that signals the process group "$$" leads,
+        # and this script leads one only when an interactive shell started
+        # it. Started by a CI step it is a plain child of the step's shell,
+        # the kill failed with "No such process", the run carried on and the
         # test suite connected to a database that was not listening.
         cleanUp
         exit 1
@@ -66,11 +96,20 @@ waitForDatabase() {
 }
 
 cleanUp() {
-    ATTACHED_CONTAINERS=$(${CONTAINER_BIN} ps --filter network=${NETWORK} --format='{{.Names}}')
+    # Removes every container attached to the network of this run, in whatever state - "-a", so
+    # one that was created but never started, or has stopped, goes as well - and then the network.
+    # Runs more than once on most paths - at the end of the script, and the EXIT trap after it - and
+    # on the early exits before the network exists, so it does its work once and only once there is
+    # a network.
+    if [[ ${CLEANED_UP} -eq 1 ]] || [[ -z "${NETWORK}" ]] || [[ -z "${CONTAINER_BIN}" ]]; then
+        return 0
+    fi
+    ATTACHED_CONTAINERS=$(${CONTAINER_BIN} ps -a --filter network=${NETWORK} --format='{{.Names}}')
     for ATTACHED_CONTAINER in ${ATTACHED_CONTAINERS}; do
         ${CONTAINER_BIN} rm -f ${ATTACHED_CONTAINER} >/dev/null
     done
-    ${CONTAINER_BIN} network rm ${NETWORK} >/dev/null
+    ${CONTAINER_BIN} network rm -f ${NETWORK} >/dev/null
+    CLEANED_UP=1
 }
 
 handleDbmsOptions() {
@@ -497,7 +536,14 @@ shift $((OPTIND - 1))
 
 SUFFIX=$(echo $RANDOM)
 NETWORK="fgtclb-t3oodle-${SUFFIX}"
-${CONTAINER_BIN} network create ${NETWORK} >/dev/null
+# A network of that name exists when the suffix collides with a run still going on. Joining it
+# would put this run's containers beside that run's, and the cleanup of either would remove the
+# containers of both. NETWORK is cleared first, so the cleanup on exit leaves that network alone.
+${CONTAINER_BIN} network create ${NETWORK} >/dev/null || {
+    echo "The container network \"${NETWORK}\" could not be created, it may belong to another run. Nothing was run." >&2
+    NETWORK=""
+    exit 1
+}
 
 if [ "${CONTAINER_BIN}" == "docker" ]; then
     # docker needs the add-host for xdebug remote debugging. podman has host.container.internal built in
@@ -527,6 +573,24 @@ else
     CONTAINER_SIMPLE_PARAMS="${CONTAINER_INTERACTIVE} ${CI_PARAMS} --rm -v ${ROOT_DIR}:${ROOT_DIR} -w ${ROOT_DIR}"
     DOCUMENTATION_COMMON_PARAMS="${CONTAINER_INTERACTIVE} ${CI_PARAMS} --rm -v ${ROOT_DIR}:${ROOT_DIR} -v ${ROOT_DIR}:/project"
 fi
+
+# The traps at the top do not see SIGKILL, and a SIGTERM followed by SIGKILL can end this script
+# before its trap is through: a supervisor may send SIGKILL shortly after SIGTERM, as "timeout -k"
+# does, and the GitHub runner ends a step it cancels with SIGINT, SIGTERM and then SIGKILL. So a
+# reaper waits for this script to end and removes what is left of the run. After a run that
+# removed everything itself it finds nothing. It looks once a second and removes the containers
+# in one call. It runs in a session of its own, out of reach of any signal to the process group
+# of this script. Without "setsid" (macOS) it shares that process group, ignoring the signals
+# that end a run, and a SIGKILL to the group ends it along with the run.
+REAPER_SESSION=""
+type setsid >/dev/null 2>&1 && REAPER_SESSION="setsid"
+${REAPER_SESSION} /bin/sh -c '
+    trap "" INT HUP TERM
+    while kill -0 "$1" 2>/dev/null; do sleep 1; done
+    CONTAINERS=$("$2" ps -a --filter "network=$3" --format "{{.Names}}")
+    [ -n "${CONTAINERS}" ] && "$2" rm -f ${CONTAINERS}
+    "$2" network rm -f "$3"
+' reaper "$$" "${CONTAINER_BIN}" "${NETWORK}" </dev/null >/dev/null 2>&1 &
 
 if [ ${PHP_XDEBUG_ON} -eq 0 ]; then
     XDEBUG_MODE="-e XDEBUG_MODE=off"

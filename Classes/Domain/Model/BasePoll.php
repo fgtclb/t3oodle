@@ -468,7 +468,7 @@ abstract class BasePoll extends AbstractEntity
      */
     public function getSettingVotingExpiresAt(): ?\DateTime
     {
-        if ($this->getSettingVotingExpiresDate() && $this->getSettingVotingExpiresTime()) {
+        if ($this->getSettingVotingExpiresDate() instanceof \DateTime && $this->getSettingVotingExpiresTime() instanceof \DateTime) {
             return $this->getSettingVotingExpiresDate()->modify($this->getSettingVotingExpiresTime()->format('H:i:s'));
         }
 
@@ -631,13 +631,7 @@ abstract class BasePoll extends AbstractEntity
         ];
         $cleanProps = $this->_getCleanProperties();
         $props = $this->_getProperties();
-        foreach ($attributes as $attribute) {
-            if ($cleanProps[$attribute] !== $props[$attribute]) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($attributes, fn($attribute) => $cleanProps[$attribute] !== $props[$attribute]);
     }
     /**
      * @return Option[]

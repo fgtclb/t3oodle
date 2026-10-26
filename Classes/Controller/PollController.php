@@ -98,6 +98,7 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter;
 use TYPO3\CMS\Extbase\Property\TypeConverter\ObjectConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
 
 final class PollController extends ActionController
 {
@@ -284,7 +285,7 @@ final class PollController extends ActionController
         }
 
         if (!$vote->getUid() &&
-            $this->voteRepository->findOneByPollAndParticipantIdent($vote->getPoll(), $this->currentUserIdent)
+            $this->voteRepository->findOneByPollAndParticipantIdent($vote->getPoll(), $this->currentUserIdent) instanceof Vote
         ) {
             return new RedirectResponse(
                 $this
@@ -784,7 +785,7 @@ final class PollController extends ActionController
     public function initializeCreateAction(): void
     {
         $this->disableValidator('poll', CustomPollValidator::class);
-        /** @var \TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator $validator */
+        /** @var ConjunctionValidator $validator */
         $validator = $this->arguments->getArgument('poll')->getValidator();
         $validator->addValidator(new CustomPollValidator());
 

@@ -10,7 +10,7 @@
                project-issues="https://github.com/fgtclb/t3oodle/issues"
                edit-on-github-branch="master"
                edit-on-github="fgtclb/t3oodle"
-               typo3-core-preferred="11.5"
+               typo3-core-preferred="13.4"
                interlink-shortcode="fgtclb/t3oodle"
     />
     <project title="t3oodle"

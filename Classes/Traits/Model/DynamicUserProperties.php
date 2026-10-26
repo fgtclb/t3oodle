@@ -9,6 +9,7 @@ namespace FGTCLB\T3oodle\Traits\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use Doctrine\DBAL\Exception;
 use FGTCLB\T3oodle\Domain\Model\PollFrontendUser as FrontendUser;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
 use TYPO3\CMS\Core\Database\Connection;
@@ -29,6 +30,7 @@ trait DynamicUserProperties
 
     /**
      * @param string $pluginSetting "name" or "mail"
+     * @throws Exception
      */
     public function getPropertyDynamically(
         FrontendUser $user,
@@ -70,7 +72,7 @@ trait DynamicUserProperties
 
     /**
      * @return array<array-key, mixed>|null
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function getUserRow(int $uid): ?array
     {

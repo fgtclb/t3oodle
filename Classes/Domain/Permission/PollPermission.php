@@ -126,16 +126,14 @@ class PollPermission
 
     public function isFinishAllowed(BasePoll $poll): bool
     {
-        if ($poll->getSettingVotingExpiresAt() && !$poll->isVotingExpired()) {
-            $status = false;
-        } else {
-            $status = $poll->isPublished()
-                && !$poll->isFinished()
-                && !$this->isSuggestNewOptionsAllowed($poll)
-                && $this->userIsAuthor($poll);
+        if ($poll->getSettingVotingExpiresAt() instanceof \DateTime && !$poll->isVotingExpired()) {
+            return false;
         }
 
-        return $status;
+        return $poll->isPublished()
+            && !$poll->isFinished()
+            && !$this->isSuggestNewOptionsAllowed($poll)
+            && $this->userIsAuthor($poll);
     }
 
     public function isFinishSuggestionModeAllowed(BasePoll $poll): bool
@@ -169,22 +167,20 @@ class PollPermission
 
     public function isSeeParticipantsDuringVotingAllowed(BasePoll $poll): bool
     {
-        $status = false;
         if (!$poll->isSettingSuperSecretMode()) {
-            $status = !$poll->isSettingSecretParticipants() || $this->userIsAuthor($poll);
+            return !$poll->isSettingSecretParticipants() || $this->userIsAuthor($poll);
         }
 
-        return $status;
+        return false;
     }
 
     public function isSeeVotesDuringVotingAllowed(BasePoll $poll): bool
     {
-        $status = false;
         if (!$poll->isSettingSuperSecretMode()) {
-            $status = !$poll->isSettingSecretVotings() || $this->userIsAuthor($poll);
+            return !$poll->isSettingSecretVotings() || $this->userIsAuthor($poll);
         }
 
-        return $status;
+        return false;
     }
 
     public function isAdministrationAllowed(?BasePoll $poll = null): bool

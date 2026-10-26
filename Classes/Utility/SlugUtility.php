@@ -15,9 +15,9 @@ use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 #[Exclude]
-final class SlugUtility
+final readonly class SlugUtility
 {
-    private readonly SlugHelper $slugHelper;
+    private SlugHelper $slugHelper;
 
     public function __construct(string $tableName, string $fieldName)
     {

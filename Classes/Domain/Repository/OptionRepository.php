@@ -23,7 +23,7 @@ final class OptionRepository extends Repository
     protected $defaultOrderings = ['sorting' => 'ASC'];
 
     /**
-     * @return QueryResultInterface<Option>|null
+     * @return QueryResultInterface<int, Option>|null
      */
     public function findByPollAndCreatorIdent(BasePoll $poll, string $creatorIdent): ?QueryResultInterface
     {

@@ -7,7 +7,6 @@ namespace FGTCLB\T3oodle\Service;
 use FGTCLB\T3oodle\Utility\SettingsUtility;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 #[Autoconfigure(public: true)]
 final class UserService
@@ -16,9 +15,6 @@ final class UserService
         private UserIdentService $userIdentService,
     ) {}
 
-    /**
-     * @throws InvalidConfigurationTypeException
-     */
     public function userIsAdmin(): bool
     {
         $currentUserIdent = $this->userIdentService->getCurrentUserIdent();

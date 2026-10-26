@@ -59,7 +59,7 @@ class SchedulePollValidator extends SimplePollValidator
     {
         $isValid = true;
         /** @var Option[] $options */
-        $options = $value->getOptions(true);
+        $options = $value->getOptions(true)->toArray();
         foreach ($options as $key => $option) {
             $validationErrors = ScheduleOptionUtility::validateOptionName($option->getName());
             foreach ($validationErrors as $validationError) {

@@ -20,11 +20,11 @@ use FGTCLB\T3oodle\Utility\TranslateUtility;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
-final class UpdatePollSlugListener
+final readonly class UpdatePollSlugListener
 {
     public function __construct(
-        private readonly PersistenceManager $persistenceManager,
-        private readonly PollRepository $pollRepository,
+        private PersistenceManager $persistenceManager,
+        private PollRepository $pollRepository,
     ) {}
 
     public function createAfterEvent(CreateAfterEvent $event): void

@@ -22,7 +22,8 @@ You will find a demonstration of the extension on https://t3oodle.com
 
 | Branch | Version | TYPO3 | PHP                 |
 |--------|---------|-------|---------------------|
-| master | 2.x-dev | v12   | 8.1, 8.2, 8.3, 8.4  |
+| master | 3.x-dev | v13   | 8.2, 8.3, 8.4, 8.5  |
+| 2      | 2.x-dev | v12   | 8.1, 8.2, 8.3, 8.4  |
 | 1      | 1.x-dev | v11   | 8.1, 8.2, 8.3, 8.4  |
 
 ## Installation
@@ -35,7 +36,7 @@ Install with your flavour:
 We prefer composer installation:
 
 ```bash
-composer require -W 'fgtclb/t3oodle':'^2.0@dev'
+composer require -W 'fgtclb/t3oodle':'^3.0@dev'
 ```
 
 ### Updating without composer
@@ -77,8 +78,8 @@ Prerequisites:
 ```bash
 echo '>> Create release' ; \
   RELEASE_BRANCH='master' ; \
-  RELEASE_VERSION='2.0.5' ; \
-  DEV_VERSION='2.0.6' ; \
+  RELEASE_VERSION='3.0.0' ; \
+  DEV_VERSION='3.0.1' ; \
   echo ">> Checkout branches" && \
   git checkout master && \
   git fetch --all && \

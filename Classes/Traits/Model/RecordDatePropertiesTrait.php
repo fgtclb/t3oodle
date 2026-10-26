@@ -18,12 +18,12 @@ trait RecordDatePropertiesTrait
     /**
      * @var \DateTime
      */
-    protected $crdate;
+    protected \DateTime $crdate;
 
     /**
      * @var \DateTime
      */
-    protected $tstamp;
+    protected \DateTime $tstamp;
 
     public function getCrdate(): ?\DateTime
     {

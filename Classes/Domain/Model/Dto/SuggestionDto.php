@@ -22,7 +22,7 @@ class SuggestionDto
     public function __construct(
         private BasePoll $poll,
         private string $suggestion = '',
-        FrontendUser $creator = null,
+        ?FrontendUser $creator = null,
         string $creatorName = '',
         string $creatorMail = '',
         string $creatorIdent = ''

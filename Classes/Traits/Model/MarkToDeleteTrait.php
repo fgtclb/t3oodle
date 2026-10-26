@@ -14,7 +14,7 @@ trait MarkToDeleteTrait
     /**
      * @var bool
      */
-    protected $markToDelete = false;
+    protected bool $markToDelete = false;
 
     public function setMarkToDelete(bool $value = true): void
     {

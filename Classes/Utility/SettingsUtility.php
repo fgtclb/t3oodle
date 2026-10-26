@@ -11,7 +11,7 @@ namespace FGTCLB\T3oodle\Utility;
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 final class SettingsUtility
 {
@@ -22,7 +22,6 @@ final class SettingsUtility
 
     /**
      * @return array<array-key, mixed>
-     * @throws InvalidConfigurationTypeException
      */
     public static function getTypoScriptSettings(): array
     {
@@ -30,7 +29,7 @@ final class SettingsUtility
             return self::$settings;
         }
         $configManager = GeneralUtility::makeInstance(ConfigurationManager::class);
-        $ts = $configManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+        $ts = $configManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
         return self::$settings = $ts['plugin.']['tx_t3oodle.']['settings.'] ?? [];
     }

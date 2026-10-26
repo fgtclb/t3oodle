@@ -7,19 +7,20 @@ namespace FGTCLB\T3oodle\Event;
 use FGTCLB\T3oodle\Controller\PollController;
 use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
 use FGTCLB\T3oodle\Domain\Model\Dto\SuggestionDto;
-use TYPO3Fluid\Fluid\View\ViewInterface;
+use TYPO3\CMS\Core\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface as FluidStandaloneViewInterface;
 
-final class NewSuggestionEvent
+final readonly class NewSuggestionEvent
 {
     /**
      * @param array<string, mixed> $settings
      */
     public function __construct(
-        private readonly Poll $poll,
-        private readonly SuggestionDto $suggestionDto,
-        private readonly array $settings,
-        private readonly ViewInterface $view,
-        private readonly PollController $caller,
+        private Poll $poll,
+        private SuggestionDto $suggestionDto,
+        private array $settings,
+        private FluidStandaloneViewInterface|ViewInterface $view,
+        private PollController $caller,
     ) {}
 
     public function getPoll(): Poll
@@ -31,7 +32,7 @@ final class NewSuggestionEvent
         return $this->suggestionDto;
     }
 
-    public function getView(): ViewInterface
+    public function getView(): FluidStandaloneViewInterface|ViewInterface
     {
         return $this->view;
     }

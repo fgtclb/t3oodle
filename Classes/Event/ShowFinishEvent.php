@@ -6,18 +6,19 @@ namespace FGTCLB\T3oodle\Event;
 
 use FGTCLB\T3oodle\Controller\PollController;
 use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
-use TYPO3Fluid\Fluid\View\ViewInterface;
+use TYPO3\CMS\Core\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface as FluidStandaloneViewInterface;
 
-final class ShowFinishEvent
+final readonly class ShowFinishEvent
 {
     /**
      * @param array<string, mixed> $settings
      */
     public function __construct(
-        private readonly Poll $poll,
-        private readonly array $settings,
-        private readonly ViewInterface $view,
-        private readonly PollController $caller,
+        private Poll $poll,
+        private array $settings,
+        private FluidStandaloneViewInterface|ViewInterface $view,
+        private PollController $caller,
     ) {}
 
     public function getPoll(): Poll
@@ -33,7 +34,7 @@ final class ShowFinishEvent
         return $this->settings;
     }
 
-    public function getView(): ViewInterface
+    public function getView(): FluidStandaloneViewInterface|ViewInterface
     {
         return $this->view;
     }

@@ -7,7 +7,8 @@ namespace FGTCLB\T3oodle\Event;
 use FGTCLB\T3oodle\Controller\PollController;
 use FGTCLB\T3oodle\Domain\Model\BasePoll as Poll;
 use FGTCLB\T3oodle\Domain\Model\Option;
-use TYPO3Fluid\Fluid\View\ViewInterface;
+use TYPO3\CMS\Core\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface as FluidStandaloneViewInterface;
 
 final class FinishPollEvent
 {
@@ -19,7 +20,7 @@ final class FinishPollEvent
         private readonly Option $finalOption,
         private bool $continue,
         private readonly array $settings,
-        private readonly ViewInterface $view,
+        private readonly FluidStandaloneViewInterface|ViewInterface $view,
         private readonly PollController $caller
     ) {}
 
@@ -46,7 +47,7 @@ final class FinishPollEvent
         return $this->settings;
     }
 
-    public function getView(): ViewInterface
+    public function getView(): FluidStandaloneViewInterface|ViewInterface
     {
         return $this->view;
     }

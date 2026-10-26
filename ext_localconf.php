@@ -7,7 +7,6 @@
  */
 
 use FGTCLB\T3oodle\Controller\PollController;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 defined('TYPO3') || die('Access denied.');
@@ -27,28 +26,7 @@ defined('TYPO3') || die('Access denied.');
             PollController::class => 'list, show, vote, create, edit, update, publish, finish, finishSuggestionMode, ' .
                       'createSuggestion, editSuggestion, updateSuggestion, deleteSuggestion, ' .
                       'delete, resetVotes, deleteOwnVote',
-        ]
-    );
-
-    // Register wizards
-    ExtensionManagementUtility::addPageTSConfig(
-        <<<TS
-mod {
-    wizards.newContentElement.wizardItems.plugins {
-        elements {
-            main {
-                iconIdentifier = t3oodle-plugin-main
-                title = LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_main.name
-                description = LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_main.description
-                tt_content_defValues {
-                    CType = list
-                    list_type = t3oodle_main
-                }
-            }
-        }
-        show = *
-    }
-}
-TS
+        ],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
 })();

@@ -20,12 +20,12 @@ trait DynamicUserProperties
     /**
      * @var array<array-key, mixed>
      */
-    protected static $typoscriptSettings = [];
+    protected static array $typoscriptSettings = [];
 
     /**
      * @var array<array-key, mixed>
      */
-    protected static $userRowCache = [];
+    protected static array $userRowCache = [];
 
     /**
      * @param string $pluginSetting "name" or "mail"

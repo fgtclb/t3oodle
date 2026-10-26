@@ -91,7 +91,6 @@ use TYPO3\CMS\Extbase\Annotation\Validate;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -107,7 +106,7 @@ final class PollController extends ActionController
     /**
      * @var mixed
      */
-    protected $currentUser;
+    protected mixed $currentUser;
 
     /**
      * @var string UID of current frontend user or random string used to identify user by cookie
@@ -116,12 +115,12 @@ final class PollController extends ActionController
     protected PollPermission $pollPermission;
 
     public function __construct(
-        private PersistenceManagerInterface $persistenceManager,
-        private PollRepository $pollRepository,
-        private OptionRepository $optionRepository,
-        private VoteRepository $voteRepository,
-        private PollFrontendUserRepository $userRepository,
-        private UserIdentService $userIdentService,
+        private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly PollRepository $pollRepository,
+        private readonly OptionRepository $optionRepository,
+        private readonly VoteRepository $voteRepository,
+        private readonly PollFrontendUserRepository $userRepository,
+        private readonly UserIdentService $userIdentService,
     ) {}
 
     public function initializeAction(): void
@@ -219,9 +218,8 @@ final class PollController extends ActionController
         }
 
         $newOptionValues = [];
-        /** @var Request|null $originalRequest */
         $originalRequest = $this->request;
-        if ($originalRequest && $originalRequest->hasArgument('vote')) {
+        if ($originalRequest->hasArgument('vote')) {
             foreach ($originalRequest->getArgument('vote')['optionValues'] as $optionValue) {
                 $newOptionValues[$optionValue['option']['__identity']] = $optionValue['value'];
             }
@@ -1227,15 +1225,16 @@ final class PollController extends ActionController
     }
 
     /**
+     * @param string $messageBody
      * @param string $messageTitle
-     * @param int|ContextualFeedbackSeverity $severity
+     * @param ContextualFeedbackSeverity $severity
      * @param bool $storeInSession
      */
     public function addFlashMessage(
         string $messageBody,
-        $messageTitle = '',
-        $severity = ContextualFeedbackSeverity::OK,
-        $storeInSession = true
+        string $messageTitle = '',
+        ContextualFeedbackSeverity $severity = ContextualFeedbackSeverity::OK,
+        bool $storeInSession = true
     ): void {
         if ($this->settings['enableFlashMessages']) {
             parent::addFlashMessage($messageBody, $messageTitle, $severity, $storeInSession);

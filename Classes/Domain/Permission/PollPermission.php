@@ -187,7 +187,7 @@ class PollPermission
         return $status;
     }
 
-    public function isAdministrationAllowed(BasePoll $poll = null): bool
+    public function isAdministrationAllowed(?BasePoll $poll = null): bool
     {
         return $this->userService->userIsAdmin();
     }

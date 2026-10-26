@@ -18,22 +18,22 @@ trait CreatorTrait
     /**
      * @var FrontendUser
      */
-    protected $creator;
+    protected FrontendUser $creator;
 
     /**
      * @var string
      */
-    protected $creatorName = '';
+    protected string $creatorName = '';
 
     /**
      * @var string
      */
-    protected $creatorMail = '';
+    protected string $creatorMail = '';
 
     /**
      * @var string
      */
-    protected $creatorIdent = '';
+    protected string $creatorIdent = '';
 
     public function getCreator(): ?FrontendUser
     {

@@ -29,6 +29,7 @@
         "phpstan/phpstan-phpunit": "^2.1",
         "phpunit/phpunit": "^11.5",
         "saschaegerer/phpstan-typo3": "^2.2",
+        "ssch/typo3-rector": "^3.16",
         "typo3/cms-felogin": "^13.4",
         "typo3/cms-install": "^13.4",
         "typo3/testing-framework": "^9.7"

@@ -12,7 +12,8 @@ on existing ones. Namespace `FGTCLB\T3oodle\` → `Classes/`.
 
 | Branch   | Version | TYPO3 | PHP                |
 |----------|---------|-------|--------------------|
-| `master` | 2.x     | v12.4 | 8.1, 8.2, 8.3, 8.4 |
+| `master` | 3.x     | v13.4 | 8.2, 8.3, 8.4, 8.5 |
+| `2`      | 2.x     | v12   | 8.1, 8.2, 8.3, 8.4 |
 | `1`      | 1.x     | v11   | 8.1, 8.2, 8.3, 8.4 |
 
 `master` is v12-only, so there is **no `-t` core-version selector** in
@@ -53,7 +54,8 @@ Build/Scripts/runTests.sh -s unit Tests/Unit/Path/To/SomeTest.php
 Build/Scripts/runTests.sh -s functional -d sqlite -- --filter someMethodName
 ```
 
-CI mirrors these in `.github/workflows/testcore12.yml` (and `testcore11.yml` for branch `1`).
+CI mirrors these in `.github/workflows/testcore13.yml` (`testcore12.yml` for branch
+`2` and `testcore11.yml` for branch `1`).
 
 > Note: `Tests/` currently holds only `.gitkeep` — there are no committed tests
 > yet. The harness and CI are wired and ready; add suites under `Tests/Unit` and

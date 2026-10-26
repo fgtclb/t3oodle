@@ -5,10 +5,10 @@
 
 ---
 conf.py:
-  copyright: 2020-2024
+  copyright: 2020-2026
   project: t3oodle
-  version: 0.10
-  release: 0.10.0
+  version: 3.0
+  release: 3.0.0
   latex_documents:
   - - Index
     - t3oodle.tex

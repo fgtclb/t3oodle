@@ -1,0 +1,87 @@
+name: tests core 13
+
+# Every "runTests.sh" call below passes "-b docker". The script prefers podman
+# whenever it is present and only falls back to docker, which is the right
+# default for it -- but GitHub hosted runners ship both, and since 2026-07-29
+# their podman/crun combination aborts the first container start of a job with
+# "OCI runtime error: crun: unknown version specified" (exit code 126). It is
+# intermittent, hits any job, and was traced to neither the runner image nor
+# the TYPO3 testing image changing. Selecting docker here avoids crun entirely
+# and leaves the script default and local runs untouched. Drop the flag once
+# GitHub stops producing the mismatch.
+
+on:
+  pull_request:
+
+jobs:
+  code-quality:
+    name: "code quality with core v13"
+    runs-on: ubuntu-26.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.2']
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: "Prepare dependencies for TYPO3 v13"
+        run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s composer require typo3/minimal:^13"
+
+      - name: "Run TypoScript lint"
+        run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s lintTypoScript"
+
+      - name: "Run PHP lint"
+        run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s lintPhp"
+
+      - name: "Validate CGL"
+        run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s cgl -n"
+
+      - name: "Ensure UTF-8 files do not contain BOM"
+        run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s checkBom"
+
+      # @todo enable after documentation is updated
+#      - name: "Test .rst files for integrity"
+#        run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s checkRst"
+
+      - name: "Find duplicate exception codes"
+        run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s checkExceptionCodes"
+
+      - name: "Run PHPStan"
+        run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s phpstan"
+
+  testsuite:
+    name: all tests with core v13
+    runs-on: ubuntu-22.04
+    needs: code-quality
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: [ '8.2', '8.5' ]
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v6
+
+    - name: "Prepare dependencies for TYPO3 v13"
+      run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s composer require typo3/minimal:^13"
+
+    - name: "Unit"
+      run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s unit"
+
+    - name: "Functional SQLite"
+      run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s functional -d sqlite"
+
+    - name: "Functional MariaDB 10.5 mysqli"
+      run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s functional -d mariadb -i 10.5 -a mysqli"
+
+    - name: "Functional MariaDB 10.5 pdo_mysql"
+      run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s functional -d mariadb -i 10.5 -a pdo_mysql"
+
+    - name: "Functional MySQL 8.0 mysqli"
+      run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s functional -d mysql -i 8.0 -a mysqli"
+
+    - name: "Functional MySQL 8.0 pdo_mysql"
+      run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s functional -d mysql -i 8.0 -a pdo_mysql"
+
+    - name: "Functional PostgresSQL 10"
+      run: "Build/Scripts/runTests.sh -b docker -t 13 -p ${{ matrix.php-version }} -s functional -d postgres"

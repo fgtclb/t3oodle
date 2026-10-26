@@ -50,5 +50,5 @@ Features
   * ships and uses the date picker "flatpickr" (as only dependency)
   * runs in parallel with other JS frameworks, like Vue.js
 
-* TYPO3 9 LTS and 10 LTS compatibility
+* TYPO3 12 LTS and 13 LTS compatibility
 * Complete documentation

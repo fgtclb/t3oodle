@@ -24,7 +24,7 @@ reporting an issue against them.
 > Support for a newer TYPO3 version may be added in the future; if you depend on
 > this product, please get in touch through the reporting channel below.
 
-Planned end of support for this product: **30 April 2026 (end of regular TYPO3 12 LTS support)**.
+Planned end of support for this product: **31 December 2027 (end of regular TYPO3 13 LTS support)**.
 
 ## Reporting a Vulnerability
 

@@ -9,10 +9,10 @@ namespace FGTCLB\T3oodle\Domain\Model;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+use FGTCLB\T3oodle\Service\UserIdentService;
 use FGTCLB\T3oodle\Traits\Model\CreatorTrait;
 use FGTCLB\T3oodle\Traits\Model\MarkToDeleteTrait;
 use FGTCLB\T3oodle\Traits\Model\RecordDatePropertiesTrait;
-use FGTCLB\T3oodle\Utility\UserIdentUtility;
 use TYPO3\CMS\Extbase\Annotation\Validate;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -37,6 +37,8 @@ class Option extends AbstractEntity
      * @var BasePoll
      */
     protected $poll;
+
+    public function __construct(private readonly UserIdentService $userIdentService) {}
 
     public function getName(): string
     {
@@ -106,7 +108,7 @@ class Option extends AbstractEntity
         $total = 0;
         $currentVotes = $this->poll->getVotes();
         foreach ($currentVotes as $vote) {
-            if ($respectCurrentUser || $vote->getParticipantIdent() !== UserIdentUtility::getCurrentUserIdent()) {
+            if ($respectCurrentUser || $vote->getParticipantIdent() !== $this->userIdentService->getCurrentUserIdent()) {
                 foreach ($vote->getOptionValues() as $optionValue) {
                     if ($optionValue->getOption() === $this && $optionValue->getValue() === '1') {
                         ++$total;

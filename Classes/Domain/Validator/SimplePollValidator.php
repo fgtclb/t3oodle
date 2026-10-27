@@ -37,7 +37,7 @@ class SimplePollValidator extends AbstractValidator
     /**
      * @param array<string, mixed> $options
      */
-    public function __construct(array $options = [], Result $result = null)
+    public function __construct(array $options = [], ?Result $result = null)
     {
         $this->setOptions($options);
         if (!$result instanceof Result) {

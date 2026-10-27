@@ -117,9 +117,7 @@ touch them, trimming `Services.yaml` accordingly.
 Constraints before using any attribute:
 
 - Use **only Symfony DI attributes** (e.g. `#[Autoconfigure]`, `#[Autowire]`),
-  not TYPO3-specific ones. In particular **`#[AsEventListener]` is NOT available
-  in TYPO3 v12** and must not be used — keep event-listener registration in
-  `Services.yaml`.
+  not TYPO3-specific ones.
 - Confirm an attribute is **safe to use before applying it**: it must exist and
   behave identically across **every TYPO3 version supported by the branch**
   (`master` is v12-only; branch `1` is v11). If an attribute is not available in

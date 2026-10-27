@@ -6,21 +6,6 @@ parameters:
 			path: ../../../Classes/Utility/TcaGeneratorUtility.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\{string, 'getConstants'\\} given\\.$#"
-			count: 1
-			path: ../../../Classes/Utility/TcaGeneratorUtility.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\{string, 'getHumanReadableName'\\} given\\.$#"
-			count: 1
-			path: ../../../Classes/Utility/TcaGeneratorUtility.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\{string, 'getName'\\} given\\.$#"
-			count: 1
-			path: ../../../Classes/Utility/TcaGeneratorUtility.php
-
-		-
 			message: "#^Call to an undefined method TYPO3Fluid\\\\Fluid\\\\Core\\\\Rendering\\\\RenderingContextInterface\\:\\:getRequest\\(\\)\\.$#"
 			count: 1
 			path: ../../../Classes/ViewHelpers/SvgViewHelper.php

@@ -9,14 +9,13 @@ namespace FGTCLB\T3oodle\Domain\Enumeration;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Type\Enumeration;
 
-final class PollStatus extends Enumeration
+enum PollStatus: string
 {
-    public const UNKNOWN = 'unknown';
-    public const DRAFT = 'draft';
-    public const OPENED_FOR_SUGGESTIONS = 'openedForSuggestions';
-    public const OPENED = 'opened';
-    public const CLOSED = 'closed';
-    public const FINISHED = 'finished';
+    case UNKNOWN = 'unknown';
+    case DRAFT = 'draft';
+    case OPENED_FOR_SUGGESTIONS = 'openedForSuggestions';
+    case OPENED = 'opened';
+    case CLOSED = 'closed';
+    case FINISHED = 'finished';
 }

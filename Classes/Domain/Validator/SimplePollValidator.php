@@ -15,7 +15,6 @@ use FGTCLB\T3oodle\Domain\Model\Option;
 use FGTCLB\T3oodle\Domain\Model\PollFrontendUser as FrontendUser;
 use FGTCLB\T3oodle\Utility\DateTimeUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
-use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Error;
@@ -152,9 +151,7 @@ class SimplePollValidator extends AbstractValidator
                 new Error(TranslateUtility::translate('validation.1592143010'), 1592143010)
             );
         }
-        try {
-            new Visibility($value->getVisibility());
-        } catch (InvalidEnumerationValueException) {
+        if (Visibility::tryFrom($value->getVisibility()->value) === null) {
             $isValid = false;
             $this->result->forProperty('visibility')->addError(
                 new Error(TranslateUtility::translate('validation.1592143011'), 1592143011)

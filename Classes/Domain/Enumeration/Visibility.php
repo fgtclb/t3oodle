@@ -9,10 +9,9 @@ namespace FGTCLB\T3oodle\Domain\Enumeration;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Type\Enumeration;
 
-final class Visibility extends Enumeration
+enum Visibility: string
 {
-    public const LISTED = 'listed';
-    public const NOT_LISTED = 'not_listed';
+    case LISTED = 'listed';
+    case NOT_LISTED = 'not_listed';
 }

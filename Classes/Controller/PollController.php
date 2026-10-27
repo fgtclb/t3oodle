@@ -1160,67 +1160,77 @@ final class PollController extends ActionController
      */
     private function addCalendarLabelsToSettings(): void
     {
-        $poll = null;
+        $pollUid = null;
         if ($this->arguments->hasArgument('option') && $this->request->hasArgument('option')) {
             $option = $this->request->getArgument('option');
             if (is_numeric($option) && $this->arguments->hasArgument('suggestionDto')) {
                 /** @var Option $option */
                 $option = $this->optionRepository->findByUid((int)$option);
-                $poll = $option->getPoll()->getUid();
+                $pollUid = $option->getPoll()->getUid();
             }
         }
-        if ($this->arguments->hasArgument('poll') || $poll) {
-            $pollType = $this->request->hasArgument('pollType')
-                ? $this->request->getArgument('pollType')
-                : null;
-            if (!$poll && $this->request->hasArgument('poll')) {
-                $poll = $this->request->getArgument('poll');
-            }
-            if (MathUtility::canBeInterpretedAsInteger($poll) && $this->arguments->hasArgument('suggestionDto')) {
-                $pollType = $this->pollRepository->getPollTypeByUid((int)$poll);
-            }
 
-            if (!$pollType) {
-                if (!is_array($poll)) {
-                    return;
-                }
-                $pollType = $poll['type'] ?? false;
-            }
+        if (!$this->arguments->hasArgument('poll') && !$pollUid) {
+            return;
+        }
 
-            if (stripos($pollType, 'schedule') !== false) {
-                $this->settings['_calendarLocale'] = json_encode([
-                    'weekdays' => [
-                        'shorthand' => [
-                            LocalizationUtility::translate('weekday.7', 'T3oodle'), // Sun
-                            LocalizationUtility::translate('weekday.1', 'T3oodle'), // Mon
-                            LocalizationUtility::translate('weekday.2', 'T3oodle'),
-                            LocalizationUtility::translate('weekday.3', 'T3oodle'),
-                            LocalizationUtility::translate('weekday.4', 'T3oodle'),
-                            LocalizationUtility::translate('weekday.5', 'T3oodle'),
-                            LocalizationUtility::translate('weekday.6', 'T3oodle'), // Sat
-                        ],
-                    ],
-                    'months' => [
-                        'longhand' => [
-                            LocalizationUtility::translate('month.1', 'T3oodle'),
-                            LocalizationUtility::translate('month.2', 'T3oodle'),
-                            LocalizationUtility::translate('month.3', 'T3oodle'),
-                            LocalizationUtility::translate('month.4', 'T3oodle'),
-                            LocalizationUtility::translate('month.5', 'T3oodle'),
-                            LocalizationUtility::translate('month.6', 'T3oodle'),
-                            LocalizationUtility::translate('month.7', 'T3oodle'),
-                            LocalizationUtility::translate('month.8', 'T3oodle'),
-                            LocalizationUtility::translate('month.9', 'T3oodle'),
-                            LocalizationUtility::translate('month.10', 'T3oodle'),
-                            LocalizationUtility::translate('month.11', 'T3oodle'),
-                            LocalizationUtility::translate('month.12', 'T3oodle'),
-                        ],
-                    ],
-                    'weekAbbreviation' => LocalizationUtility::translate('week', 'T3oodle'),
-                    'firstDayOfWeek' => (int)LocalizationUtility::translate('firstDayOfWeek', 'T3oodle'),
-                    'time_24hr' => (bool)LocalizationUtility::translate('time24hr', 'T3oodle'),
-                ]);
+        $pollType = $this->request->hasArgument('pollType')
+            ? $this->request->getArgument('pollType')
+            : null;
+
+        $poll = $pollUid ?: null;
+        if (!$poll && $this->request->hasArgument('poll')) {
+            $poll = $this->request->getArgument('poll');
+        }
+
+        if (
+            (is_int($poll) || is_string($poll))
+            && MathUtility::canBeInterpretedAsInteger($poll)
+            && $this->arguments->hasArgument('suggestionDto')
+        ) {
+            $pollType = $this->pollRepository->getPollTypeByUid((int)$poll);
+        }
+
+        if (!$pollType) {
+            if (!is_array($poll)) {
+                return;
             }
+            $pollType = $poll['type'] ?? false;
+        }
+
+        if (stripos($pollType, 'schedule') !== false) {
+            $this->settings['_calendarLocale'] = json_encode([
+                'weekdays' => [
+                    'shorthand' => [
+                        LocalizationUtility::translate('weekday.7', 'T3oodle'), // Sun
+                        LocalizationUtility::translate('weekday.1', 'T3oodle'), // Mon
+                        LocalizationUtility::translate('weekday.2', 'T3oodle'),
+                        LocalizationUtility::translate('weekday.3', 'T3oodle'),
+                        LocalizationUtility::translate('weekday.4', 'T3oodle'),
+                        LocalizationUtility::translate('weekday.5', 'T3oodle'),
+                        LocalizationUtility::translate('weekday.6', 'T3oodle'), // Sat
+                    ],
+                ],
+                'months' => [
+                    'longhand' => [
+                        LocalizationUtility::translate('month.1', 'T3oodle'),
+                        LocalizationUtility::translate('month.2', 'T3oodle'),
+                        LocalizationUtility::translate('month.3', 'T3oodle'),
+                        LocalizationUtility::translate('month.4', 'T3oodle'),
+                        LocalizationUtility::translate('month.5', 'T3oodle'),
+                        LocalizationUtility::translate('month.6', 'T3oodle'),
+                        LocalizationUtility::translate('month.7', 'T3oodle'),
+                        LocalizationUtility::translate('month.8', 'T3oodle'),
+                        LocalizationUtility::translate('month.9', 'T3oodle'),
+                        LocalizationUtility::translate('month.10', 'T3oodle'),
+                        LocalizationUtility::translate('month.11', 'T3oodle'),
+                        LocalizationUtility::translate('month.12', 'T3oodle'),
+                    ],
+                ],
+                'weekAbbreviation' => LocalizationUtility::translate('week', 'T3oodle'),
+                'firstDayOfWeek' => (int)LocalizationUtility::translate('firstDayOfWeek', 'T3oodle'),
+                'time_24hr' => (bool)LocalizationUtility::translate('time24hr', 'T3oodle'),
+            ]);
         }
     }
 

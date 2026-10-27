@@ -16,7 +16,7 @@ use TYPO3\CMS\Extbase\Error\Result;
 
 class SchedulePollValidator extends SimplePollValidator
 {
-    public function __construct(array $options = [], Result $result = null)
+    public function __construct(array $options = [], ?Result $result = null)
     {
         parent::__construct($options, $result);
         if (!$result instanceof Result) {

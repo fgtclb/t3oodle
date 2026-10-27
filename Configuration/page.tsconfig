@@ -6,8 +6,7 @@ mod {
                 title = LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_main.name
                 description = LLL:EXT:t3oodle/Resources/Private/Language/locallang_db.xlf:tx_t3oodle_main.description
                 tt_content_defValues {
-                    CType = list
-                    list_type = t3oodle_main
+                    CType = t3oodle_main
                 }
             }
         }

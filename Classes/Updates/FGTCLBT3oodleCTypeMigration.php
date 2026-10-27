@@ -35,7 +35,7 @@ final class FGTCLBT3oodleCTypeMigration extends AbstractListTypeToCTypeUpdate
     protected function getListTypeToCTypeMapping(): array
     {
         return [
-            // TODO: Add this mapping yourself!
+            't3oodle_main' => 't3oodle_main',
         ];
     }
 }

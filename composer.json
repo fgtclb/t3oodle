@@ -18,7 +18,8 @@
 		"georgringer/numbered-pagination": "^2.2",
 		"typo3/cms-core": "^13.4",
 		"typo3/cms-extbase": "^13.4",
-		"typo3/cms-fluid-styled-content": "^13.4"
+		"typo3/cms-fluid-styled-content": "^13.4",
+        "typo3/cms-install": "^13.4"
 	},
     "require-dev": {
         "armin/editorconfig-cli": "^2.2",
@@ -31,7 +32,6 @@
         "saschaegerer/phpstan-typo3": "^2.2",
         "ssch/typo3-rector": "^3.16",
         "typo3/cms-felogin": "^13.4",
-        "typo3/cms-install": "^13.4",
         "typo3/testing-framework": "^9.7"
     },
     "autoload": {

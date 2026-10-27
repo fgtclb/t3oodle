@@ -4,7 +4,8 @@
 
 <f:if condition="{poll.settingVotingExpiresAt}">
     <div class="alert alert-warning">
-        <td colspan="{poll.options -> f:count() -> t3oodle:math.add(number:1)}" class="text-center">
+				<f:variable name="optionsCount" value="{poll.options -> f:count()}" />
+        <td colspan="{optionsCount + 1}" class="text-center">
             <strong>
                 <t3oodle:svg class="mx-1 alert-warning" path="Icons/clock-regular.svg" />
                 <f:translate key="label.caution" />

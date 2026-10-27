@@ -1,0 +1,4 @@
+name: fgtclb/t3oodle
+label: t3oodle Base
+dependencies:
+  - typo3/fluid-styled-content

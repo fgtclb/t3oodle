@@ -31,154 +31,154 @@ abstract class BasePoll extends AbstractEntity
     /**
      * @var string
      */
-    protected $type = '';
+    protected string $type = '';
 
     /**
      * @var string
      */
-    protected $typeName = '';
+    protected string $typeName = '';
 
     /**
      * @var string
      */
-    protected $title = '';
+    protected string $title = '';
 
     /**
      * @var string
      */
-    protected $description = '';
+    protected string $description = '';
 
     /**
      * @var string
      */
-    protected $link = '';
+    protected string $link = '';
 
     /**
      * @var string
      */
-    protected $slug = '';
+    protected string $slug = '';
 
     /**
-     * @var string
+     * @var Visibility
      */
-    protected $visibility = Visibility::LISTED;
+    protected Visibility $visibility = Visibility::LISTED;
 
     /**
      * @var PollFrontendUser
      */
-    protected $author;
+    protected PollFrontendUser $author;
 
     /**
      * @var string
      */
-    protected $authorName = '';
+    protected string $authorName = '';
 
     /**
      * @var string
      */
-    protected $authorMail = '';
+    protected string $authorMail = '';
 
     /**
      * @var string
      */
-    protected $authorIdent = '';
+    protected string $authorIdent = '';
 
     /**
      * @var ObjectStorage<Option>
      */
     #[Cascade(['value' => 'remove'])]
-    protected $options;
+    protected ObjectStorage $options;
 
     /**
      * @var bool
      */
-    protected $suggestModeEnabled = false;
+    protected bool $suggestModeEnabled = false;
 
     /**
      * @var bool
      */
-    protected $isSuggestModeFinished = false;
+    protected bool $isSuggestModeFinished = false;
 
     /**
      * @var bool
      */
-    protected $settingTristateCheckbox = false;
+    protected bool $settingTristateCheckbox = false;
 
     /**
      * @var int
      */
-    protected $settingMaxVotesPerOption = 0;
+    protected int $settingMaxVotesPerOption = 0;
 
     /**
      * @var int
      */
-    protected $settingMaxVotesPerParticipant = 0;
+    protected int $settingMaxVotesPerParticipant = 0;
 
     /**
      * @var int
      */
-    protected $settingMinVotesPerParticipant = 0;
+    protected int $settingMinVotesPerParticipant = 0;
 
     /**
      * @var bool
      */
-    protected $settingSecretParticipants = false;
+    protected bool $settingSecretParticipants = false;
 
     /**
      * @var bool
      */
-    protected $settingSecretVotings = false;
+    protected bool $settingSecretVotings = false;
 
     /**
      * @var bool Note: When Super Secret Mode is true, both previous secret settings are true as well
      */
-    protected $settingSuperSecretMode = false;
+    protected bool $settingSuperSecretMode = false;
 
     /**
      * @var \DateTime|null
      */
-    protected $settingVotingExpiresDate;
+    protected ?\DateTime $settingVotingExpiresDate;
 
     /**
      * @var \DateTime|null
      */
-    protected $settingVotingExpiresTime;
+    protected ?\DateTime $settingVotingExpiresTime;
 
     /**
      * @var bool
      */
-    protected $isPublished = false;
+    protected bool $isPublished = false;
 
     /**
      * @var \DateTime|null
      */
-    protected $publishDate;
+    protected ?\DateTime $publishDate;
 
     /**
      * @var bool
      */
-    protected $isFinished = false;
+    protected bool $isFinished = false;
 
     /**
      * @var \DateTime|null
      */
-    protected $finishDate;
+    protected ?\DateTime $finishDate;
 
     /**
      * @var Option
      */
-    protected $finalOption;
+    protected Option $finalOption;
 
     /**
      * @var ObjectStorage<Vote>
      */
     #[Cascade(['value' => 'remove'])]
-    protected $votes;
+    protected ObjectStorage $votes;
 
     /**
      * @var Option[]|null
      */
-    protected static $availableOptionsCache;
+    protected static ?array $availableOptionsCache;
 
     public function __construct()
     {
@@ -251,12 +251,12 @@ abstract class BasePoll extends AbstractEntity
         $this->slug = $slug;
     }
 
-    public function getVisibility(): string
+    public function getVisibility(): Visibility
     {
         return $this->visibility;
     }
 
-    public function setVisibility(string $visibility): void
+    public function setVisibility(Visibility $visibility): void
     {
         $this->visibility = $visibility;
     }
@@ -676,21 +676,21 @@ abstract class BasePoll extends AbstractEntity
     public function getStatus(): PollStatus
     {
         if (!$this->isPublished()) {
-            return new PollStatus(PollStatus::DRAFT);
+            return PollStatus::DRAFT;
         }
         if ($this->isFinished()) {
-            return new PollStatus(PollStatus::FINISHED);
+            return PollStatus::FINISHED;
         }
         if ($this->isSuggestModeEnabled() && !$this->isSuggestModeFinished()) {
-            return new PollStatus(PollStatus::OPENED_FOR_SUGGESTIONS);
+            return PollStatus::OPENED_FOR_SUGGESTIONS;
         }
 
         $pollPermission = GeneralUtility::makeInstance(PollPermission::class);
         if ($pollPermission->isVotingAllowed($this) && count($this->getAvailableOptions()) > 0) {
-            return new PollStatus(PollStatus::OPENED);
+            return PollStatus::OPENED;
         }
 
-        return new PollStatus(PollStatus::CLOSED);
+        return PollStatus::CLOSED;
     }
 
     // @todo: Check if $this->type() can be used instead of static::class

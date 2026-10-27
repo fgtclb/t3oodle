@@ -83,7 +83,7 @@ final readonly class UpdatePollSlugListener
         );
 
         // Create slug and update created entity
-        if ($poll->getVisibility() === Visibility::NOT_LISTED) {
+        if ($poll->getVisibility() === Visibility::NOT_LISTED->value) {
             $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
         } else {
             $newSlug = $slugUtility->sanitize($poll->getTitle());

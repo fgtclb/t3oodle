@@ -30,7 +30,7 @@ class PollPermission
      * @param array<array-key, mixed> $controllerSettings
      */
     public function __construct(
-        string $currentUserIdent = null,
+        ?string $currentUserIdent = null,
         private readonly array $controllerSettings = [],
     ) {
         $this->currentUserIdent = $currentUserIdent ?? GeneralUtility::makeInstance(UserIdentService::class)->getCurrentUserIdent();

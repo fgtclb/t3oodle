@@ -25,7 +25,7 @@ class BasePollObjectConverter extends PersistentObjectConverter
     public function getTargetTypeForSource(
         $source,
         string $originalTargetType,
-        PropertyMappingConfigurationInterface $configuration = null,
+        ?PropertyMappingConfigurationInterface $configuration = null,
     ): string {
         $targetType = parent::getTargetTypeForSource($source, $originalTargetType, $configuration);
         if ($targetType === BasePoll::class && is_array($source) && isset($source['type'])) {

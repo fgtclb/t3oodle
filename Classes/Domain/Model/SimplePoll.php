@@ -15,5 +15,5 @@ final class SimplePoll extends BasePoll
     /**
      * @var string
      */
-    protected $typeName = 'Simple';
+    protected string $typeName = 'Simple';
 }

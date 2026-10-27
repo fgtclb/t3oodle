@@ -15,5 +15,5 @@ final class SchedulePoll extends BasePoll
     /**
      * @var string
      */
-    protected $typeName = 'Schedule';
+    protected string $typeName = 'Schedule';
 }

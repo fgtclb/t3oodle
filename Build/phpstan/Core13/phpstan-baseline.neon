@@ -1,11 +1,2 @@
 parameters:
 	ignoreErrors:
-		-
-			message: "#^Method FGTCLB\\\\T3oodle\\\\Utility\\\\TcaGeneratorUtility\\:\\:getItemListForEnumeration\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../../Classes/Utility/TcaGeneratorUtility.php
-
-		-
-			message: "#^Call to an undefined method TYPO3Fluid\\\\Fluid\\\\Core\\\\Rendering\\\\RenderingContextInterface\\:\\:getRequest\\(\\)\\.$#"
-			count: 1
-			path: ../../../Classes/ViewHelpers/SvgViewHelper.php

@@ -19,6 +19,7 @@ final class TcaGeneratorUtility
      *                                      Otherwise, this label prefix (e.g. "LLL:EXT:../locallang.xlf:")
      *                                      is used together with the enum case name.
      * @param class-string<\BackedEnum> $enumeration
+     * @return list<array{label: non-falsy-string, value: int|string}|array{string, int|string}>
      */
     public static function getItemListForEnumeration(
         string $enumeration,

@@ -43,12 +43,12 @@ Features
 
 * Poll author can finish voting and select a final option
 * Highly configurable (via TypoScript)
-* Easy to extend, thanks to helpful signals and well structured templates
+* Easy to extend, thanks to PSR-14 events and well structured templates
 * Provided JavaScript functionality
 
   * is written in pure (vanilla) JS
   * ships and uses the date picker "flatpickr" (as only dependency)
   * runs in parallel with other JS frameworks, like Vue.js
 
-* TYPO3 12 LTS and 13 LTS compatibility
+* TYPO3 13 LTS compatibility
 * Complete documentation

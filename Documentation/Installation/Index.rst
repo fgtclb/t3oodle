@@ -19,7 +19,9 @@ Just perform the following command on CLI:
 
     $ composer req 'fgtclb/t3oodle':'^3.0@dev'
 
-When composer is done, you need to enable the extension in the extension manager.
+When composer is done, the extension is active. If the database schema has not been updated
+automatically, run ``typo3 extension:setup`` and update the database schema in
+:guilabel:`Admin Tools > Maintenance > Analyze Database Structure`.
 
 
 
@@ -66,18 +68,54 @@ Extension settings
 t3oodle does not provide any extensions settings. Configuration is made in TypoScript setup.
 
 
-TypoScript settings
--------------------
+Including the TypoScript
+------------------------
 
-Make sure to include the TypoScript **t3oodle Main (required)** to your template.
+There are two ways to include the TypoScript of t3oodle. Use **one** of them.
+
+.. _installation-site-set:
+
+Site Set (recommended)
+~~~~~~~~~~~~~~~~~~~~~~
+
+Add the following site set to the dependencies of your site, in :guilabel:`Sites > Edit site > Sets`
+or in the :file:`config.yaml` of your site:
+
+.. code-block:: yaml
+
+   dependencies:
+     - fgtclb/t3oodle
+
+
+.. image:: Images/site-configuration-include-site-set.png
+   :alt: Include site sets (from extensions) in site configuration
+
+The optional Bootstrap styles are provided by a separate set (see :ref:`below <installation-bootstrap>`).
+
+.. _installation-static-template:
+
+Static template
+~~~~~~~~~~~~~~~
+
+Make sure to include the TypoScript **t3oodle Main (required)** in your template.
+This way remains available for existing installations.
 
 .. image:: Images/sys-template-include-static-file.png
    :alt: Include static (from extensions) in sys_template record
 
 In :ref:`configuration` chapter, you see all TypoScript settings and its defaults.
 
-Because t3oodle is based on **Bootstrap CSS framework v4**, there is an optional TypoScript for this:
-**t3oodle Custom Bootstrap Styles (optional)**
+.. _installation-bootstrap:
+
+Bootstrap styles
+~~~~~~~~~~~~~~~~
+
+Because t3oodle is based on **Bootstrap CSS framework v4**, there is an optional set for this:
+
+* Site set: **fgtclb/t3oodle-bootstrap**
+* Static template: **t3oodle Custom Bootstrap Styles (optional)**
+
+You do not need it, when you already use Bootstrap in your frontend.
 
 .. note::
    All javascripts included in frontend are written in vanilla JS and run in parallel

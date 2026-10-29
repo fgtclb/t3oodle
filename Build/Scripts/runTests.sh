@@ -152,7 +152,7 @@ handleDbmsOptions() {
                 exit 1
             fi
             [ -z "${DBMS_VERSION}" ] && DBMS_VERSION="10.4"
-            if ! [[ ${DBMS_VERSION} =~ ^(10.4|10.5|10.6|10.7|10.8|10.9|10.10|10.11|11.0|11.1)$ ]]; then
+            if ! [[ ${DBMS_VERSION} =~ ^(10.4|10.5|10.6|10.7|10.8|10.9|10.10|10.11|11.0|11.1|11.2|11.3|11.4)$ ]]; then
                 echo "Invalid combination -d ${DBMS} -i ${DBMS_VERSION}" >&2
                 echo >&2
                 echo "Use \"Build/Scripts/runTests.sh -h\" to display help and valid options" >&2
@@ -331,18 +331,17 @@ Options:
             - 15    maintained until 2027-11-11
             - 16    maintained until 2028-11-09
 
-    -t <12>
+    -t <13>
         Only with -s composerUpdate|phpstan|phpstanGenerateBaseline
         Specifies the TYPO3 core version to be used
-            - 12: (default) use TYPO3 v12
+            - 13: (default) use TYPO3 v13
 
         It selects configuration only and does not install anything: composerUpdate
         resolves against it, phpstan picks Build/phpstan/Core<version>/phpstan.neon.
 
-    -p <8.1|8.2|8.3|8.4|8.5>
+    -p <8.2|8.3|8.4|8.5>
         Specifies the PHP minor version to be used
-            - 8.1: (default) use PHP 8.1
-            - 8.2: use PHP 8.2
+            - 8.2: (default) use PHP 8.2
             - 8.3: use PHP 8.3
             - 8.4: use PHP 8.4
             - 8.5: use PHP 8.5
@@ -378,7 +377,7 @@ Examples:
     # Install the dependencies, which every PHP suite needs first
     ./Build/Scripts/runTests.sh -s composerUpdate
 
-    # Run all unit tests using PHP 8.1
+    # Run all unit tests using PHP 8.2
     ./Build/Scripts/runTests.sh
     ./Build/Scripts/runTests.sh -s unit
 
@@ -407,9 +406,9 @@ fi
 
 # Option defaults
 TEST_SUITE="unit"
-CORE_VERSION="12"
+CORE_VERSION="13"
 DBMS="sqlite"
-PHP_VERSION="8.1"
+PHP_VERSION="8.2"
 PHP_XDEBUG_ON=0
 PHP_XDEBUG_PORT=9003
 PHPUNIT_RANDOM=""
@@ -447,13 +446,13 @@ while getopts "a:b:s:d:i:p:t:xy:o:nhu" OPT; do
             ;;
         p)
             PHP_VERSION=${OPTARG}
-            if ! [[ ${PHP_VERSION} =~ ^(8.1|8.2|8.3|8.4|8.5)$ ]]; then
+            if ! [[ ${PHP_VERSION} =~ ^(8.2|8.3|8.4|8.5)$ ]]; then
                 INVALID_OPTIONS+=("p ${OPTARG}")
             fi
             ;;
         t)
             CORE_VERSION=${OPTARG}
-            if ! [[ ${CORE_VERSION} =~ ^(12)$ ]]; then
+            if ! [[ ${CORE_VERSION} =~ ^(13)$ ]]; then
                 INVALID_OPTIONS+=("t ${OPTARG}")
             fi
             ;;
@@ -499,7 +498,7 @@ fi
 
 handleDbmsOptions
 
-COMPOSER_ROOT_VERSION="2.0.6-dev"
+COMPOSER_ROOT_VERSION="3.0.0-dev"
 CONTAINER_INTERACTIVE="-it --init"
 HOST_UID=$(id -u)
 HOST_GID=$(id -g)

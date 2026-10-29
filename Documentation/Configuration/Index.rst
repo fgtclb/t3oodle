@@ -310,7 +310,8 @@ Property                                                                        
 :ref:`list.draft <list_draft>`                                                      ``bool``     1
 :ref:`list.finished <list_finished>`                                                ``bool``     1
 :ref:`list.personal <list_personal>`                                                ``bool``     1
-:ref:`list.itemsPerPage <list_itemsPerPage>`                                        ``int``      10
+:ref:`list.itemsPerPage <list_itemsPerPage>`                                        ``int``      9
+:ref:`list.maximumLinks <list_maximumLinks>`                                        ``int``      3
 :ref:`list.showTotal <list_showTotal>`                                              ``bool``     1
 :ref:`list.columns <list_columns>`                                                  ``array``    *see below*
 :ref:`show.showReturnLink <show_showReturnLink>`                                    ``bool``     1
@@ -381,9 +382,25 @@ list.itemsPerPage
    Data type
       int
    Default
-      10
+      9
    Description
       Defines amount of polls to display per page, in list view. Set to ``0`` to disable pagination at all.
+
+
+.. _list_maximumLinks:
+
+list.maximumLinks
+"""""""""""""""""
+.. container:: table-row
+
+   Property
+      list.maximumLinks
+   Data type
+      int
+   Default
+      3
+   Description
+      Defines the maximum amount of page links displayed in the pagination of the list view.
 
 
 .. _list_showTotal:

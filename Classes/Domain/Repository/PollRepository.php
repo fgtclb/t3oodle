@@ -20,7 +20,6 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
@@ -62,8 +61,7 @@ class PollRepository extends Repository
     }
 
     /**
-     * @return QueryResultInterface<BasePoll>
-     * @throws InvalidConfigurationTypeException
+     * @return QueryResultInterface<int, BasePoll>
      */
     public function findPolls(
         bool $draft,

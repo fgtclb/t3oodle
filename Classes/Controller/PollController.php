@@ -91,7 +91,6 @@ use TYPO3\CMS\Extbase\Annotation\Validate;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -107,7 +106,7 @@ final class PollController extends ActionController
     /**
      * @var mixed
      */
-    protected $currentUser;
+    protected mixed $currentUser;
 
     /**
      * @var string UID of current frontend user or random string used to identify user by cookie
@@ -116,12 +115,12 @@ final class PollController extends ActionController
     protected PollPermission $pollPermission;
 
     public function __construct(
-        private PersistenceManagerInterface $persistenceManager,
-        private PollRepository $pollRepository,
-        private OptionRepository $optionRepository,
-        private VoteRepository $voteRepository,
-        private PollFrontendUserRepository $userRepository,
-        private UserIdentService $userIdentService,
+        private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly PollRepository $pollRepository,
+        private readonly OptionRepository $optionRepository,
+        private readonly VoteRepository $voteRepository,
+        private readonly PollFrontendUserRepository $userRepository,
+        private readonly UserIdentService $userIdentService,
     ) {}
 
     public function initializeAction(): void
@@ -219,9 +218,8 @@ final class PollController extends ActionController
         }
 
         $newOptionValues = [];
-        /** @var Request|null $originalRequest */
         $originalRequest = $this->request;
-        if ($originalRequest && $originalRequest->hasArgument('vote')) {
+        if ($originalRequest->hasArgument('vote')) {
             foreach ($originalRequest->getArgument('vote')['optionValues'] as $optionValue) {
                 $newOptionValues[$optionValue['option']['__identity']] = $optionValue['value'];
             }
@@ -1162,80 +1160,91 @@ final class PollController extends ActionController
      */
     private function addCalendarLabelsToSettings(): void
     {
-        $poll = null;
+        $pollUid = null;
         if ($this->arguments->hasArgument('option') && $this->request->hasArgument('option')) {
             $option = $this->request->getArgument('option');
             if (is_numeric($option) && $this->arguments->hasArgument('suggestionDto')) {
                 /** @var Option $option */
                 $option = $this->optionRepository->findByUid((int)$option);
-                $poll = $option->getPoll()->getUid();
+                $pollUid = $option->getPoll()->getUid();
             }
         }
-        if ($this->arguments->hasArgument('poll') || $poll) {
-            $pollType = $this->request->hasArgument('pollType')
-                ? $this->request->getArgument('pollType')
-                : null;
-            if (!$poll && $this->request->hasArgument('poll')) {
-                $poll = $this->request->getArgument('poll');
-            }
-            if (MathUtility::canBeInterpretedAsInteger($poll) && $this->arguments->hasArgument('suggestionDto')) {
-                $pollType = $this->pollRepository->getPollTypeByUid((int)$poll);
-            }
 
-            if (!$pollType) {
-                if (!is_array($poll)) {
-                    return;
-                }
-                $pollType = $poll['type'] ?? false;
-            }
+        if (!$this->arguments->hasArgument('poll') && !$pollUid) {
+            return;
+        }
 
-            if (stripos($pollType, 'schedule') !== false) {
-                $this->settings['_calendarLocale'] = json_encode([
-                    'weekdays' => [
-                        'shorthand' => [
-                            LocalizationUtility::translate('weekday.7', 'T3oodle'), // Sun
-                            LocalizationUtility::translate('weekday.1', 'T3oodle'), // Mon
-                            LocalizationUtility::translate('weekday.2', 'T3oodle'),
-                            LocalizationUtility::translate('weekday.3', 'T3oodle'),
-                            LocalizationUtility::translate('weekday.4', 'T3oodle'),
-                            LocalizationUtility::translate('weekday.5', 'T3oodle'),
-                            LocalizationUtility::translate('weekday.6', 'T3oodle'), // Sat
-                        ],
-                    ],
-                    'months' => [
-                        'longhand' => [
-                            LocalizationUtility::translate('month.1', 'T3oodle'),
-                            LocalizationUtility::translate('month.2', 'T3oodle'),
-                            LocalizationUtility::translate('month.3', 'T3oodle'),
-                            LocalizationUtility::translate('month.4', 'T3oodle'),
-                            LocalizationUtility::translate('month.5', 'T3oodle'),
-                            LocalizationUtility::translate('month.6', 'T3oodle'),
-                            LocalizationUtility::translate('month.7', 'T3oodle'),
-                            LocalizationUtility::translate('month.8', 'T3oodle'),
-                            LocalizationUtility::translate('month.9', 'T3oodle'),
-                            LocalizationUtility::translate('month.10', 'T3oodle'),
-                            LocalizationUtility::translate('month.11', 'T3oodle'),
-                            LocalizationUtility::translate('month.12', 'T3oodle'),
-                        ],
-                    ],
-                    'weekAbbreviation' => LocalizationUtility::translate('week', 'T3oodle'),
-                    'firstDayOfWeek' => (int)LocalizationUtility::translate('firstDayOfWeek', 'T3oodle'),
-                    'time_24hr' => (bool)LocalizationUtility::translate('time24hr', 'T3oodle'),
-                ]);
+        $pollType = $this->request->hasArgument('pollType')
+            ? $this->request->getArgument('pollType')
+            : null;
+
+        $poll = $pollUid ?: null;
+        if (!$poll && $this->request->hasArgument('poll')) {
+            $poll = $this->request->getArgument('poll');
+        }
+
+        if (
+            (is_int($poll) || is_string($poll))
+            && MathUtility::canBeInterpretedAsInteger($poll)
+            && $this->arguments->hasArgument('suggestionDto')
+        ) {
+            $pollType = $this->pollRepository->getPollTypeByUid((int)$poll);
+        }
+
+        if (!$pollType) {
+            if (!is_array($poll)) {
+                return;
             }
+            $pollType = $poll['type'] ?? false;
+        }
+
+        if (stripos($pollType, 'schedule') !== false) {
+            $this->settings['_calendarLocale'] = json_encode([
+                'weekdays' => [
+                    'shorthand' => [
+                        LocalizationUtility::translate('weekday.7', 'T3oodle'), // Sun
+                        LocalizationUtility::translate('weekday.1', 'T3oodle'), // Mon
+                        LocalizationUtility::translate('weekday.2', 'T3oodle'),
+                        LocalizationUtility::translate('weekday.3', 'T3oodle'),
+                        LocalizationUtility::translate('weekday.4', 'T3oodle'),
+                        LocalizationUtility::translate('weekday.5', 'T3oodle'),
+                        LocalizationUtility::translate('weekday.6', 'T3oodle'), // Sat
+                    ],
+                ],
+                'months' => [
+                    'longhand' => [
+                        LocalizationUtility::translate('month.1', 'T3oodle'),
+                        LocalizationUtility::translate('month.2', 'T3oodle'),
+                        LocalizationUtility::translate('month.3', 'T3oodle'),
+                        LocalizationUtility::translate('month.4', 'T3oodle'),
+                        LocalizationUtility::translate('month.5', 'T3oodle'),
+                        LocalizationUtility::translate('month.6', 'T3oodle'),
+                        LocalizationUtility::translate('month.7', 'T3oodle'),
+                        LocalizationUtility::translate('month.8', 'T3oodle'),
+                        LocalizationUtility::translate('month.9', 'T3oodle'),
+                        LocalizationUtility::translate('month.10', 'T3oodle'),
+                        LocalizationUtility::translate('month.11', 'T3oodle'),
+                        LocalizationUtility::translate('month.12', 'T3oodle'),
+                    ],
+                ],
+                'weekAbbreviation' => LocalizationUtility::translate('week', 'T3oodle'),
+                'firstDayOfWeek' => (int)LocalizationUtility::translate('firstDayOfWeek', 'T3oodle'),
+                'time_24hr' => (bool)LocalizationUtility::translate('time24hr', 'T3oodle'),
+            ]);
         }
     }
 
     /**
+     * @param string $messageBody
      * @param string $messageTitle
-     * @param int|ContextualFeedbackSeverity $severity
+     * @param ContextualFeedbackSeverity $severity
      * @param bool $storeInSession
      */
     public function addFlashMessage(
         string $messageBody,
-        $messageTitle = '',
-        $severity = ContextualFeedbackSeverity::OK,
-        $storeInSession = true
+        string $messageTitle = '',
+        ContextualFeedbackSeverity $severity = ContextualFeedbackSeverity::OK,
+        bool $storeInSession = true
     ): void {
         if ($this->settings['enableFlashMessages']) {
             parent::addFlashMessage($messageBody, $messageTitle, $severity, $storeInSession);

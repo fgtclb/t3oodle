@@ -6,7 +6,8 @@ namespace FGTCLB\T3oodle\Event;
 
 use FGTCLB\T3oodle\Controller\PollController;
 use FGTCLB\T3oodle\Domain\Model\Vote;
-use TYPO3Fluid\Fluid\View\ViewInterface;
+use TYPO3\CMS\Core\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\ViewInterface as FluidStandaloneViewInterface;
 
 final class ShowPollEvent
 {
@@ -17,7 +18,7 @@ final class ShowPollEvent
     public function __construct(
         private mixed $poll,
         private Vote $vote,
-        private readonly ViewInterface $view,
+        private readonly FluidStandaloneViewInterface|ViewInterface $view,
         private array $newOptionValues,
         private readonly array $settings,
         private readonly PollController $caller,
@@ -33,7 +34,7 @@ final class ShowPollEvent
         $this->poll = $poll;
     }
 
-    public function getView(): ViewInterface
+    public function getView(): FluidStandaloneViewInterface|ViewInterface
     {
         return $this->view;
     }

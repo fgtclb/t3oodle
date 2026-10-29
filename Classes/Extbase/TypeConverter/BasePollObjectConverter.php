@@ -18,9 +18,9 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
 #[Autoconfigure(public: true)]
 class BasePollObjectConverter extends PersistentObjectConverter
 {
-    protected $targetType = BasePoll::class;
+    protected string $targetType = BasePoll::class;
 
-    protected $priority = 2;
+    protected int $priority = 2;
 
     public function getTargetTypeForSource(
         $source,

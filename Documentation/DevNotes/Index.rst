@@ -11,7 +11,7 @@ Dev-Notes
         :maxdepth: 2
         :titlesonly:
 
-        SignalSlots
+        Events
         PollPermission
         SlugGeneration
         TemplatesPartials

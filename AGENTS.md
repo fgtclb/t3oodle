@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -16,8 +16,9 @@ on existing ones. Namespace `FGTCLB\T3oodle\` → `Classes/`.
 | `2`      | 2.x     | v12   | 8.1, 8.2, 8.3, 8.4 |
 | `1`      | 1.x     | v11   | 8.1, 8.2, 8.3, 8.4 |
 
-`master` is v12-only, so there is **no `-t` core-version selector** in
-`runTests.sh` here (unlike multi-core extensions). The version lives in four
+`master` is v13-only. `runTests.sh` has a `-t <13>` option, which only selects
+the core configuration (e.g. `Build/phpstan/Core13/`) and currently accepts
+`13` only. The version lives in four
 places kept in sync at release: `composer.json` (`extra.typo3/cms.version`),
 `ext_emconf.php`, `VERSION`, and `COMPOSER_ROOT_VERSION` in `runTests.sh`.
 
@@ -57,9 +58,8 @@ Build/Scripts/runTests.sh -s functional -d sqlite -- --filter someMethodName
 CI mirrors these in `.github/workflows/testcore13.yml` (`testcore12.yml` for branch
 `2` and `testcore11.yml` for branch `1`).
 
-> Note: `Tests/` currently holds only `.gitkeep` — there are no committed tests
-> yet. The harness and CI are wired and ready; add suites under `Tests/Unit` and
-> `Tests/Functional` (bootstraps in `Build/phpunit/`).
+> Note: Suites live in `Tests/Unit` and `Tests/Functional` (bootstraps in
+> `Build/phpunit/`). The test coverage is still small; add tests for new code.
 
 ## Architecture
 
@@ -91,14 +91,14 @@ name given without the `is`/`Allowed` affixes). See `DevNotes/PollPermission.rst
 **Extensibility — two parallel mechanisms.** PSR-14 events in `Classes/Event/`
 (domain lifecycle: `Create/Update/Delete/Vote/Publish/Finish…`, repository
 `PollRepository/FindPollsEvent`, and `Event/Permission/*` to override permission
-results). A legacy SignalSlot path also still exists for permission overrides
-(documented in `DevNotes/PollPermission.rst`). Prefer PSR-14 events for new work.
-`EventListener/UpdatePollSlugListener` (wired in `Services.yaml`) regenerates the
-poll slug on create/update.
+results). Signals and slots are not supported anymore, use PSR-14 events (documented in
+`Documentation/DevNotes/Events.rst`).
+`EventListener/UpdatePollSlugListener` (registered via `#[AsEventListener]`)
+regenerates the poll slug on create/update.
 
 **User abstraction.** Polls track a creator that may be a real FE user or an
 anonymous/cookie-based identity — `Traits/Model/DynamicUserProperties`,
-`Utility/UserIdentUtility`, `Utility/CookieUtility`, and `Service/UserService`
+`Service/UserIdentService`, `Utility/CookieUtility`, and `Service/UserService`
 handle this. `PollFrontendUser` is the FE-user model.
 
 **TCA is partly generated.** `Configuration/TCA/*` define the four tables
@@ -108,19 +108,19 @@ select `items` arrays from the `Domain/Enumeration/*` enums (`PollStatus`,
 
 ## DI note (migration target)
 
-This extension still configures DI and tags (event listeners, the Extbase type
-converter) in **`Configuration/Services.yaml`**, which deviates from the
-preferred standard of Symfony **PHP attributes**. Treat this as a migration
-target: move DI to attributes for new code, and for existing services as you
-touch them, trimming `Services.yaml` accordingly.
+Event listeners are registered with the **`#[AsEventListener]`** attribute.
+The Extbase type converter is still tagged in **`Configuration/Services.yaml`**,
+which deviates from the preferred standard of PHP attributes. Treat this as a
+migration target: for new code and for existing services as you touch them,
+prefer attributes and trim `Services.yaml` accordingly.
 
 Constraints before using any attribute:
 
-- Use **only Symfony DI attributes** (e.g. `#[Autoconfigure]`, `#[Autowire]`),
-  not TYPO3-specific ones.
+- Prefer Symfony DI attributes (e.g. `#[Autoconfigure]`, `#[Autowire]`). TYPO3
+  attributes (e.g. `#[AsEventListener]`) are fine, if they exist in TYPO3 v13.
 - Confirm an attribute is **safe to use before applying it**: it must exist and
   behave identically across **every TYPO3 version supported by the branch**
-  (`master` is v12-only; branch `1` is v11). If an attribute is not available in
+  (`master` is v13-only; branch `2` is v12, branch `1` is v11). If an attribute is not available in
   every supported version, do not use it — fall back to `Services.yaml`.
 - When in doubt about availability/behaviour, ask rather than assume.
 

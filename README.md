@@ -58,6 +58,31 @@ Otherwise the frontend can fail with errors like `Too few arguments to
 function FGTCLB\T3oodle\Service\UserService::__construct()`, see
 [#47](https://github.com/fgtclb/t3oodle/issues/47).
 
+## Local development
+
+All checks run in containers via the TYPO3 core test runner, which needs
+docker or podman:
+
+```bash
+Build/Scripts/runTests.sh -h                       # all options
+Build/Scripts/runTests.sh -s composerUpdate        # install dependencies into .Build/
+Build/Scripts/runTests.sh -s unit                  # unit tests
+Build/Scripts/runTests.sh -s functional -d sqlite  # functional tests
+Build/Scripts/runTests.sh -s phpstan               # static analysis
+Build/Scripts/runTests.sh -s cgl -n                # check code style (without "-n" it fixes)
+Build/Scripts/runTests.sh -s lintPhp               # PHP lint
+Build/Scripts/runTests.sh -s lintTypoScript        # TypoScript lint
+Build/Scripts/runTests.sh -s renderDocumentation   # render Documentation/ locally
+```
+
+To try the extension in a TYPO3 v13 instance (e.g. [DDEV](https://ddev.com/)),
+require it from a local path in the `composer.json` of the instance:
+
+```bash
+composer config repositories.t3oodle path ../t3oodle
+composer require 'fgtclb/t3oodle':'@dev'
+```
+
 ## Create a release (maintainers only)
 
 Prerequisites:

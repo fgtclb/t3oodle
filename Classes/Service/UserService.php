@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 #[Autoconfigure(public: true)]
-final class UserService
+final readonly class UserService
 {
     public function __construct(
         private UserIdentService $userIdentService,

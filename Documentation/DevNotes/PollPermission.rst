@@ -56,35 +56,36 @@ When a permission requires poll or vote argument, you can call it like this:
 Modifying permissions
 ---------------------
 
-Every permission can get changed programmatically, by using :ref:`signalSlots`.
+Permissions can get changed programmatically by using :ref:`PSR-14 events <events>`.
+For most permissions an own event exists (see :ref:`events-permission`). The event carries the current status, which
+you can overwrite with ``setAllowed()``.
 
-First register your slot in ``ext_localconf.php``:
+For example, to modify the permission to create a new poll, listen to ``NewPollAllowedEvent``:
 
-::
+.. code-block:: php
 
-    /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
-    $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
-    $signalSlotDispatcher->connect(
-        \FGTCLB\T3oodle\Domain\Permission\PollPermission::class,
-        'isNewSimplePollAllowed',
-        \Vendor\MyExt\Slots\PollPermissionSlots::class,
-        'isNewSimplePollAllowed'
-    );
+    <?php
 
+    declare(strict_types=1);
 
-The ``PollPermissionSlots`` class looks like this:
+    namespace Vendor\MyExt\EventListener;
 
-::
+    use FGTCLB\T3oodle\Event\Permission\NewPollAllowedEvent;
+    use TYPO3\CMS\Core\Attribute\AsEventListener;
 
-    final class PollPermissionSlots
+    final class NewPollPermissionListener
     {
-        public function isNewSimplePollAllowed(bool $currentStatus, array $arguments, PollPermission $caller): array
+        #[AsEventListener(identifier: 'my-ext/new-poll-permission')]
+        public function __invoke(NewPollAllowedEvent $event): void
         {
-            $newStatus = false; // TODO: implement me
-            return [
-                'currentStatus' => $newStatus,
-                'arguments' => $arguments,
-                'caller' => $caller,
-            ];
+            if (!$event->isAllowed()) {
+                return;
+            }
+            // TODO: implement your own logic
+            $event->setAllowed(false);
         }
     }
+
+.. note::
+   Not every permission method of ``PollPermission`` dispatches an event. Have a look in
+   :file:`Classes/Event/Permission/` for the available events.

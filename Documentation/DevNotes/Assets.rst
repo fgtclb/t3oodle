@@ -19,8 +19,10 @@ Stylesheets
 All custom styles are located in ``Resources/Public/Stylesheets/t3oodle.css``. This file get included in TypoScript
 setup of t3oodle.
 
-Also you can include an optional TypoScript template, which includes a custom build of Bootstrap itself. You don't
+Also you can include an optional set (site set ``fgtclb/t3oodle-bootstrap`` or the static template
+**t3oodle Custom Bootstrap Styles (optional)**), which includes a custom build of Bootstrap itself. You don't
 need to include this optional styles, when you already use Bootstrap in your frontend.
+See :ref:`installation` for details.
 
 
 JavaScripts

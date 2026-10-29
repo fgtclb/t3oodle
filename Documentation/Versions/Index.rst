@@ -7,6 +7,35 @@
 Versions
 ========
 
+3.0.0
+-----
+
+**Breaking changes**
+
+- [!!!][TASK] Support for TYPO3 v13.4 only. Support for TYPO3 v12 (and v11) has been dropped, use t3oodle 2.x for TYPO3 v12.
+- [!!!][TASK] PHP 8.2 or higher is required (PHP 8.2 - 8.5).
+- [!!!][TASK] The plugin is now registered as content element (``CType = t3oodle_main``) instead of ``list_type``.
+  Run the upgrade wizard ``fgtclbT3oodleCTypeMigration`` after updating from 2.x, see :ref:`updateWizards`.
+- [!!!][TASK] The poll status and visibility classes (``PollStatus``, ``Visibility``) are native PHP backed enums now,
+  instead of extending TYPO3's ``Enumeration``. Code using the former Enumeration API needs to be adapted.
+- [!!!][TASK] Removed ``UserIdentUtility``. Use ``\FGTCLB\T3oodle\Service\UserIdentService`` instead.
+- [!!!][TASK] Removed the ``Math\AddViewHelper`` of t3oodle. Use the math expressions of Fluid in your templates.
+
+**Features**
+
+- [FEATURE] Site Sets for the main setup (``fgtclb/t3oodle``) and the optional Bootstrap styles
+  (``fgtclb/t3oodle-bootstrap``). The static templates are still available.
+
+**Fixes and tasks**
+
+- [BUGFIX] Fix the layout root path in TypoScript setup (``EXT:tx_t3oodle`` did not exist)
+- [BUGFIX] Fix the mapping of the ``list_type`` to ``CType`` migration of the main plugin
+- [TASK] Register event listeners via ``AsEventListener`` attribute
+- [TASK] Fix PHP deprecations (implicitly nullable parameters)
+- [TASK] Introduce PHPStan, Rector and further static analysis tools, fix all findings
+- [DOCS] Replace outdated signal/slot documentation with documentation of the PSR-14 events
+
+
 0.10.0
 ------
 

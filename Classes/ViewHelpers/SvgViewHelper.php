@@ -9,6 +9,8 @@ namespace FGTCLB\T3oodle\ViewHelpers;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
+
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -43,7 +45,16 @@ final class SvgViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
-        $request = $this->renderingContext->getRequest();
+        $request = $this->getRequest();
+
+        if ($request === null) {
+            return '';
+        }
+
+        if (!method_exists($request, 'getControllerExtensionName')) {
+            return '';
+        }
+
         $extensionName = $request->getControllerExtensionName();
         $uri = 'EXT:' . GeneralUtility::camelCaseToLowerCaseUnderscored($extensionName) . '/Resources/Public/' .
             $this->arguments['path'];
@@ -163,5 +174,13 @@ final class SvgViewHelper extends AbstractViewHelper
         self::$cache[$path] = $id;
 
         return $result;
+    }
+
+    private function getRequest(): ServerRequestInterface|null
+    {
+        if ($this->renderingContext->hasAttribute(ServerRequestInterface::class)) {
+            return $this->renderingContext->getAttribute(ServerRequestInterface::class);
+        }
+        return null;
     }
 }

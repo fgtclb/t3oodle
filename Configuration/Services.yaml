@@ -8,17 +8,6 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
-  FGTCLB\T3oodle\EventListener\UpdatePollSlugListener:
-    tags:
-      - name: event.listener
-        identifier: fgtclb/t3oodle/update-slug-before-update-poll
-        method: updateBeforeEvent
-        event: FGTCLB\T3oodle\Event\UpdateBeforeEvent
-      - name: event.listener
-        identifier: fgtclb/t3oodle/update-slug-create-after-poll
-        method: createAfterEvent
-        event: FGTCLB\T3oodle\Event\CreateAfterEvent
-
   FGTCLB\T3oodle\Extbase\TypeConverter\BasePollObjectConverter:
     tags:
       - name: extbase.type_converter

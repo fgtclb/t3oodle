@@ -30,7 +30,7 @@ class PollPermission
      * @param array<array-key, mixed> $controllerSettings
      */
     public function __construct(
-        string $currentUserIdent = null,
+        ?string $currentUserIdent = null,
         private readonly array $controllerSettings = [],
     ) {
         $this->currentUserIdent = $currentUserIdent ?? GeneralUtility::makeInstance(UserIdentService::class)->getCurrentUserIdent();
@@ -78,7 +78,7 @@ class PollPermission
      */
     public function isViewingInGeneralAllowed(BasePoll $poll): bool
     {
-        return $poll->getVisibility() !== Visibility::NOT_LISTED && $poll->isPublished();
+        return $poll->getVisibility() !== Visibility::NOT_LISTED->value && $poll->isPublished();
     }
 
     /**
@@ -197,7 +197,7 @@ class PollPermission
     {
         return $poll->isPublished()
                     && !$poll->isFinished()
-                    && ($poll->getStatus()->equals(PollStatus::OPENED) || $poll->getStatus()->equals(PollStatus::CLOSED))
+                    && ($poll->getStatus() === PollStatus::OPENED || $poll->getStatus() === PollStatus::CLOSED)
                     && $this->userIsAuthor($poll);
     }
 
@@ -208,7 +208,7 @@ class PollPermission
     {
         return $this->controllerSettings['allowNewVotes']
             && !$vote->getPoll()->isFinished()
-            && $vote->getPoll()->getStatus()->equals(PollStatus::OPENED)
+            && $vote->getPoll()->getStatus() === PollStatus::OPENED
             && $vote->getParticipantIdent() === $this->currentUserIdent;
     }
 }

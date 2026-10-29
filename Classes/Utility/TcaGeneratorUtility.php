@@ -12,9 +12,14 @@ namespace FGTCLB\T3oodle\Utility;
 final class TcaGeneratorUtility
 {
     /**
-     * Returns a ready to use array, for TCA (e.g for "items" property, in type select), based on defined constants.
-     * @param string           $labelPrefix If empty, getHumanReadableName() is called, otherwise this label prefix (e.g.
-     *                                      "LLL:EXT:../locallang.xlf:") is used together with the name of the constant.
+     * Returns a ready-to-use array for TCA (e.g. for the "items" property of a select field),
+     * * based on the cases of a backed enum.
+     *
+     * @param string $labelPrefix If empty, the enum case name is converted to a human-readable label.
+     *                                      Otherwise, this label prefix (e.g. "LLL:EXT:../locallang.xlf:")
+     *                                      is used together with the enum case name.
+     * @param class-string<\BackedEnum> $enumeration
+     * @return list<array{label: non-falsy-string, value: int|string}|array{string, int|string}>
      */
     public static function getItemListForEnumeration(
         string $enumeration,
@@ -24,13 +29,18 @@ final class TcaGeneratorUtility
         string $labelPrefix = ''
     ): array {
         $items = [];
+
         if ($showEmptyValue) {
             $items[] = [$emptyLabel, $emptyValue];
         }
-        foreach (call_user_func([$enumeration, 'getConstants']) as $value) {
+
+        foreach ($enumeration::cases() as $case) {
+            $value = $case->value;
+
             $label = $labelPrefix === '' || $labelPrefix === '0'
-                        ? call_user_func([$enumeration, 'getHumanReadableName'], $value)
-                        : $labelPrefix . call_user_func([$enumeration, 'getName'], $value);
+                ? ucwords(strtolower(str_replace('_', ' ', $case->name)))
+                : $labelPrefix . $case->name;
+
             $items[] = [
                 'label' => $label,
                 'value' => $value,

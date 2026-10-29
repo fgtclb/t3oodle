@@ -9,7 +9,7 @@ plugin.tx_t3oodle {
             1 = {$plugin.tx_t3oodle_main.view.partialRootPath}
         }
         layoutRootPaths {
-            0 = EXT:tx_t3oodle/Resources/Private/Layouts/
+            0 = EXT:t3oodle/Resources/Private/Layouts/
             1 = {$plugin.tx_t3oodle_main.view.layoutRootPath}
         }
     }

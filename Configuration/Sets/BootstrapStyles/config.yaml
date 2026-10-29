@@ -1,0 +1,4 @@
+name: fgtclb/t3oodle-bootstrap
+label: t3oodle Bootstrap Style
+dependencies:
+  - typo3/fluid-styled-content

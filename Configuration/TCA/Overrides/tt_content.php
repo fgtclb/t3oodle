@@ -11,13 +11,12 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
  *  | (c) 2020-2021 Armin Vieweg <info@v.ieweg.de>
  */
 
-ExtensionUtility::registerPlugin(
+$pluginSignature = ExtensionUtility::registerPlugin(
     'T3oodle',
     'Main',
     't3oodle'
 );
 
-$pluginSignature = 't3oodle_main';
 ExtensionManagementUtility::addToAllTCAtypes('tt_content', '--div--;Configuration,pi_flexform,', $pluginSignature, 'after:subheader');
 ExtensionManagementUtility::addPiFlexFormValue(
     '*',

@@ -17,6 +17,7 @@ use FGTCLB\T3oodle\Event\CreateAfterEvent;
 use FGTCLB\T3oodle\Event\UpdateBeforeEvent;
 use FGTCLB\T3oodle\Utility\SlugUtility;
 use FGTCLB\T3oodle\Utility\TranslateUtility;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
@@ -27,6 +28,7 @@ final readonly class UpdatePollSlugListener
         private PollRepository $pollRepository,
     ) {}
 
+    #[AsEventListener(identifier: 'fgtclb/t3oodle/update-slug-before-after-poll', event: 'FGTCLB\T3oodle\Event\CreateAfterEvent', method: 'createAfterEvent')]
     public function createAfterEvent(CreateAfterEvent $event): void
     {
         $this->afterCreate(
@@ -34,6 +36,7 @@ final readonly class UpdatePollSlugListener
         );
     }
 
+    #[AsEventListener(identifier: 'fgtclb/t3oodle/update-slug-before-update-poll', event: 'FGTCLB\T3oodle\Event\UpdateBeforeEvent', method: 'updateBeforeEvent')]
     public function updateBeforeEvent(UpdateBeforeEvent $event): void
     {
         $this->beforeUpdate(
@@ -80,7 +83,7 @@ final readonly class UpdatePollSlugListener
         );
 
         // Create slug and update created entity
-        if ($poll->getVisibility() === Visibility::NOT_LISTED) {
+        if ($poll->getVisibility() === Visibility::NOT_LISTED->value) {
             $poll->setSlug($slugUtility->sanitize(uniqid('', true) . $poll->getUid()));
         } else {
             $newSlug = $slugUtility->sanitize($poll->getTitle());

@@ -33,7 +33,7 @@
         <td>
             <f:render section="columnStatus" arguments="{poll:poll}" />
             <f:section name="columnStatus">
-                <span><f:translate key="poll.status.{poll.status}">{poll.status}</f:translate></span>
+                <span><f:translate key="poll.status.{poll.status.value}">{poll.status.value}</f:translate></span>
 
                 <f:if condition="{poll.settingVotingExpiresAt}">
                     <t3oodle:svg class="mx-1 icon-light" path="Icons/clock-regular.svg"

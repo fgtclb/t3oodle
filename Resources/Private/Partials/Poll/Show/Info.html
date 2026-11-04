@@ -19,7 +19,7 @@
                 <strong><f:translate key="poll.type" />: </strong><span><f:translate key="poll.type.{poll.typeName}">{poll.typeName}</f:translate></span>
             </li>
             <li>
-                <strong><f:translate key="poll.status" />: </strong><span><f:translate key="poll.status.{poll.status}">{poll.status}</f:translate></span>
+                <strong><f:translate key="poll.status" />: </strong><span><f:translate key="poll.status.{poll.status.value}">{poll.status.value}</f:translate></span>
             </li>
             <li>
                 <strong><f:translate key="poll.author" />: </strong><f:render partial="Poll/AuthorInfo" arguments="{poll:poll}" />

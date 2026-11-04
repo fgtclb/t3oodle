@@ -107,7 +107,7 @@ final class PollController extends ActionController
     /**
      * @var mixed
      */
-    protected mixed $currentUser;
+    protected mixed $currentUser = null;
 
     /**
      * @var string UID of current frontend user or random string used to identify user by cookie

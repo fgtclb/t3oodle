@@ -64,9 +64,9 @@ abstract class BasePoll extends AbstractEntity
     protected Visibility $visibility = Visibility::LISTED;
 
     /**
-     * @var PollFrontendUser
+     * @var ?PollFrontendUser
      */
-    protected PollFrontendUser $author;
+    protected ?PollFrontendUser $author = null;
 
     /**
      * @var string
@@ -137,12 +137,12 @@ abstract class BasePoll extends AbstractEntity
     /**
      * @var \DateTime|null
      */
-    protected ?\DateTime $settingVotingExpiresDate;
+    protected ?\DateTime $settingVotingExpiresDate = null;
 
     /**
      * @var \DateTime|null
      */
-    protected ?\DateTime $settingVotingExpiresTime;
+    protected ?\DateTime $settingVotingExpiresTime = null;
 
     /**
      * @var bool
@@ -152,7 +152,7 @@ abstract class BasePoll extends AbstractEntity
     /**
      * @var \DateTime|null
      */
-    protected ?\DateTime $publishDate;
+    protected ?\DateTime $publishDate = null;
 
     /**
      * @var bool
@@ -162,12 +162,12 @@ abstract class BasePoll extends AbstractEntity
     /**
      * @var \DateTime|null
      */
-    protected ?\DateTime $finishDate;
+    protected ?\DateTime $finishDate = null;
 
     /**
-     * @var Option
+     * @var Option|null
      */
-    protected Option $finalOption;
+    protected ?Option $finalOption = null;
 
     /**
      * @var ObjectStorage<Vote>
@@ -178,7 +178,7 @@ abstract class BasePoll extends AbstractEntity
     /**
      * @var Option[]|null
      */
-    protected static ?array $availableOptionsCache;
+    protected static ?array $availableOptionsCache = null;
 
     public function __construct()
     {

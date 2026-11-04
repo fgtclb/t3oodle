@@ -103,8 +103,8 @@ Prerequisites:
 ```bash
 echo '>> Create release' ; \
   RELEASE_BRANCH='master' ; \
-  RELEASE_VERSION='3.0.0' ; \
-  DEV_VERSION='3.0.1' ; \
+  RELEASE_VERSION='3.0.1' ; \
+  DEV_VERSION='3.0.2' ; \
   echo ">> Checkout branches" && \
   git checkout master && \
   git fetch --all && \
